@@ -50,11 +50,12 @@ recomputing the features design by design with the training pipeline
 only benchmarks whose validation checkpoints are close to the training checkpoints; imagick is
 excluded (see `traj/validation/`, `checkpoint_distance.md`).
 
-## Future Protocol
+## Future Protocol (transparent development and traceable result record)
 
 1. Commit the code, results and logs behind every number in the paper to a dedicated repository.
 2. Provide a script that reproduces each number.
-3. Include a detailed README that maps each number in the paper to its script, result file and log
+3. Every time making a commit to the repository, make a log of what/why.
+4. Include a detailed README that maps each number in the paper to its script, result file and log
    in the repository, so that an agent can recheck all of them systematically.
 
 ## Future Plan
