@@ -1,0 +1,23 @@
+Minimal causal feedback diagnostic after priority_walk's endpoint gate failed.
+Use the raw-M S C S states immediately BEFORE queries5 and6, on ALL three of
+mcf/lbm/roms, not just the losing workload. Histories/candidates are inherited
+verbatim from those recorded decisions. This is a conditional-state probe,
+not a new trajectory; divergent histories must not be presented as a walk.
+
+At each of six states compare (1) recorded raw MSCS, (2) Base-only quadratic
+scalar using that same paid history, (3) component-logit quadratic MSCS using
+that same history. Same last6 points, squared full-input inner-product kernel,
+pinv1e-6, no parameter tuning. Reconstruct all complete candidate/past inputs.
+Scalar sees only Base observations; MSCS sees the three pressure/Base ratios.
+Both corrections preserve root value and gradient. Candidate W_min is exact.
+Same pool and original fixed area cap; choose first feasible candidate by each
+model's scores. Exact area calls logged separately. Any unknown area stops the
+state, not silently ignored. Freeze all six state decisions before querying or
+reusing any non-history candidate label. Each method has one logical candidate
+query per resolved state. Old labels may be reused only after freezing.
+
+This tests whether feedback can correct the later-stage over-conservatism and
+whether richer feedback does more than scalar feedback. If MSCS correction has
+no win over scalar correction in the two roms states, don't run a full new walk
+just because it differs. Report every state's loss/tie and errors, and do not
+change the earlier gate or label the original raw policy uniformly successful.

@@ -1,0 +1,41 @@
+% Section V opening: problem, why only PRISM, roadmap.
+% Figures -> images/ (side by side, 0.49\columnwidth each):
+%   images/fig_prism_flow_v3.pdf       <- micro_exp/dse_v2/traj/writing/fig_prism_flow_v3.pdf
+%   images/fig_runtime_bar_ours.pdf    <- micro_exp/dse_v2/traj/gpu_timing/fig_runtime_bar_ours.pdf
+% Numbers: gpu_timing/644.nab_s_nod3_n2000.txt, gpu_timing/offline_nab.txt, gem5_val4 (205 runs).
+
+\section{Characterizing the CPU Design Space with Predicted MSCS}
+\label{sec:characterize}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[b]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_prism_flow_v3.pdf}
+  \caption{Analysis flow}
+  \label{fig:flow}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_runtime_bar_ours.pdf}
+  \caption{Time for 337k designs}
+  \label{fig:runtime}
+\end{subfigure}
+\caption{(a) PRISM provides the stacks for Characterize and Analyze; Guide is the architect's inference, checked with a few gem5 runs. (b) Estimated time to evaluate the 337k searched designs on one server (32 cores, single A100), excluding one-time precomputation.}
+\label{fig:overview}
+\end{figure}
+
+Design space exploration (DSE) tunes parameters within a fixed design space.
+%
+Scalar CPI tells the architect whether further tuning pays off, but not \emph{when} tuning within the space is exhausted, nor \emph{where} to look beyond it.
+%
+Both questions need a CPI stack for every searched design, which requires speed and fidelity at once: simulation provides stacks but is too slow, and existing ML performance models~\cite{concorde} are fast but predict a single CPI.
+
+\ours{} provides fast and accurate MSCS stacks.
+%
+Its predicted stacks match gem5 on searched designs (MSCS MAE 0.032 over 205 designs, \S\ref{sec:char_settings}), and evaluating all 337k designs of our searches takes 2.7 minutes instead of 1,080 hours of gem5 simulation, a 23.8k$\times$ speedup (Fig.~\ref{fig:runtime}).%
+\footnote{Linear scaling from measured per-design times; gem5 runs up to 32 simulations in parallel as memory allows. PRISM: 9\,s of feature lookup on 32 cores and 2.6\,min of inference on one A100. The one-time offline precomputation takes about 2 hours on the same server.}
+
+This enables the flow in Fig.~\ref{fig:flow}.
+%
+We \emph{characterize} the bottleneck regime of every searched design (\S\ref{sec:char_states}), \emph{analyze} when search is trapped in a regime and where the remaining pressure lies (\S V-C--D), and \emph{guide} the architect to a knob outside the space, located with a few gem5 runs (\S V-E).

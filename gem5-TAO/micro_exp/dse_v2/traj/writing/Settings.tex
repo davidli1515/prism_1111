@@ -1,0 +1,57 @@
+% Section V-A: Settings (new framework: defines inside vs. outside the design space).
+% Numbers: dse17/space17.py (21 -> 17 parameters), traj/traj_common.py (greedy rule: G_MIN 0.005, L_MAX 0.002, 60 steps),
+%          results_ga/<b>/meta.json (A_ref), traj/results/area_check.json (fast area vs McPAT, n=308),
+%          traj/gem5_val4/settings_validation_pooled.txt (1,273 designs; settings_validation_pooled.py).
+
+\subsection{Settings}
+\label{sec:char_settings}
+
+\paragraph{Design space}
+We search the 17 parameters of Table~\ref{tab:space} for each of the 17 SPEC CPU2017 benchmarks.
+%
+Everything else lies outside the space and stays fixed: TAGE branch predictor, 32-entry fetch buffer, four L1D MSHRs, no prefetcher, and no L2 or L3 cache.
+%
+These fixed components are the candidates for looking beyond the space (\S V-E).
+
+\paragraph{Search methods}
+Without loss of generality, we investigate four widely used design space exploration methods (Table~\ref{tab:char_methods}).
+%
+Greedy search starts from a design and, at each step, evaluates increasing and decreasing every parameter by one step.
+%
+If a decrease costs at most 0.2\% CPI, it takes the one that saves the most area; otherwise, it takes the increase with the largest CPI gain per unit area, provided the gain is at least 0.5\%.
+%
+It stops when no move qualifies.
+%
+All methods use only CPI and area; the MSCS is recorded but never used.
+%
+Area comes from McPAT at 45\,nm, via a fitted model within 3.8\% of McPAT at the median.
+
+\begin{table}[t]
+\centering
+\caption{Search methods (budget per benchmark; designs over all benchmarks).}
+\label{tab:char_methods}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lll r}
+\toprule
+Method & Ref. & Budget & Designs \\
+\midrule
+Greedy & -- & 1,000 starts $\times$ $\leq$60 steps & 337k \\
+BO & \cite{bo} & 10 seeds $\times$ 500 & 85k \\
+GA & \cite{archgym} & 10 seeds $\times$ 512 & 87k \\
+Random & \cite{archgym} & 100k & 1.7M \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Stall metrics}
+An MSCS gives proportions, which are not comparable across designs: 20\% BP stalls cost 0.4 cycles per instruction at a CPI of 2.0 but only 0.1 at a CPI of 0.5.
+%
+We therefore multiply each proportion by CPI to obtain the \emph{stall cycles} per instruction of category $k \in \{\mathrm{FP}, \mathrm{BP}, \mathrm{SP}\}$ at stage $s$, $c_{k,s} = \mathrm{CPI}\cdot k_s$.
+%
+To describe what a design stalls on regardless of how slow it is, we also use the \emph{stall share}: each of the six stall cycles at Dispatch and Commit divided by their sum.
+
+\paragraph{Validation}
+On 1,273 searched designs from all four methods, PRISM matches gem5 with a 9.3\% CPI MAPE and a 0.031 MSCS MAE.
+%
+The nearest state (\S\ref{sec:char_states}) agrees for 64\% of the designs and is the same or adjacent for 85\%.

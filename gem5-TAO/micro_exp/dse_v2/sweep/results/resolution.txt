@@ -1,0 +1,22 @@
+resolution screen: 6 benchmarks x 12 bases, min/max sweep per parameter [31s]
+rule: MEASURABLE iff median|dP| >= 1% and median|dP| >= 2.0 x median|dP-dC|
+  param               n median|dP|  p90|dP|   noise   SNR sign agree coupled%  verdict
+  fetchWidth         72      2.97%   11.63%   1.99%   1.5       0.82      92%  -
+  decodeWidth        72      2.11%    7.57%   1.67%   1.3       0.71      75%  -
+  dispatchWidth      66      7.94%   26.60%   6.26%   1.3       0.83      55%  -
+  commitWidth        72      0.44%    0.91%   0.23%   1.9       1.00       0%  -
+  numROBEntries      72      0.20%    0.96%   0.28%   0.7       0.25       0%  -
+  numIQEntries       72      0.78%    3.22%   0.60%   1.3       0.83      25%  -
+  LQEntries          72      1.74%    4.04%   1.00%   1.7       0.82      25%  -
+  SQEntries          72      0.80%    1.68%   0.54%   1.5       0.88      25%  -
+  IntALU             72      6.86%   38.48%   1.49%   4.6       1.00       0%  MEASURABLE
+  IntMultDiv         72      0.14%    0.83%   0.11%   1.2       0.94       0%  -
+  FP_ALU             72      0.19%    1.30%   0.23%   0.8       0.74       0%  -
+  FP_MultDiv         72      0.20%    0.68%   0.24%   0.9       0.92       0%  -
+  RdWrPort           72      1.12%    3.17%   0.96%   1.2       0.97       0%  -
+  l1_size            72     18.06%  110.77%   1.53%  11.8       1.00      50%  MEASURABLE
+  l1d_assoc          72      2.59%    6.14%   0.75%   3.5       0.89       0%  MEASURABLE
+  l1i_assoc          72      0.14%    0.78%   0.23%   0.6       0.81       0%  -
+  wbWidth            72      0.12%    0.39%   0.11%   1.1       0.33       0%  -
+
+measurable (3): ['IntALU', 'l1_size', 'l1d_assoc']

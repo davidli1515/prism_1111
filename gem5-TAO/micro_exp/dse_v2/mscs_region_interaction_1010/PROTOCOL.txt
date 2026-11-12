@@ -1,0 +1,92 @@
+Frozen protocol: resource-conditioned MSCS, seed 42, 2026-10-10
+
+Scope and budget
+----------------
+Preserve all earlier code, results, normalizers and the fixed checkpoint. New files only
+in this directory. Offline development uses saved output only: 24 roots / 21 connected
+configuration groups / 40 complete sets (10 buffer, 22 assoc, 8 joint). These previously
+examined data are not a fresh confirmation. No McPAT, gem5, full DSE, extra seed, or model
+training. Auxiliary regression fitting does not modify the surrogate checkpoint.
+One conditional confirmation: at most 4 roots and 32 new descendant CPI evaluations.
+No retry with different roots, hyperparameters or gates after inspecting outcomes.
+
+Intent and representation
+-------------------------
+g(root,R) = max(0,1-min(CPI(x), x in R)/CPI(root)). R is a complete nonempty Cartesian
+upward set of fetchBufferSize and/or l1i_assoc. All other parameters and W_min stay fixed.
+Complete full source labels must be present; no zero imputation. Joint contains the
+single-resource sets; overlapping labels are neither independent samples nor free online
+information. Region fields, rather than an inferred root-only full domain, enter features.
+
+Scalar compact: root CPI statistics, width, cache and starting FE sizes, explicit scope
+indicators/spans/endpoints/count, and four CPI statistics times six direction features.
+Rich scalar adds architecture and 50 quantiles for each of four stage CPIs.
+MSCS adds only the four prior CPI-weighted conditional pressure compositions:
+FP@Decode, FP@Commit, SP@Decode, BP@Commit, crossed with the same six direction features.
+Base is excluded; scalar inputs remain bit-identical when pressure composition changes.
+Pressure is centered/scaled on TRAINING roots before crossing with directions; otherwise
+small pressure variation can be swamped by resource-indicator offsets. All design columns
+are then standardized on training data and normalized by square root of their block size.
+Scalar blocks are unchanged when MSCS is appended. Constant columns have unit scale.
+
+Validation and fitting
+----------------------
+Root configurations differing in at most one non-FE parameter form connected components,
+including across benchmarks. All scopes of a root stay together. Equal component weight,
+then equal roots per component, then equal scopes per root, applies in fitting and metrics.
+Outer 5-fold GroupKFold; inner 3-fold GroupKFold selects Ridge alpha from exactly
+[0.0001,0.001,0.01,0.1,1,10,100]. Scalar-only inner CV chooses compact/rich; MSCS and shuffle
+use that same representation, each with the same alpha grid. Ties prefer larger alpha,
+then compact. Nested validation avoids reusing model-selection scores as outer evidence.
+All predictions clipped to [0,1-1/(W_min*CPI_root)]. This is a scalar cap, not an MSCS
+safety certificate. Grouped CV on reused development data remains exploratory.
+
+Pressure shuffle is within benchmark at ROOT level, separately inside every training and
+validation partition, seed 42. All scopes share their root's donor. No validation pressure
+enters training. Singleton partitions cannot be shuffled and are reported, not hidden.
+The fourth arm is a training-only constant per resource type, with global training mean
+fallback when a type is absent. Report per benchmark/type as well as group-weighted MAE
+and maximum gain underprediction. Do not count always choosing nested joint as success.
+
+Preflight
+---------
+Run semantic unit tests and positive/negative synthetic controls before any new queries.
+Control has a small-amplitude pressure-by-direction signal: MSCS must lower MAE at least
+90% versus scalar and shuffled; scalar-only null must change predictions by less than
+0.0001. These test implementation sensitivity, not the physical hypothesis.
+An independent verifier reconstructs sets/labels, scalar-versus-pressure feature semantics,
+weights, selected-alpha predictions via a primal solve, grouping, and source hashes.
+
+Gates frozen before executing real development fitting
+-----------------------------------------------------
+For BOTH development and confirmation:
+  scalar group-weighted MAE < resource-type constant MAE;
+  MSCS MAE <= 0.9 * scalar MAE AND <= 0.9 * shuffled MAE;
+  MSCS max underprediction <= scalar max underprediction + 1e-8;
+  MSCS MAE < scalar MAE separately for gcc and mcf.
+All conditions must pass. A failure ends this run, without extra queries or retuning.
+These are engineering continuation gates, not statistical significance thresholds.
+
+Conditional confirmation
+------------------------
+Select gcc/mcf BO500 configurations solely using configuration, domain coverage and
+distance from all examined roots; seed 42 shuffles eligible snapshot indices. Choose
+two roots per workload, both FE axes available, at most 2 upward values per axis.
+Their exact domain signature must occur in that benchmark's development joint sets.
+Exclude near roots and any descendant already present in that BO snapshot. If the fixed
+eligibility rules cannot yield four roots, stop with coverage_insufficient.
+Freeze root/domain plan before retrieving root vectors; freeze predictions before any
+descendant CPI lookup or inference. Archived descendant CPI may only be reused afterwards.
+Deduplicate descendants across overlapping scopes; count reused and physically new calls
+separately. All historical calibration labels and this audit are offline costs, not online
+search savings. New root extraction also counts toward the 36-configuration cap.
+
+End state
+---------
+Always save machine-readable status, metrics, gates, preservation hashes, and FINDINGS.txt.
+On failure save traceback and nonzero exit; supervisor limits total duration to 30 minutes,
+holding a lock and refusing to overwrite an existing run. The user's eight-hour absence
+does not trigger an eight-hour sweep. No further search is auto-started after confirmation.
+A positive confirmation would justify designing an empirical-bound pruning audit; it
+would not establish a safe bound or a DSE advantage. Original MSCS stall-removal intervals
+and L_mono do not prove cross-configuration resource bounds.

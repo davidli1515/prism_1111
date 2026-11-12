@@ -1,0 +1,31 @@
+Three-run simulator sanity check of the strongest DEVELOPMENT improvement.
+Workload lbm was selected after inspecting surrogate outcomes, so this is a
+post-hoc case validation, NOT unbiased general search or hardware superiority.
+Run exactly: common composed starting configuration; better endpoint of raw
+scalar_joint and scalar-memory at six queries; MSCS-memory six-query endpoint.
+No tuning, replacement, checkpoint training, or old result overwriting.
+
+Reuse original validate_joint_dse.build_cmd, same gem5 ARM binary and checkpoint,
+20M warmup, instruction range from gem5_bounds.surrogate_insts (18.7M for lbm).
+This mirrors the user's earlier bounds validation: simulator CPI covers that
+whole ROI, while surrogate CPI averages 50 lexicographically selected even
+slices. Report this aggregation difference explicitly. It is NOT matched-slice
+CPI validation. Keep cumulative 28-field stack using the established FIFO/tail
+method; parse using the original stack16 and parse_cpi functions.
+
+Pre-launch configuration audit found that this original command does NOT enable
+L2. Preserve that setup for comparison with prior training/validation commands;
+do not silently add a new cache hierarchy. Explicitly report l2_size/l2_assoc
+as inactive in instantiated hardware, and verify the actual L1 configuration.
+The selected MSCS endpoint has l2_assoc32, but this cannot be credited with real
+hardware improvement. This pilot tests the complete selected configurations,
+including their other effective edits, and keeps that limitation visible.
+
+Use two workers, each with its OWN new output directory AND working directory,
+so benchmark output cannot overwrite old files. All program/checkpoint inputs
+are absolute and read-only. Freeze commands, configurations, expected proxy
+CPIs, source and gem5 binary hashes before starting any simulator process.
+Save failures as failures; no automatic retries or result selection.
+After completion verify return codes, parsed counters, and instantiated CPU
+parameters from native gem5 config.json; compare CPI ordering and root-relative
+gains separately for proxy and gem5. No automatic success claim based on proxy.

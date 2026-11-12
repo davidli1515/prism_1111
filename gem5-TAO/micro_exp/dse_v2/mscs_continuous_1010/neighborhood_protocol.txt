@@ -1,0 +1,28 @@
+Local replication of the THREE disagreements from coverage_s42_01.
+This is conditional replication on outcome-selected workloads (mcf,lbm,roms),
+not an unbiased new 17-workload result, new seed, or full-search confirmation.
+Keep every prediction, width closure, radius, query budget and acceptance rule
+unchanged from coverage. No coefficient fitted to the three outcomes.
+
+Before inspecting new predictions/outcomes, form the complete legal radius1
+width_moves(DEFAULT_CONFIG) catalog, restricting fetchBufferSize>=16. Select
+exactly 4 distinct neighbors using numpy.RandomState(42).choice without
+replacement, preserve its returned order. No retry/replacement based on values.
+Record the entire catalog and selected indices/configs in root_plan.json.
+All roots share L1 size64/BP0; every selected parameter may change normally in
+subsequent candidate generation. Do not exclude or preserve winning resources.
+
+For each of the four predeclared roots run one area-feasible CPI query per
+scalar/MSCS on each of mcf,lbm,roms, in that fixed order. Cap1.10*that root area.
+Freeze all three workload choices before reading their candidate labels;
+the next root is already committed in the original plan. Root CPI queries and
+Jacobian work counted separately. Execute all12 contexts regardless of early
+results; report all losses. Precomputed inputs and checkpoint remain fixed.
+Code replication must independently reconstruct random root selection, then
+replay every prediction/area prefix/query/outcome as in the original coverage.
+
+Evidence gate for considering matched short trajectories: at least 6 wins among
+12 contexts, wins in at least two workloads, positive mean normalized advantage,
+at most 1 loss, all contexts resolved and all source/numeric/budget checks pass.
+This descriptive development gate is not significance; do not append roots to
+make it pass. Failure returns to mechanism diagnosis, no full-search expansion.

@@ -1,0 +1,1069 @@
+nohup: ignoring input
+=== Joint DSE (17 benchmarks, all methods) Started: Tue May  5 12:08:16 AM EDT 2026 ===
+=== Output: results_17bm_54 ===
+============================================================
+MSCS-Guided DSE (joint)
+============================================================
+Benchmarks:   ['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+Design space: 2.08e+23
+Methods:      ['gem_attribution', 'gem_scalar', 'gem_scalar_noreclaim', 'gem_bo', 'gem_bo_scalar', 'gem_bo_mscs']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  508.namd_r: loaded 200 slices
+  526.blender_r: loaded 200 slices
+  600.perlbench_s: loaded 200 slices
+  602.gcc_s: loaded 200 slices
+  605.mcf_s: loaded 134 slices
+  607.cactuBSSN_s: loaded 200 slices
+  619.lbm_s: loaded 200 slices
+  620.omnetpp_s: loaded 200 slices
+  621.wrf_s: loaded 200 slices
+  623.xalancbmk_s: loaded 128 slices
+  631.deepsjeng_s: loaded 200 slices
+  638.imagick_s: loaded 200 slices
+  641.leela_s: loaded 200 slices
+  644.nab_s: loaded 200 slices
+  648.exchange2_s: loaded 200 slices
+  654.roms_s: loaded 200 slices
+  657.xz_s: loaded 200 slices
+DseEngine: 3262 slices total, workloads: ['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+  GEMPredictor [508.namd_r]: 200 total, CPI=200, grad=50
+  GEMPredictor [526.blender_r]: 200 total, CPI=200, grad=50
+  GEMPredictor [600.perlbench_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [602.gcc_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [605.mcf_s]: 134 total, CPI=134, grad=50
+  GEMPredictor [607.cactuBSSN_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [619.lbm_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [620.omnetpp_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [621.wrf_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [623.xalancbmk_s]: 128 total, CPI=128, grad=50
+  GEMPredictor [631.deepsjeng_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [638.imagick_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [641.leela_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [644.nab_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [648.exchange2_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [654.roms_s]: 200 total, CPI=200, grad=50
+  GEMPredictor [657.xz_s]: 200 total, CPI=200, grad=50
+  MultiWorkloadPredictor: 17 workloads
+  ConcordePredictor [508.namd_r]: 200 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM gmean CPI=1.3329, Area=28.57
+    Per-workload CPI: 508.namd_r=0.5695 526.blender_r=1.2037 600.perlbench_s=0.5253 602.gcc_s=4.5827 605.mcf_s=2.5503 607.cactuBSSN_s=4.5969 619.lbm_s=3.5692 620.omnetpp_s=1.9119 621.wrf_s=1.5498 623.xalancbmk_s=3.3676 631.deepsjeng_s=0.7818 638.imagick_s=0.4959 641.leela_s=0.8903 644.nab_s=0.8676 648.exchange2_s=0.5444 654.roms_s=2.7392 657.xz_s=0.4299 
+    Time: 7.991s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_attribution [multi-stage] (starts=50, steps=30)
+============================================================
+
+  Start 2/50: CPI=1.4530, Area=24.51
+      [NORMAL] best=l1_size ΔCPI=0.0960
+      Reclaim: fetchWidth(7→6), commitWidth(6→5), numROBEntries(280→264), LQEntries(59→51), FP_ALU(2→1), FP_MultDiv(4→3), l1i_assoc(4→2)
+      [NORMAL] best=IntALU ΔCPI=0.0785
+      Reclaim: commitWidth(6→5), numROBEntries(264→248), LQEntries(51→43), SQEntries(36→28), FP_MultDiv(3→2)
+    Step 3: CPI=1.2654, Area=23.47, ↑1 ↓4, mode=normal [485s]
+    Step 6: CPI=1.2058, Area=33.82, ↑1 ↓0, mode=decouple [964s]
+    Step 9: CPI=1.1955, Area=33.84, ↑1 ↓0, mode=decouple [1441s]
+    Step 10: max decouple reached, stopping
+
+  Start 3/50: CPI=1.6428, Area=22.27
+      [NORMAL] best=IntALU ΔCPI=0.0725
+      [NORMAL] best=l1_size ΔCPI=0.0526
+    Step 3: CPI=1.4537, Area=24.42, ↑1 ↓0, mode=normal [2115s]
+    Step 6: CPI=1.2973, Area=20.50, ↑1 ↓6, mode=normal [2596s]
+    Step 9: CPI=1.2274, Area=29.91, ↑1 ↓0, mode=decouple [3008s]
+    Step 12: CPI=1.2128, Area=29.93, ↑1 ↓0, mode=decouple [3470s]
+    Step 13: max decouple reached, stopping
+
+  Start 6/50: CPI=1.3807, Area=34.63
+      [NORMAL] best=dispatchWidth ΔCPI=0.1370
+      [NORMAL] best=l1_size ΔCPI=0.0963
+    Step 3: CPI=1.1020, Area=49.63, ↑1 ↓0, mode=normal [4122s]
+    Step 6: CPI=1.0709, Area=34.11, ↑1 ↓2, mode=decouple [4588s]
+    Step 9: CPI=1.0574, Area=34.40, ↑1 ↓0, mode=decouple [5035s]
+    Step 10: max decouple reached, stopping
+
+  Start 7/50: CPI=1.4439, Area=21.18
+      [NORMAL] best=l1d_assoc ΔCPI=0.0281
+      Reclaim: commitWidth(7→6), numROBEntries(422→406), LQEntries(74→66), SQEntries(136→128), IntALU(3→2), IntMultDiv(2→1), FP_MultDiv(4→3), l1i_assoc(8→4)
+      [NORMAL] best=l1_size ΔCPI=0.0159
+      Reclaim: commitWidth(6→5), numROBEntries(406→390), LQEntries(66→58), SQEntries(128→120), FP_MultDiv(3→2), l1i_assoc(4→2)
+    Step 3: CPI=1.3524, Area=19.88, ↑1 ↓5, mode=normal [5628s]
+    Step 6: CPI=1.2048, Area=30.10, ↑1 ↓4, mode=normal [6063s]
+    Step 9: CPI=1.1912, Area=30.11, ↑1 ↓1, mode=decouple [6503s]
+    Step 11: max decouple reached, stopping
+
+  Start 8/50: CPI=1.5431, Area=18.02
+      [NORMAL] best=IntALU ΔCPI=0.1306
+      [NORMAL] best=l1_size ΔCPI=0.0560
+    Step 3: CPI=1.2989, Area=18.95, ↑1 ↓0, mode=normal [7217s]
+    Step 6: CPI=1.1768, Area=21.53, ↑1 ↓0, mode=normal [7623s]
+    Step 9: CPI=1.1215, Area=28.57, ↑1 ↓6, mode=normal [8013s]
+    Step 12: CPI=1.0968, Area=28.84, ↑1 ↓0, mode=decouple [8403s]
+    Step 14: max decouple reached, stopping
+
+  Start 10/50: CPI=1.5304, Area=16.76
+      [NORMAL] best=IntALU ΔCPI=0.1168
+      Reclaim: commitWidth(5→4), numROBEntries(409→393), FP_ALU(2→1), l1i_assoc(16→8)
+      [NORMAL] best=l1_size ΔCPI=0.0347
+      Reclaim: numROBEntries(393→377), l1i_assoc(8→4)
+    Step 3: CPI=1.3301, Area=15.22, ↑1 ↓2, mode=normal [9000s]
+    Step 6: CPI=1.1697, Area=27.42, ↑1 ↓1, mode=normal [9314s]
+    Step 9: CPI=1.1495, Area=27.42, ↑1 ↓0, mode=decouple [9700s]
+    Step 12: max decouple reached, stopping
+
+  Start 11/50: CPI=1.3312, Area=19.44
+      [NORMAL] best=l1_size ΔCPI=0.0873
+      Reclaim: commitWidth(5→4), numROBEntries(544→528), numIQEntries(79→71), LQEntries(114→106), IntALU(4→3), FP_ALU(2→1)
+      [NORMAL] best=l1d_assoc ΔCPI=0.0193
+      Reclaim: commitWidth(5→4), numROBEntries(528→512), numIQEntries(71→63), LQEntries(106→98), SQEntries(40→32)
+    Step 3: CPI=1.1875, Area=31.57, ↑1 ↓0, mode=normal [10555s]
+    Step 6: CPI=1.1751, Area=31.59, ↑1 ↓1, mode=decouple [10988s]
+    Step 8: max decouple reached, stopping
+
+  Start 12/50: CPI=1.4337, Area=22.49
+      [NORMAL] best=l1_size ΔCPI=0.0731
+      [NORMAL] best=l1_size ΔCPI=0.0967
+    Step 3: CPI=1.2598, Area=25.76, ↑1 ↓0, mode=decouple [11832s]
+    Step 6: CPI=1.2391, Area=25.52, ↑1 ↓0, mode=normal [12372s]
+    Step 9: CPI=1.1740, Area=35.97, ↑1 ↓0, mode=decouple [12906s]
+    Step 12: CPI=1.1711, Area=36.00, ↑1 ↓0, mode=decouple [13398s]
+    Step 13: max decouple reached, stopping
+
+  Start 14/50: CPI=1.4913, Area=17.11
+      [NORMAL] best=l1_size ΔCPI=0.0532
+      Reclaim: commitWidth(6→5), numROBEntries(346→330), SQEntries(58→50), IntMultDiv(3→2), FP_ALU(2→1), FP_MultDiv(3→2), l1i_assoc(8→4)
+      [NORMAL] best=l1_size ΔCPI=0.0568
+    Step 3: CPI=1.2950, Area=18.19, ↑1 ↓5, mode=normal [13992s]
+    Step 6: CPI=1.2110, Area=28.63, ↑1 ↓1, mode=normal [14346s]
+    Step 9: CPI=1.2022, Area=28.65, ↑1 ↓0, mode=decouple [14755s]
+    Step 11: max decouple reached, stopping
+
+  Start 15/50: CPI=1.4537, Area=20.58
+      [NORMAL] best=l1_size ΔCPI=0.0949
+      Reclaim: commitWidth(5→4), numROBEntries(479→463), LQEntries(75→67), SQEntries(78→70), IntMultDiv(4→3), FP_ALU(2→1), FP_MultDiv(4→3), l1i_assoc(16→8)
+      [NORMAL] best=IntALU ΔCPI=0.0750
+      Reclaim: numROBEntries(463→447), LQEntries(67→59), SQEntries(70→62), IntMultDiv(3→2), FP_MultDiv(3→2), l1i_assoc(8→4)
+    Step 3: CPI=1.2655, Area=19.31, ↑1 ↓5, mode=normal [15400s]
+    Step 6: CPI=1.2068, Area=28.72, ↑1 ↓1, mode=decouple [15754s]
+    Step 9: max decouple reached, stopping
+
+  Start 16/50: CPI=1.2807, Area=37.23
+      [NORMAL] best=l1_size ΔCPI=0.0982
+      Reclaim: commitWidth(7→6), numROBEntries(421→405), SQEntries(69→61), IntMultDiv(4→3), FP_ALU(3→2), RdWrPort(3→2), l1i_assoc(16→8)
+      [NORMAL] best=l1d_assoc ΔCPI=0.0387
+    Step 3: CPI=1.1141, Area=33.88, ↑1 ↓7, mode=normal [16630s]
+    Step 6: CPI=1.0442, Area=35.79, ↑1 ↓0, mode=decouple [17079s]
+    Step 9: max decouple reached, stopping
+
+  Start 20/50: CPI=1.3234, Area=131.24
+      [NORMAL] best=l1d_assoc ΔCPI=0.0556
+      Reclaim: fetchWidth(11→10), commitWidth(8→7), numROBEntries(587→571), SQEntries(95→87), IntALU(7→6), IntMultDiv(2→1), FP_MultDiv(4→3), RdWrPort(8→7), l1i_assoc(16→8)
+      [NORMAL] best=dispatchWidth ΔCPI=0.0487
+      Reclaim: fetchWidth(10→9), decodeWidth(6→5), commitWidth(7→6), numROBEntries(571→555), SQEntries(87→79), IntALU(6→5), FP_MultDiv(3→2), RdWrPort(7→6), l1i_assoc(8→4)
+    Step 3: CPI=1.0992, Area=93.20, ↑1 ↓7, mode=normal [17981s]
+    Step 6: CPI=1.0096, Area=98.34, ↑1 ↓0, mode=decouple [18446s]
+    Step 9: max decouple reached, stopping
+
+  Start 21/50: CPI=1.1529, Area=158.43
+      [NORMAL] best=l1_size ΔCPI=0.0270
+      [NORMAL] best=l1_size ΔCPI=0.0418
+    Step 3: CPI=1.0036, Area=173.67, ↑1 ↓0, mode=normal [19453s]
+    Step 6: CPI=0.9926, Area=173.64, ↑1 ↓0, mode=decouple [19961s]
+    Step 8: max decouple reached, stopping
+
+  Start 24/50: CPI=1.0808, Area=42.52
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0035
+      Reclaim: commitWidth(7→6), IntMultDiv(3→2), l1i_assoc(8→4)
+      [DECOUPLE] best=LQEntries ΔCPI=0.0003
+      Reclaim: commitWidth(6→5), IntMultDiv(2→1), l1i_assoc(4→2)
+    Step 3: CPI=1.0738, Area=53.92, ↑1 ↓1, mode=decouple [20701s]
+    Step 5: max decouple reached, stopping
+
+  Start 27/50: CPI=1.1975, Area=160.77
+      [NORMAL] best=l1_size ΔCPI=0.0423
+      Reclaim: fetchWidth(11→10), commitWidth(7→6), numROBEntries(728→712), numIQEntries(102→94), LQEntries(232→224), SQEntries(60→52), IntALU(4→3), IntMultDiv(4→3), FP_ALU(6→5), FP_MultDiv(4→3), RdWrPort(7→6), l1i_assoc(16→8)
+      [NORMAL] best=l1_size ΔCPI=0.0791
+    Step 3: CPI=1.0474, Area=136.72, ↑1 ↓0, mode=normal [21429s]
+    Step 6: CPI=1.0106, Area=109.74, ↑1 ↓3, mode=decouple [21977s]
+    Step 9: CPI=1.0057, Area=109.92, ↑1 ↓0, mode=decouple [22456s]
+    Step 10: max decouple reached, stopping
+
+  Start 29/50: CPI=1.1190, Area=64.69
+      [NORMAL] best=dispatchWidth ΔCPI=0.0394
+      Reclaim: fetchWidth(11→10), commitWidth(8→7), numROBEntries(346→330), numIQEntries(89→81), SQEntries(188→180), IntALU(8→7), IntMultDiv(5→4), FP_ALU(5→4), FP_MultDiv(7→6), RdWrPort(5→4), l1i_assoc(16→8)
+      [NORMAL] best=dispatchWidth ΔCPI=0.0218
+    Step 3: CPI=1.0432, Area=62.58, ↑1 ↓0, mode=normal [23171s]
+    Step 6: CPI=0.9329, Area=61.35, ↑1 ↓12, mode=normal [23710s]
+    Step 9: CPI=0.9263, Area=61.40, ↑1 ↓0, mode=decouple [24187s]
+    Step 11: max decouple reached, stopping
+
+  Start 30/50: CPI=1.5343, Area=101.59
+      [NORMAL] best=l1d_assoc ΔCPI=0.0267
+      Reclaim: fetchWidth(12→11), decodeWidth(11→10), commitWidth(5→4), numROBEntries(597→581), LQEntries(174→166), IntALU(5→4), IntMultDiv(6→5), FP_ALU(6→5), FP_MultDiv(3→2), RdWrPort(8→7), l1i_assoc(16→8)
+      [NORMAL] best=l1_size ΔCPI=0.0133
+      Reclaim: fetchWidth(11→10), decodeWidth(10→9), commitWidth(5→4), numROBEntries(581→565), LQEntries(166→158), IntALU(4→3), IntMultDiv(5→4), FP_ALU(5→4), FP_MultDiv(2→1), RdWrPort(7→6), l1i_assoc(8→4)
+    Step 3: CPI=1.3469, Area=91.55, ↑1 ↓9, mode=normal [24955s]
+    Step 6: CPI=1.2015, Area=34.64, ↑1 ↓4, mode=normal [25436s]
+    Step 9: CPI=1.1851, Area=34.63, ↑1 ↓0, mode=decouple [25867s]
+    Step 11: max decouple reached, stopping
+
+  Start 32/50: CPI=1.2285, Area=41.78
+      [NORMAL] best=dispatchWidth ΔCPI=0.1240
+      Reclaim: fetchWidth(9→8), commitWidth(6→5), numROBEntries(342→326), SQEntries(168→160), IntMultDiv(2→1), FP_ALU(8→7), FP_MultDiv(6→5), l1i_assoc(32→16)
+      [NORMAL] best=l1_size ΔCPI=0.0409
+      Reclaim: fetchWidth(8→7), commitWidth(6→5), numROBEntries(342→326), SQEntries(160→152), FP_ALU(7→6), FP_MultDiv(5→4), l1i_assoc(16→8)
+    Step 3: CPI=0.9937, Area=40.53, ↑1 ↓7, mode=normal [26689s]
+    Step 6: CPI=0.9751, Area=39.62, ↑1 ↓0, mode=decouple [27183s]
+    Step 9: max decouple reached, stopping
+
+  Start 34/50: CPI=0.8763, Area=155.90
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0021
+      Reclaim: IntMultDiv(5→4)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0018
+      Reclaim: IntMultDiv(4→3)
+    Step 3: CPI=0.8707, Area=155.59, ↑1 ↓1, mode=decouple [28136s]
+    Step 5: max decouple reached, stopping
+
+  Start 35/50: CPI=0.8602, Area=160.05
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0032
+      Reclaim: commitWidth(10→9), numROBEntries(962→946), LQEntries(238→230)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0026
+      Reclaim: LQEntries(230→222)
+    Step 3: CPI=0.8512, Area=159.95, ↑1 ↓0, mode=decouple [28909s]
+    Step 5: max decouple reached, stopping
+
+  Start 36/50: CPI=0.9359, Area=127.54
+      [NORMAL] best=dispatchWidth ΔCPI=0.0860
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0026
+      Reclaim: numROBEntries(921→905)
+    Step 3: CPI=0.8448, Area=130.42, ↑1 ↓0, mode=decouple [29685s]
+    Step 6: max decouple reached, stopping
+
+  Start 37/50: CPI=0.8109, Area=202.96
+      [DECOUPLE] best=RdWrPort ΔCPI=0.0013
+      Reclaim: fetchWidth(12→11)
+      [DECOUPLE] best=LQEntries ΔCPI=0.0006
+    Step 3: CPI=0.8080, Area=244.29, ↑1 ↓0, mode=decouple [30438s]
+    Step 5: max decouple reached, stopping
+
+  Start 38/50: CPI=0.9326, Area=124.46
+      [NORMAL] best=dispatchWidth ΔCPI=0.0811
+      [DECOUPLE] best=RdWrPort ΔCPI=0.0015
+      Reclaim: numROBEntries(716→700), LQEntries(196→188)
+    Step 3: CPI=0.8482, Area=196.47, ↑1 ↓0, mode=decouple [31137s]
+    Step 6: max decouple reached, stopping
+
+  Start 39/50: CPI=0.8031, Area=203.47
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0027
+      Reclaim: numROBEntries(790→774)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0010
+    Step 3: CPI=0.7980, Area=244.73, ↑1 ↓0, mode=decouple [32024s]
+    Step 5: max decouple reached, stopping
+
+  Start 40/50: CPI=0.9227, Area=157.39
+      [NORMAL] best=dispatchWidth ΔCPI=0.0121
+      Reclaim: fetchWidth(10→9), commitWidth(12→11), numROBEntries(658→642), numIQEntries(117→109), LQEntries(233→225), SQEntries(141→133), IntMultDiv(4→3), FP_ALU(7→6), FP_MultDiv(5→4), RdWrPort(6→5), l1i_assoc(32→16)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0011
+      Reclaim: commitWidth(11→10), LQEntries(225→217), IntMultDiv(3→2)
+    Step 3: CPI=0.8538, Area=117.27, ↑1 ↓3, mode=decouple [32781s]
+    Step 6: max decouple reached, stopping
+
+  Start 41/50: CPI=0.9346, Area=123.98
+      [NORMAL] best=dispatchWidth ΔCPI=0.0834
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0020
+      Reclaim: fetchWidth(12→11), LQEntries(241→233)
+    Step 3: CPI=0.8458, Area=126.64, ↑1 ↓1, mode=decouple [33701s]
+    Step 6: max decouple reached, stopping
+
+  Start 42/50: CPI=0.8922, Area=107.17
+      [NORMAL] best=dispatchWidth ΔCPI=0.0821
+      [DECOUPLE] best=RdWrPort ΔCPI=0.0036
+      Reclaim: fetchWidth(12→11), LQEntries(255→247)
+    Step 3: CPI=0.8018, Area=136.87, ↑1 ↓1, mode=decouple [34585s]
+    Step 6: max decouple reached, stopping
+
+  Start 43/50: CPI=0.8902, Area=132.47
+      [NORMAL] best=dispatchWidth ΔCPI=0.0825
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0029
+      Reclaim: numROBEntries(806→790), LQEntries(141→133)
+    Step 3: CPI=0.7997, Area=135.46, ↑1 ↓2, mode=decouple [35502s]
+    Step 6: max decouple reached, stopping
+
+  Start 44/50: CPI=0.8657, Area=194.64
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0018
+      Reclaim: commitWidth(11→10), numROBEntries(582→566), LQEntries(136→128)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0018
+      Reclaim: commitWidth(10→9), numROBEntries(566→550), LQEntries(128→120)
+    Step 3: CPI=0.8586, Area=194.41, ↑1 ↓2, mode=decouple [36342s]
+    Step 5: max decouple reached, stopping
+
+  Start 45/50: CPI=0.9218, Area=98.97
+      [DECOUPLE] best=decodeWidth ΔCPI=0.0031
+      Reclaim: numROBEntries(796→780), LQEntries(232→224), IntMultDiv(6→5)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0014
+      Reclaim: numROBEntries(780→764), IntMultDiv(5→4), l1i_assoc(32→16)
+    Step 3: CPI=0.9120, Area=89.60, ↑1 ↓2, mode=decouple [37045s]
+    Step 5: max decouple reached, stopping
+
+  Start 46/50: CPI=0.8401, Area=105.10
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0037
+      Reclaim: numROBEntries(687→671)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0029
+      Reclaim: LQEntries(173→165)
+    Step 3: CPI=0.8299, Area=131.42, ↑1 ↓0, mode=decouple [37779s]
+    Step 5: max decouple reached, stopping
+
+  Start 47/50: CPI=0.8735, Area=155.74
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0021
+      Reclaim: commitWidth(12→11), LQEntries(182→174)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0020
+      Reclaim: commitWidth(11→10)
+    Step 3: CPI=0.8668, Area=155.68, ↑1 ↓1, mode=decouple [38537s]
+    Step 5: max decouple reached, stopping
+
+  Start 48/50: CPI=0.8170, Area=242.36
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0026
+      Reclaim: commitWidth(11→10), numROBEntries(865→849), LQEntries(247→239)
+      [DECOUPLE] best=FP_ALU ΔCPI=0.0003
+    Step 3: CPI=0.8131, Area=244.70, ↑1 ↓0, mode=decouple [39189s]
+    Step 5: max decouple reached, stopping
+
+  Start 49/50: CPI=0.8492, Area=160.81
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0017
+      Reclaim: fetchWidth(12→11), commitWidth(12→11), LQEntries(208→200)
+      [DECOUPLE] best=numIQEntries ΔCPI=0.0015
+      Reclaim: commitWidth(11→10), LQEntries(200→192)
+    Step 3: CPI=0.8422, Area=197.95, ↑1 ↓1, mode=decouple [39863s]
+    Step 5: max decouple reached, stopping
+
+  Start 50/50: CPI=0.9144, Area=237.67
+      [DECOUPLE] best=dispatchWidth ΔCPI=0.0087
+      Reclaim: numROBEntries(646→630), LQEntries(252→244), SQEntries(223→215), IntMultDiv(4→3)
+      [DECOUPLE] best=dispatchWidth ΔCPI=0.0027
+      Reclaim: fetchWidth(12→11), decodeWidth(11→10)
+    Step 3: CPI=0.8321, Area=241.90, ↑1 ↓0, mode=decouple [40570s]
+    Step 5: max decouple reached, stopping
+
+  Total: 274 evals in 40864s | Pareto=44 | McPAT_fails=15
+Saved: results_17bm_54/joint_17_gem_attribution_results.json
+
+============================================================
+gem_scalar_grad (starts=50, steps=30)
+============================================================
+
+  Start 1/50: CPI=1.0537, Area=205.06
+    Step 5: CPI=1.2138, Area=26.50, ↑1 ↓9 [303s]
+    Step 10: CPI=1.2540, Area=14.41, ↑1 ↓5 [596s]
+    Step 15: CPI=1.2979, Area=14.14, ↑1 ↓5 [888s]
+    Step 20: CPI=1.2585, Area=14.39, ↑1 ↓5 [1180s]
+    Step 25: CPI=1.3054, Area=14.13, ↑1 ↓5 [1473s]
+    Step 30: CPI=1.2640, Area=14.37, ↑1 ↓5 [1765s]
+
+  Start 2/50: CPI=1.2623, Area=109.74
+    Step 5: CPI=1.2841, Area=27.53, ↑1 ↓8 [2066s]
+
+  Start 3/50: CPI=1.2334, Area=63.43
+    Step 5: CPI=1.3455, Area=19.93, ↑1 ↓8 [2667s]
+    Step 10: CPI=1.4205, Area=14.29, ↑1 ↓4 [2962s]
+    Step 15: CPI=1.4961, Area=14.03, ↑1 ↓3 [3255s]
+    Step 20: CPI=1.4388, Area=14.27, ↑1 ↓3 [3548s]
+    Step 25: CPI=1.4999, Area=14.01, ↑1 ↓3 [3841s]
+    Step 30: CPI=1.4424, Area=14.26, ↑1 ↓3 [4141s]
+
+  Start 4/50: CPI=1.4332, Area=32.30
+    Step 5: CPI=1.5175, Area=20.27, ↑0 ↓9 [4458s]
+    Step 10: CPI=1.5832, Area=13.96, ↑1 ↓4 [4767s]
+    Step 15: CPI=1.5606, Area=13.69, ↑1 ↓4 [5073s]
+    Step 20: CPI=1.5859, Area=13.93, ↑1 ↓4 [5379s]
+    Step 25: CPI=1.5638, Area=13.68, ↑1 ↓4 [5685s]
+    Step 30: CPI=1.5870, Area=13.92, ↑1 ↓4 [5992s]
+
+  Start 6/50: CPI=1.1852, Area=36.24
+    Step 5: CPI=1.2717, Area=20.61, ↑1 ↓8 [6313s]
+    Step 10: CPI=1.3381, Area=13.94, ↑1 ↓5 [6621s]
+    Step 15: CPI=1.2994, Area=14.18, ↑1 ↓5 [6926s]
+    Step 20: CPI=1.3555, Area=13.91, ↑1 ↓5 [7233s]
+    Step 25: CPI=1.3190, Area=14.16, ↑1 ↓5 [7540s]
+    Step 30: CPI=1.3924, Area=13.90, ↑1 ↓5 [7846s]
+
+  Start 7/50: CPI=1.4160, Area=69.90
+    Step 5: CPI=1.2886, Area=23.64, ↑1 ↓8 [8165s]
+    Step 10: CPI=1.3614, Area=14.26, ↑1 ↓5 [8477s]
+    Step 15: CPI=1.3165, Area=14.50, ↑1 ↓5 [8795s]
+    Step 20: CPI=1.3696, Area=14.24, ↑1 ↓5 [9103s]
+    Step 25: CPI=1.3254, Area=14.48, ↑1 ↓5 [9411s]
+    Step 30: CPI=1.3811, Area=14.22, ↑1 ↓5 [9725s]
+
+  Start 9/50: CPI=1.4616, Area=56.80
+    Step 5: CPI=1.4359, Area=17.91, ↑1 ↓7 [10052s]
+    Step 10: CPI=1.5574, Area=13.89, ↑1 ↓5 [10372s]
+    Step 15: CPI=1.5215, Area=13.71, ↑1 ↓5 [10689s]
+    Step 20: CPI=1.5616, Area=13.88, ↑1 ↓5 [11006s]
+    Step 25: CPI=1.5271, Area=13.69, ↑1 ↓5 [11322s]
+    Step 30: CPI=1.5671, Area=13.85, ↑1 ↓5 [11636s]
+
+  Start 10/50: CPI=1.2129, Area=44.60
+    Step 5: CPI=1.2875, Area=21.28, ↑1 ↓9 [11966s]
+    Step 10: CPI=1.3199, Area=14.53, ↑1 ↓5 [12282s]
+    Step 15: CPI=1.3676, Area=14.27, ↑1 ↓5 [12596s]
+    Step 20: CPI=1.3245, Area=14.51, ↑1 ↓5 [12909s]
+    Step 25: CPI=1.3737, Area=14.25, ↑1 ↓5 [13221s]
+    Step 30: CPI=1.3310, Area=14.48, ↑1 ↓5 [13537s]
+
+  Start 11/50: CPI=1.1154, Area=28.13
+    Step 5: CPI=1.3434, Area=14.26, ↑1 ↓7 [13860s]
+    Step 10: CPI=1.4228, Area=14.49, ↑1 ↓5 [14172s]
+    Step 15: CPI=1.3458, Area=14.23, ↑1 ↓5 [14476s]
+    Step 20: CPI=1.4253, Area=14.48, ↑1 ↓5 [14780s]
+    Step 25: CPI=1.3519, Area=14.21, ↑1 ↓5 [15094s]
+    Step 30: CPI=1.4285, Area=14.46, ↑1 ↓5 [15409s]
+
+  Start 12/50: CPI=1.2435, Area=72.36
+    Step 5: CPI=1.3368, Area=17.05, ↑1 ↓8 [15736s]
+    Step 10: CPI=1.4788, Area=14.54, ↑1 ↓5 [16054s]
+    Step 15: CPI=1.4234, Area=14.28, ↑1 ↓5 [16374s]
+    Step 20: CPI=1.4873, Area=14.53, ↑1 ↓4 [16692s]
+    Step 25: CPI=1.4272, Area=14.27, ↑1 ↓4 [17010s]
+    Step 30: CPI=1.4880, Area=14.51, ↑1 ↓4 [17326s]
+
+  Start 13/50: CPI=1.3153, Area=38.06
+    Step 5: CPI=1.3262, Area=23.39, ↑1 ↓6 [17654s]
+
+  Start 14/50: CPI=1.3204, Area=68.47
+    Step 5: CPI=1.2733, Area=26.73, ↑0 ↓8 [18052s]
+    Step 10: CPI=1.3841, Area=13.79, ↑1 ↓4 [18381s]
+    Step 15: CPI=1.3377, Area=14.03, ↑1 ↓4 [18708s]
+    Step 20: CPI=1.3866, Area=13.77, ↑1 ↓4 [19032s]
+    Step 25: CPI=1.3404, Area=14.02, ↑1 ↓4 [19349s]
+    Step 30: CPI=1.3933, Area=13.76, ↑1 ↓4 [19660s]
+
+  Start 16/50: CPI=1.4358, Area=77.71
+    Step 5: CPI=1.5211, Area=26.52, ↑1 ↓10 [19984s]
+    Step 10: CPI=1.5058, Area=13.82, ↑1 ↓5 [20281s]
+    Step 15: CPI=1.5350, Area=14.06, ↑1 ↓5 [20577s]
+    Step 20: CPI=1.5201, Area=13.80, ↑1 ↓5 [20876s]
+    Step 25: CPI=1.5529, Area=14.04, ↑1 ↓5 [21174s]
+    Step 30: CPI=1.5417, Area=13.77, ↑1 ↓5 [21470s]
+
+  Start 17/50: CPI=1.0823, Area=53.89
+    Step 5: CPI=1.3533, Area=19.44, ↑1 ↓9 [21776s]
+    Step 10: CPI=1.3997, Area=13.83, ↑1 ↓5 [22074s]
+    Step 15: CPI=1.3618, Area=14.08, ↑1 ↓5 [22370s]
+    Step 20: CPI=1.4274, Area=13.81, ↑1 ↓5 [22666s]
+    Step 25: CPI=1.3978, Area=14.06, ↑1 ↓5 [22962s]
+    Step 30: CPI=1.4692, Area=13.79, ↑1 ↓3 [23257s]
+
+  Start 19/50: CPI=1.2554, Area=30.91
+    Step 5: CPI=1.3741, Area=24.29, ↑1 ↓11 [23565s]
+    Step 10: CPI=1.3597, Area=14.53, ↑1 ↓5 [23863s]
+    Step 15: CPI=1.4227, Area=14.26, ↑1 ↓5 [24158s]
+    Step 20: CPI=1.3820, Area=14.51, ↑1 ↓5 [24453s]
+    Step 25: CPI=1.4462, Area=14.25, ↑1 ↓4 [24748s]
+    Step 30: CPI=1.3985, Area=14.49, ↑1 ↓4 [25042s]
+
+  Start 20/50: CPI=1.0026, Area=73.04
+    Step 5: CPI=1.2654, Area=18.57, ↑1 ↓9 [25352s]
+    Step 10: CPI=1.3776, Area=14.23, ↑1 ↓5 [25650s]
+    Step 15: CPI=1.3426, Area=14.48, ↑1 ↓4 [25947s]
+    Step 20: CPI=1.4025, Area=14.22, ↑1 ↓4 [26248s]
+    Step 25: CPI=1.3578, Area=14.46, ↑1 ↓3 [26545s]
+    Step 30: CPI=1.4099, Area=14.21, ↑1 ↓3 [26845s]
+
+  Start 22/50: CPI=1.2532, Area=90.61
+    Step 5: CPI=1.2962, Area=22.13, ↑1 ↓8 [27154s]
+    Step 10: CPI=1.3258, Area=14.33, ↑1 ↓4 [27454s]
+    Step 15: CPI=1.3730, Area=14.06, ↑1 ↓4 [27757s]
+    Step 20: CPI=1.3252, Area=14.31, ↑1 ↓4 [28063s]
+    Step 25: CPI=1.3766, Area=14.05, ↑1 ↓4 [28366s]
+    Step 30: CPI=1.3292, Area=14.30, ↑1 ↓4 [28663s]
+
+  Start 23/50: CPI=1.3845, Area=38.59
+    Step 5: CPI=1.2901, Area=19.51, ↑1 ↓7 [28972s]
+    Step 10: CPI=1.3370, Area=13.94, ↑1 ↓5 [29273s]
+    Step 15: CPI=1.2992, Area=14.19, ↑1 ↓5 [29571s]
+    Step 20: CPI=1.3445, Area=13.93, ↑1 ↓5 [29868s]
+    Step 25: CPI=1.3027, Area=14.17, ↑1 ↓5 [30166s]
+    Step 30: CPI=1.3480, Area=13.90, ↑1 ↓5 [30469s]
+
+  Start 24/50: CPI=1.2194, Area=33.56
+    Step 5: CPI=1.3611, Area=20.01, ↑1 ↓9 [30776s]
+    Step 10: CPI=1.4190, Area=14.17, ↑1 ↓5 [31074s]
+    Step 15: CPI=1.3750, Area=14.41, ↑1 ↓5 [31373s]
+    Step 20: CPI=1.4496, Area=14.15, ↑1 ↓5 [31670s]
+    Step 25: CPI=1.4060, Area=14.39, ↑1 ↓4 [31969s]
+    Step 30: CPI=1.4700, Area=14.13, ↑1 ↓4 [32270s]
+
+  Start 25/50: CPI=1.3223, Area=59.21
+    Step 5: CPI=1.4640, Area=16.78, ↑1 ↓8 [32583s]
+    Step 10: CPI=1.4487, Area=13.85, ↑1 ↓5 [32883s]
+    Step 15: CPI=1.4865, Area=14.09, ↑1 ↓5 [33181s]
+    Step 20: CPI=1.4666, Area=13.83, ↑1 ↓5 [33477s]
+    Step 25: CPI=1.4959, Area=14.07, ↑1 ↓4 [33773s]
+    Step 30: CPI=1.4831, Area=13.81, ↑1 ↓4 [34070s]
+
+  Start 27/50: CPI=1.1353, Area=30.52
+    Step 5: CPI=1.4316, Area=15.50, ↑1 ↓8 [34376s]
+    Step 10: CPI=1.3856, Area=14.49, ↑1 ↓4 [34672s]
+    Step 15: CPI=1.4451, Area=14.22, ↑1 ↓5 [34967s]
+    Step 20: CPI=1.4031, Area=14.46, ↑1 ↓5 [35263s]
+    Step 25: CPI=1.4837, Area=14.20, ↑1 ↓5 [35561s]
+    Step 30: CPI=1.4406, Area=14.45, ↑1 ↓4 [35858s]
+
+  Start 28/50: CPI=1.1941, Area=40.13
+    Step 5: CPI=1.4960, Area=22.21, ↑1 ↓8 [36162s]
+    Step 10: CPI=1.5054, Area=13.97, ↑1 ↓5 [36462s]
+    Step 15: CPI=1.5282, Area=14.22, ↑1 ↓5 [36760s]
+    Step 20: CPI=1.5110, Area=13.96, ↑1 ↓5 [37058s]
+    Step 25: CPI=1.5336, Area=14.20, ↑1 ↓5 [37357s]
+    Step 30: CPI=1.5207, Area=13.93, ↑1 ↓5 [37656s]
+
+  Start 29/50: CPI=1.3379, Area=85.63
+    Step 5: CPI=1.5161, Area=16.37, ↑0 ↓7 [37961s]
+    Step 10: CPI=1.5786, Area=13.70, ↑1 ↓5 [38257s]
+    Step 15: CPI=1.6168, Area=13.86, ↑1 ↓5 [38552s]
+    Step 20: CPI=1.5942, Area=13.68, ↑1 ↓5 [38846s]
+    Step 25: CPI=1.6316, Area=13.85, ↑1 ↓4 [39141s]
+    Step 30: CPI=1.5981, Area=13.66, ↑1 ↓4 [39442s]
+
+  Start 32/50: CPI=1.2279, Area=44.98
+    Step 5: CPI=1.3251, Area=24.12, ↑1 ↓9 [39753s]
+    Step 10: CPI=1.3987, Area=13.94, ↑1 ↓5 [40055s]
+    Step 15: CPI=1.3564, Area=14.18, ↑1 ↓4 [40351s]
+    Step 20: CPI=1.5422, Area=13.84, ↑0 ↓5 [40646s]
+    Step 25: CPI=1.4159, Area=13.88, ↑1 ↓4 [40941s]
+    Step 30: CPI=1.4855, Area=14.12, ↑1 ↓4 [41235s]
+
+  Start 33/50: CPI=1.2288, Area=159.60
+    Step 5: CPI=1.5293, Area=16.36, ↑1 ↓8 [41538s]
+    Step 10: CPI=1.3972, Area=14.07, ↑1 ↓5 [41837s]
+    Step 15: CPI=1.3519, Area=14.31, ↑1 ↓5 [42139s]
+    Step 20: CPI=1.4082, Area=14.05, ↑1 ↓5 [42440s]
+    Step 25: CPI=1.3634, Area=14.29, ↑1 ↓5 [42739s]
+    Step 30: CPI=1.4219, Area=14.02, ↑1 ↓5 [43043s]
+
+  Start 35/50: CPI=1.1190, Area=64.69
+    Step 5: CPI=1.3002, Area=20.54, ↑1 ↓8 [43358s]
+    Step 10: CPI=1.3336, Area=14.14, ↑1 ↓5 [43661s]
+    Step 15: CPI=1.3840, Area=13.88, ↑1 ↓5 [43967s]
+    Step 20: CPI=1.3422, Area=14.12, ↑1 ↓5 [44270s]
+    Step 25: CPI=1.3988, Area=13.86, ↑1 ↓5 [44570s]
+    Step 30: CPI=1.3589, Area=14.09, ↑1 ↓5 [44869s]
+
+  Start 36/50: CPI=1.5343, Area=101.59
+    Step 5: CPI=1.5236, Area=23.95, ↑1 ↓10 [45176s]
+    Step 10: CPI=1.5458, Area=14.21, ↑1 ↓4 [45478s]
+    Step 15: CPI=1.5440, Area=13.95, ↑1 ↓3 [45774s]
+    Step 20: CPI=1.5526, Area=14.20, ↑1 ↓3 [46069s]
+    Step 25: CPI=1.5435, Area=13.94, ↑1 ↓3 [46366s]
+    Step 30: CPI=1.5524, Area=14.19, ↑1 ↓3 [46664s]
+
+  Start 38/50: CPI=1.2285, Area=41.78
+    Step 5: CPI=1.3198, Area=16.61, ↑1 ↓9 [46978s]
+    Step 10: CPI=1.3715, Area=13.89, ↑1 ↓5 [47280s]
+    Step 15: CPI=1.3295, Area=14.13, ↑1 ↓5 [47574s]
+    Step 20: CPI=1.3803, Area=13.87, ↑1 ↓5 [47868s]
+    Step 25: CPI=1.3390, Area=14.11, ↑1 ↓5 [48164s]
+    Step 30: CPI=1.3954, Area=13.85, ↑1 ↓5 [48458s]
+
+  Start 41/50: CPI=1.3482, Area=45.30
+    Step 5: CPI=1.3484, Area=23.25, ↑1 ↓6 [48773s]
+    Step 10: CPI=1.4629, Area=13.77, ↑1 ↓4 [49070s]
+    Step 15: CPI=1.4113, Area=14.01, ↑1 ↓4 [49366s]
+    Step 20: CPI=1.4653, Area=13.75, ↑1 ↓4 [49661s]
+    Step 25: CPI=1.4142, Area=13.98, ↑1 ↓4 [49956s]
+    Step 30: CPI=1.4818, Area=13.68, ↑0 ↓4 [50252s]
+
+  Start 46/50: CPI=1.3242, Area=105.32
+    Step 5: CPI=1.3907, Area=22.75, ↑1 ↓9 [50570s]
+    Step 10: CPI=1.4088, Area=14.09, ↑1 ↓7 [50871s]
+    Step 15: CPI=1.4706, Area=13.79, ↑1 ↓3 [51166s]
+    Step 20: CPI=1.5926, Area=13.74, ↑0 ↓5 [51463s]
+    Step 25: CPI=1.4687, Area=13.77, ↑1 ↓4 [51762s]
+    Step 30: CPI=1.5323, Area=14.02, ↑1 ↓4 [52062s]
+
+  Start 48/50: CPI=1.2818, Area=33.89
+    Step 5: CPI=1.3534, Area=22.11, ↑1 ↓10 [52375s]
+    Step 10: CPI=1.2789, Area=14.11, ↑1 ↓5 [52675s]
+    Step 15: CPI=1.3273, Area=13.85, ↑1 ↓5 [52971s]
+    Step 20: CPI=1.2947, Area=14.09, ↑1 ↓5 [53267s]
+    Step 25: CPI=1.3488, Area=13.83, ↑1 ↓5 [53563s]
+    Step 30: CPI=1.3187, Area=14.07, ↑1 ↓5 [53862s]
+
+  Start 49/50: CPI=1.2039, Area=48.42
+    Step 5: CPI=1.3190, Area=24.42, ↑1 ↓10 [54181s]
+    Step 10: CPI=1.2924, Area=22.15, ↑1 ↓4 [54487s]
+
+  Start 50/50: CPI=1.4805, Area=76.35
+    Step 5: CPI=1.5671, Area=27.31, ↑1 ↓10 [54920s]
+    Step 10: CPI=1.6205, Area=14.12, ↑1 ↓4 [55229s]
+    Step 15: CPI=1.5849, Area=13.93, ↑1 ↓4 [55537s]
+    Step 20: CPI=1.6214, Area=14.10, ↑1 ↓4 [55843s]
+    Step 25: CPI=1.5875, Area=13.92, ↑1 ↓4 [56147s]
+    Step 30: CPI=1.6237, Area=14.08, ↑1 ↓4 [56450s]
+
+  Total: 961 evals in 56450s | Pareto=57 | McPAT_fails=17
+Saved: results_17bm_54/joint_17_gem_scalar_grad_results.json
+
+============================================================
+gem_scalar_noreclaim (starts=50, steps=30)
+============================================================
+
+  Start 1/50: CPI=1.0537, Area=205.06
+
+  Start 2/50: CPI=1.2623, Area=109.74
+
+  Start 3/50: CPI=1.2334, Area=63.43
+
+  Start 4/50: CPI=1.4332, Area=32.30
+
+  Start 6/50: CPI=1.1852, Area=36.24
+
+  Start 7/50: CPI=1.4160, Area=69.90
+
+  Start 9/50: CPI=1.4616, Area=56.80
+
+  Start 10/50: CPI=1.2129, Area=44.60
+    Step 5: CPI=1.0983, Area=51.00, ↑1 ↓0 [1442s]
+
+  Start 11/50: CPI=1.1154, Area=28.13
+
+  Start 12/50: CPI=1.2435, Area=72.36
+
+  Start 13/50: CPI=1.3153, Area=38.06
+
+  Start 14/50: CPI=1.3204, Area=68.47
+
+  Start 16/50: CPI=1.4358, Area=77.71
+
+  Start 17/50: CPI=1.0823, Area=53.89
+
+  Start 19/50: CPI=1.2554, Area=30.91
+
+  Start 20/50: CPI=1.0026, Area=73.04
+
+  Start 22/50: CPI=1.2532, Area=90.61
+    Step 5: CPI=1.0776, Area=100.22, ↑1 ↓0 [3227s]
+
+  Start 23/50: CPI=1.3845, Area=38.59
+
+  Start 24/50: CPI=1.2194, Area=33.56
+    Step 5: CPI=1.0952, Area=43.58, ↑1 ↓0 [3961s]
+
+  Start 25/50: CPI=1.3223, Area=59.21
+
+  Start 27/50: CPI=1.1353, Area=30.52
+
+  Start 28/50: CPI=1.1941, Area=40.13
+
+  Start 29/50: CPI=1.3379, Area=85.63
+
+  Start 32/50: CPI=1.2279, Area=44.98
+    Step 5: CPI=1.0215, Area=51.88, ↑1 ↓0 [4878s]
+
+  Start 33/50: CPI=1.2288, Area=159.60
+
+  Start 35/50: CPI=1.1190, Area=64.69
+
+  Start 36/50: CPI=1.5343, Area=101.59
+
+  Start 38/50: CPI=1.2285, Area=41.78
+
+  Start 41/50: CPI=1.3482, Area=45.30
+
+  Start 46/50: CPI=1.3242, Area=105.32
+
+  Start 48/50: CPI=1.2818, Area=33.89
+
+  Start 49/50: CPI=1.2039, Area=48.42
+
+  Start 50/50: CPI=1.4805, Area=76.35
+
+  Total: 120 evals in 6770s | Pareto=13 | McPAT_fails=17
+Saved: results_17bm_54/joint_17_gem_scalar_noreclaim_results.json
+
+============================================================
+GEM BO (budget=500)
+============================================================
+  Init 10/30 [34s]
+  Init 20/30 [68s]
+  Init 30/30 [104s]
+  Iter 40/500 | Pareto=3 | HV=145.0377 [154s]
+  Iter 50/500 | Pareto=3 | HV=145.4395 [199s]
+  Iter 60/500 | Pareto=5 | HV=158.1016 [240s]
+  Iter 70/500 | Pareto=7 | HV=166.0299 [284s]
+  Iter 80/500 | Pareto=8 | HV=173.1053 [330s]
+  Iter 90/500 | Pareto=10 | HV=192.0403 [377s]
+  Iter 100/500 | Pareto=10 | HV=192.0403 [422s]
+  Iter 120/500 | Pareto=11 | HV=192.4106 [510s]
+  Iter 130/500 | Pareto=12 | HV=192.6636 [555s]
+  Iter 140/500 | Pareto=14 | HV=222.2850 [601s]
+  Iter 150/500 | Pareto=14 | HV=222.2850 [640s]
+  Iter 170/500 | Pareto=15 | HV=222.4347 [720s]
+  Iter 180/500 | Pareto=16 | HV=222.4388 [771s]
+  Iter 190/500 | Pareto=16 | HV=222.4388 [805s]
+  Iter 200/500 | Pareto=17 | HV=222.4787 [857s]
+  Iter 210/500 | Pareto=17 | HV=222.4787 [892s]
+  Iter 220/500 | Pareto=17 | HV=222.4787 [939s]
+  Iter 230/500 | Pareto=17 | HV=222.4787 [974s]
+  Iter 240/500 | Pareto=17 | HV=222.4888 [1018s]
+  Iter 250/500 | Pareto=18 | HV=222.4932 [1058s]
+  Iter 260/500 | Pareto=17 | HV=222.6155 [1099s]
+  Iter 270/500 | Pareto=17 | HV=223.8317 [1149s]
+  Iter 280/500 | Pareto=18 | HV=224.0217 [1199s]
+  Iter 290/500 | Pareto=17 | HV=224.1427 [1241s]
+  Iter 300/500 | Pareto=17 | HV=224.1427 [1287s]
+  Iter 310/500 | Pareto=16 | HV=225.1483 [1337s]
+  Iter 320/500 | Pareto=17 | HV=225.2869 [1376s]
+  Iter 330/500 | Pareto=17 | HV=225.2869 [1411s]
+  Iter 340/500 | Pareto=17 | HV=225.2869 [1442s]
+  Iter 350/500 | Pareto=17 | HV=226.0044 [1496s]
+  Iter 360/500 | Pareto=17 | HV=226.0358 [1549s]
+  Iter 370/500 | Pareto=17 | HV=226.0358 [1606s]
+  Iter 380/500 | Pareto=17 | HV=226.0358 [1644s]
+  Iter 390/500 | Pareto=17 | HV=226.2900 [1694s]
+  Iter 400/500 | Pareto=17 | HV=226.2900 [1742s]
+  Iter 410/500 | Pareto=17 | HV=226.2900 [1786s]
+  Iter 420/500 | Pareto=17 | HV=226.2900 [1827s]
+  Iter 440/500 | Pareto=17 | HV=226.2900 [1925s]
+  Iter 450/500 | Pareto=17 | HV=226.2900 [1976s]
+  Iter 460/500 | Pareto=17 | HV=226.2900 [2036s]
+  Iter 470/500 | Pareto=17 | HV=226.2900 [2098s]
+  Iter 480/500 | Pareto=17 | HV=226.2900 [2153s]
+  Iter 490/500 | Pareto=19 | HV=226.3175 [2212s]
+
+  Total: 396 evals in 2275s | Pareto=18
+Saved: results_17bm_54/joint_17_gem_bo_results.json
+
+============================================================
+BO + Refine (iterative, 3 rounds × 15 steps)
+============================================================
+
+  Phase 1: Pure BO exploration (budget=500)...
+
+============================================================
+GEM BO (budget=500)
+============================================================
+  Init 10/30 [33s]
+  Init 20/30 [66s]
+  Init 30/30 [102s]
+  Iter 40/500 | Pareto=3 | HV=145.0377 [136s]
+  Iter 50/500 | Pareto=3 | HV=145.4395 [168s]
+  Iter 60/500 | Pareto=5 | HV=158.1016 [197s]
+  Iter 70/500 | Pareto=7 | HV=166.0299 [228s]
+  Iter 80/500 | Pareto=8 | HV=173.1053 [260s]
+  Iter 90/500 | Pareto=10 | HV=192.0403 [292s]
+  Iter 100/500 | Pareto=10 | HV=192.0403 [324s]
+  Iter 120/500 | Pareto=11 | HV=192.4106 [385s]
+  Iter 130/500 | Pareto=12 | HV=192.6636 [418s]
+  Iter 140/500 | Pareto=14 | HV=222.2850 [452s]
+  Iter 150/500 | Pareto=14 | HV=222.2850 [480s]
+  Iter 170/500 | Pareto=15 | HV=222.4347 [539s]
+  Iter 180/500 | Pareto=16 | HV=222.4388 [575s]
+  Iter 190/500 | Pareto=16 | HV=222.4388 [600s]
+  Iter 200/500 | Pareto=17 | HV=222.4787 [637s]
+  Iter 210/500 | Pareto=17 | HV=222.4787 [663s]
+  Iter 220/500 | Pareto=17 | HV=222.4787 [697s]
+  Iter 230/500 | Pareto=17 | HV=222.4787 [723s]
+  Iter 240/500 | Pareto=17 | HV=222.4888 [755s]
+  Iter 250/500 | Pareto=18 | HV=222.4932 [786s]
+  Iter 260/500 | Pareto=17 | HV=222.6155 [816s]
+  Iter 270/500 | Pareto=17 | HV=223.8317 [853s]
+  Iter 280/500 | Pareto=18 | HV=224.0217 [890s]
+  Iter 290/500 | Pareto=17 | HV=224.1427 [922s]
+  Iter 300/500 | Pareto=17 | HV=224.1427 [957s]
+  Iter 310/500 | Pareto=16 | HV=225.1483 [995s]
+  Iter 320/500 | Pareto=17 | HV=225.2869 [1026s]
+  Iter 330/500 | Pareto=17 | HV=225.2869 [1054s]
+  Iter 340/500 | Pareto=17 | HV=225.2869 [1080s]
+  Iter 350/500 | Pareto=17 | HV=226.0044 [1120s]
+  Iter 360/500 | Pareto=17 | HV=226.0358 [1161s]
+  Iter 370/500 | Pareto=17 | HV=226.0358 [1206s]
+  Iter 380/500 | Pareto=17 | HV=226.0358 [1237s]
+  Iter 390/500 | Pareto=17 | HV=226.2900 [1277s]
+  Iter 400/500 | Pareto=17 | HV=226.2900 [1315s]
+  Iter 410/500 | Pareto=17 | HV=226.2900 [1351s]
+  Iter 420/500 | Pareto=17 | HV=226.2900 [1384s]
+  Iter 440/500 | Pareto=17 | HV=226.2900 [1464s]
+  Iter 450/500 | Pareto=17 | HV=226.2900 [1505s]
+  Iter 460/500 | Pareto=17 | HV=226.2900 [1553s]
+  Iter 470/500 | Pareto=17 | HV=226.2900 [1603s]
+  Iter 480/500 | Pareto=17 | HV=226.2900 [1648s]
+  Iter 490/500 | Pareto=19 | HV=226.3175 [1696s]
+
+  Total: 396 evals in 1748s | Pareto=18
+    Saved BO checkpoint: results_17bm_54/bo_checkpoint.json
+
+  =======================================================
+  BO + Scalar refine: 3 rounds × 15 steps × 17 benchmarks
+  =======================================================
+
+    Round 1/3: refining 18 points (Pareto=18)
+      [1/18] gmean 1.1016→1.2900 [843s]
+      [2/18] gmean 0.8509→1.2417 [1702s]
+      [3/18] gmean 1.2166→1.3934 [2544s]
+      [4/18] gmean 1.1236→1.3533 [3383s]
+      [5/18] gmean 1.0624→1.3240 [4223s]
+      [6/18] gmean 0.9780→1.2801 [5070s]
+      [7/18] gmean 0.9252→1.1320 [5922s]
+      [8/18] gmean 0.9766→1.2323 [6780s]
+      [9/18] gmean 0.9392→1.1852 [7627s]
+      [10/18] gmean 0.8577→1.1313 [8472s]
+      [11/18] gmean 1.2492→1.3936 [9305s]
+      [12/18] gmean 1.4366→1.4521 [10144s]
+      [13/18] gmean 1.0032→1.2229 [10989s]
+      [14/18] gmean 0.8371→1.1660 [11860s]
+      [15/18] gmean 0.9671→1.3438 [12704s]
+      [16/18] gmean 0.9618→1.1494 [13564s]
+      [17/18] gmean 1.0233→1.2421 [14426s]
+      [18/18] gmean 1.0309→1.2778 [15284s]
+    Round 1 done: +306 configs, +23 new Pareto points
+
+    Round 2/3: refining 23 points (Pareto=40)
+      [1/23] gmean 1.2900→1.3551 [16143s]
+      [2/23] gmean 1.3950→1.3675 [16992s]
+      [3/23] gmean 1.3950→1.3675 [17841s]
+      [4/23] gmean 1.3950→1.3675 [18692s]
+      [5/23] gmean 1.2900→1.3551 [19528s]
+      [6/23] gmean 1.5253→1.3854 [20375s]
+      [7/23] gmean 1.3533→1.3043 [21220s]
+      [8/23] gmean 1.5464→1.3854 [22056s]
+      [9/23] gmean 1.5464→1.3854 [22894s]
+      [10/23] gmean 1.5464→1.3854 [23758s]
+      [11/23] gmean 1.4060→1.3854 [24597s]
+      [12/23] gmean 1.4060→1.3854 [25432s]
+      [13/23] gmean 1.5464→1.3854 [26275s]
+      [14/23] gmean 1.5464→1.3854 [27114s]
+      [15/23] gmean 1.4060→1.3854 [27962s]
+      [16/23] gmean 1.2960→1.2500 [28833s]
+      [17/23] gmean 1.2960→1.2500 [29680s]
+      [18/23] gmean 1.3417→1.3067 [30540s]
+      [19/23] gmean 1.2550→1.3007 [31405s]
+      [20/23] gmean 1.3139→1.2846 [32282s]
+      [21/23] gmean 1.3603→1.3440 [33145s]
+      [22/23] gmean 1.3732→1.3434 [34018s]
+      [23/23] gmean 1.3603→1.3440 [34894s]
+    Round 2 done: +391 configs, +90 new Pareto points
+
+    Round 3/3: refining 90 points (Pareto=124)
+      [1/90] gmean 1.4386→1.4012 [35793s]
+      [2/90] gmean 1.4386→1.4012 [36687s]
+      [3/90] gmean 1.4386→1.4012 [37588s]
+      [4/90] gmean 1.4386→1.4012 [38489s]
+      [5/90] gmean 1.4386→1.4012 [39398s]
+      [6/90] gmean 1.5535→1.4012 [40327s]
+      [7/90] gmean 1.4386→1.4012 [41239s]
+      [8/90] gmean 1.4386→1.4012 [42145s]
+      [9/90] gmean 1.4386→1.4012 [43066s]
+      [10/90] gmean 1.4386→1.4012 [43975s]
+      [11/90] gmean 1.4217→1.4012 [44885s]
+      [12/90] gmean 1.4386→1.4012 [45798s]
+      [13/90] gmean 1.5535→1.4012 [46671s]
+      [14/90] gmean 1.4386→1.4012 [47529s]
+      [15/90] gmean 1.4386→1.4012 [48371s]
+      [16/90] gmean 1.4386→1.4012 [49205s]
+      [17/90] gmean 1.4386→1.4012 [50034s]
+      [18/90] gmean 1.4386→1.4012 [50863s]
+      [19/90] gmean 1.4217→1.4012 [51693s]
+      [20/90] gmean 1.4386→1.4012 [52526s]
+      [21/90] gmean 1.5535→1.4012 [53354s]
+      [22/90] gmean 1.4386→1.4012 [54183s]
+      [23/90] gmean 1.4386→1.4012 [55013s]
+      [24/90] gmean 1.4386→1.4012 [55840s]
+      [25/90] gmean 1.4386→1.4012 [56666s]
+      [26/90] gmean 1.4386→1.4012 [57492s]
+      [27/90] gmean 1.4217→1.4012 [58321s]
+      [28/90] gmean 1.4386→1.4012 [59158s]
+      [29/90] gmean 1.5535→1.4012 [59995s]
+      [30/90] gmean 1.4386→1.4012 [60829s]
+      [31/90] gmean 1.4386→1.4012 [61656s]
+      [32/90] gmean 1.4386→1.4012 [62482s]
+      [33/90] gmean 1.4386→1.4012 [63309s]
+      [34/90] gmean 1.4386→1.4012 [64135s]
+      [35/90] gmean 1.4217→1.4012 [64966s]
+      [36/90] gmean 1.4386→1.4012 [65793s]
+      [37/90] gmean 1.5535→1.4012 [66620s]
+      [38/90] gmean 1.4386→1.4012 [67454s]
+      [39/90] gmean 1.4386→1.4012 [68287s]
+      [40/90] gmean 1.4386→1.4012 [69118s]
+      [41/90] gmean 1.4386→1.4012 [69951s]
+      [42/90] gmean 1.5535→1.4012 [70783s]
+      [43/90] gmean 1.4386→1.4012 [71611s]
+      [44/90] gmean 1.4386→1.4012 [72437s]
+      [45/90] gmean 1.4386→1.4012 [73264s]
+      [46/90] gmean 1.4386→1.4012 [74090s]
+      [47/90] gmean 1.5535→1.4012 [74915s]
+      [48/90] gmean 1.4386→1.4012 [75741s]
+      [49/90] gmean 1.4386→1.4012 [76568s]
+      [50/90] gmean 1.4386→1.4012 [77395s]
+      [51/90] gmean 1.4386→1.4012 [78222s]
+      [52/90] gmean 1.4386→1.4012 [79049s]
+      [53/90] gmean 1.4217→1.4012 [79876s]
+      [54/90] gmean 1.4386→1.4012 [80703s]
+      [55/90] gmean 1.5535→1.4012 [81530s]
+      [56/90] gmean 1.4386→1.4012 [82356s]
+      [57/90] gmean 1.4386→1.4012 [83184s]
+      [58/90] gmean 1.4386→1.4012 [84008s]
+      [59/90] gmean 1.4386→1.4012 [84833s]
+      [60/90] gmean 1.4386→1.4012 [85658s]
+      [61/90] gmean 1.4217→1.4012 [86484s]
+      [62/90] gmean 1.4386→1.4012 [87309s]
+      [63/90] gmean 1.5535→1.4012 [88135s]
+      [64/90] gmean 1.4386→1.4012 [88960s]
+      [65/90] gmean 1.4386→1.4012 [89788s]
+      [66/90] gmean 1.4386→1.4012 [90614s]
+      [67/90] gmean 1.4386→1.4012 [91439s]
+      [68/90] gmean 1.5535→1.4012 [92264s]
+      [69/90] gmean 1.4386→1.4012 [93088s]
+      [70/90] gmean 1.2500→1.2431 [93927s]
+      [71/90] gmean 1.2631→1.2707 [94758s]
+      [72/90] gmean 1.2500→1.2431 [95585s]
+      [73/90] gmean 1.2631→1.2707 [96411s]
+      [74/90] gmean 1.3067→1.2579 [97242s]
+      [75/90] gmean 1.2846→1.3076 [98081s]
+      [76/90] gmean 1.3931→1.3668 [98912s]
+      [77/90] gmean 1.3931→1.3668 [99744s]
+      [78/90] gmean 1.3931→1.3668 [100578s]
+      [79/90] gmean 1.3931→1.3668 [101405s]
+      [80/90] gmean 1.2846→1.3076 [102234s]
+      [81/90] gmean 1.3931→1.3668 [103061s]
+      [82/90] gmean 1.3931→1.3668 [103889s]
+      [83/90] gmean 1.3931→1.3668 [104720s]
+      [84/90] gmean 1.3931→1.3668 [105548s]
+      [85/90] gmean 1.3931→1.3668 [106377s]
+      [86/90] gmean 1.3931→1.3668 [107205s]
+      [87/90] gmean 1.3931→1.3668 [108032s]
+      [88/90] gmean 1.3931→1.3668 [108860s]
+      [89/90] gmean 1.3931→1.3668 [109687s]
+      [90/90] gmean 1.3931→1.3668 [110513s]
+    Round 3 done: +1530 configs, +231 new Pareto points
+
+    Total: 2227 refined configs in 110513s
+Saved: results_17bm_54/joint_17_gem_bo_scalar_results.json
+
+  =======================================================
+  BO + MSCS refine: 3 rounds × 15 steps × 17 benchmarks
+  =======================================================
+
+    Round 1/3: refining 18 points (Pareto=18)
+      [1/18] gmean 1.1016→0.9182 [2222s]
+      [2/18] gmean 0.8509→0.8204 [4420s]
+      [3/18] gmean 1.2166→1.0267 [6349s]
+      [4/18] gmean 1.1236→1.0073 [8365s]
+      [5/18] gmean 1.0624→0.9741 [10552s]
+      [6/18] gmean 0.9780→0.8916 [12691s]
+      [7/18] gmean 0.9252→0.8304 [14865s]
+      [8/18] gmean 0.9766→0.8513 [17022s]
+      [9/18] gmean 0.9392→0.8334 [19173s]
+      [10/18] gmean 0.8577→0.8327 [21226s]
+      [11/18] gmean 1.2492→1.0577 [23228s]
+      [12/18] gmean 1.4366→1.1669 [25235s]
+      [13/18] gmean 1.0032→0.8525 [27523s]
+      [14/18] gmean 0.8371→0.7948 [29284s]
+      [15/18] gmean 0.9671→0.9395 [31296s]
+      [16/18] gmean 0.9618→0.8328 [33568s]
+      [17/18] gmean 1.0233→0.8679 [35779s]
+      [18/18] gmean 1.0309→0.9463 [37992s]
+    Round 1 done: +306 configs, +21 new Pareto points
+
+    Round 2/3: refining 21 points (Pareto=27)
+      [1/21] gmean 0.9182→0.8856 [40121s]
+      [2/21] gmean 0.8350→0.7982 [42197s]
+      [3/21] gmean 0.8299→0.7954 [44249s]
+      [4/21] gmean 0.8241→0.8070 [46290s]
+      [5/21] gmean 0.8399→0.7978 [48270s]
+      [6/21] gmean 1.0620→0.9905 [50081s]
+      [7/21] gmean 1.0077→0.9790 [51901s]
+      [8/21] gmean 1.1036→1.0041 [53765s]
+      [9/21] gmean 1.0363→0.9757 [55645s]
+      [10/21] gmean 0.9741→0.9425 [57545s]
+      [11/21] gmean 0.9783→0.9410 [59480s]
+      [12/21] gmean 0.8916→0.8728 [61389s]
+      [13/21] gmean 0.8845→0.8585 [63289s]
+      [14/21] gmean 0.8513→0.8188 [65226s]
+      [15/21] gmean 0.8724→0.8474 [66911s]
+      [16/21] gmean 0.7948→0.7941 [67640s]
+      [17/21] gmean 0.8017→0.7937 [68969s]
+      [18/21] gmean 0.8166→0.7941 [70116s]
+      [19/21] gmean 1.0055→0.9717 [71825s]
+      [20/21] gmean 1.0097→0.9610 [73679s]
+      [21/21] gmean 0.9463→0.9197 [75591s]
+    Round 2 done: +357 configs, +18 new Pareto points
+
+    Round 3/3: refining 18 points (Pareto=32)
+      [1/18] gmean 0.9140→0.8823 [77589s]
+      [2/18] gmean 0.8986→0.8698 [79531s]
+      [3/18] gmean 0.8057→0.7852 [81330s]
+      [4/18] gmean 0.8062→0.7917 [83160s]
+      [5/18] gmean 0.8253→0.7953 [85019s]
+      [6/18] gmean 0.7954→0.7907 [86719s]
+      [7/18] gmean 0.7978→0.7835 [88393s]
+      [8/18] gmean 0.8771→0.8548 [90144s]
+      [9/18] gmean 0.8372→0.7932 [91917s]
+      [10/18] gmean 1.0526→0.9934 [93763s]
+      [11/18] gmean 1.0781→0.9999 [95602s]
+      [12/18] gmean 0.9697→0.9413 [97432s]
+      [13/18] gmean 1.0174→0.9428 [99450s]
+      [14/18] gmean 0.7941→0.7941 [99882s]
+      [15/18] gmean 0.7947→0.7937 [100876s]
+      [16/18] gmean 0.7937→0.7937 [101889s]
+      [17/18] gmean 0.7941→0.7941 [102304s]
+      [18/18] gmean 0.9952→0.9209 [104228s]
+    Round 3 done: +306 configs, +13 new Pareto points
+
+    Total: 969 refined configs in 104228s
+Saved: results_17bm_54/joint_17_gem_bo_mscs_results.json
+
+============================================================
+Comparison
+============================================================
+  gem_attribution           | evals= 274 | pareto= 44 | HV=250.1065 | 40864s
+  gem_scalar_grad           | evals= 961 | pareto= 57 | HV=208.4976 | 56450s
+  gem_scalar_noreclaim      | evals= 120 | pareto= 13 | HV=203.1072 | 6770s
+  gem_bo                    | evals= 396 | pareto= 18 | HV=247.5604 | 2275s
+  gem_bo_scalar             | evals=2623 | pareto=348 | HV=248.9481 | 112261s
+  gem_bo_mscs               | evals=1365 | pareto= 39 | HV=259.9761 | 105976s
+
+  Saved: results_17bm_54/joint_17_comparison.json
+
+============================================================
+Done! Total: 104431s (1740.5min)
+Results: results_17bm_54
+============================================================
+Loading results from results_17bm_54...
+  Searching: results_17bm_54/*_results.json → 6 files
+  Loaded: gem_attribution (274 evals)
+  Loaded: gem_bo_mscs (1365 evals)
+  Loaded: gem_bo (396 evals)
+  Loaded: gem_bo_scalar (2623 evals)
+  Loaded: gem_scalar_grad (961 evals)
+  Loaded: gem_scalar_noreclaim (120 evals)
+
+Generating plots...
+  Saved: results_17bm_54/joint_search_path.png
+  Saved: results_17bm_54/joint_pareto_frontier.png
+  Saved: results_17bm_54/joint_hv_curve.png
+
+  Ref point: (1.82, 277.71)
+
+Method                     Evals  Pareto   Final HV     Time
+------------------------------------------------------------
+  GEM+BO                     396      18   247.5604  37.9min
+  GEM ∂CPI/∂p                961      57   208.4976 940.8min
+  GEM ∂CPI/∂p (no reclaim)    120      13   203.1072 112.8min
+  MSCS-guided (ours)         274      44   250.1065 681.1min
+  BO + Scalar refine        2623     348   248.9481 1871.0min
+  BO + MSCS refine (ours)   1365      39   259.9761 1766.3min
+
+All plots saved to results_17bm_54
+=== Done: Fri May  8 05:56:05 PM EDT 2026 ===
+=== Results: results_17bm_54 ===

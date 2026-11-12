@@ -1,0 +1,83 @@
+Frozen-checkpoint MSCS branch-allocation diagnostic, 2026-10-09
+
+Background: hpca2027-paper1968.pdf III-A and V-B; dse_v2/mscs_1008.md;
+mscs_guard_v5/ANALYSIS_20261009.txt. The paper identifies pressure information
+lost by scalar aggregation. This test asks whether that information helps choose
+which already-observed branch to expand. It assumes neither spare capacity nor
+a hard-coded pressure-to-resource mapping.
+
+No training, checkpoint change, original-code edit, or fresh full DSE.
+Existing scalar_guard and mscs_guard seed-42 outputs are read-only inputs.
+Only xalan and leela are used. No selection based on continuation outcomes.
+
+Preparation:
+Take states with equal start and intermediate configurations in both saved arms.
+Each experiment then uses the scalar arm's saved prefix as its COMMON context;
+the two original histories need not be identical. Reconstruct all observed +1
+neighbors and freeze a prefix immediately after that neighborhood was measured.
+Exclude L1 size from candidate/continuation moves to retain aligned slices.
+Rank candidates by observed one-point HVI relative to the pre-neighborhood
+frontier, then CPI*area relative to root, then parameter name. Starting with the
+best scalar candidate, retain the next three whose joint CPI range is <=1% and
+area range <=2%. Distinct projected configurations are required. Choose six
+eligible contexts evenly by chronological order per benchmark. Report if fewer
+exist; never relax filters after seeing outcomes.
+
+Representation and choice (frozen before ANY continuation label is queried):
+Four candidates; every deterministic selector keeps candidate 0, the strongest
+current scalar candidate, and chooses one of the other three.
+  scalar_quality: candidate 1 (next current scalar quality).
+  scalar_slice_diversity: largest RMS distance between signed per-slice log-CPI
+    responses to the root (50-dimensional; uses W_min for the actual config).
+  config_diversity: largest RMS distance between normalized actual projected
+    configurations, including collateral changes; listed values use ordinal bins.
+  mscs_diversity: largest RMS distance between signed pressure-response vectors
+    (50 slices x 4 stages x 3 pressures). Remove the mean over three pressures in
+    EACH stage/sample, removing its pressure sum while retaining its allocation.
+    No per-response norm collapse, stage averaging, unsigned vector, learned
+    auxiliary model, cosine threshold, or fitted distance weight is used.
+Random baseline is the exact mean of the three anchored choices. Also report
+the exact mean of all six pairs and both anchored/unrestricted best-pair oracles.
+Ties use the same scalar quality ordering. No post-label alternative score tuning.
+
+Label acquisition:
+Each candidate is given the same scalar-only continuation: two batches of 5 and
+6 distinct configurations not present in the known prefix. Root +1 finite
+differences provide simple CPI/area slopes for +/-1 and +/-4 proposals, with
+actual projected parameter displacement. Rank predicted HVI then predicted
+CPI*area; choose at most one action per resource before filling any shortage.
+After batch 1 choose the best observed point by actual HVI then CPI*area.
+Batch 2 uses this current point and the same root slopes. Clamp extrapolated
+CPI/area to 1% of root values to avoid nonpositive predictions. This is a short
+common scalar continuation, not a claim of optimal rollouts. No MSCS enters it.
+Every evaluated point contributes to the continuation's archive, even if unused
+as the next point. An area failure consumes a query and invalidates the context
+for policy comparisons; it does not trigger free replacement queries.
+
+For each of six pairs, interleave its two independent branch transcripts round
+robin and deduplicate configurations. Evaluate every pair at the SAME count:
+minimum of 20 and all six available distinct transcript lengths. This prevents
+overlap or cache reuse from giving one selector a larger query budget. Report
+the count for every context. A merged transcript's adaptive proposals only use
+its own earlier observations; duplicate values are already known in the union.
+
+Budget and runtime:
+12 * (1 root + 4 feature candidates + 4*11 continuation configs) <=588 requests;
+global hard cap 600 distinct benchmark/config requests, including feature reads
+that require new inference. Previously computed CPI/area can supply a label only
+AFTER the corresponding logical query is selected. Its logical cost is unchanged.
+Feature extraction, physical inference, cached labels, and elapsed time are
+reported separately. Use exact safe McPAT caching; never import legacy areas.
+All decisions are saved before continuation collection. Evaluation results are
+persisted individually to permit deterministic replay without repeat inference.
+
+Metrics and decision:
+Primary: actual incremental CPI-area HV under the common unique-query budget;
+paired wins/ties/losses and capture of the measured best-pair HVI. Report zero-
+opportunity contexts, individual cases, and both benchmarks separately. Global
+raw HV sums mix different scales and are not a primary cross-benchmark metric.
+No risk-recall proxy, new seed, or full DSE is authorized by a positive local test.
+If MSCS does not beat the strongest scalar/configuration-diversity controls, stop
+this branch-allocation rule. A positive result would only justify an additional
+test, not establish full DSE or gem5 benefit. A negative result concerns this
+fixed representation/rule/short continuation, not every possible use of MSCS.

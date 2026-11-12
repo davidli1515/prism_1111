@@ -1,0 +1,62 @@
+import os
+
+
+CONCORDE_FEAT_START = 0
+CONCORDE_FEAT_END   = 3873
+D3_FEAT_START       = 3873
+D3_FEAT_END         = 4681
+MSCS_START          = 4681
+MSCS_END            = 4697
+
+
+GEM_INPUT_DIM       = D3_FEAT_END
+CONCORDE_INPUT_DIM  = CONCORDE_FEAT_END
+MSCS_DIM            = MSCS_END - MSCS_START
+
+
+WMIN_INDICES = [3850, 3851, 3852, 3853, 3854, 3856]
+
+
+BASE_INDICES = [0, 4, 8, 12]
+FP_INDICES   = [1, 5, 9, 13]
+BP_INDICES   = [2, 6, 10, 14]
+SP_INDICES   = [3, 7, 11, 15]
+NUM_STAGES   = 4
+NUM_STATES   = 4
+
+
+CONCORDE_HIDDEN_DIMS = [512, 256]
+GEM_HIDDEN_DIMS      = [512, 256]
+DROPOUT             = 0.1
+
+
+LEARNING_RATE  = 1e-3
+WEIGHT_DECAY   = 1e-5
+BATCH_SIZE     = 50000
+NUM_EPOCHS     = 1000
+COSINE_T_MAX   = 1000
+PATIENCE       = 1521
+
+
+CONCORDE_LR           = 1e-3
+CONCORDE_WEIGHT_DECAY = 0.3
+CONCORDE_BATCH_SIZE   = 50000
+CONCORDE_EPOCHS       = 1521
+
+
+LAMBDA_CONST = 1.0
+LAMBDA_MONO  = 0.01
+
+
+TRAIN_RATIO = 15 / 16
+
+
+CONCORD_DATA_DIR = "/scratch2/wl730/micro_traindata_packed_all/concord"
+GEM_DATA_DIR     = "/scratch2/wl730/micro_traindata_packed_all/gem"
+
+
+BENCHMARK_NAMES = None
+
+
+OUTPUT_DIR = "./results/exp1_v3_76"
+SEED = 42

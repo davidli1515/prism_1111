@@ -1,0 +1,437 @@
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_attribution']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 1.996s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_attribution (starts=30, steps=30)
+============================================================
+
+  Start 1/30: CPI=2.1765, Area=205.06
+      Pressure: FP=0.341 BP=0.463 SP=0.109 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0871, r=0.85, score=0.0739)
+      Reclaim: numROBEntries(686→670), SQEntries(90→82), l1i_assoc(4→2)
+      Pressure: FP=0.338 BP=0.459 SP=0.110 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1109, r=1.00, score=0.1109)
+      Reclaim: numROBEntries(670→654), SQEntries(82→74)
+    Step 3: CPI=2.0747, Area=214.28, ↑1 ↓3, dom=BP [0.33/0.45/0.11] [24s]
+    Step 6: CPI=1.9590, Area=223.43, ↑1 ↓2, dom=BP [0.35/0.47/0.11] [47s]
+    Step 9: CPI=2.0728, Area=213.78, ↑1 ↓3, dom=BP [0.34/0.46/0.11] [69s]
+    Step 12: CPI=1.9640, Area=223.05, ↑1 ↓2, dom=BP [0.35/0.47/0.11] [93s]
+    Step 15: CPI=2.0734, Area=213.56, ↑1 ↓2, dom=BP [0.34/0.46/0.11] [116s]
+    Step 18: CPI=1.9593, Area=222.84, ↑1 ↓2, dom=BP [0.35/0.47/0.11] [139s]
+    Step 21: CPI=2.0716, Area=213.35, ↑1 ↓2, dom=BP [0.34/0.46/0.11] [162s]
+    Step 24: CPI=1.9606, Area=222.71, ↑1 ↓2, dom=BP [0.35/0.47/0.11] [181s]
+    Step 27: CPI=2.0716, Area=213.35, ↑1 ↓2, dom=BP [0.34/0.46/0.11] [199s]
+    Step 30: CPI=1.9606, Area=222.71, ↑1 ↓2, dom=BP [0.35/0.47/0.11] [218s]
+
+  Start 2/30: CPI=2.4320, Area=109.74
+      Pressure: FP=0.315 BP=0.437 SP=0.115 → dominant=BP
+      Best: dispatchWidth (4→5, ΔCPI=0.0696, r=1.00, score=0.0696)
+      Reclaim: numROBEntries(632→616), SQEntries(185→177), l1i_assoc(16→8)
+      Pressure: FP=0.326 BP=0.457 SP=0.106 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0943, r=0.50, score=0.0475)
+      Reclaim: numROBEntries(616→600), SQEntries(177→169), l1i_assoc(8→4)
+    Step 3: CPI=2.1395, Area=122.46, ↑1 ↓3, dom=BP [0.32/0.46/0.11] [242s]
+    Step 6: CPI=2.1958, Area=121.23, ↑1 ↓3, dom=BP [0.34/0.47/0.10] [264s]
+    Step 9: CPI=2.0686, Area=183.89, ↑1 ↓3, dom=BP [0.35/0.48/0.09] [286s]
+    Step 12: CPI=2.1805, Area=215.02, ↑1 ↓2, dom=BP [0.35/0.48/0.10] [306s]
+    Step 15: CPI=2.0649, Area=224.23, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [327s]
+    Step 18: CPI=2.1804, Area=214.51, ↑1 ↓3, dom=BP [0.35/0.48/0.10] [347s]
+    Step 21: CPI=2.0599, Area=223.78, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [368s]
+    Step 24: CPI=2.1793, Area=214.30, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [388s]
+    Step 27: CPI=2.0672, Area=223.58, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [407s]
+    Step 30: CPI=2.1894, Area=214.01, ↑1 ↓2, dom=BP [0.35/0.48/0.10] [427s]
+
+  Start 3/30: CPI=2.3083, Area=63.43
+      Pressure: FP=0.320 BP=0.469 SP=0.095 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1294, r=0.83, score=0.1074)
+      Reclaim: numROBEntries(672→656), SQEntries(24→16), l1i_assoc(32→16)
+      Pressure: FP=0.315 BP=0.464 SP=0.097 → dominant=BP
+      Best: l1d_assoc (16→32, ΔCPI=0.0099, r=1.00, score=0.0099)
+      Reclaim: numROBEntries(656→640), l1i_assoc(16→8)
+    Step 3: CPI=2.1685, Area=77.27, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [450s]
+    Step 6: CPI=2.1466, Area=79.86, ↑1 ↓1, dom=BP [0.32/0.46/0.10] [473s]
+    Step 9: CPI=2.2593, Area=75.81, ↑1 ↓2, dom=BP [0.33/0.47/0.09] [495s]
+    Step 12: CPI=2.1479, Area=79.74, ↑1 ↓2, dom=BP [0.33/0.47/0.09] [517s]
+    Step 15: CPI=2.2606, Area=75.68, ↑1 ↓2, dom=BP [0.33/0.47/0.10] [540s]
+    Step 18: CPI=2.1169, Area=82.08, ↑1 ↓1, dom=BP [0.34/0.48/0.09] [563s]
+    Step 21: CPI=2.2327, Area=77.90, ↑1 ↓2, dom=BP [0.34/0.48/0.09] [585s]
+    Step 24: CPI=2.1228, Area=81.92, ↑1 ↓2, dom=BP [0.34/0.48/0.09] [608s]
+    Step 27: CPI=2.2436, Area=77.73, ↑1 ↓2, dom=BP [0.34/0.48/0.09] [630s]
+    Step 30: CPI=2.1349, Area=81.68, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [652s]
+
+  Start 4/30: CPI=2.5484, Area=32.30
+      Pressure: FP=0.341 BP=0.476 SP=0.085 → dominant=BP
+      Best: l1_size (32→64, ΔCPI=0.0563, r=0.96, score=0.0542)
+      Reclaim: numROBEntries(237→221), SQEntries(121→113), l1i_assoc(4→2)
+      Pressure: FP=0.340 BP=0.474 SP=0.085 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0981, r=1.00, score=0.0980)
+      Reclaim: numROBEntries(229→213), SQEntries(113→105)
+    Step 3: CPI=2.2718, Area=35.74, ↑1 ↓2, dom=BP [0.34/0.47/0.08] [678s]
+    Step 6: CPI=2.2503, Area=38.43, ↑1 ↓3, dom=BP [0.36/0.49/0.08] [703s]
+    Step 9: CPI=2.3662, Area=47.48, ↑1 ↓3, dom=BP [0.36/0.49/0.08] [727s]
+    Step 12: CPI=2.2518, Area=64.56, ↑1 ↓3, dom=BP [0.36/0.49/0.08] [751s]
+    Step 15: CPI=2.3849, Area=59.61, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [776s]
+    Step 18: CPI=2.2652, Area=55.91, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [799s]
+    Step 21: CPI=2.3852, Area=59.61, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [820s]
+    Step 24: CPI=2.2652, Area=55.91, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [840s]
+    Step 27: CPI=2.3852, Area=59.61, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [861s]
+    Step 30: CPI=2.2652, Area=55.91, ↑1 ↓2, dom=BP [0.36/0.49/0.08] [882s]
+
+  Start 6/30: CPI=2.3168, Area=36.24
+      Pressure: FP=0.341 BP=0.457 SP=0.107 → dominant=BP
+      Best: l1_size (16→32, ΔCPI=0.0272, r=0.51, score=0.0138)
+      Reclaim: numROBEntries(463→447), SQEntries(48→40)
+      Pressure: FP=0.340 BP=0.456 SP=0.107 → dominant=BP
+      Best: l1_size (32→64, ΔCPI=0.0556, r=0.47, score=0.0260)
+      Reclaim: numROBEntries(447→431), SQEntries(40→32)
+    Step 3: CPI=2.1392, Area=37.78, ↑1 ↓2, dom=BP [0.34/0.46/0.11] [907s]
+    Step 6: CPI=2.0312, Area=40.07, ↑1 ↓2, dom=BP [0.33/0.45/0.10] [931s]
+    Step 9: CPI=2.1430, Area=37.65, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [955s]
+    Step 12: CPI=2.0363, Area=39.95, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [980s]
+    Step 15: CPI=2.1463, Area=37.60, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1001s]
+    Step 18: CPI=2.0363, Area=39.95, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [1022s]
+    Step 21: CPI=2.1463, Area=37.60, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1042s]
+    Step 24: CPI=2.0363, Area=39.95, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [1062s]
+    Step 27: CPI=2.1463, Area=37.60, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1083s]
+    Step 30: CPI=2.0363, Area=39.95, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [1103s]
+
+  Start 7/30: CPI=2.4275, Area=69.90
+      Pressure: FP=0.345 BP=0.479 SP=0.091 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.1038, r=0.89, score=0.0929)
+      Reclaim: numROBEntries(810→794), SQEntries(146→138), l1i_assoc(4→2)
+      Pressure: FP=0.343 BP=0.477 SP=0.090 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1374, r=0.72, score=0.0995)
+      Reclaim: numROBEntries(794→778), SQEntries(138→130)
+    Step 3: CPI=2.1366, Area=95.63, ↑1 ↓2, dom=BP [0.34/0.47/0.09] [1132s]
+    Step 6: CPI=2.0798, Area=124.64, ↑1 ↓2, dom=BP [0.33/0.47/0.09] [1157s]
+    Step 9: CPI=2.0752, Area=178.94, ↑1 ↓3, dom=BP [0.33/0.46/0.10] [1181s]
+    Step 12: CPI=2.0709, Area=178.77, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1205s]
+    Step 15: CPI=2.0664, Area=219.67, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1228s]
+    Step 16: stagnant
+
+  Start 9/30: CPI=2.5603, Area=56.80
+      Pressure: FP=0.360 BP=0.497 SP=0.076 → dominant=BP
+      Best: l1d_assoc (8→16, ΔCPI=0.0216, r=0.75, score=0.0162)
+      Reclaim: numROBEntries(422→406), SQEntries(136→128), LQEntries(144→136)
+      Pressure: FP=0.359 BP=0.497 SP=0.076 → dominant=BP
+      Best: l1_size (16→32, ΔCPI=0.0255, r=0.41, score=0.0104)
+      Reclaim: numROBEntries(406→390), SQEntries(128→120), LQEntries(136→128)
+    Step 3: CPI=2.4615, Area=72.13, ↑1 ↓3, dom=BP [0.36/0.50/0.08] [1261s]
+    Step 6: CPI=2.3621, Area=76.65, ↑1 ↓3, dom=BP [0.35/0.49/0.08] [1284s]
+    Step 9: CPI=2.2350, Area=110.75, ↑1 ↓3, dom=BP [0.36/0.50/0.08] [1307s]
+    Step 12: CPI=2.3543, Area=138.90, ↑1 ↓3, dom=BP [0.36/0.50/0.08] [1327s]
+    Step 15: CPI=2.2329, Area=144.36, ↑1 ↓3, dom=BP [0.37/0.50/0.07] [1350s]
+    Step 18: CPI=2.3640, Area=138.11, ↑1 ↓2, dom=BP [0.36/0.51/0.07] [1372s]
+    Step 21: CPI=2.2398, Area=144.45, ↑1 ↓2, dom=BP [0.36/0.51/0.07] [1393s]
+    Step 24: CPI=2.3640, Area=138.11, ↑1 ↓2, dom=BP [0.36/0.51/0.07] [1412s]
+    Step 27: CPI=2.2398, Area=144.45, ↑1 ↓2, dom=BP [0.36/0.51/0.07] [1432s]
+    Step 30: CPI=2.3640, Area=138.11, ↑1 ↓2, dom=BP [0.36/0.51/0.07] [1452s]
+
+  Start 10/30: CPI=2.3470, Area=44.60
+      Pressure: FP=0.362 BP=0.485 SP=0.093 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.1211, r=0.62, score=0.0755)
+      Reclaim: numROBEntries(763→747), SQEntries(201→193), LQEntries(256→248)
+      Pressure: FP=0.358 BP=0.481 SP=0.096 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1521, r=0.60, score=0.0909)
+      Reclaim: numROBEntries(747→731), SQEntries(193→185), LQEntries(248→240)
+    Step 3: CPI=2.1950, Area=53.23, ↑1 ↓3, dom=BP [0.35/0.48/0.10] [1478s]
+    Step 6: CPI=2.0386, Area=56.02, ↑1 ↓3, dom=BP [0.36/0.48/0.10] [1502s]
+    Step 9: CPI=2.1320, Area=61.72, ↑1 ↓3, dom=BP [0.35/0.47/0.10] [1526s]
+    Step 12: CPI=2.0062, Area=66.38, ↑1 ↓3, dom=BP [0.36/0.48/0.10] [1549s]
+    Step 15: CPI=2.1137, Area=100.99, ↑1 ↓3, dom=BP [0.36/0.47/0.10] [1572s]
+    Step 18: CPI=1.9948, Area=130.22, ↑1 ↓3, dom=BP [0.36/0.48/0.10] [1595s]
+    Step 21: CPI=2.1092, Area=191.41, ↑1 ↓3, dom=BP [0.36/0.47/0.10] [1617s]
+    Step 24: CPI=1.9980, Area=239.10, ↑1 ↓3, dom=BP [0.36/0.48/0.10] [1640s]
+    Step 27: CPI=1.9890, Area=241.57, ↑1 ↓2, dom=BP [0.37/0.47/0.10] [1662s]
+    Step 29: stagnant
+
+  Start 11/30: CPI=2.2321, Area=28.13
+      Pressure: FP=0.321 BP=0.452 SP=0.106 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1204, r=0.41, score=0.0496)
+      Reclaim: numROBEntries(807→791), SQEntries(162→154), l1i_assoc(8→4)
+      Pressure: FP=0.316 BP=0.447 SP=0.109 → dominant=BP
+      Best: l1d_assoc (8→16, ΔCPI=0.0123, r=0.99, score=0.0122)
+      Reclaim: numROBEntries(791→775), SQEntries(154→146), LQEntries(144→136)
+    Step 3: CPI=2.0946, Area=38.70, ↑1 ↓3, dom=BP [0.32/0.45/0.11] [1702s]
+    Step 6: stagnant
+
+  Start 12/30: CPI=2.3212, Area=72.36
+      Pressure: FP=0.331 BP=0.458 SP=0.098 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0971, r=0.47, score=0.0456)
+      Reclaim: numROBEntries(978→962), SQEntries(216→208), l1i_assoc(16→8)
+      Pressure: FP=0.326 BP=0.457 SP=0.097 → dominant=BP
+      Best: dispatchWidth (5→6, ΔCPI=0.0499, r=0.80, score=0.0397)
+      Reclaim: numROBEntries(962→946), SQEntries(208→200), l1i_assoc(8→4)
+    Step 3: CPI=2.0611, Area=81.03, ↑1 ↓3, dom=BP [0.34/0.47/0.09] [1752s]
+    Step 6: CPI=2.0321, Area=113.11, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1777s]
+    Step 9: CPI=2.1376, Area=173.80, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1801s]
+    Step 12: CPI=2.0293, Area=222.28, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1826s]
+    Step 15: CPI=2.1396, Area=212.55, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1849s]
+    Step 18: CPI=2.0287, Area=221.59, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1874s]
+    Step 21: CPI=2.1384, Area=211.72, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1896s]
+    Step 24: CPI=2.0302, Area=220.81, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1919s]
+    Step 27: CPI=2.1463, Area=211.21, ↑1 ↓3, dom=BP [0.35/0.47/0.09] [1941s]
+    Step 30: CPI=2.0367, Area=220.50, ↑1 ↓2, dom=BP [0.35/0.47/0.09] [1964s]
+
+  Start 13/30: CPI=2.4760, Area=38.06
+      Pressure: FP=0.357 BP=0.485 SP=0.087 → dominant=BP
+      Best: l1d_assoc (2→4, ΔCPI=0.0426, r=0.82, score=0.0351)
+      Reclaim: numROBEntries(1000→984), SQEntries(54→46), l1i_assoc(4→2)
+      Pressure: FP=0.356 BP=0.482 SP=0.089 → dominant=BP
+      Best: l1d_assoc (4→8, ΔCPI=0.0676, r=0.83, score=0.0560)
+      Reclaim: numROBEntries(984→968), SQEntries(46→38)
+    Step 3: CPI=2.3435, Area=53.68, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [1988s]
+    Step 6: CPI=2.1872, Area=47.53, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [2011s]
+    Step 9: CPI=2.0607, Area=61.55, ↑1 ↓2, dom=BP [0.34/0.48/0.09] [2035s]
+    Step 12: CPI=2.1615, Area=76.71, ↑1 ↓2, dom=BP [0.34/0.47/0.09] [2058s]
+    Step 15: CPI=2.0525, Area=80.59, ↑1 ↓3, dom=BP [0.34/0.47/0.09] [2080s]
+    Step 18: CPI=2.1683, Area=76.47, ↑1 ↓3, dom=BP [0.34/0.47/0.10] [2102s]
+    Step 21: CPI=2.0596, Area=80.23, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [2124s]
+    Step 24: CPI=2.1712, Area=76.10, ↑1 ↓3, dom=BP [0.34/0.47/0.09] [2146s]
+    Step 27: CPI=2.0632, Area=80.01, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [2169s]
+    Step 30: CPI=2.1722, Area=75.93, ↑1 ↓2, dom=BP [0.34/0.47/0.09] [2191s]
+
+  Start 14/30: CPI=2.4233, Area=68.47
+      Pressure: FP=0.359 BP=0.477 SP=0.091 → dominant=BP
+      Best: l1d_assoc (2→4, ΔCPI=0.0418, r=0.75, score=0.0315)
+      Reclaim: numROBEntries(264→248), SQEntries(155→147), l1i_assoc(8→4)
+      Pressure: FP=0.357 BP=0.474 SP=0.094 → dominant=BP
+      Best: l1d_assoc (4→8, ΔCPI=0.0615, r=0.77, score=0.0473)
+      Reclaim: numROBEntries(256→240), SQEntries(147→139), l1i_assoc(4→2)
+    Step 3: CPI=2.2991, Area=111.72, ↑1 ↓3, dom=BP [0.35/0.47/0.10] [2215s]
+    Step 6: CPI=2.1186, Area=118.34, ↑1 ↓3, dom=BP [0.35/0.47/0.10] [2237s]
+    Step 9: CPI=1.9959, Area=181.02, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [2260s]
+    Step 12: CPI=2.1130, Area=173.04, ↑1 ↓2, dom=BP [0.34/0.46/0.10] [2282s]
+    Step 15: CPI=1.9963, Area=180.67, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [2304s]
+    Step 18: CPI=2.1234, Area=172.70, ↑1 ↓2, dom=BP [0.34/0.46/0.10] [2326s]
+    Step 21: CPI=2.0148, Area=180.43, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [2348s]
+    Step 24: CPI=2.1305, Area=172.62, ↑1 ↓2, dom=BP [0.34/0.47/0.10] [2371s]
+    Step 27: CPI=2.0197, Area=180.43, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [2391s]
+    Step 30: CPI=2.1305, Area=172.62, ↑1 ↓2, dom=BP [0.34/0.47/0.10] [2409s]
+
+  Start 16/30: CPI=2.5554, Area=77.71
+      Pressure: FP=0.340 BP=0.476 SP=0.089 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.1129, r=0.86, score=0.0973)
+      Reclaim: numROBEntries(314→298), SQEntries(157→149)
+      Pressure: FP=0.336 BP=0.473 SP=0.088 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1475, r=0.46, score=0.0678)
+      Reclaim: numROBEntries(306→290), SQEntries(149→141)
+    Step 3: CPI=2.2709, Area=112.05, ↑1 ↓2, dom=BP [0.33/0.47/0.09] [2434s]
+    Step 6: CPI=2.2167, Area=148.85, ↑1 ↓2, dom=BP [0.34/0.48/0.08] [2456s]
+    Step 9: CPI=2.2151, Area=218.57, ↑1 ↓2, dom=BP [0.35/0.48/0.08] [2477s]
+    Step 12: CPI=2.3275, Area=208.90, ↑1 ↓2, dom=BP [0.34/0.48/0.08] [2498s]
+    Step 15: CPI=2.2136, Area=218.13, ↑1 ↓2, dom=BP [0.35/0.48/0.08] [2520s]
+    Step 18: CPI=2.3315, Area=208.47, ↑1 ↓2, dom=BP [0.34/0.48/0.08] [2541s]
+    Step 21: CPI=2.2168, Area=217.90, ↑1 ↓1, dom=BP [0.34/0.48/0.08] [2560s]
+    Step 24: CPI=2.3315, Area=208.47, ↑1 ↓1, dom=BP [0.34/0.48/0.08] [2576s]
+    Step 27: CPI=2.2168, Area=217.90, ↑1 ↓1, dom=BP [0.34/0.48/0.08] [2594s]
+    Step 30: CPI=2.3315, Area=208.47, ↑1 ↓1, dom=BP [0.34/0.48/0.08] [2610s]
+
+  Start 17/30: CPI=2.0560, Area=53.89
+      Pressure: FP=0.330 BP=0.449 SP=0.110 → dominant=BP
+      Best: l1d_assoc (8→16, ΔCPI=0.0078, r=0.96, score=0.0075)
+      Reclaim: numROBEntries(348→332), SQEntries(43→35), l1_size(256→128)
+      Pressure: FP=0.334 BP=0.451 SP=0.110 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1215, r=0.59, score=0.0720)
+      Reclaim: numROBEntries(332→316), SQEntries(35→27), l1i_assoc(16→8)
+    Step 3: CPI=2.1724, Area=56.97, ↑1 ↓3, dom=BP [0.33/0.45/0.11] [2635s]
+    Step 6: CPI=2.0585, Area=61.61, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2659s]
+    Step 9: CPI=2.1817, Area=56.71, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2683s]
+    Step 12: CPI=2.0629, Area=61.55, ↑1 ↓2, dom=BP [0.34/0.45/0.11] [2704s]
+    Step 15: CPI=2.1817, Area=56.71, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2724s]
+    Step 18: CPI=2.0629, Area=61.55, ↑1 ↓2, dom=BP [0.34/0.45/0.11] [2745s]
+    Step 21: CPI=2.1817, Area=56.71, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2765s]
+    Step 24: CPI=2.0629, Area=61.55, ↑1 ↓2, dom=BP [0.34/0.45/0.11] [2785s]
+    Step 27: CPI=2.1817, Area=56.71, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2806s]
+    Step 30: CPI=2.0629, Area=61.55, ↑1 ↓2, dom=BP [0.34/0.45/0.11] [2826s]
+
+  Start 19/30: CPI=2.4035, Area=30.91
+      Pressure: FP=0.330 BP=0.451 SP=0.111 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.1251, r=0.75, score=0.0944)
+      Reclaim: numROBEntries(943→927), SQEntries(129→121), l1i_assoc(4→2)
+      Pressure: FP=0.325 BP=0.448 SP=0.110 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1547, r=0.68, score=0.1046)
+      Reclaim: numROBEntries(927→911), SQEntries(121→113)
+    Step 3: CPI=2.0896, Area=37.47, ↑1 ↓2, dom=BP [0.32/0.44/0.11] [2852s]
+    Step 6: CPI=2.0542, Area=40.06, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [2876s]
+    Step 9: CPI=2.1646, Area=43.40, ↑1 ↓3, dom=BP [0.33/0.45/0.11] [2899s]
+    Step 12: CPI=2.0423, Area=60.60, ↑1 ↓2, dom=BP [0.33/0.46/0.11] [2923s]
+    Step 15: CPI=2.1585, Area=79.62, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2946s]
+    Step 18: CPI=2.0464, Area=83.56, ↑1 ↓2, dom=BP [0.33/0.46/0.11] [2968s]
+    Step 21: CPI=2.1599, Area=79.40, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [2991s]
+    Step 24: CPI=2.0479, Area=83.44, ↑1 ↓2, dom=BP [0.33/0.46/0.11] [3014s]
+    Step 27: CPI=2.1627, Area=79.27, ↑1 ↓2, dom=BP [0.33/0.45/0.11] [3037s]
+    Step 30: CPI=2.0502, Area=83.31, ↑1 ↓2, dom=BP [0.33/0.46/0.11] [3059s]
+
+  Start 20/30: CPI=1.9795, Area=73.04
+      Pressure: FP=0.352 BP=0.473 SP=0.099 → dominant=BP
+      Best: l1d_assoc (16→32, ΔCPI=0.0087, r=0.84, score=0.0073)
+      Reclaim: numROBEntries(889→873), SQEntries(28→20), l1_size(256→128)
+      Pressure: FP=0.356 BP=0.476 SP=0.098 → dominant=BP
+      Best: l1_size (128→256, ΔCPI=0.1145, r=0.95, score=0.1091)
+      Reclaim: numROBEntries(873→857), SQEntries(20→16)
+    Step 3: CPI=2.0849, Area=88.24, ↑1 ↓2, dom=BP [0.35/0.48/0.10] [3085s]
+    Step 6: CPI=1.9761, Area=92.11, ↑1 ↓1, dom=BP [0.35/0.48/0.10] [3109s]
+    Step 9: CPI=2.0833, Area=87.99, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [3133s]
+    Step 12: CPI=1.9781, Area=91.86, ↑1 ↓2, dom=BP [0.36/0.48/0.10] [3157s]
+    Step 15: CPI=2.0859, Area=87.50, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [3180s]
+    Step 18: CPI=1.9782, Area=117.50, ↑1 ↓1, dom=BP [0.35/0.48/0.10] [3205s]
+    Step 21: CPI=2.0853, Area=112.29, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [3228s]
+    Step 24: CPI=1.9768, Area=148.90, ↑1 ↓1, dom=BP [0.35/0.48/0.10] [3252s]
+    Step 27: CPI=2.0835, Area=142.41, ↑1 ↓2, dom=BP [0.35/0.47/0.10] [3276s]
+    Step 30: CPI=1.9750, Area=148.65, ↑1 ↓2, dom=BP [0.36/0.47/0.10] [3301s]
+
+  Start 22/30: CPI=2.3367, Area=90.61
+      Pressure: FP=0.322 BP=0.423 SP=0.113 → dominant=BP
+      Best: dispatchWidth (4→5, ΔCPI=0.0821, r=1.00, score=0.0821)
+      Reclaim: numROBEntries(643→627), SQEntries(211→203), l1i_assoc(32→16)
+      Pressure: FP=0.332 BP=0.441 SP=0.108 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0944, r=0.50, score=0.0476)
+      Reclaim: numROBEntries(627→611), SQEntries(203→195), l1i_assoc(16→8)
+    Step 3: CPI=2.1168, Area=95.00, ↑1 ↓3, dom=BP [0.33/0.44/0.11] [3325s]
+    Step 6: CPI=2.0595, Area=99.60, ↑1 ↓3, dom=BP [0.34/0.46/0.10] [3349s]
+    Step 9: CPI=1.9365, Area=147.30, ↑1 ↓2, dom=BP [0.36/0.46/0.10] [3373s]
+    Step 12: CPI=2.0424, Area=215.62, ↑1 ↓3, dom=BP [0.35/0.45/0.11] [3396s]
+    Step 15: CPI=1.9236, Area=224.80, ↑1 ↓2, dom=BP [0.36/0.46/0.10] [3419s]
+    Step 18: CPI=2.0370, Area=215.14, ↑1 ↓3, dom=BP [0.35/0.45/0.11] [3441s]
+    Step 21: CPI=1.9244, Area=224.27, ↑1 ↓2, dom=BP [0.36/0.45/0.11] [3463s]
+    Step 24: CPI=2.0478, Area=214.57, ↑1 ↓3, dom=BP [0.35/0.45/0.11] [3484s]
+    Step 27: CPI=1.9431, Area=223.63, ↑1 ↓3, dom=BP [0.36/0.45/0.11] [3507s]
+    Step 30: CPI=2.0743, Area=213.86, ↑1 ↓3, dom=BP [0.35/0.45/0.11] [3529s]
+
+  Start 23/30: CPI=2.5699, Area=38.59
+      Pressure: FP=0.319 BP=0.450 SP=0.111 → dominant=BP
+      Best: dispatchWidth (4→5, ΔCPI=0.0872, r=1.00, score=0.0872)
+      Reclaim: numROBEntries(417→401), SQEntries(77→69), l1i_assoc(4→2)
+      Pressure: FP=0.330 BP=0.466 SP=0.102 → dominant=BP
+      Best: l1d_assoc (4→8, ΔCPI=0.0558, r=0.83, score=0.0461)
+      Reclaim: numROBEntries(401→385), SQEntries(69→61)
+    Step 3: CPI=2.3702, Area=51.78, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3554s]
+    Step 6: CPI=2.2747, Area=67.22, ↑1 ↓2, dom=BP [0.34/0.47/0.10] [3579s]
+    Step 9: CPI=2.0741, Area=74.77, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3604s]
+    Step 12: CPI=2.0769, Area=104.39, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3628s]
+    Step 15: CPI=2.1825, Area=99.31, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3648s]
+    Step 18: CPI=2.0769, Area=104.39, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3668s]
+    Step 21: CPI=2.1825, Area=99.31, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3687s]
+    Step 24: CPI=2.0769, Area=104.39, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3707s]
+    Step 27: CPI=2.1825, Area=99.31, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3726s]
+    Step 30: CPI=2.0769, Area=104.39, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [3746s]
+
+  Start 24/30: CPI=2.4307, Area=33.56
+      Pressure: FP=0.315 BP=0.439 SP=0.113 → dominant=BP
+      Best: dispatchWidth (4→5, ΔCPI=0.0655, r=1.00, score=0.0655)
+      Reclaim: numROBEntries(775→759), SQEntries(37→29)
+      Pressure: FP=0.326 BP=0.460 SP=0.104 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0983, r=0.60, score=0.0593)
+      Reclaim: numROBEntries(759→743), SQEntries(29→21)
+    Step 3: CPI=2.1459, Area=39.55, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [3771s]
+    Step 6: CPI=2.1026, Area=44.30, ↑1 ↓2, dom=BP [0.34/0.48/0.09] [3795s]
+    Step 9: CPI=2.1958, Area=58.26, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [3819s]
+    Step 12: CPI=2.0772, Area=84.43, ↑1 ↓1, dom=BP [0.35/0.48/0.09] [3843s]
+    Step 15: CPI=2.1886, Area=135.41, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [3866s]
+    Step 18: CPI=2.0719, Area=178.44, ↑1 ↓1, dom=BP [0.35/0.48/0.09] [3891s]
+    Step 21: CPI=2.1827, Area=209.68, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [3914s]
+    Step 24: CPI=2.0656, Area=218.95, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [3937s]
+    Step 27: CPI=2.1820, Area=209.47, ↑1 ↓2, dom=BP [0.35/0.48/0.10] [3960s]
+    Step 30: CPI=2.0728, Area=218.74, ↑1 ↓2, dom=BP [0.35/0.48/0.09] [3984s]
+
+  Start 25/30: CPI=2.4307, Area=59.21
+      Pressure: FP=0.361 BP=0.500 SP=0.076 → dominant=BP
+      Best: l1_size (32→64, ΔCPI=0.0524, r=0.51, score=0.0270)
+      Reclaim: numROBEntries(360→344), SQEntries(38→30), LQEntries(116→108)
+      Pressure: FP=0.359 BP=0.499 SP=0.077 → dominant=BP
+      Best: l1_size (64→128, ΔCPI=0.0926, r=0.66, score=0.0612)
+      Reclaim: numROBEntries(344→328), SQEntries(30→22), l1d_assoc(16→8)
+    Step 3: CPI=2.1882, Area=57.52, ↑1 ↓3, dom=BP [0.36/0.50/0.08] [4011s]
+    Step 6: CPI=2.2914, Area=81.70, ↑1 ↓2, dom=BP [0.35/0.50/0.08] [4035s]
+    Step 9: CPI=2.1850, Area=65.93, ↑1 ↓2, dom=BP [0.36/0.50/0.08] [4058s]
+    Step 12: CPI=2.2939, Area=81.67, ↑1 ↓2, dom=BP [0.35/0.50/0.08] [4079s]
+    Step 15: CPI=2.1850, Area=65.93, ↑1 ↓2, dom=BP [0.36/0.50/0.08] [4101s]
+    Step 18: CPI=2.2939, Area=81.67, ↑1 ↓2, dom=BP [0.35/0.50/0.08] [4122s]
+    Step 21: CPI=2.1850, Area=65.93, ↑1 ↓2, dom=BP [0.36/0.50/0.08] [4143s]
+    Step 24: CPI=2.2939, Area=81.67, ↑1 ↓2, dom=BP [0.35/0.50/0.08] [4163s]
+    Step 27: CPI=2.1850, Area=65.93, ↑1 ↓2, dom=BP [0.36/0.50/0.08] [4183s]
+    Step 30: CPI=2.2939, Area=81.67, ↑1 ↓2, dom=BP [0.35/0.50/0.08] [4204s]
+
+  Start 27/30: CPI=2.2200, Area=30.52
+      Pressure: FP=0.308 BP=0.433 SP=0.110 → dominant=BP
+      Best: l1d_assoc (8→16, ΔCPI=0.0132, r=0.94, score=0.0124)
+      Reclaim: numROBEntries(913→897), SQEntries(44→36), l1i_assoc(4→2)
+      Pressure: FP=0.308 BP=0.432 SP=0.110 → dominant=BP
+      Best: l1d_assoc (16→32, ΔCPI=0.0088, r=1.00, score=0.0088)
+      Reclaim: numROBEntries(897→881), SQEntries(36→28)
+    Step 3: CPI=2.3169, Area=50.14, ↑1 ↓3, dom=BP [0.31/0.43/0.11] [4230s]
+    Step 6: CPI=2.2060, Area=53.15, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4253s]
+    Step 9: CPI=2.3202, Area=50.09, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4277s]
+    Step 12: CPI=2.2087, Area=53.05, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4300s]
+    Step 15: CPI=2.3208, Area=49.98, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4323s]
+    Step 18: CPI=2.2092, Area=52.99, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4347s]
+    Step 21: CPI=2.3203, Area=49.92, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4370s]
+    Step 24: CPI=2.2091, Area=52.92, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4394s]
+    Step 27: CPI=2.3221, Area=49.86, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4422s]
+    Step 30: CPI=2.2111, Area=52.86, ↑1 ↓2, dom=BP [0.31/0.44/0.11] [4446s]
+
+  Start 28/30: CPI=2.2541, Area=40.13
+      Pressure: FP=0.329 BP=0.468 SP=0.089 → dominant=BP
+      Best: dispatchWidth (5→6, ΔCPI=0.0181, r=0.75, score=0.0136)
+      Reclaim: numROBEntries(480→464), SQEntries(252→244)
+      Pressure: FP=0.342 BP=0.479 SP=0.084 → dominant=BP
+      Best: RdWrPort (1→2, ΔCPI=0.0101, r=1.00, score=0.0101)
+      Reclaim: numROBEntries(474→458), SQEntries(244→236), l1_size(256→128)
+    Step 3: CPI=2.2272, Area=45.37, ↑1 ↓2, dom=BP [0.35/0.48/0.08] [4470s]
+    Step 6: CPI=2.3299, Area=79.39, ↑1 ↓3, dom=BP [0.34/0.48/0.08] [4492s]
+    Step 9: CPI=2.2155, Area=109.72, ↑1 ↓2, dom=BP [0.35/0.48/0.08] [4514s]
+    Step 12: CPI=2.3195, Area=170.56, ↑1 ↓3, dom=BP [0.34/0.48/0.08] [4537s]
+    Step 15: CPI=2.2074, Area=219.14, ↑1 ↓3, dom=BP [0.35/0.48/0.08] [4559s]
+    Step 18: CPI=2.3188, Area=209.42, ↑1 ↓2, dom=BP [0.34/0.48/0.08] [4581s]
+    Step 21: CPI=2.2116, Area=218.53, ↑1 ↓3, dom=BP [0.35/0.48/0.08] [4604s]
+    Step 24: CPI=2.3277, Area=208.84, ↑1 ↓3, dom=BP [0.34/0.48/0.08] [4626s]
+    Step 27: CPI=2.2162, Area=217.86, ↑1 ↓3, dom=BP [0.35/0.48/0.08] [4649s]
+    Step 30: CPI=2.3321, Area=208.24, ↑1 ↓2, dom=BP [0.34/0.48/0.08] [4671s]
+
+  Start 29/30: CPI=2.3365, Area=85.63
+      Pressure: FP=0.320 BP=0.452 SP=0.093 → dominant=BP
+      Best: dispatchWidth (4→5, ΔCPI=0.0568, r=1.00, score=0.0568)
+      Reclaim: numROBEntries(434→418), SQEntries(205→197), l1i_assoc(8→4)
+      Pressure: FP=0.337 BP=0.466 SP=0.086 → dominant=BP
+      Best: l1d_assoc (2→4, ΔCPI=0.0177, r=0.79, score=0.0141)
+      Reclaim: numROBEntries(428→412), SQEntries(197→189), l1i_assoc(4→2)
+    Step 3: CPI=2.2391, Area=95.25, ↑1 ↓2, dom=BP [0.34/0.46/0.09] [4698s]
+    Step 6: CPI=2.2203, Area=212.83, ↑1 ↓2, dom=BP [0.33/0.46/0.09] [4722s]
+    Step 8: stagnant
+
+  Total: 652 evals in 4738s | Pareto=37 | McPAT_fails=7
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_attribution_results.json
+
+============================================================
+Done! Total: 4741s (79.0min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================

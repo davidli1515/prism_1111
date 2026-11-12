@@ -1,0 +1,66 @@
+=== 1035 (point x direction) rows, benches: ['602.gcc_s', '605.mcf_s', '623.xalancbmk_s', '638.imagick_s', '641.leela_s', '648.exchange2_s'] ===
+TOUCH = {'FE': ['FP'], 'L1': ['FP', 'BP'], 'BE': ['BP'], 'SP': ['SP', 'FP'], 'ALL': ['FP', 'BP', 'SP']}
+
+##### front = bo500  (57 points)
+  1. validity: best realized gain vs bound (violation = gain > bound)
+     dir    n   gain   b_mscs  viol   b_lb   gain<lb   b_scalar viol_s   gain/b_mscs   attribution of best move (FP/BP/SP)
+     FE     50  +0.014  0.646  0.00  0.044  0.86      0.807    0.00     +0.00          [ 0.022  0.015 -0.005]
+     L1     20  +0.117  0.757  0.00  0.126  0.70      0.755    0.00     +0.06          [0.109 0.114 0.005]
+     BE     54  +0.035  0.750  0.00  0.071  0.74      0.804    0.00     +0.03          [ 0.033  0.037 -0.002]
+     SP     52  -0.047  0.738  0.00  0.052  0.94      0.807    0.00     -0.05          [-0.019 -0.03  -0.025]
+     ALL    57  +0.090  0.812  0.00  0.120  0.72      0.811    0.00     +0.04          [ 0.091  0.091 -0.002]
+  2. pruning (optimistic corner HVI == 0)
+     mscs   FE   pruned   0/ 50  false  0  queries saved    0  (dirs with realized HVI>0: 27)
+     mscs   L1   pruned   0/ 20  false  0  queries saved    0  (dirs with realized HVI>0: 10)
+     mscs   BE   pruned   0/ 54  false  0  queries saved    0  (dirs with realized HVI>0: 44)
+     mscs   SP   pruned   0/ 52  false  0  queries saved    0  (dirs with realized HVI>0: 4)
+     mscs   ALL  pruned   0/ 57  false  0  queries saved    0  (dirs with realized HVI>0: 44)
+     scalar FE   pruned   0/ 50  false  0  queries saved    0  (dirs with realized HVI>0: 27)
+     scalar L1   pruned   0/ 20  false  0  queries saved    0  (dirs with realized HVI>0: 10)
+     scalar BE   pruned   0/ 54  false  0  queries saved    0  (dirs with realized HVI>0: 44)
+     scalar SP   pruned   0/ 52  false  0  queries saved    0  (dirs with realized HVI>0: 4)
+     scalar ALL  pruned   0/ 57  false  0  queries saved    0  (dirs with realized HVI>0: 44)
+  3a. per point: does max optimistic HVI pick the truly best direction (FE/L1/BE/SP)?
+     mscs     hit 0.47
+     mscs_lb  hit 0.47
+     scalar   hit 0.07
+     always 'BE' hit 0.64   chance 0.25   (n=45; best-dir counts {'FE': 8, 'L1': 6, 'BE': 29, 'SP': 2})
+  3b. across points: Spearman(max_d optimistic HVI, max_d realized HVI)
+     mscs   rho=0.06 (p=0.670, n=57)
+     scalar rho=0.03 (p=0.846, n=57)
+
+##### front = final  (150 points)
+  1. validity: best realized gain vs bound (violation = gain > bound)
+     dir    n   gain   b_mscs  viol   b_lb   gain<lb   b_scalar viol_s   gain/b_mscs   attribution of best move (FP/BP/SP)
+     FE    122  +0.004  0.645  0.00  0.039  0.98      0.783    0.00     -0.00          [ 0.005  0.004 -0.001]
+     L1     34  +0.063  0.662  0.00  0.108  0.85      0.659    0.00     +0.02          [0.059 0.061 0.003]
+     BE    146  +0.028  0.739  0.00  0.049  0.88      0.785    0.00     +0.01          [ 0.024  0.029 -0.   ]
+     SP    147  -0.064  0.734  0.00  0.045  1.00      0.782    0.00     -0.05          [-0.024 -0.041 -0.037]
+     ALL   150  +0.047  0.784  0.00  0.094  0.89      0.782    0.00     +0.01          [ 0.045  0.048 -0.001]
+  2. pruning (optimistic corner HVI == 0)
+     mscs   FE   pruned   0/122  false  0  queries saved    0  (dirs with realized HVI>0: 13)
+     mscs   L1   pruned   0/ 34  false  0  queries saved    0  (dirs with realized HVI>0: 12)
+     mscs   BE   pruned   0/146  false  0  queries saved    0  (dirs with realized HVI>0: 89)
+     mscs   SP   pruned   0/147  false  0  queries saved    0  (dirs with realized HVI>0: 0)
+     mscs   ALL  pruned   0/150  false  0  queries saved    0  (dirs with realized HVI>0: 89)
+     scalar FE   pruned   0/122  false  0  queries saved    0  (dirs with realized HVI>0: 13)
+     scalar L1   pruned   0/ 34  false  0  queries saved    0  (dirs with realized HVI>0: 12)
+     scalar BE   pruned   0/146  false  0  queries saved    0  (dirs with realized HVI>0: 89)
+     scalar SP   pruned   0/147  false  0  queries saved    0  (dirs with realized HVI>0: 0)
+     scalar ALL  pruned   0/150  false  0  queries saved    0  (dirs with realized HVI>0: 89)
+  3a. per point: does max optimistic HVI pick the truly best direction (FE/L1/BE/SP)?
+     mscs     hit 0.54
+     mscs_lb  hit 0.51
+     scalar   hit 0.02
+     always 'BE' hit 0.88   chance 0.25   (n=90; best-dir counts {'FE': 2, 'L1': 9, 'BE': 79, 'SP': 0})
+  3b. across points: Spearman(max_d optimistic HVI, max_d realized HVI)
+     mscs   rho=-0.04 (p=0.607, n=150)
+     scalar rho=-0.06 (p=0.496, n=150)
+
+  per bench (bo500): violation mscs / pruned mscs vs scalar / false prunes mscs
+    602.gcc_s        viol 0.00  pruned 0 vs 0 / 32  false 0
+    605.mcf_s        viol 0.00  pruned 0 vs 0 / 45  false 0
+    623.xalancbmk_s  viol 0.00  pruned 0 vs 0 / 30  false 0
+    638.imagick_s    viol 0.00  pruned 0 vs 0 / 30  false 0
+    641.leela_s      viol 0.00  pruned 0 vs 0 / 55  false 0
+    648.exchange2_s  viol 0.00  pruned 0 vs 0 / 41  false 0

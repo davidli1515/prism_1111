@@ -1,0 +1,75 @@
+Conditional protect / decouple pilot, seed 42, fixed checkpoint, 2026-10-10
+
+Question and connection to the paper
+  The paper's Scancel and large response norm detect cancellation, but do not
+  establish either useful complementarity or the future cost of reclamation.
+  Here the proposed operational bridge is conditional resource value:
+    I(u,v) = C(u+v) - C(u) - C(v) + C(root).
+  Decouple: two increases have negative I and an improving joint endpoint.
+  Protect: a decrease alone costs <0.3% CPI, but after a specified investment
+  its cost exceeds 0.3%. The tolerance is inherited from refine_v3, not fitted.
+  These are revised mechanisms, NOT a validation of Algorithm 2's original
+  unconditional norm/max-cancellation rules. Avoid relabeling the prior gcc win.
+
+Smallest test before a larger search
+  Four roots: gcc and mcf first-quartile-area saved Pareto points excluding the
+  preceding pilot's roots; xalan and leela middle-area saved Pareto points.
+  Selection uses existing scalar CPI/area only, with the same checkpoint hash.
+  One actual greedy decision per root and method. This is NOT a full trajectory
+  or a statistically powered generalization result. No further expansion is automatic.
+  Area cap = 1.10 * root area. Fixed widths, L1 trace size and BP type.
+  Candidates: all legal one-stride edits in the previous 15-resource domain,
+  plus all up/up and up/down edits of DIFFERENT parameters. No projection.
+  Same exact candidate pool for every method; no MSCS-only candidate coverage.
+
+Prediction and selection
+  Rebuild COMPLETE normalized input for every actual joint endpoint. Do not
+  approximate joint features by adding the two single endpoint displacements.
+  Root Jacobians predict per-stage/slice CPI using the prior scalar-excess and
+  component-logit rules. Independent scalar/MSCS tangents must agree.
+  Methods: scalar, MSCS full, no_decouple, no_protect, no_context.
+  Every method receives the same scalar anchor in its first verification slot.
+  Its second slot is its highest-ranked distinct allowed candidate.
+  Scalar uses its own nonlinear conditional-cost protection criterion too.
+  Full MSCS uses its joint finite-component prediction for every endpoint;
+  protected up/down actions are deferred only from its second proposal slot.
+  No verified CPI improvement and no shared scalar anchor is vetoed by MSCS.
+  no_decouple removes the predicted nonadditive term for up/up actions.
+  no_protect removes it for up/down actions and disables protection deferral.
+  no_context removes both; singles keep the identical MSCS finite-step predictions.
+  Ablations expose dependence on joint response estimates; this does not prove
+  that every joint estimate corresponds to causal architectural interaction.
+  Rank by CPI, fixed pool-order ties. Evaluate exact CPI AND exact McPAT area of
+  both proposals; accept best feasible strictly improving candidate. All proposals
+  count even if infeasible. Every method has exactly two logical candidate calls.
+  All methods' proposals are written and hashed before ANY candidate exact label.
+  Identical frozen proposals may share physical evaluations, but budgets remain
+  method-local. No wall-clock superiority claim from this shared work.
+
+Bounded counterfactual audit
+  Before querying labels, select <=1 decouple witness and <=1 protect witness
+  per root. Prefer an MSCS-selected decouple pair; otherwise pick largest predicted
+  negative interaction among improving up/up pairs. Protect witness is strongest
+  predicted conditional-cost rise among flagged pairs with an improving investment.
+  If no witness qualifies, record non-activation; never force one after seeing labels.
+  AFTER all methods decide, evaluate each witness's two singles and joint endpoint,
+  with exact areas. Thus check both predicted I and actual counterfactual I, and
+  whether reclamation really saves area. These labels never return to selection.
+  Max 40 logical search verifications + 24 audit verifications + 4 common roots.
+  Physical query sharing is reported separately; root forward/backward costs too.
+  No exhaustive truth labels for the joint pool; no hindsight optimum claim.
+
+Success/failure reporting
+  Show all four greedy outcomes, not only wins. Compare full with scalar AND all
+  ablations. Report query, area, feature-generation, derivative and inference costs.
+  For each witness report predicted and actual constituent effects, conditional
+  costs, interaction sign, component changes and feasibility. A correctly flagged
+  direction without accurate magnitude is not a calibrated predictor.
+  The previous four roots are development evidence; these different four roots are
+  exploratory confirmation only. No threshold adjustment or benchmark cherry-picking.
+  If neither mechanism activates or validates, report this and do not scale the run.
+  No new gem5 or retraining. All explanations remain frozen-surrogate counterfactuals.
+
+Preservation
+  New code and results only in this directory. Read old source/results/caches;
+  write private McPAT XMLs and a new SQLite cache. Verify source/checkpoint hashes.

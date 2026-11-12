@@ -1,0 +1,47 @@
+nohup: ignoring input
+Loading data...
+  Found 17 benchmarks
+    Loading 508.namd_r ... 8000 samples
+    Loading 526.blender_r ... 8000 samples
+    Loading 600.perlbench_s ... 24000 samples
+    Loading 602.gcc_s ... 24000 samples
+    Loading 605.mcf_s ... 8000 samples
+    Loading 607.cactuBSSN_s ... 8000 samples
+    Loading 619.lbm_s ... 24000 samples
+    Loading 620.omnetpp_s ... 8000 samples
+    Loading 621.wrf_s ... 8000 samples
+    Loading 623.xalancbmk_s ... 8000 samples
+    Loading 631.deepsjeng_s ... 8000 samples
+    Loading 638.imagick_s ... 8000 samples
+    Loading 641.leela_s ... 8000 samples
+    Loading 644.nab_s ... 8000 samples
+    Loading 648.exchange2_s ... 8000 samples
+    Loading 654.roms_s ... 8000 samples
+    Loading 657.xz_s ... 7975 samples
+  Total: 183,975 samples across 17 benchmarks
+
+  Train samples: 172476
+  Test samples:  11499
+  Benchmarks in test: ['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+Training 50 epochs with gradient conflict measurement...
+
+  Epoch   1 | cos(task,mono)=-0.0246  cos(task,const)=-0.0263  cos(const,mono)=-0.0095 | ||∇task||=0.1053  ||∇const||=6.0240  ||∇mono||=0.234549
+  Epoch   5 | cos(task,mono)=-0.0311  cos(task,const)=-0.0012  cos(const,mono)=-0.0061 | ||∇task||=0.0498  ||∇const||=3.1951  ||∇mono||=0.023380
+  Epoch  10 | cos(task,mono)=-0.0009  cos(task,const)=+0.0387  cos(const,mono)=+0.0080 | ||∇task||=0.0359  ||∇const||=2.1705  ||∇mono||=0.011280
+  Epoch  15 | cos(task,mono)=+0.0029  cos(task,const)=-0.0476  cos(const,mono)=-0.0011 | ||∇task||=0.0263  ||∇const||=1.6869  ||∇mono||=0.007964
+  Epoch  20 | cos(task,mono)=+0.0014  cos(task,const)=+0.0050  cos(const,mono)=+0.0018 | ||∇task||=0.0200  ||∇const||=1.5450  ||∇mono||=0.005054
+  Epoch  25 | cos(task,mono)=-0.0074  cos(task,const)=+0.1161  cos(const,mono)=-0.0058 | ||∇task||=0.0167  ||∇const||=1.3063  ||∇mono||=0.004140
+  Epoch  30 | cos(task,mono)=+0.0040  cos(task,const)=+0.0698  cos(const,mono)=-0.0006 | ||∇task||=0.0157  ||∇const||=0.9801  ||∇mono||=0.007996
+  Epoch  35 | cos(task,mono)=+0.0073  cos(task,const)=+0.0156  cos(const,mono)=-0.0006 | ||∇task||=0.0139  ||∇const||=0.8038  ||∇mono||=0.005220
+  Epoch  40 | cos(task,mono)=+0.0048  cos(task,const)=+0.0626  cos(const,mono)=-0.0086 | ||∇task||=0.0143  ||∇const||=0.6247  ||∇mono||=0.004785
+  Epoch  45 | cos(task,mono)=+0.0055  cos(task,const)=+0.0470  cos(const,mono)=-0.0000 | ||∇task||=0.0134  ||∇const||=0.5451  ||∇mono||=0.004965
+  Epoch  50 | cos(task,mono)=+0.0074  cos(task,const)=+0.1100  cos(const,mono)=-0.0069 | ||∇task||=0.0132  ||∇const||=0.4429  ||∇mono||=0.005065
+
+Saved to grad_conflict_results.json
+
+--- Summary ---
+Early (ep 1-10):  cos(task,mono)=-0.0250  ||∇mono||=0.044243
+Late  (ep 41-50):  cos(task,mono)=+0.0079  ||∇mono||=0.005370
+
+If cos(task,mono) < 0 early → gradient conflict confirmed
+If ||∇mono|| → 0 late → hinge loss 'shuts off' confirmed

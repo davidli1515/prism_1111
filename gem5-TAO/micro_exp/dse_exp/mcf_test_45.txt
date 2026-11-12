@@ -1,0 +1,401 @@
+nohup: ignoring input
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_attribution']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 2.095s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_attribution [multi-stage] (starts=30, steps=30)
+============================================================
+
+  Start 2/30: CPI=2.7402, Area=22.50
+      Pressure: FP=0.331 BP=0.465 SP=0.095 → dominant=BP
+      Best: l1d_assoc (red=0.2501, Δarea=0.39, eff=0.2501)
+      Reclaim: fetchWidth(6→5), commitWidth(6→5), numROBEntries(440→424), numIQEntries(58→50), LQEntries(69→61), SQEntries(136→128), IntALU(2→1), IntMultDiv(2→1), FP_ALU(2→1), RdWrPort(3→2), l1i_assoc(16→8)
+      Pressure: FP=0.330 BP=0.461 SP=0.097 → dominant=BP
+      Best: l1d_assoc (red=0.1583, Δarea=1.88, eff=0.1583)
+      Reclaim: fetchWidth(5→4), commitWidth(5→4), numROBEntries(424→408), LQEntries(61→53), SQEntries(128→120), RdWrPort(2→1), l1i_assoc(8→4)
+    Step 3: CPI=2.7129, Area=13.82, ↑1 ↓6, dom=BP [0.33/0.46/0.10] [48s]
+    Step 6: CPI=2.6880, Area=14.03, ↑1 ↓3, dom=BP [0.33/0.46/0.10] [96s]
+    Step 9: CPI=2.6681, Area=14.03, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [142s]
+    Step 12: CPI=2.6906, Area=13.95, ↑1 ↓3, dom=BP [0.33/0.46/0.10] [188s]
+    Step 15: CPI=2.6869, Area=13.93, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [236s]
+    Step 18: CPI=2.7320, Area=13.78, ↑1 ↓1, dom=BP [0.33/0.46/0.10] [289s]
+    Step 21: CPI=2.6744, Area=13.99, ↑1 ↓1, dom=BP [0.33/0.46/0.10] [345s]
+    Step 24: stagnant
+
+  Start 6/30: CPI=2.3906, Area=24.92
+      Pressure: FP=0.336 BP=0.471 SP=0.086 → dominant=BP
+      Best: l1_size (red=0.0312, Δarea=2.99, eff=0.0312)
+      Reclaim: fetchWidth(8→7), commitWidth(7→6), numROBEntries(209→193), numIQEntries(48→40), LQEntries(115→107), SQEntries(36→28), IntALU(3→2), IntMultDiv(3→2), FP_ALU(2→1), FP_MultDiv(3→2), RdWrPort(2→1), l1d_assoc(8→4), l1i_assoc(4→2)
+      Pressure: FP=0.333 BP=0.470 SP=0.087 → dominant=BP
+      Best: l1d_assoc (red=0.0569, Δarea=0.04, eff=0.0569)
+      Reclaim: fetchWidth(7→6), commitWidth(6→5), numROBEntries(193→177), LQEntries(107→99), SQEntries(28→20), IntMultDiv(2→1), FP_MultDiv(2→1), l1_size(256→128)
+    Step 3: CPI=2.3373, Area=19.38, ↑1 ↓7, dom=BP [0.33/0.47/0.09] [478s]
+    Step 6: CPI=2.5013, Area=15.02, ↑1 ↓3, dom=BP [0.32/0.46/0.10] [548s]
+    Step 9: CPI=2.5196, Area=14.71, ↑1 ↓3, dom=BP [0.32/0.46/0.10] [615s]
+    Step 12: CPI=2.5175, Area=14.98, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [680s]
+    Step 15: CPI=2.5284, Area=14.70, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [689s]
+    Step 18: CPI=2.5175, Area=14.98, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [698s]
+    Step 21: CPI=2.5284, Area=14.70, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [707s]
+    Step 24: CPI=2.5175, Area=14.98, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [717s]
+    Step 27: CPI=2.5284, Area=14.70, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [726s]
+    Step 30: CPI=2.5175, Area=14.98, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [736s]
+
+  Start 7/30: CPI=2.6559, Area=17.74
+      Pressure: FP=0.330 BP=0.458 SP=0.096 → dominant=BP
+      Best: l1d_assoc (red=0.1531, Δarea=0.30, eff=0.1531)
+      Reclaim: fetchWidth(7→6), numROBEntries(331→315), LQEntries(111→103), SQEntries(123→115), IntALU(2→1), FP_ALU(2→1), FP_MultDiv(3→2), l1i_assoc(16→8)
+      Pressure: FP=0.329 BP=0.457 SP=0.097 → dominant=BP
+      Best: IntALU (red=0.0886, Δarea=0.04, eff=0.0886)
+      Reclaim: fetchWidth(6→5), numROBEntries(315→299), LQEntries(103→95), SQEntries(115→107), FP_MultDiv(2→1), l1d_assoc(8→4), l1i_assoc(8→4)
+    Step 3: CPI=2.6461, Area=14.23, ↑1 ↓6, dom=BP [0.33/0.46/0.10] [785s]
+    Step 6: CPI=2.6793, Area=13.92, ↑1 ↓4, dom=BP [0.33/0.46/0.10] [834s]
+    Step 9: CPI=2.6640, Area=14.11, ↑1 ↓4, dom=BP [0.33/0.46/0.10] [886s]
+    Step 12: CPI=2.7260, Area=13.77, ↑1 ↓3, dom=BP [0.33/0.46/0.10] [935s]
+    Step 15: CPI=2.6762, Area=13.99, ↑1 ↓1, dom=BP [0.33/0.46/0.10] [990s]
+    Step 18: CPI=2.5498, Area=14.66, ↑1 ↓1, dom=BP [0.33/0.46/0.10] [1048s]
+    Step 21: CPI=2.5552, Area=14.65, ↑1 ↓1, dom=BP [0.32/0.46/0.10] [1114s]
+    Step 23: stagnant
+
+  Start 10/30: CPI=2.5580, Area=17.54
+      Pressure: FP=0.318 BP=0.455 SP=0.103 → dominant=BP
+      Best: dispatchWidth (red=0.2274, Δarea=2.15, eff=0.2274)
+      Reclaim: fetchWidth(5→4), commitWidth(7→6), numROBEntries(359→343), SQEntries(64→56), IntALU(3→2), IntMultDiv(2→1), FP_MultDiv(2→1), l1d_assoc(16→8), l1i_assoc(8→4)
+      Pressure: FP=0.320 BP=0.453 SP=0.105 → dominant=BP
+      Best: LQEntries (red=0.2117, Δarea=0.00, eff=0.2117)
+      Reclaim: commitWidth(6→5), numROBEntries(343→327), SQEntries(56→48), l1i_assoc(4→2)
+    Step 3: CPI=2.5729, Area=14.25, ↑1 ↓3, dom=BP [0.32/0.45/0.10] [1209s]
+    Step 5: stagnant
+
+  Start 11/30: CPI=2.3532, Area=61.96
+      Pressure: FP=0.324 BP=0.456 SP=0.109 → dominant=BP
+      Best: LQEntries (red=0.5811, Δarea=0.01, eff=0.5811)
+      Reclaim: fetchWidth(9→8), commitWidth(5→4), numROBEntries(169→153), SQEntries(56→48), IntALU(3→2), FP_ALU(2→1), FP_MultDiv(2→1), RdWrPort(5→4), l1d_assoc(16→8)
+      Pressure: FP=0.325 BP=0.458 SP=0.109 → dominant=BP
+      Best: LQEntries (red=0.5158, Δarea=0.00, eff=0.5158)
+      Reclaim: fetchWidth(8→7), decodeWidth(8→7), commitWidth(5→4), numROBEntries(153→137), SQEntries(48→40), RdWrPort(4→3)
+    Step 3: CPI=2.4007, Area=20.93, ↑1 ↓6, dom=BP [0.32/0.46/0.11] [1302s]
+    Step 6: CPI=2.4704, Area=14.36, ↑1 ↓1, dom=BP [0.32/0.43/0.12] [1355s]
+    Step 8: stagnant
+
+  Start 12/30: CPI=2.5894, Area=40.10
+      Pressure: FP=0.352 BP=0.489 SP=0.081 → dominant=BP
+      Best: l1d_assoc (red=0.1920, Δarea=6.13, eff=0.1920)
+      Reclaim: fetchWidth(11→10), decodeWidth(6→5), commitWidth(6→5), numROBEntries(389→373), numIQEntries(85→77), LQEntries(64→56), SQEntries(228→220), IntALU(3→2), IntMultDiv(8→7), FP_ALU(7→6), FP_MultDiv(3→2), RdWrPort(4→3), l1i_assoc(8→4)
+      Pressure: FP=0.338 BP=0.477 SP=0.088 → dominant=BP
+      Best: l1_size (red=0.0635, Δarea=0.37, eff=0.0635)
+      Reclaim: fetchWidth(10→9), commitWidth(5→4), numROBEntries(373→357), numIQEntries(77→69), LQEntries(56→48), SQEntries(220→212), IntALU(2→1), IntMultDiv(7→6), FP_ALU(6→5), FP_MultDiv(2→1), RdWrPort(3→2), l1i_assoc(4→2)
+    Step 3: CPI=2.6133, Area=20.88, ↑1 ↓10, dom=BP [0.34/0.48/0.09] [1444s]
+    Step 6: CPI=2.5799, Area=16.96, ↑1 ↓6, dom=BP [0.34/0.48/0.09] [1499s]
+    Step 9: CPI=2.6000, Area=14.42, ↑1 ↓3, dom=BP [0.33/0.46/0.10] [1557s]
+    Step 12: CPI=2.6412, Area=14.12, ↑1 ↓2, dom=BP [0.33/0.46/0.10] [1618s]
+    Step 13: stagnant
+
+  Start 14/30: CPI=2.2532, Area=41.31
+      Pressure: FP=0.366 BP=0.505 SP=0.067 → dominant=BP
+      Best: l1d_assoc (red=0.0424, Δarea=0.04, eff=0.0424)
+      Reclaim: fetchWidth(11→10), decodeWidth(10→9), dispatchWidth(9→8), commitWidth(9→8), numROBEntries(984→968), numIQEntries(54→46), LQEntries(49→41), SQEntries(192→184), IntALU(7→6), FP_ALU(7→6), FP_MultDiv(6→5), l1_size(256→128)
+      Pressure: FP=0.362 BP=0.501 SP=0.069 → dominant=BP
+      Best: LQEntries (red=0.0532, Δarea=0.00, eff=0.0532)
+      Reclaim: fetchWidth(10→9), decodeWidth(9→8), dispatchWidth(8→7), commitWidth(8→7), numROBEntries(968→952), numIQEntries(46→38), SQEntries(184→176), IntALU(6→5), FP_ALU(6→5), FP_MultDiv(5→4), l1d_assoc(8→4)
+    Step 3: CPI=2.3310, Area=26.27, ↑1 ↓8, dom=BP [0.36/0.49/0.07] [1722s]
+    Step 6: CPI=2.4351, Area=18.11, ↑1 ↓7, dom=BP [0.35/0.49/0.08] [1789s]
+    Step 9: CPI=2.4511, Area=15.56, ↑1 ↓3, dom=BP [0.32/0.46/0.09] [1858s]
+    Step 12: CPI=2.4876, Area=15.20, ↑1 ↓3, dom=BP [0.32/0.46/0.09] [1925s]
+    Step 15: stagnant
+
+  Start 15/30: CPI=2.4144, Area=45.03
+      Pressure: FP=0.319 BP=0.457 SP=0.092 → dominant=BP
+      Best: dispatchWidth (red=0.0614, Δarea=2.19, eff=0.0614)
+      Reclaim: fetchWidth(10→9), commitWidth(10→9), numROBEntries(429→413), numIQEntries(119→111), LQEntries(214→206), SQEntries(88→80), IntALU(2→1), IntMultDiv(2→1), FP_ALU(2→1), FP_MultDiv(8→7), RdWrPort(3→2), l1d_assoc(16→8), l1i_assoc(16→8)
+      Pressure: FP=0.333 BP=0.476 SP=0.085 → dominant=BP
+      Best: IntALU (red=0.0313, Δarea=0.04, eff=0.0313)
+      Reclaim: fetchWidth(9→8), commitWidth(9→8), numROBEntries(413→397), numIQEntries(111→103), LQEntries(206→198), SQEntries(80→72), FP_MultDiv(7→6), RdWrPort(2→1), l1d_assoc(8→4), l1i_assoc(8→4)
+    Step 3: CPI=2.3551, Area=23.97, ↑1 ↓8, dom=BP [0.33/0.48/0.08] [2052s]
+    Step 6: CPI=2.3119, Area=18.27, ↑1 ↓8, dom=BP [0.33/0.47/0.09] [2123s]
+    Step 9: CPI=2.4477, Area=15.20, ↑1 ↓4, dom=BP [0.31/0.45/0.10] [2194s]
+    Step 12: CPI=2.3435, Area=16.91, ↑1 ↓3, dom=BP [0.32/0.46/0.10] [2263s]
+    Step 15: CPI=2.4541, Area=15.10, ↑1 ↓3, dom=BP [0.31/0.46/0.10] [2335s]
+    Step 18: CPI=2.3366, Area=16.87, ↑1 ↓3, dom=BP [0.32/0.46/0.10] [2402s]
+    Step 21: CPI=2.4417, Area=15.10, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [2473s]
+    Step 24: CPI=2.4736, Area=14.77, ↑1 ↓2, dom=BP [0.31/0.46/0.10] [2540s]
+    Step 27: CPI=2.4541, Area=15.08, ↑1 ↓2, dom=BP [0.32/0.46/0.10] [2603s]
+    Step 30: CPI=2.4852, Area=14.76, ↑1 ↓1, dom=BP [0.31/0.46/0.10] [2664s]
+
+  Start 16/30: CPI=2.1372, Area=58.44
+      Pressure: FP=0.329 BP=0.420 SP=0.122 → dominant=BP
+      Best: dispatchWidth (red=0.2179, Δarea=0.00, eff=0.2179)
+      Reclaim: fetchWidth(6→5), commitWidth(6→5), numROBEntries(1004→988), LQEntries(173→165), SQEntries(142→134), FP_ALU(8→7), FP_MultDiv(4→3), RdWrPort(5→4), l1i_assoc(4→2)
+      Pressure: FP=0.328 BP=0.421 SP=0.122 → dominant=BP
+      Best: dispatchWidth (red=0.2396, Δarea=0.00, eff=0.2396)
+      Reclaim: fetchWidth(5→4), commitWidth(5→4), numROBEntries(988→972), LQEntries(165→157), SQEntries(134→126), FP_ALU(7→6), FP_MultDiv(3→2), RdWrPort(4→3)
+    Step 3: CPI=2.2308, Area=31.76, ↑1 ↓5, dom=BP [0.32/0.41/0.13] [2721s]
+    Step 6: CPI=2.2347, Area=20.99, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [2775s]
+    Step 9: CPI=2.2281, Area=46.34, ↑1 ↓3, dom=BP [0.32/0.40/0.13] [2826s]
+    Step 12: CPI=2.2327, Area=59.23, ↑1 ↓3, dom=BP [0.32/0.40/0.13] [2878s]
+    Step 15: CPI=2.2389, Area=47.11, ↑1 ↓5, dom=BP [0.32/0.40/0.13] [2928s]
+    Step 18: CPI=2.2647, Area=34.97, ↑1 ↓3, dom=BP [0.31/0.42/0.12] [2980s]
+    Step 21: CPI=2.2813, Area=15.70, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [3031s]
+    Step 24: CPI=2.2731, Area=19.38, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [3083s]
+    Step 27: CPI=2.2811, Area=15.64, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [3135s]
+    Step 28: stagnant
+
+  Start 17/30: CPI=2.1848, Area=64.74
+      Pressure: FP=0.321 BP=0.449 SP=0.105 → dominant=BP
+      Best: dispatchWidth (red=0.3162, Δarea=2.37, eff=0.3162)
+      Reclaim: fetchWidth(7→6), commitWidth(12→11), numROBEntries(677→661), LQEntries(75→67), SQEntries(46→38), IntALU(3→2), FP_ALU(2→1), FP_MultDiv(2→1), RdWrPort(5→4), l1d_assoc(16→8), l1i_assoc(4→2)
+      Pressure: FP=0.336 BP=0.451 SP=0.108 → dominant=BP
+      Best: dispatchWidth (red=0.2488, Δarea=0.00, eff=0.2488)
+      Reclaim: fetchWidth(6→5), commitWidth(11→10), numROBEntries(661→645), LQEntries(67→59), SQEntries(38→30), RdWrPort(4→3)
+    Step 3: CPI=2.2687, Area=19.30, ↑1 ↓6, dom=BP [0.33/0.44/0.11] [3212s]
+    Step 6: CPI=2.2900, Area=15.62, ↑1 ↓2, dom=BP [0.31/0.43/0.11] [3271s]
+    Step 9: CPI=2.2831, Area=15.61, ↑1 ↓1, dom=BP [0.31/0.43/0.11] [3328s]
+    Step 11: stagnant
+
+  Start 18/30: CPI=2.3079, Area=38.79
+      Pressure: FP=0.337 BP=0.472 SP=0.097 → dominant=BP
+      Best: LQEntries (red=0.3608, Δarea=0.00, eff=0.3608)
+      Reclaim: fetchWidth(10→9), decodeWidth(10→9), commitWidth(12→11), numROBEntries(225→209), SQEntries(57→49), IntALU(4→3), IntMultDiv(6→5), FP_ALU(4→3), FP_MultDiv(8→7), RdWrPort(2→1), l1d_assoc(16→8), l1i_assoc(16→8)
+      Pressure: FP=0.337 BP=0.474 SP=0.096 → dominant=BP
+      Best: LQEntries (red=0.2655, Δarea=0.00, eff=0.2655)
+      Reclaim: fetchWidth(9→8), decodeWidth(9→8), commitWidth(11→10), numROBEntries(209→193), SQEntries(49→41), IntALU(3→2), IntMultDiv(5→4), FP_ALU(3→2), FP_MultDiv(7→6), l1i_assoc(8→4)
+    Step 3: CPI=2.3445, Area=25.32, ↑1 ↓8, dom=BP [0.34/0.47/0.10] [3421s]
+    Step 6: CPI=2.4378, Area=15.61, ↑1 ↓5, dom=BP [0.33/0.45/0.11] [3477s]
+    Step 9: CPI=2.4459, Area=14.33, ↑1 ↓1, dom=BP [0.32/0.43/0.11] [3532s]
+    Step 10: stagnant
+
+  Start 19/30: CPI=2.4647, Area=50.32
+      Pressure: FP=0.334 BP=0.464 SP=0.099 → dominant=BP
+      Best: dispatchWidth (red=0.1089, Δarea=2.22, eff=0.1089)
+      Reclaim: fetchWidth(8→7), commitWidth(6→5), numROBEntries(273→257), LQEntries(44→36), SQEntries(128→120), IntALU(6→5), IntMultDiv(8→7), FP_ALU(4→3), FP_MultDiv(5→4), RdWrPort(4→3), l1d_assoc(16→8), l1i_assoc(8→4)
+      Pressure: FP=0.347 BP=0.473 SP=0.093 → dominant=BP
+      Best: l1_size (red=0.0795, Δarea=0.37, eff=0.0795)
+      Reclaim: fetchWidth(7→6), commitWidth(6→5), numROBEntries(257→241), SQEntries(120→112), IntALU(5→4), IntMultDiv(7→6), FP_ALU(3→2), FP_MultDiv(4→3), RdWrPort(3→2), l1i_assoc(4→2)
+    Step 3: CPI=2.4223, Area=18.79, ↑1 ↓9, dom=BP [0.35/0.47/0.09] [3603s]
+    Step 6: CPI=2.3949, Area=15.29, ↑1 ↓3, dom=BP [0.32/0.44/0.10] [3661s]
+    Step 8: stagnant
+
+  Start 20/30: CPI=2.6442, Area=32.92
+      Pressure: FP=0.313 BP=0.465 SP=0.107 → dominant=BP
+      Best: LQEntries (red=1.0956, Δarea=0.01, eff=1.0956)
+      Reclaim: fetchWidth(8→7), commitWidth(6→5), numROBEntries(604→588), SQEntries(71→63), IntALU(2→1), IntMultDiv(3→2), FP_MultDiv(6→5), RdWrPort(4→3)
+      Pressure: FP=0.316 BP=0.464 SP=0.107 → dominant=BP
+      Best: LQEntries (red=0.7818, Δarea=0.00, eff=0.7818)
+      Reclaim: fetchWidth(7→6), decodeWidth(6→5), commitWidth(5→4), numROBEntries(588→572), SQEntries(63→55), IntMultDiv(2→1), FP_MultDiv(5→4), RdWrPort(3→2)
+    Step 3: CPI=2.6552, Area=16.45, ↑1 ↓6, dom=BP [0.31/0.46/0.11] [3763s]
+    Step 6: CPI=2.6509, Area=13.95, ↑1 ↓2, dom=BP [0.32/0.45/0.11] [3818s]
+    Step 9: CPI=2.6548, Area=13.92, ↑1 ↓1, dom=BP [0.32/0.45/0.11] [3873s]
+    Step 10: stagnant
+
+  Start 21/30: CPI=1.9382, Area=239.27
+      Pressure: FP=0.353 BP=0.457 SP=0.112 → dominant=BP
+      Best: dispatchWidth (red=0.0742, Δarea=0.00, eff=0.0742)
+      Reclaim: fetchWidth(11→10), commitWidth(11→10), numROBEntries(582→566), numIQEntries(109→101), LQEntries(142→134), SQEntries(194→186), IntMultDiv(8→7), FP_ALU(8→7), FP_MultDiv(6→5), RdWrPort(8→7), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.353 BP=0.460 SP=0.110 → dominant=BP
+      Best: dispatchWidth (red=0.0756, Δarea=0.00, eff=0.0756)
+      Reclaim: fetchWidth(10→9), commitWidth(10→9), numROBEntries(566→550), numIQEntries(101→93), LQEntries(134→126), SQEntries(186→178), IntMultDiv(7→6), FP_ALU(7→6), FP_MultDiv(5→4), RdWrPort(7→6), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9507, Area=82.38, ↑1 ↓11, dom=BP [0.35/0.46/0.11] [3940s]
+    Step 6: CPI=2.1405, Area=63.70, ↑1 ↓7, dom=BP [0.34/0.44/0.12] [4001s]
+    Step 9: CPI=2.1017, Area=86.93, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [4050s]
+    Step 12: CPI=2.2618, Area=52.92, ↑1 ↓6, dom=BP [0.31/0.40/0.13] [4102s]
+    Step 15: CPI=2.2470, Area=26.23, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [4153s]
+    Step 18: CPI=2.2583, Area=19.20, ↑1 ↓3, dom=BP [0.31/0.41/0.12] [4203s]
+    Step 21: CPI=2.2718, Area=15.43, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [4253s]
+    Step 24: CPI=2.2854, Area=15.38, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [4304s]
+    Step 26: stagnant
+
+  Start 22/30: CPI=1.9286, Area=161.73
+      Pressure: FP=0.354 BP=0.459 SP=0.109 → dominant=BP
+      Best: dispatchWidth (red=0.0811, Δarea=0.00, eff=0.0811)
+      Reclaim: fetchWidth(9→8), commitWidth(9→8), numROBEntries(713→697), LQEntries(208→200), SQEntries(243→235), IntALU(8→7), IntMultDiv(5→4), FP_ALU(8→7), FP_MultDiv(7→6), RdWrPort(6→5), l1_size(256→128), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.349 BP=0.459 SP=0.109 → dominant=BP
+      Best: dispatchWidth (red=0.2307, Δarea=0.00, eff=0.2307)
+      Reclaim: fetchWidth(8→7), commitWidth(8→7), numROBEntries(697→681), LQEntries(200→192), SQEntries(235→227), IntMultDiv(4→3), FP_ALU(7→6), FP_MultDiv(6→5), RdWrPort(5→4), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=2.0904, Area=57.90, ↑1 ↓9, dom=BP [0.34/0.45/0.11] [4389s]
+    Step 6: CPI=2.2538, Area=54.17, ↑1 ↓7, dom=BP [0.31/0.40/0.13] [4443s]
+    Step 9: CPI=2.2125, Area=75.68, ↑1 ↓3, dom=BP [0.32/0.40/0.13] [4494s]
+    Step 12: CPI=2.2149, Area=75.32, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [4544s]
+    Step 15: CPI=2.2547, Area=84.54, ↑1 ↓5, dom=BP [0.31/0.40/0.13] [4595s]
+    Step 18: CPI=2.1250, Area=68.62, ↑1 ↓4, dom=BP [0.31/0.40/0.13] [4645s]
+    Step 21: CPI=2.2362, Area=58.87, ↑1 ↓4, dom=BP [0.32/0.41/0.13] [4698s]
+    Step 24: CPI=2.2445, Area=26.18, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [4749s]
+    Step 27: CPI=2.2581, Area=19.18, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [4799s]
+    Step 30: CPI=2.2830, Area=15.43, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [4849s]
+
+  Start 23/30: CPI=1.9445, Area=131.85
+      Pressure: FP=0.358 BP=0.470 SP=0.103 → dominant=BP
+      Best: LQEntries (red=0.0407, Δarea=0.00, eff=0.0407)
+      Reclaim: fetchWidth(11→10), commitWidth(10→9), numROBEntries(745→729), SQEntries(162→154), IntALU(5→4), IntMultDiv(7→6), FP_ALU(7→6), FP_MultDiv(5→4), RdWrPort(5→4), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.357 BP=0.474 SP=0.101 → dominant=BP
+      Best: LQEntries (red=0.0443, Δarea=0.00, eff=0.0443)
+      Reclaim: fetchWidth(10→9), commitWidth(10→9), numROBEntries(729→713), numIQEntries(104→96), SQEntries(154→146), IntALU(4→3), IntMultDiv(6→5), FP_ALU(6→5), FP_MultDiv(4→3), RdWrPort(4→3), l1i_assoc(16→8)
+    Step 3: CPI=1.9800, Area=65.45, ↑1 ↓11, dom=BP [0.35/0.46/0.11] [4901s]
+    Step 6: CPI=2.1684, Area=18.42, ↑1 ↓8, dom=BP [0.33/0.44/0.12] [4965s]
+    Step 9: CPI=2.2467, Area=15.74, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [5020s]
+    Step 12: CPI=2.2645, Area=19.01, ↑1 ↓4, dom=BP [0.32/0.41/0.13] [5073s]
+    Step 15: CPI=2.2304, Area=26.41, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [5125s]
+    Step 18: CPI=2.2318, Area=58.88, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [5176s]
+    Step 21: CPI=2.2294, Area=75.24, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [5224s]
+    Step 24: CPI=2.2415, Area=94.74, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [5273s]
+    Step 27: CPI=2.2582, Area=45.48, ↑1 ↓2, dom=BP [0.31/0.41/0.13] [5321s]
+    Step 30: CPI=2.2688, Area=19.17, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [5371s]
+
+  Start 24/30: CPI=1.9578, Area=129.38
+      Pressure: FP=0.350 BP=0.469 SP=0.105 → dominant=BP
+      Best: dispatchWidth (red=0.2085, Δarea=2.99, eff=0.2085)
+      Reclaim: fetchWidth(12→11), decodeWidth(10→9), commitWidth(9→8), numROBEntries(821→805), numIQEntries(124→116), LQEntries(176→168), SQEntries(234→226), IntALU(8→7), IntMultDiv(7→6), FP_ALU(4→3), RdWrPort(5→4), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.351 BP=0.463 SP=0.108 → dominant=BP
+      Best: dispatchWidth (red=0.0876, Δarea=0.00, eff=0.0876)
+      Reclaim: fetchWidth(11→10), commitWidth(9→8), numROBEntries(805→789), numIQEntries(116→108), LQEntries(168→160), SQEntries(226→218), IntMultDiv(6→5), FP_ALU(3→2), FP_MultDiv(8→7), RdWrPort(4→3), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9641, Area=46.60, ↑1 ↓11, dom=BP [0.35/0.47/0.11] [5424s]
+    Step 6: CPI=2.1252, Area=24.08, ↑1 ↓8, dom=BP [0.34/0.45/0.11] [5488s]
+    Step 9: CPI=2.2393, Area=19.63, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [5543s]
+    Step 12: CPI=2.2315, Area=46.35, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [5594s]
+    Step 15: CPI=2.1286, Area=55.36, ↑1 ↓4, dom=BP [0.31/0.40/0.13] [5646s]
+    Step 18: CPI=2.1154, Area=53.31, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [5700s]
+    Step 21: CPI=2.1468, Area=34.08, ↑1 ↓3, dom=BP [0.31/0.41/0.12] [5757s]
+    Step 24: CPI=2.1659, Area=17.33, ↑1 ↓4, dom=BP [0.31/0.41/0.12] [5811s]
+    Step 27: CPI=2.1649, Area=17.29, ↑1 ↓2, dom=BP [0.31/0.41/0.12] [5866s]
+    Step 30: CPI=2.1531, Area=17.30, ↑1 ↓2, dom=BP [0.30/0.42/0.12] [5920s]
+
+  Start 25/30: CPI=1.9525, Area=235.98
+      Pressure: FP=0.345 BP=0.462 SP=0.106 → dominant=BP
+      Best: dispatchWidth (red=0.2916, Δarea=2.81, eff=0.2916)
+      Reclaim: fetchWidth(12→11), commitWidth(9→8), numROBEntries(769→753), SQEntries(200→192), IntALU(5→4), IntMultDiv(8→7), FP_ALU(7→6), FP_MultDiv(5→4), RdWrPort(8→7), l1_size(256→128), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.357 BP=0.469 SP=0.102 → dominant=BP
+      Best: dispatchWidth (red=0.0671, Δarea=0.00, eff=0.0671)
+      Reclaim: fetchWidth(11→10), commitWidth(9→8), numROBEntries(753→737), numIQEntries(89→81), LQEntries(148→140), SQEntries(192→184), IntALU(4→3), IntMultDiv(7→6), FP_ALU(6→5), FP_MultDiv(4→3), RdWrPort(7→6), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9897, Area=84.88, ↑1 ↓11, dom=BP [0.35/0.47/0.10] [5974s]
+    Step 6: CPI=2.1226, Area=25.16, ↑1 ↓9, dom=BP [0.34/0.45/0.11] [6040s]
+    Step 9: CPI=2.2955, Area=15.33, ↑1 ↓4, dom=BP [0.31/0.42/0.12] [6098s]
+    Step 12: CPI=2.2570, Area=15.69, ↑1 ↓3, dom=BP [0.32/0.41/0.12] [6155s]
+    Step 15: CPI=2.2483, Area=35.04, ↑1 ↓3, dom=BP [0.31/0.41/0.12] [6205s]
+    Step 18: CPI=2.2671, Area=15.60, ↑1 ↓3, dom=BP [0.31/0.42/0.12] [6256s]
+    Step 21: CPI=2.2741, Area=15.56, ↑1 ↓3, dom=BP [0.31/0.42/0.12] [6306s]
+    Step 24: CPI=2.2805, Area=15.52, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [6357s]
+    Step 26: stagnant
+
+  Start 26/30: CPI=1.9437, Area=158.31
+      Pressure: FP=0.343 BP=0.452 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.2210, Δarea=0.00, eff=0.2210)
+      Reclaim: fetchWidth(11→10), commitWidth(12→11), numROBEntries(765→749), numIQEntries(126→118), LQEntries(158→150), SQEntries(219→211), IntMultDiv(6→5), FP_ALU(8→7), FP_MultDiv(5→4), RdWrPort(6→5), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.343 BP=0.456 SP=0.113 → dominant=BP
+      Best: dispatchWidth (red=0.2311, Δarea=0.00, eff=0.2311)
+      Reclaim: fetchWidth(10→9), commitWidth(11→10), numROBEntries(749→733), numIQEntries(118→110), LQEntries(150→142), SQEntries(211→203), IntMultDiv(5→4), FP_ALU(7→6), FP_MultDiv(4→3), RdWrPort(5→4), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9888, Area=43.99, ↑1 ↓10, dom=BP [0.34/0.46/0.11] [6442s]
+    Step 6: CPI=2.0379, Area=27.06, ↑1 ↓7, dom=BP [0.33/0.44/0.12] [6507s]
+    Step 9: CPI=2.2682, Area=24.59, ↑1 ↓5, dom=BP [0.31/0.40/0.13] [6562s]
+    Step 12: CPI=2.2443, Area=19.51, ↑1 ↓4, dom=BP [0.32/0.41/0.13] [6613s]
+    Step 15: CPI=2.2423, Area=26.41, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [6664s]
+    Step 18: CPI=2.2488, Area=26.34, ↑1 ↓2, dom=BP [0.31/0.41/0.13] [6715s]
+    Step 21: CPI=2.2633, Area=15.58, ↑1 ↓2, dom=BP [0.31/0.41/0.13] [6764s]
+    Step 24: CPI=2.2689, Area=15.54, ↑1 ↓2, dom=BP [0.31/0.41/0.13] [6813s]
+    Step 27: CPI=2.2798, Area=15.51, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [6863s]
+    Step 29: stagnant
+
+  Start 27/30: CPI=1.9344, Area=195.26
+      Pressure: FP=0.346 BP=0.448 SP=0.118 → dominant=BP
+      Best: dispatchWidth (red=0.2040, Δarea=0.00, eff=0.2040)
+      Reclaim: fetchWidth(9→8), commitWidth(11→10), numROBEntries(566→550), LQEntries(246→238), SQEntries(165→157), IntMultDiv(7→6), FP_ALU(6→5), FP_MultDiv(8→7), RdWrPort(7→6), l1_size(256→128), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.350 BP=0.457 SP=0.112 → dominant=BP
+      Best: dispatchWidth (red=0.2318, Δarea=0.00, eff=0.2318)
+      Reclaim: fetchWidth(8→7), commitWidth(10→9), numROBEntries(550→534), numIQEntries(111→103), LQEntries(238→230), SQEntries(157→149), IntMultDiv(6→5), FP_ALU(5→4), FP_MultDiv(7→6), RdWrPort(6→5), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9886, Area=51.89, ↑1 ↓11, dom=BP [0.34/0.45/0.12] [6946s]
+    Step 6: CPI=2.1159, Area=45.61, ↑1 ↓7, dom=BP [0.31/0.40/0.13] [7006s]
+    Step 9: CPI=2.2203, Area=46.39, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [7058s]
+    Step 12: CPI=2.0947, Area=68.95, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [7109s]
+    Step 15: CPI=2.1000, Area=53.32, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [7158s]
+    Step 18: CPI=2.2348, Area=58.85, ↑1 ↓3, dom=BP [0.32/0.40/0.13] [7209s]
+    Step 21: CPI=2.2586, Area=26.13, ↑1 ↓4, dom=BP [0.31/0.41/0.13] [7261s]
+    Step 24: CPI=2.2525, Area=35.89, ↑1 ↓3, dom=BP [0.31/0.41/0.13] [7310s]
+    Step 27: CPI=2.2704, Area=34.60, ↑1 ↓2, dom=BP [0.31/0.42/0.13] [7359s]
+    Step 30: CPI=2.2874, Area=15.36, ↑1 ↓2, dom=BP [0.31/0.42/0.13] [7405s]
+
+  Start 28/30: CPI=1.9416, Area=242.90
+      Pressure: FP=0.369 BP=0.472 SP=0.096 → dominant=BP
+      Best: dispatchWidth (red=0.0336, Δarea=0.00, eff=0.0336)
+      Reclaim: fetchWidth(12→11), commitWidth(11→10), numROBEntries(600→584), SQEntries(154→146), IntALU(7→6), IntMultDiv(4→3), FP_ALU(4→3), FP_MultDiv(6→5), RdWrPort(8→7), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.367 BP=0.477 SP=0.094 → dominant=BP
+      Best: LQEntries (red=0.0351, Δarea=0.03, eff=0.0351)
+      Reclaim: fetchWidth(11→10), commitWidth(11→10), numROBEntries(584→568), numIQEntries(97→89), SQEntries(146→138), IntALU(6→5), IntMultDiv(3→2), FP_ALU(3→2), FP_MultDiv(5→4), RdWrPort(7→6), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9701, Area=70.68, ↑1 ↓11, dom=BP [0.36/0.47/0.10] [7456s]
+    Step 6: CPI=2.1074, Area=24.96, ↑1 ↓6, dom=BP [0.34/0.45/0.11] [7522s]
+    Step 9: CPI=2.2485, Area=15.62, ↑1 ↓4, dom=BP [0.32/0.41/0.12] [7578s]
+    Step 12: CPI=2.2306, Area=35.04, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [7628s]
+    Step 15: CPI=2.2162, Area=59.44, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [7677s]
+    Step 18: CPI=2.2457, Area=58.52, ↑1 ↓4, dom=BP [0.31/0.41/0.12] [7727s]
+    Step 21: CPI=2.2642, Area=26.07, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [7777s]
+    Step 24: CPI=2.2810, Area=15.39, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [7826s]
+    Step 27: CPI=2.2921, Area=15.36, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [7877s]
+    Step 30: stagnant
+
+  Start 29/30: CPI=1.9295, Area=242.27
+      Pressure: FP=0.362 BP=0.466 SP=0.102 → dominant=BP
+      Best: dispatchWidth (red=0.0477, Δarea=0.00, eff=0.0477)
+      Reclaim: fetchWidth(11→10), commitWidth(10→9), numROBEntries(899→883), SQEntries(136→128), IntALU(5→4), IntMultDiv(5→4), FP_ALU(7→6), FP_MultDiv(6→5), RdWrPort(8→7), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.360 BP=0.470 SP=0.101 → dominant=BP
+      Best: LQEntries (red=0.0397, Δarea=0.00, eff=0.0397)
+      Reclaim: fetchWidth(10→9), commitWidth(10→9), numROBEntries(883→867), LQEntries(214→206), SQEntries(128→120), IntMultDiv(4→3), FP_ALU(6→5), FP_MultDiv(5→4), RdWrPort(7→6), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9724, Area=60.23, ↑1 ↓11, dom=BP [0.35/0.47/0.11] [7984s]
+    Step 6: CPI=2.1533, Area=22.51, ↑1 ↓7, dom=BP [0.34/0.44/0.12] [8052s]
+    Step 9: CPI=2.2298, Area=26.71, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [8104s]
+    Step 12: CPI=2.2192, Area=59.35, ↑1 ↓3, dom=BP [0.32/0.40/0.13] [8155s]
+    Step 15: CPI=2.1089, Area=86.50, ↑1 ↓4, dom=BP [0.32/0.40/0.13] [8205s]
+    Step 18: CPI=2.2403, Area=58.91, ↑1 ↓2, dom=BP [0.31/0.41/0.12] [8257s]
+    Step 21: CPI=2.2266, Area=59.43, ↑1 ↓3, dom=BP [0.31/0.41/0.12] [8307s]
+    Step 24: CPI=2.2512, Area=58.62, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [8357s]
+    Step 27: CPI=2.2584, Area=26.21, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [8408s]
+    Step 30: CPI=2.2692, Area=19.26, ↑1 ↓2, dom=BP [0.31/0.42/0.12] [8458s]
+
+  Start 30/30: CPI=1.9415, Area=246.01
+      Pressure: FP=0.365 BP=0.474 SP=0.099 → dominant=BP
+      Best: dispatchWidth (red=0.0427, Δarea=0.00, eff=0.0427)
+      Reclaim: fetchWidth(12→11), commitWidth(11→10), numROBEntries(807→791), SQEntries(171→163), IntALU(4→3), IntMultDiv(8→7), FP_ALU(7→6), FP_MultDiv(6→5), RdWrPort(8→7), l1d_assoc(32→16), l1i_assoc(32→16)
+      Pressure: FP=0.363 BP=0.478 SP=0.097 → dominant=BP
+      Best: LQEntries (red=0.0327, Δarea=0.00, eff=0.0327)
+      Reclaim: fetchWidth(11→10), commitWidth(11→10), numROBEntries(791→775), numIQEntries(120→112), SQEntries(163→155), IntALU(3→2), IntMultDiv(7→6), FP_ALU(6→5), FP_MultDiv(5→4), RdWrPort(7→6), l1d_assoc(16→8), l1i_assoc(16→8)
+    Step 3: CPI=1.9969, Area=63.66, ↑1 ↓12, dom=BP [0.36/0.48/0.10] [8513s]
+    Step 6: CPI=2.1150, Area=25.36, ↑1 ↓9, dom=BP [0.34/0.46/0.11] [8580s]
+    Step 9: CPI=2.2839, Area=15.36, ↑1 ↓4, dom=BP [0.32/0.41/0.12] [8639s]
+    Step 12: CPI=2.2532, Area=15.72, ↑1 ↓3, dom=BP [0.32/0.41/0.12] [8696s]
+    Step 15: CPI=2.2347, Area=35.09, ↑1 ↓3, dom=BP [0.32/0.41/0.13] [8747s]
+    Step 18: CPI=2.1103, Area=53.07, ↑1 ↓4, dom=BP [0.32/0.41/0.13] [8798s]
+    Step 21: CPI=2.1524, Area=33.93, ↑1 ↓3, dom=BP [0.31/0.41/0.12] [8851s]
+    Step 24: CPI=2.1537, Area=17.34, ↑1 ↓2, dom=BP [0.30/0.42/0.12] [8905s]
+    Step 27: CPI=2.1752, Area=17.27, ↑1 ↓2, dom=BP [0.30/0.42/0.12] [8957s]
+    Step 30: CPI=2.1516, Area=17.28, ↑1 ↓1, dom=BP [0.31/0.42/0.12] [9011s]
+
+  Total: 529 evals in 9011s | Pareto=58 | McPAT_fails=7
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_attribution_results.json
+
+============================================================
+Done! Total: 9013s (150.2min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================

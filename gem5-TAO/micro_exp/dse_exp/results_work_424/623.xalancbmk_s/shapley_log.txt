@@ -1,0 +1,90 @@
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 623.xalancbmk_s
+======================================================================
+
+  Parameters: 16
+  Full Shapley: 16! = 2.09e+13 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim)...
+    16 params with valid increase, 4.4s
+    Vectors (12-dim):
+      fetchWidth           norm=0.0016  FP=[+0.000,+0.001,-0.000,-0.000] BP=[-0.000,-0.001,+0.000,+0.000] SP=[+0.000,-0.000,-0.000,-0.000]
+      decodeWidth          norm=0.0065  FP=[-0.000,-0.005,+0.000,+0.000] BP=[-0.000,+0.004,-0.001,-0.001] SP=[+0.000,+0.000,+0.000,+0.000]
+      dispatchWidth        norm=0.0155  FP=[-0.008,-0.007,+0.001,+0.001] BP=[+0.004,+0.006,-0.006,-0.005] SP=[+0.000,-0.002,+0.001,+0.001]
+      commitWidth          norm=0.0004  FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      numROBEntries        norm=0.0049  FP=[-0.001,-0.004,+0.000,+0.000] BP=[+0.000,+0.002,-0.001,-0.001] SP=[+0.001,+0.001,+0.000,+0.000]
+      numIQEntries         norm=0.0177  FP=[+0.003,+0.013,-0.001,-0.001] BP=[-0.000,-0.011,+0.003,+0.001] SP=[-0.002,-0.002,-0.001,-0.000]
+      LQEntries            norm=0.0314  FP=[-0.002,-0.022,+0.000,+0.000] BP=[+0.001,+0.022,-0.001,-0.000] SP=[+0.001,+0.000,+0.001,+0.000]
+      SQEntries            norm=0.0027  FP=[+0.000,-0.002,+0.000,+0.000] BP=[-0.000,+0.002,-0.001,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      IntALU               norm=0.0074  FP=[-0.004,+0.000,+0.001,+0.001] BP=[+0.001,-0.003,-0.002,-0.001] SP=[+0.004,+0.003,+0.001,+0.000]
+      IntMultDiv           norm=0.0002  FP=[+0.000,+0.000,+0.000,-0.000] BP=[-0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_ALU               norm=0.0026  FP=[+0.000,+0.002,-0.000,-0.000] BP=[-0.000,-0.002,+0.001,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_MultDiv           norm=0.0007  FP=[-0.000,-0.000,+0.000,+0.000] BP=[+0.000,-0.000,-0.000,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      RdWrPort             norm=0.0013  FP=[+0.000,+0.001,-0.001,-0.000] BP=[+0.000,-0.000,+0.001,+0.000] SP=[-0.000,-0.000,+0.000,-0.000]
+      l1_size              norm=0.0101  FP=[+0.005,+0.007,+0.002,+0.001] BP=[-0.001,-0.004,+0.001,+0.003] SP=[-0.000,+0.000,+0.000,-0.000]
+      l1d_assoc            norm=0.0034  FP=[+0.001,+0.002,-0.001,-0.001] BP=[-0.000,-0.001,+0.002,+0.001] SP=[-0.000,+0.000,-0.000,-0.000]
+      l1i_assoc            norm=0.0008  FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.001,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    120 pairs computed
+
+  Step 3: Grouping (threshold=0.5)...
+    3 groups:
+      G1 (8 params, 8!=40320): ['numROBEntries', 'FP_ALU', 'l1d_assoc', 'fetchWidth', 'numIQEntries', 'decodeWidth', 'SQEntries', 'IntMultDiv']
+      G2 (4 params, 4!=24): ['RdWrPort', 'dispatchWidth', 'LQEntries', 'l1_size']
+      G3 (4 params, 4!=24): ['commitWidth', 'l1i_assoc', 'FP_MultDiv', 'IntALU']
+    Max group size: 8
+    Pruned cost: 4.04e+04  (vs full 2.09e+13)
+    Reduction: 518301374.6x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_cosine_heatmap.png
+
+  Step 4a: Loaded Full MC Shapley from /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_results.json
+    2316 evals, 596.0s (cached)
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: ['numROBEntries', 'FP_ALU', 'l1d_assoc', 'fetchWidth', 'numIQEntries', 'decodeWidth', 'SQEntries', 'IntMultDiv'] → 256 evals (8! = 40320)
+    Group 1: ['RdWrPort', 'dispatchWidth', 'LQEntries', 'l1_size'] → 16 evals (4! = 24)
+    Group 2: ['commitWidth', 'l1i_assoc', 'FP_MultDiv', 'IntALU'] → 16 evals (4! = 24)
+    288 unique evals, 74.9s
+
+  Step 4c: One-at-a-time ΔCPI...
+    16 evals, 4.4s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    l1_size                 +0.2573    +0.2847    +0.2678
+    fetchWidth              +0.0793    +0.0035    +0.0037
+    decodeWidth             +0.0724    -0.0166    -0.0231
+    commitWidth             +0.0670    -0.0032    -0.0032
+    l1d_assoc               +0.0480    +0.0625    +0.0628
+    IntALU                  +0.0135    +0.0118    +0.0116
+    numIQEntries            +0.0088    +0.0083    +0.0070
+    RdWrPort                +0.0085    +0.0086    +0.0081
+    LQEntries               +0.0073    +0.0064    +0.0040
+    SQEntries               +0.0023    +0.0026    +0.0030
+    IntMultDiv              +0.0002    +0.0001    +0.0002
+    FP_MultDiv              +0.0002    +0.0003    +0.0002
+    FP_ALU                  -0.0001    +0.0001    +0.0002
+    l1i_assoc               -0.0024    -0.0023    -0.0023
+    numROBEntries           -0.0054    -0.0080    -0.0136
+    dispatchWidth           -0.2535    -0.3597    -0.3839
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0       2316     596.0s
+    Pruned Shapley (ours)            0.524     0.001928        288      74.9s
+    One-at-a-time (ΔCPI)             0.529     0.002325         16       4.4s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_results.json
+
+  Done!

@@ -1,0 +1,38 @@
+=== data: 6 benches, 6 with states; 60 states ===
+
+Oracle pair gain / best single gain: median 3.96   oracle pair is constrained (projection) in 33% of states
+Top-pressure group counts: {'WID': 8, 'FE': 0, 'BE': 52, 'SPEC': 0}
+
+=== H1  within-group synergy (unconstrained pairs, synergy in units of best single gain) ===
+  WID   when top-pressure: mean syn/frac>0.5b -0.12/0.15 (n=8)       otherwise -2.04/0.09 (n=50)
+  FE    when top-pressure: mean syn/frac>0.5b -                      otherwise 0.54/0.20 (n=28)
+  BE    when top-pressure: mean syn/frac>0.5b 0.49/0.14 (n=52)       otherwise 4.37/0.19 (n=8)
+  cross when top-pressure: mean syn/frac>0.5b -                      otherwise -0.28/0.15 (n=60)
+  Spearman(P_G, max within-G synergy) over states x groups: 0.21 (p=0.009, n=146)
+
+=== H2  dead single (gain < 0.25 b): idle vs masked ===
+  label=unconstrained partner: n=471 masked=0.18  AUC: P=0.58  dm=0.43  gain=0.53  neg_area=0.54
+  label=any partner (incl. projection): n=471 masked=0.27  AUC: P=0.55  dm=0.47  gain=0.51  neg_area=0.48
+  per bench (unconstrained label, AUC of P / dm):
+    602.gcc_s        n= 87 masked=0.22  P=0.91  dm=0.60
+    605.mcf_s        n= 95 masked=0.15  P=0.58  dm=0.45
+    623.xalancbmk_s  n= 94 masked=0.13  P=0.69  dm=0.30
+    638.imagick_s    n= 79 masked=0.32  P=0.45  dm=0.34
+    641.leela_s      n= 59 masked=0.19  P=0.74  dm=0.41
+    648.exchange2_s  n= 57 masked=0.04  P=0.87  dm=0.25
+  most frequent masked params: [('IntMultDiv', 8), ('l1i_assoc', 8), ('wbWidth', 8), ('FP_ALU', 8), ('SQEntries', 7), ('FP_MultDiv', 7), ('l2_size', 7), ('commitWidth', 7)]
+
+=== H3  pair-search policies: queries / best-of-set gain vs oracle pair / beats best single ===
+  mscs_top       queries   43.6   gain/oracle 0.60   beats single 0.85
+  mscs_top2      queries   52.0   gain/oracle 0.81   beats single 0.93
+  rand_group     queries   13.8   gain/oracle 0.29   beats single 0.41
+  scalar_top4    queries    3.7   gain/oracle 0.48   beats single 0.78
+  random_same_n  queries   43.6   gain/oracle 0.74   beats single 0.88
+  all_pairs      queries   88.2   gain/oracle 1.00   beats single 0.97
+  per bench gain/oracle (mscs_top | rand_group | scalar_top4 | random_same_n):
+    602.gcc_s        0.66 | 0.28 | 0.45 | 0.85
+    605.mcf_s        0.60 | 0.30 | 0.49 | 0.87
+    623.xalancbmk_s  0.87 | 0.16 | 0.80 | 0.93
+    638.imagick_s    0.36 | 0.34 | 0.60 | 0.16
+    641.leela_s      0.86 | 0.37 | 0.48 | 0.89
+    648.exchange2_s  0.27 | 0.28 | 0.05 | 0.76

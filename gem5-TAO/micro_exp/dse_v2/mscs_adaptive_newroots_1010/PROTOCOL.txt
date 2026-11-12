@@ -1,0 +1,60 @@
+Frozen-policy extension: four new greedy roots, seed 42
+
+Question
+  Does the existing online rank-feedback allocator retain its benefit on new
+  starting configurations without any change to that allocator or its predictors?
+  No rule changes after seeing these outcomes; no tuning sweep or extra seed.
+
+Root selection, specified before inspecting the new responses
+  Use the same initial seed42 archives in mscs_guard_v5/results_full_01 for
+  602.gcc_s, 605.mcf_s, 623.xalancbmk_s, 641.leela_s, in that order.
+  Compute the archive CPI/area Pareto front with the existing pareto_mask, then
+  stable-sort by area. Target rank = floor(3*(front_size-1)/4), zero indexed.
+  Choose the nearest legal, unexposed rank; ties choose the lower rank.
+  Exclude all configurations present as roots, trial configs, predictions or
+  audit candidates anywhere in JSON results from these four development runs:
+    mscs_jacobian_greedy_1010, mscs_contextual_1010,
+    mscs_hybrid_greedy_1010, mscs_adaptive_greedy_1010 (results_s42_01 each).
+  This intentionally excludes predicted-only pools too, not just exact labels.
+  Save exclusion inventory hashes and the entire rank eligibility list.
+  No search gains, disagreement scores, pressure values or Jacobians enter root
+  selection. Archive CPI is used only to identify the pre-existing Pareto front.
+  These are new roots for this greedy development series, not new benchmarks,
+  hardware measurements, checkpoint training holdouts, or a guarantee of no
+  exposure in every older DSE experiment. Do not call this an independent test set.
+
+Three methods, each run afresh
+  scalar_excess, fixed hybrid (scalar1 + MSCS best distinct1), adaptive.
+  Four roots x three methods x six rounds x two candidates = at most144 new
+  candidate forward verifications, 48 per method. Root forward/JVP costs separate.
+  No pure-MSCS fourth arm, exhaustive label audit, new gem5 or retraining.
+  All methods get the same generator and area cap; no performance-label cache
+  is shared across methods. Each adaptive trajectory starts with zero losses.
+  Each candidate pair is frozen before its CPI/area is evaluated.
+
+Exact implementation reuse
+  Call the existing hybrid pilot's walk function for scalar/fixed hybrid and
+  the existing adaptive pilot's walk function for adaptive. Redirect only their
+  output-directory and elapsed-time globals in memory. Old files are untouched.
+  The adaptive RankAllocator, all predictor numerics, feature encoder, parameter
+  strides, seen-set rules, radius4/2/1 adaptation, 1e-6 acceptance tolerance,
+  and area cap1.10*root_area are unchanged. No copying or editing the policy.
+  Scalar uses4 backward outputs/root; hybrid/adaptive use12. Report all costs.
+  Cold feature caches per walk; rotate method execution order by root index.
+  Share only read-only, source-salted area results; new McPAT work/cache private.
+
+Integrity and reporting
+  Revalidate the preceding adaptive experiment, then freeze all dependency,
+  old-result and new-source hashes before new candidate predictions/evaluations.
+  Check selector exclusion/tie behavior, exact implementation identity, all
+  three methods' full round replay, predictor numerics, adaptive feedback
+  causality, area feasibility, component-change conservation, and query counts.
+  Report all four roots separately, final CPI gains, every even budget2..12,
+  first budget matching scalar's final CPI (1e-6 relative tolerance), allocator
+  mode counts, discriminating comparisons, and actual candidate-set changes.
+  Audit all area failures: a missing area for a potentially acceptable candidate
+  makes the affected comparison inconclusive; do not silently drop that case.
+  Existing queried labels may be used AFTER completion for a clearly identified
+  same-state explanation. Never feed reporting counterfactuals into selection.
+  No end-to-end runtime-speedup claim from shared area caches. The experiment
+  tests frozen-surrogate search, not actual gem5 improvements or Protect/Decouple.

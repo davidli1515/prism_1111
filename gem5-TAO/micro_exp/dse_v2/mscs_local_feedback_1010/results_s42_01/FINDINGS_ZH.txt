@@ -1,0 +1,20 @@
+局部资源/增减方向反馈：三个已检查过的开发回归点；seed42、固定checkpoint
+只运行local；scalar、固定1+1、全局adaptive均复用独立重放核验过的历史轨迹。
+
+起点 | scalar降幅% | 固定1+1降幅% | 全局adaptive降幅% | local降幅%
+602.gcc_s_middle | 0.886046 | 0.919453 | 1.233003 | 1.233003
+602.gcc_s_newrank9 | 0.333191 | 0.557122 | 0.497856 | 0.557122
+605.mcf_s_middle | 0.199213 | 0.199213 | 0.199213 | 0.199213
+
+相对各基线胜平负：{'scalar_excess': {'win': 2, 'tie': 1}, 'hybrid': {'win': 1, 'tie': 2}, 'adaptive': {'tie': 2, 'win': 1}}
+预定扩展条件通过：True。
+达到scalar终点所需候选预算：
+602.gcc_s_middle | 10 | 12 | 6 | 6
+602.gcc_s_newrank9 | 10 | 6 | 6 | 6
+605.mcf_s_middle | 12 | 12 | 12 | 12
+
+新增候选查询：36；运行耗时（报告前）：41.41秒。
+面积计数：{'logical_requests': 39, 'old_safe_store_hits': 35, 'new_store_hits': 4}；失败：0。
+已有轨迹shadow改变选择12次，其中所有shadow决策中缺少必要反事实标签7次；不当作在线结果。
+全局/局部反馈差异必须结合实际选择和radius变化解释，不能仅凭loss变化归因。
+所有结果都是冻结surrogate验证，不证明gem5收益或原版Protect/Decouple。

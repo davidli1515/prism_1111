@@ -1,0 +1,62 @@
+Frozen minimum confirmation of direct ranking value, seed 42.
+
+No new search policy. Preserve every existing file, fixed PRISM checkpoint,
+encoder, scalar_excess/MSCS predictions, LocalAllocator, area model and budget.
+This is a one-step matched-state audit, not another full search or gem5 run.
+
+Root eligibility and bounded screening, frozen before model use:
+  gcc then mcf, same mscs_guard_v5/results_full_01/<bench>/s42/initial.json.
+  Compute the existing archive Pareto front using the existing pareto_mask.
+  Traverse legal eligible front roots in ascending ORIGINAL ARCHIVE INDEX,
+  not sorted by new gains, prediction disagreement magnitude or area rank.
+  Exclude every full configuration, including predicted-only pools, in all JSON
+  files of the other current mscs_*_1010 directories. Record the exact inventory.
+  Configuration dictionaries lacking benchmark context are conservatively
+  excluded for both benchmarks. Archive CPI/area only identifies the old front.
+  At most FOUR eligible roots screened per benchmark. Select the FIRST root
+  with any candidate-set disagreement in full, stride1, stride2, stride4 order.
+  Stop that benchmark at its first selection. No alternative roots after labels,
+  no fallback or increased screen budget if coverage is insufficient.
+  Root novelty is within this experimental series. Initial archive labels are
+  already available; these are NOT never-evaluated, training, or hardware holdouts.
+
+At each screened root:
+  Original moves(radius=4, seen={root}), all full normalized feature displacements,
+  original 50 even slices and checkpoint. New root forward and 12 backward scalar
+  outputs per screened root are counted as screening costs. Never evaluate
+  candidate network outputs while screening; encoder evaluation is permitted.
+  Cold LocalAllocator state (no cross-root credit) equals fixed hybrid1+1.
+  Scalar top2, pure MSCS top2, hybrid and cold local get identical candidate pools.
+  Full pool is always the primary comparison at a selected root. If the earliest
+  disagreeing pool is a fixed-stride pool, also evaluate that ONE secondary pool.
+  Fixed-stride definition is unchanged: exact generator multiplier, no boundary
+  clipping. Resource base quanta differ, so this is not equal area displacement.
+  At most two roots, four cells, four distinct candidate configs per cell
+  (hybrid/local choices are drawn from scalar/MSCS). Per method per cell
+  budget TWO including harmful and infeasible configurations. No acceptance
+  update, feedback training, radius change or concatenation of best steps.
+
+Freeze every screened root's decisions, predictions, selection and all selected
+candidate feature hashes in confirmation_plan.json before any candidate forward.
+Use a separate evaluation process after screening completes for BOTH benchmarks.
+Do not reuse candidate CPI labels: evaluate the selected configuration union once
+per benchmark+config, while counting all methods' logical two-query budgets.
+Report any selected candidates present in the frozen prior-exposure inventory.
+Encoder/cache sharing is an audit optimization, not evidence of search speedup.
+
+Use area cap 1.10 times archived root area; check root CPI against the original
+archive and area against the source-salted exact cache. New area work/private XML
+stays in this directory. Query area only for candidates improving at least one
+of their selected roots by >1e-6 relative CPI. Nonimproving unknown area cannot
+affect acceptance; mark it. Unknown area on an improving candidate propagates
+to an outcome interval, never silently counted as infeasible.
+
+Report every screened root, first-disagreement rule, cold-start equality,
+full-pool and secondary results separately, all screening costs, candidate query
+counts, area failures and unfilled root quota. Root selection is conditional on
+disagreement; no global win probability, significance or general runtime claim.
+Do not claim Protect's future-capacity mechanism or Decouple from one-step data.
+Independent validation replays exclusion eligibility, screen stopping/order,
+selection, saved numeric predictors, equal budgets, feature/stack/source hashes,
+area acceptance and all reported outcomes. Check scalar gradients independently
+at selected roots, counted as diagnostics, not ordinary online search work.

@@ -1,0 +1,40 @@
+Complementary DSE objective: minimize area within CPI <=1.003 * root CPI.
+Tolerance0.3% inherited from original reclaim experiment, not fitted to these roots.
+Four existing confirmation roots, one greedy decision each, seed42, no training.
+This is development, not an added fresh-root confirmation or hardware evidence.
+
+Two algorithms use the same decreases-only box of the largest legal radius4
+single-resource decreases in the existing15-resource domain. Same complete endpoint
+features, exact common McPAT basis, SLSQP, bounds, capacity constraint and rounding.
+Scalar's finite response is per-stage/slice exponential excess-CPI; MSCS uses the
+component-logit response. No online correction in this single cold-start decision.
+Minimize predicted linear area with the respective nonlinear predicted CPI
+constraint. ftol1e-10,maxiter100, initialization fractions0, analytic gradients.
+
+Round by floor and nearest actual allowed resource VALUES. Explicitly increase ROB
+only to restore ROB >=2*dispatch+IQ+LQ+SQ and never above its original root value.
+Rebuild COMPLETE actual endpoint features. Admit a rounded proposal only when its
+own finite model predicts CPI within the cap and predicted area below root area;
+select minimum predicted area. This checks the actual-input finite model, never
+treats an additive chord as the real joint input. Exact labels only after freeze.
+
+Shared anchor: raw scalar's predicted-CPI-safe single decrease with maximum
+predicted area reduction, using the same basis area slopes. Second slot: each
+algorithm's best distinct joint proposal; otherwise its best distinct predicted-
+safe single decrease; if no safe distinct single exists, select its least predicted
+CPI single decrease and mark unsafe fallback. Both still pay exactly2 candidate
+CPI verifications. Record source, feasibility and all predictions before labels.
+Both accept only a measured area reduction and CPI <=cap, then pick least area.
+Unknown required areas produce an interval/unresolved outcome, never silent rejection.
+
+Report every root, measured area savings and CPI costs, same-cap comparisons,
+all basis McPAT calls separately, same legal optimization domain but model-specific
+proposal generation. Any gain would support pre-query finite-step safe reclamation.
+It would NOT establish original Protect's unmeasured future value/re-add story;
+no claim of gem5 safety or stalls' causal resource identity. No post-label veto.
+No full search or new roots unless actual MSCS-feasible outcomes show advantage.
+Before data: analytically soluble cancellation safety test and objective gradient
+checks; afterward independently replay legality, full finite predictions, own cap,
+selection, exact CPI/stack and area outcomes. Old source/results untouched.
+If no predicted-safe single exists, the shared anchor is the least predicted-CPI
+single decrease, explicitly flagged unsafe; it still must pass measured feasibility.

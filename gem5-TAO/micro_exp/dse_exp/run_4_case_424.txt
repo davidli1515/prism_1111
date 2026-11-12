@@ -1,0 +1,501 @@
+nohup: ignoring input
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+============================================================
+CPI vs Area Trajectory — 605.mcf_s
+============================================================
+
+  Scalar CPI Gradient Trajectory (+ reclaim):
+    Step 0: CPI=2.4639, Area=28.5684
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        SQEntries               -0.0007    RECLAIM
+        numIQEntries            -0.0002    RECLAIM
+        FP_ALU                  +0.0011    RECLAIM
+        numROBEntries           +0.0046    RECLAIM
+        LQEntries               +0.0105    RECLAIM
+        RdWrPort                +0.0112    RECLAIM
+        dispatchWidth           +0.0159    RECLAIM
+        IntALU                  +0.0507       KEEP
+        decodeWidth             +0.1284       KEEP
+        commitWidth             +0.1616       KEEP
+        fetchWidth              +0.1631       KEEP
+    Step 1: +l1_size(64→128) → CPI=2.3366 Area=29.7154
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        SQEntries               -0.0041    RECLAIM
+        numIQEntries            +0.0004    RECLAIM
+        FP_ALU                  +0.0010    RECLAIM
+        numROBEntries           +0.0038    RECLAIM
+        LQEntries               +0.0065    RECLAIM
+        RdWrPort                +0.0124    RECLAIM
+        dispatchWidth           +0.0191    RECLAIM
+        IntALU                  +0.0558       KEEP
+        decodeWidth             +0.1125       KEEP
+        commitWidth             +0.1483       KEEP
+        fetchWidth              +0.1519       KEEP
+    Step 2: +l1_size(128→256), -SQEntries→24, -numIQEntries→56, -FP_ALU→1 +2more → CPI=2.1909 Area=32.6011
+    Step 3: +l1d_assoc(2→4) → CPI=2.1737 Area=32.0103
+    Step 4: +l1d_assoc(4→8) → CPI=2.1502 Area=33.0717
+    Step 5: +l1d_assoc(8→16) → CPI=2.1433 Area=34.803
+    Step 6: +IntALU(2→3) → CPI=2.1371 Area=34.8437
+    Step 7: +LQEntries(24→32) → CPI=2.1327 Area=34.8506
+    Step 8: +numROBEntries(176→192) → CPI=2.1291 Area=34.8879
+    Step 9: +numROBEntries(192→208) → CPI=2.1258 Area=35.0018
+    Step 10: +numROBEntries(208→224) → CPI=2.1228 Area=35.0367
+    Step 11: +RdWrPort(2→3) → CPI=2.1199 Area=46.0606
+    Step 12: +LQEntries(32→40) → CPI=2.1170 Area=46.073
+    Step 13: +l1d_assoc(16→32) → CPI=2.1141 Area=55.7612
+    Step 14: +LQEntries(40→48) → CPI=2.1111 Area=55.7736
+    Step 15: +numROBEntries(224→240) → CPI=2.1086 Area=55.8085
+
+  MSCS-Guided Trajectory (ΔCPI primary + MSCS decouple/protect):
+    Step 0: CPI=2.4639, Area=28.5684
+      [ΔCPI increase] (normal mode, best ΔCPI=0.1273)
+        param                      ΔCPI
+        l1_size                 +0.1273 ←
+        l1d_assoc               +0.0388
+        LQEntries               +0.0067
+        IntALU                  +0.0066
+        numROBEntries           +0.0050
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.1631                    KEEP
+        decodeWidth             +0.1284                    KEEP
+        dispatchWidth           +0.0159     0.114125    PROTECT
+        commitWidth             +0.1616                    KEEP
+        numROBEntries           +0.0046     0.002764    RECLAIM
+        numIQEntries            -0.0002                RECLAIM*
+        LQEntries               +0.0095     0.031203    PROTECT
+        SQEntries               -0.0010                RECLAIM*
+        IntALU                  +0.0494     0.055967    PROTECT
+        FP_ALU                  +0.0010     0.001388    RECLAIM
+        RdWrPort                +0.0105     0.010910    RECLAIM
+    Step 1: [ΔCPI] +l1_size(64→128) → CPI=2.3366 Area=29.7154
+      [ΔCPI increase] (normal mode, best ΔCPI=0.1513)
+        param                      ΔCPI
+        l1_size                 +0.1513 ←
+        l1d_assoc               +0.0303
+        IntALU                  +0.0059
+        LQEntries               +0.0051
+        numROBEntries           +0.0044
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.1519                    KEEP
+        decodeWidth             +0.1125                    KEEP
+        dispatchWidth           +0.0191     0.115604    PROTECT
+        commitWidth             +0.1483                    KEEP
+        numROBEntries           +0.0038     0.002885    RECLAIM
+        numIQEntries            +0.0005     0.006573    RECLAIM
+        LQEntries               +0.0057     0.023449    PROTECT
+        SQEntries               -0.0045                RECLAIM*
+        IntALU                  +0.0549                    KEEP
+        FP_ALU                  +0.0010     0.001906    RECLAIM
+        RdWrPort                +0.0118     0.014248    BLOCKED
+    Step 2: [ΔCPI] +l1_size(128→256), -numROBEntries→176, -numIQEntries→56, -SQEntries→24 +1more → CPI=2.1861 Area=32.6079
+    Step 3: [ΔCPI] +l1d_assoc(2→4) → CPI=2.1689 Area=32.0172
+    Step 4: [ΔCPI] +l1d_assoc(4→8) → CPI=2.1456 Area=33.0786
+      [MSCS DECOUPLE] plateau detected (best ΔCPI=0.0067 < 0.01)
+        param                    cancel       ΔCPI      ΔFP      ΔBP      ΔSP
+        LQEntries                0.0065    +0.0026  -0.0025  +0.0033  -0.0008 ←
+        numIQEntries             0.0052    +0.0001  +0.0026  -0.0020  -0.0007
+        l1d_assoc                0.0030    +0.0067  +0.0009  +0.0017  -0.0015
+        IntALU                   0.0021    +0.0061  -0.0004  -0.0009  +0.0010
+        RdWrPort                 0.0010    +0.0032  -0.0005  +0.0005  +0.0002
+    Step 5: [DECOUPLE] +LQEntries(32→40) [decouple], -numIQEntries→48 → CPI=2.1425 Area=33.0727
+    Step 6: [DECOUPLE] +IntALU(2→3) [decouple], -numIQEntries→40 → CPI=2.1360 Area=33.0996
+    Step 7: [DECOUPLE] +LQEntries(40→48) [decouple], -numIQEntries→32 → CPI=2.1323 Area=33.0924
+    Step 8: [DECOUPLE] +l1d_assoc(8→16) [decouple] → CPI=2.1254 Area=34.8237
+    Step 9: [DECOUPLE] +l1d_assoc(16→32) [decouple] → CPI=2.1234 Area=41.0448
+    Step 10: [DECOUPLE] +IntALU(3→4) [decouple] → CPI=2.1219 Area=41.0855
+    Step 11: [DECOUPLE] +IntALU(4→5) [decouple] → CPI=2.1209 Area=41.1262
+    Step 12: [DECOUPLE] +IntALU(5→6) [decouple] → CPI=2.1204 Area=41.1669
+    Step 13: [DECOUPLE] +IntALU(6→7) [decouple] → CPI=2.1200 Area=41.2076
+    Step 14: [DECOUPLE] +IntALU(7→8) [decouple] → CPI=2.1197 Area=41.2484
+    Step 15: [DECOUPLE] +RdWrPort(2→3) [decouple] → CPI=2.1160 Area=55.751
+
+  ============================================================
+  Baseline:  CPI=2.4639, Area=28.5684
+  Scalar:    CPI=2.1086 (-14.4%), Area=55.8085
+  MSCS:      CPI=2.1160 (-14.1%), Area=55.751
+  ============================================================
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_scalar_cpi_area.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_trajectory_cpi_area.png
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+============================================================
+CPI vs Area Trajectory — 641.leela_s
+============================================================
+
+  Scalar CPI Gradient Trajectory (+ reclaim):
+    Step 0: CPI=0.8955, Area=28.5684
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        decodeWidth             -0.0211    RECLAIM
+        FP_ALU                  -0.0018    RECLAIM
+        numIQEntries            +0.0012    RECLAIM
+        numROBEntries           +0.0013    RECLAIM
+        SQEntries               +0.0026    RECLAIM
+        LQEntries               +0.0055    RECLAIM
+        RdWrPort                +0.0105    RECLAIM
+        dispatchWidth           +0.0112    RECLAIM
+        commitWidth             +0.0968       KEEP
+        fetchWidth              +0.1006       KEEP
+        IntALU                  +0.1775       KEEP
+    Step 1: +l1_size(64→128), -decodeWidth→7, -FP_ALU→1, -numIQEntries→56 +1more → CPI=0.8310 Area=28.4533
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        decodeWidth             -0.0276    RECLAIM
+        commitWidth             -0.0011    RECLAIM
+        numIQEntries            +0.0025    RECLAIM
+        fetchWidth              +0.0029    RECLAIM
+        LQEntries               +0.0038    RECLAIM
+        SQEntries               +0.0117    RECLAIM
+        numROBEntries           +0.0156    RECLAIM
+        RdWrPort                +0.0261    RECLAIM
+        l1_size                 +0.0595       KEEP
+        IntALU                  +0.4125       KEEP
+    Step 2: +dispatchWidth(8→9), -decodeWidth→6, -commitWidth→7, -numIQEntries→48 +3more → CPI=0.7217 Area=31.292
+    Step 3: +l1_size(128→256), -commitWidth→6, -numROBEntries→160, -LQEntries→16 +2more → CPI=0.6603 Area=35.3941
+    Step 4: +IntALU(2→3), -numROBEntries→144, -numIQEntries→32 → CPI=0.6306 Area=35.3723
+    Step 5: +l1d_assoc(2→4), -numROBEntries→128 → CPI=0.6200 Area=34.7355
+    Step 6: +l1d_assoc(4→8), -numROBEntries→112 → CPI=0.6080 Area=35.7487
+    Step 7: +IntALU(3→4) → CPI=0.6000 Area=35.7894
+    Step 8: +l1d_assoc(8→16) → CPI=0.5934 Area=37.555
+    Step 9: +FP_MultDiv(1→2) → CPI=0.5892 Area=38.7876
+    Step 10: +FP_MultDiv(2→3) → CPI=0.5868 Area=40.0203
+    Step 11: +IntALU(4→5), -FP_MultDiv→2 → CPI=0.5871 Area=38.8283
+    Step 12: +FP_MultDiv(2→3), -IntALU→4 → CPI=0.5868 Area=40.0203
+    Step 13: +IntALU(4→5), -FP_MultDiv→2 → CPI=0.5871 Area=38.8283
+    Step 14: +FP_MultDiv(2→3), -IntALU→4 → CPI=0.5868 Area=40.0203
+    Step 15: +IntALU(4→5), -FP_MultDiv→2 → CPI=0.5871 Area=38.8283
+
+  MSCS-Guided Trajectory (ΔCPI primary + MSCS decouple/protect):
+    Step 0: CPI=0.8955, Area=28.5684
+      [ΔCPI increase] (normal mode, best ΔCPI=0.0467)
+        param                      ΔCPI
+        l1_size                 +0.0467 ←
+        IntALU                  +0.0388
+        l1d_assoc               +0.0097
+        LQEntries               +0.0064
+        dispatchWidth           +0.0038
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.1006                    KEEP
+        decodeWidth             -0.0211                RECLAIM*
+        dispatchWidth           +0.0138     0.709140    PROTECT
+        commitWidth             -0.0013                RECLAIM*
+        numROBEntries           +0.0101     0.038561    PROTECT
+        numIQEntries            +0.0019     0.014125    RECLAIM
+        LQEntries               +0.0046     0.036948    PROTECT
+        SQEntries               +0.0024     0.017417    RECLAIM
+        IntALU                  +0.3026                    KEEP
+        FP_ALU                  -0.0010                RECLAIM*
+        RdWrPort                +0.0165     0.070269    PROTECT
+    Step 1: [ΔCPI] +l1_size(64→128), -decodeWidth→7, -commitWidth→7, -numIQEntries→56 +2more → CPI=0.8297 Area=28.4365
+      [ΔCPI increase] (normal mode, best ΔCPI=0.0820)
+        param                      ΔCPI
+        dispatchWidth           +0.0820 ←
+        l1_size                 +0.0624
+        IntALU                  +0.0504
+        l1d_assoc               +0.0158
+        LQEntries               +0.0046
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.0029     0.022061    PROTECT
+        decodeWidth             -0.0275                RECLAIM*
+        commitWidth             -0.0011                RECLAIM*
+        numROBEntries           -0.0016                RECLAIM*
+        numIQEntries            -0.0002                RECLAIM*
+        LQEntries               +0.0013     0.036217    PROTECT
+        SQEntries               +0.0069     0.101947    PROTECT
+        IntALU                  +0.4130                    KEEP
+        RdWrPort                +0.0192     0.137064    PROTECT
+        l1_size                 +0.0562                    KEEP
+    Step 2: [ΔCPI] +dispatchWidth(8→9), -decodeWidth→6, -commitWidth→6, -numROBEntries→176 +1more → CPI=0.7172 Area=31.28
+    Step 3: [ΔCPI] +l1_size(128→256), -numROBEntries→160, -LQEntries→24 → CPI=0.6545 Area=35.4188
+    Step 4: [ΔCPI] +IntALU(2→3), -numROBEntries→144, -LQEntries→16 → CPI=0.6237 Area=35.4062
+      [MSCS DECOUPLE] plateau detected (best ΔCPI=0.0092 < 0.01)
+        param                    cancel       ΔCPI      ΔFP      ΔBP      ΔSP
+        l1d_assoc                0.0117    +0.0092  +0.0086  +0.0095  -0.0058 ←
+        FP_MultDiv               0.0084    +0.0049  +0.0051  +0.0056  -0.0042
+        RdWrPort                 0.0055    +0.0013  -0.0023  +0.0028  -0.0015
+        fetchWidth               0.0051    +0.0005  +0.0024  +0.0024  -0.0025
+        numIQEntries             0.0051    +0.0014  +0.0018  +0.0007  -0.0026
+    Step 5: [DECOUPLE] +l1d_assoc(2→4) [decouple], -numROBEntries→128 → CPI=0.6141 Area=34.7694
+    Step 6: [ΔCPI] +l1d_assoc(4→8), -numROBEntries→112 → CPI=0.6031 Area=35.7826
+    Step 7: [DECOUPLE] +FP_MultDiv(1→2) [decouple] → CPI=0.5992 Area=37.0489
+    Step 8: [DECOUPLE] +l1d_assoc(8→16) [decouple] → CPI=0.5938 Area=38.7809
+    Step 9: [DECOUPLE] +fetchWidth(8→9) [decouple] → CPI=0.5934 Area=38.7815
+    Step 10: [DECOUPLE] +RdWrPort(2→3) [decouple] → CPI=0.5915 Area=49.7588
+    Step 11: [DECOUPLE] +fetchWidth(9→10) [decouple] → CPI=0.5914 Area=49.7594
+    Step 12: [DECOUPLE] +FP_MultDiv(2→3) [decouple], -fetchWidth→9 → CPI=0.5897 Area=50.9913
+    Step 13: [DECOUPLE] +FP_MultDiv(3→4) [decouple] → CPI=0.5893 Area=52.2237
+    Step 14: [DECOUPLE] +numIQEntries(48→56) [decouple] → CPI=0.5887 Area=52.2385
+    Step 15: [DECOUPLE] +FP_ALU(1→2) [decouple] → CPI=0.5872 Area=52.2385
+
+  ============================================================
+  Baseline:  CPI=0.8955, Area=28.5684
+  Scalar:    CPI=0.5871 (-34.4%), Area=38.8283
+  MSCS:      CPI=0.5872 (-34.4%), Area=52.2385
+  ============================================================
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_scalar_cpi_area.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_trajectory_cpi_area.png
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+============================================================
+CPI vs Area Trajectory — 623.xalancbmk_s
+============================================================
+
+  Scalar CPI Gradient Trajectory (+ reclaim):
+    Step 0: CPI=3.4073, Area=28.5684
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        numROBEntries           +0.0004    RECLAIM
+        FP_ALU                  +0.0008    RECLAIM
+        SQEntries               +0.0067    RECLAIM
+        dispatchWidth           +0.0075    RECLAIM
+        LQEntries               +0.0080    RECLAIM
+        RdWrPort                +0.0085    RECLAIM
+        numIQEntries            +0.0122    RECLAIM
+        IntALU                  +0.0522       KEEP
+        fetchWidth              +0.3317       KEEP
+        commitWidth             +0.3449       KEEP
+        decodeWidth             +0.3475       KEEP
+    Step 1: +l1_size(64→128) → CPI=3.1395 Area=29.7154
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        dispatchWidth           -0.0280    RECLAIM
+        numROBEntries           -0.0014    RECLAIM
+        FP_ALU                  -0.0002    RECLAIM
+        LQEntries               +0.0052    RECLAIM
+        SQEntries               +0.0060    RECLAIM
+        RdWrPort                +0.0075    RECLAIM
+        numIQEntries            +0.0111    RECLAIM
+        IntALU                  +0.0439    RECLAIM
+        fetchWidth              +0.2216       KEEP
+        decodeWidth             +0.2318       KEEP
+        commitWidth             +0.2383       KEEP
+    Step 2: +l1_size(128→256), -dispatchWidth→7, -FP_ALU→1, -LQEntries→24 +3more → CPI=2.5596 Area=25.688
+    Step 3: +l1d_assoc(2→4), -decodeWidth→7, -fetchWidth→7, -dispatchWidth→6 +3more → CPI=2.5106 Area=22.6109
+    Step 4: +l1d_assoc(4→8), -dispatchWidth→5, -decodeWidth→6, -commitWidth→6 +2more → CPI=2.4603 Area=19.9657
+    Step 5: +IntALU(2→3), -decodeWidth→5, -dispatchWidth→4, -commitWidth→5 +2more → CPI=2.4508 Area=17.4024
+    Step 6: +l1d_assoc(8→16), -decodeWidth→4, -fetchWidth→4, -commitWidth→4 +1more → CPI=2.3994 Area=17.8909
+    Step 7: +LQEntries(16→24), -numROBEntries→128 → CPI=2.3901 Area=17.8822
+    Step 8: +LQEntries(24→32) → CPI=2.3729 Area=17.8848
+    Step 9: +SQEntries(24→32) → CPI=2.3576 Area=17.8873
+    Step 10: +numIQEntries(48→56) → CPI=2.3448 Area=17.8925
+    Step 11: +LQEntries(32→40) → CPI=2.3326 Area=17.895
+    Step 12: +RdWrPort(1→2) → CPI=2.3203 Area=23.9647
+    Step 13: +SQEntries(32→40) → CPI=2.3104 Area=23.9712
+    Step 14: +numROBEntries(128→144), -SQEntries→32 → CPI=2.3104 Area=23.976
+    Step 15: +SQEntries(32→40), -numROBEntries→128 → CPI=2.3104 Area=23.9712
+
+  MSCS-Guided Trajectory (ΔCPI primary + MSCS decouple/protect):
+    Step 0: CPI=3.4073, Area=28.5684
+      [ΔCPI increase] (normal mode, best ΔCPI=0.2678)
+        param                      ΔCPI
+        l1_size                 +0.2678 ←
+        l1d_assoc               +0.0628
+        IntALU                  +0.0116
+        RdWrPort                +0.0081
+        numIQEntries            +0.0070
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.3317                    KEEP
+        decodeWidth             +0.3475                    KEEP
+        dispatchWidth           +0.0075     0.051379    PROTECT
+        commitWidth             +0.3449                    KEEP
+        numROBEntries           +0.0004     0.005761    RECLAIM
+        numIQEntries            +0.0125     0.040200    PROTECT
+        LQEntries               +0.0080     0.062203    PROTECT
+        SQEntries               +0.0068     0.018502    RECLAIM
+        IntALU                  +0.0537                    KEEP
+        FP_ALU                  +0.0005     0.004503    RECLAIM
+        RdWrPort                +0.0085     0.005491    RECLAIM
+    Step 1: [ΔCPI] +l1_size(64→128) → CPI=3.1395 Area=29.7154
+      [ΔCPI increase] (normal mode, best ΔCPI=0.5836)
+        param                      ΔCPI
+        l1_size                 +0.5836 ←
+        l1d_assoc               +0.0271
+        IntALU                  +0.0075
+        numIQEntries            +0.0062
+        RdWrPort                +0.0056
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.2216                    KEEP
+        decodeWidth             +0.2318                    KEEP
+        dispatchWidth           -0.0280                RECLAIM*
+        commitWidth             -0.0026                RECLAIM*
+        numROBEntries           +0.0336     0.026640    PROTECT
+        numIQEntries            +0.0134     0.041728    PROTECT
+        LQEntries               +0.0056     0.068277    PROTECT
+        SQEntries               +0.0073     0.020656    PROTECT
+        IntALU                  +0.0409     0.060931    PROTECT
+        FP_ALU                  +0.0008     0.003233    RECLAIM
+        RdWrPort                +0.0074     0.004872    RECLAIM
+    Step 2: [ΔCPI] +l1_size(128→256), -dispatchWidth→7, -commitWidth→7, -FP_ALU→1 +1more → CPI=2.5335 Area=25.6958
+    Step 3: [ΔCPI] +l1d_assoc(2→4), -fetchWidth→7, -decodeWidth→7, -dispatchWidth→6 +2more → CPI=2.4801 Area=22.6173
+    Step 4: [ΔCPI] +l1d_assoc(4→8), -fetchWidth→6, -decodeWidth→6, -dispatchWidth→5 +1more → CPI=2.4070 Area=19.9803
+    Step 5: [ΔCPI] +IntALU(2→3), -decodeWidth→5, -dispatchWidth→4, -commitWidth→4 +1more → CPI=2.3748 Area=17.4153
+    Step 6: [ΔCPI] +l1d_assoc(8→16), -fetchWidth→5, -decodeWidth→4, -numROBEntries→144 → CPI=2.3358 Area=17.9159
+    Step 7: [ΔCPI] +LQEntries(32→40), -fetchWidth→4, -numROBEntries→128 → CPI=2.3233 Area=17.9065
+    Step 8: [ΔCPI] +RdWrPort(1→2) → CPI=2.3112 Area=23.9761
+    Step 9: [DECOUPLE] +numIQEntries(64→72) [decouple] → CPI=2.3060 Area=23.9826
+    Step 10: [DECOUPLE] +numIQEntries(72→80) [decouple] → CPI=2.3037 Area=23.989
+    Step 11: [DECOUPLE] +numIQEntries(80→88) [decouple] → CPI=2.3035 Area=23.9954
+    Step 12: [DECOUPLE] +LQEntries(40→48) [decouple] → CPI=2.2950 Area=24.0019
+    Step 13: [ΔCPI] +numROBEntries(128→144) → CPI=2.2846 Area=24.0132
+    Step 14: [DECOUPLE] +LQEntries(48→56) [decouple] → CPI=2.2759 Area=24.0193
+    Step 15: [ΔCPI] +SQEntries(32→40), -numIQEntries→80 → CPI=2.2655 Area=24.0195
+
+  ============================================================
+  Baseline:  CPI=3.4073, Area=28.5684
+  Scalar:    CPI=2.3104 (-32.2%), Area=23.9712
+  MSCS:      CPI=2.2655 (-33.5%), Area=24.0195
+  ============================================================
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_scalar_cpi_area.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_trajectory_cpi_area.png
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+============================================================
+CPI vs Area Trajectory — 600.perlbench_s
+============================================================
+
+  Scalar CPI Gradient Trajectory (+ reclaim):
+    Step 0: CPI=0.5266, Area=28.5684
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        decodeWidth             -0.0795    RECLAIM
+        FP_ALU                  -0.0003    RECLAIM
+        numIQEntries            +0.0006    RECLAIM
+        LQEntries               +0.0016    RECLAIM
+        SQEntries               +0.0071    RECLAIM
+        numROBEntries           +0.0082    RECLAIM
+        commitWidth             +0.0174    RECLAIM
+        fetchWidth              +0.0197    RECLAIM
+        RdWrPort                +0.0253    RECLAIM
+        l1_size                 +0.0359    RECLAIM
+        IntALU                  +0.2119       KEEP
+    Step 1: +dispatchWidth(8→9), -decodeWidth→7, -FP_ALU→1, -numIQEntries→56 +3more → CPI=0.4226 Area=30.3109
+      [SCALAR reclaim] ΔCPI cost (threshold=0.05):
+        param                  ΔCPI_dec     action
+        LQEntries               +0.0002    RECLAIM
+        numIQEntries            +0.0002    RECLAIM
+        SQEntries               +0.0050    RECLAIM
+        numROBEntries           +0.0074    RECLAIM
+        dispatchWidth           +0.0220    RECLAIM
+        RdWrPort                +0.0221    RECLAIM
+        l1_size                 +0.0298    RECLAIM
+        decodeWidth             +0.0681       KEEP
+        commitWidth             +0.0738       KEEP
+        fetchWidth              +0.0748       KEEP
+    Step 2: +IntALU(2→3), -LQEntries→16, -numIQEntries→48 → CPI=0.4073 Area=30.3296
+    Step 3: +l1_size(64→128), -SQEntries→24 → CPI=0.3926 Area=31.4696
+    Step 4: +RdWrPort(2→3) → CPI=0.3895 Area=36.0139
+    Step 5: +fetchWidth(7→8) → CPI=0.3875 Area=36.0145
+    Step 6: +l1d_assoc(2→4), -numIQEntries→40 → CPI=0.3875 Area=37.6011
+    Step 7: +numIQEntries(40→48), -l1d_assoc→2 → CPI=0.3875 Area=36.0145
+    Step 8: +l1d_assoc(2→4), -numIQEntries→40 → CPI=0.3875 Area=37.6011
+    Step 9: +numIQEntries(40→48), -l1d_assoc→2 → CPI=0.3875 Area=36.0145
+    Step 10: +l1d_assoc(2→4), -numIQEntries→40 → CPI=0.3875 Area=37.6011
+    Step 11: +numIQEntries(40→48), -l1d_assoc→2 → CPI=0.3875 Area=36.0145
+    Step 12: +l1d_assoc(2→4), -numIQEntries→40 → CPI=0.3875 Area=37.6011
+    Step 13: +numIQEntries(40→48), -l1d_assoc→2 → CPI=0.3875 Area=36.0145
+    Step 14: +l1d_assoc(2→4), -numIQEntries→40 → CPI=0.3875 Area=37.6011
+    Step 15: +numIQEntries(40→48), -l1d_assoc→2 → CPI=0.3875 Area=36.0145
+
+  MSCS-Guided Trajectory (ΔCPI primary + MSCS decouple/protect):
+    Step 0: CPI=0.5266, Area=28.5684
+      [ΔCPI increase] (normal mode, best ΔCPI=0.0245)
+        param                      ΔCPI
+        dispatchWidth           +0.0245 ←
+        IntALU                  +0.0205
+        l1_size                 +0.0192
+        SQEntries               +0.0108
+        l1d_assoc               +0.0093
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.0197     0.182303    PROTECT
+        decodeWidth             -0.0795                RECLAIM*
+        commitWidth             +0.0009     0.015109    RECLAIM
+        numROBEntries           +0.0074     0.070222    PROTECT
+        numIQEntries            -0.0008                RECLAIM*
+        LQEntries               -0.0008                RECLAIM*
+        SQEntries               +0.0041     0.036869    PROTECT
+        IntALU                  +0.2398                    KEEP
+        FP_ALU                  -0.0005                RECLAIM*
+        RdWrPort                +0.0221     0.170436    PROTECT
+        l1_size                 +0.0298     0.141626    PROTECT
+    Step 1: [ΔCPI] +dispatchWidth(8→9), -decodeWidth→7, -commitWidth→7, -numIQEntries→56 +2more → CPI=0.4214 Area=30.3115
+      [ΔCPI increase] (normal mode, best ΔCPI=0.0164)
+        param                      ΔCPI
+        IntALU                  +0.0164 ←
+        l1_size                 +0.0147
+        SQEntries               +0.0090
+        l1d_assoc               +0.0078
+        RdWrPort                +0.0034
+      [MSCS reclaim]
+        param                  ΔCPI_dec  MSCS_effect     action
+        fetchWidth              +0.0016     0.034576    PROTECT
+        decodeWidth             +0.0689                    KEEP
+        dispatchWidth           +0.0205     1.093466    PROTECT
+        commitWidth             +0.0736                    KEEP
+        numROBEntries           +0.0071     0.079787    PROTECT
+        numIQEntries            +0.0001     0.011961    RECLAIM
+        LQEntries               +0.0004     0.015367    RECLAIM
+        SQEntries               +0.0045     0.041371    PROTECT
+        RdWrPort                +0.0216     0.169452    PROTECT
+        l1_size                 +0.0294     0.151529    PROTECT
+    Step 2: [ΔCPI] +IntALU(2→3), -numIQEntries→48, -LQEntries→16 → CPI=0.4055 Area=30.3302
+    Step 3: [ΔCPI] +l1_size(64→128), -SQEntries→24 → CPI=0.3905 Area=31.4702
+      [MSCS DECOUPLE] plateau detected (best ΔCPI=0.0030 < 0.01)
+        param                    cancel       ΔCPI      ΔFP      ΔBP      ΔSP
+        numROBEntries            0.0096    +0.0019  -0.0040  +0.0048  -0.0044 ←
+        RdWrPort                 0.0065    +0.0030  +0.0053  +0.0061  -0.0033
+        IntALU                   0.0043    +0.0010  -0.0018  -0.0004  +0.0025
+        commitWidth              0.0033    +0.0009  +0.0026  -0.0016  +0.0021
+        LQEntries                0.0021    +0.0001  +0.0013  +0.0014  -0.0010
+    Step 4: [DECOUPLE] +numROBEntries(192→208) [decouple] → CPI=0.3886 Area=31.5132
+      [MSCS DECOUPLE] plateau detected (best ΔCPI=0.0029 < 0.01)
+        param                    cancel       ΔCPI      ΔFP      ΔBP      ΔSP
+        RdWrPort                 0.0066    +0.0029  +0.0054  +0.0061  -0.0033 ←
+        IntALU                   0.0046    +0.0006  -0.0018  -0.0005  +0.0023
+        commitWidth              0.0032    +0.0009  +0.0026  -0.0016  +0.0021
+        FP_MultDiv               0.0015    +0.0004  +0.0008  +0.0009  -0.0007
+        l1i_assoc                0.0015    +0.0008  +0.0016  -0.0007  +0.0015
+    Step 5: [DECOUPLE] +RdWrPort(2→3) [decouple] → CPI=0.3857 Area=36.0575
+    Step 6: [DECOUPLE] +RdWrPort(3→4) [decouple] → CPI=0.3851 Area=42.2387
+    Step 7: [DECOUPLE] +IntALU(3→4) [decouple] → CPI=0.3843 Area=42.2794
+    Step 8: [DECOUPLE] +commitWidth(7→8) [decouple] → CPI=0.3834 Area=42.297
+    Step 9: [DECOUPLE] +SQEntries(24→32) [decouple] → CPI=0.3831 Area=42.3185
+    Step 10: [DECOUPLE] +SQEntries(32→40) [decouple] → CPI=0.3787 Area=42.3387
+    Step 11: [DECOUPLE] +commitWidth(8→9) [decouple] → CPI=0.3779 Area=42.3573
+    Step 12: [DECOUPLE] +commitWidth(9→10) [decouple] → CPI=0.3771 Area=42.3763
+    Step 13: [DECOUPLE] +commitWidth(10→11) [decouple] → CPI=0.3762 Area=42.3964
+    Step 14: [DECOUPLE] +commitWidth(11→12) [decouple] → CPI=0.3754 Area=42.4171
+    Step 15: [DECOUPLE] +l1i_assoc(2→4) [decouple] → CPI=0.3747 Area=42.5693
+
+  ============================================================
+  Baseline:  CPI=0.5266, Area=28.5684
+  Scalar:    CPI=0.3875 (-26.4%), Area=36.0145
+  MSCS:      CPI=0.3747 (-28.8%), Area=42.5693
+  ============================================================
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_scalar_cpi_area.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_trajectory_cpi_area.png

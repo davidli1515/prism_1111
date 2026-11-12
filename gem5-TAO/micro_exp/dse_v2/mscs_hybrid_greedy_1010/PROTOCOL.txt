@@ -1,0 +1,59 @@
+Multi-step scalar-anchor / MSCS-alternative greedy, seed 42, frozen checkpoint
+
+Question
+  Does retaining one scalar proposal protect against the observed MSCS
+  over-conservatism while retaining its finite-step candidate-ranking benefit?
+  This tests the proposed hybrid directly in trajectories, not joint-action lookahead.
+
+Six preselected roots, no search based on outcomes
+  Regression: gcc_middle and mcf_middle from mscs_jacobian_greedy_1010.
+  Extension: all four roots of mscs_contextual_1010 (gcc rank3, mcf rank4,
+  xalan rank6, leela rank7). These have already been inspected for one-step
+  joint moves; they are NOT untouched held-out validation data.
+  Report the two regression cases and four extensions separately.
+  The checkpoint, source archives, normalizer and input selection stay unchanged.
+
+Controlled comparison
+  Arms: scalar_excess, mscs_logit, hybrid. All get the same generator and rules.
+  Six rounds/root/arm, at most two previously unqueried candidates per round.
+  Scalar: best two by scalar-excess prediction.
+  MSCS: best two by component-logit prediction.
+  Hybrid: scalar's best one, plus MSCS's best DISTINCT candidate at that same state.
+  When they agree, the second MSCS candidate is used. No extra query is spent.
+  Candidate identities are frozen before either exact CPI or area is evaluated.
+  Evaluate both, accept the feasible strict CPI improvement with lowest CPI.
+  Never accept an improvement solely on the predicted component attribution.
+  Retaining scalar's first candidate does not guarantee dominance over scalar's
+  two-candidate policy or over scalar's later trajectory.
+
+Unchanged local search
+  Exact action domain/step generator imported read-only from the original pilot:
+  15 resource parameters, +/- strides1/2/4, no projection, fixed widths, L1 trace,
+  BP type. Area cap = 1.10 * original root area.
+  Accept -> radius4; reject both -> radius4/2/1. No parameter-specific adaptation.
+  All tried configs are seen, including infeasible ones. No performance-label
+  reuse between arms; exact area caches may be shared and must be source-salted.
+  Pure methods use identical finite-step numerical models to the original pilot.
+  Full feature endpoint displacement, not architecture-input slots alone.
+  Hybrid reuses the scalar derivative recovered from the component Jacobian;
+  initial slopes must match an independent scalar gradient and network JVP.
+  Scalar requires 4 backward outputs/root; MSCS/hybrid 12. Record all compute costs.
+
+Explanations and shadow information
+  Every MSCS/hybrid trial logs its predicted and actual pressure-CPI changes.
+  Record both scalar and MSCS predicted CPI plus the proposal's source.
+  Protect/Decouple are not active selectors in this experiment. Single-action
+  cancellation or resource shrinkage is not itself evidence of those mechanisms.
+  No counterfactuals or hard protection vetoes are added. Their previous audit
+  remains separate; do not retrofit a causal label onto a winning hybrid move.
+
+Budget and preservation
+  One seed, 18 walks, <=216 exact candidate forward calls in total.
+  Root gradient forwards/JVP diagnostics counted/timed separately.
+  No exhaustive initial-pool oracle audit, new gem5, retraining or follow-up sweep.
+  All new sources/results confined to this folder. Original files/cache data are
+  read-only; new exact areas use private XML files and a private SQLite store.
+  Freeze protocol and source hashes before start; independently replay candidate
+  selection, every prediction snapshot, acceptance, legality and budgets afterwards.
+  Report gains, ties/losses, area failures, proposal disagreement and wall/compute
+  time. Sharing area caches prevents an end-to-end speedup claim.

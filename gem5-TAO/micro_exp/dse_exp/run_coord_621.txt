@@ -1,0 +1,62 @@
+nohup: ignoring input
+=== Coordinated DSE Started: Mon Jun 22 02:49:45 AM EDT 2026 ===
+=== Output: results_17bm_coord ===
+=== BO checkpoint: results_17bm_530/bo_checkpoint.json ===
+============================================================
+MSCS-Guided DSE (joint)
+============================================================
+Benchmarks:   ['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+Design space: 2.08e+23
+Methods:      ['gem_coordinated', 'gem_bo_scalar', 'gem_bo_mscs']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  L1=128KB: 17 workloads, 3262 slices
+  L1=16KB: 17 workloads, 3400 slices
+  L1=256KB: 17 workloads, 3262 slices
+  L1=32KB: 17 workloads, 3262 slices
+  L1=64KB: 17 workloads, 3262 slices
+DseEngine: L1 configs=[16, 32, 64, 128, 256], workloads=['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+  GEMPredictor [508.namd_r]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [526.blender_r]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [600.perlbench_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [602.gcc_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [605.mcf_s]: 134 total, subsampled=134, CPI=134, grad=50
+  GEMPredictor [607.cactuBSSN_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [619.lbm_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [620.omnetpp_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [621.wrf_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [623.xalancbmk_s]: 128 total, subsampled=128, CPI=128, grad=50
+  GEMPredictor [631.deepsjeng_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [638.imagick_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [641.leela_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [644.nab_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [648.exchange2_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [654.roms_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [657.xz_s]: 200 total, subsampled=200, CPI=200, grad=50
+  MultiWorkloadPredictor: 17 workloads
+  ConcordePredictor [508.namd_r]: 200 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM gmean CPI=1.3329, Area=28.57
+    Per-workload CPI: 508.namd_r=0.5695 526.blender_r=1.2037 600.perlbench_s=0.5253 602.gcc_s=4.5827 605.mcf_s=2.5503 607.cactuBSSN_s=4.5969 619.lbm_s=3.5692 620.omnetpp_s=1.9119 621.wrf_s=1.5498 623.xalancbmk_s=3.3676 631.deepsjeng_s=0.7818 638.imagick_s=0.4959 641.leela_s=0.8903 644.nab_s=0.8676 648.exchange2_s=0.5444 654.roms_s=2.7392 657.xz_s=0.4299 
+    Time: 11.489s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_coordinated (starts=50, steps=30)
+============================================================
+      [COORD] dom=BP (FP=0.333 BP=0.426 SP=0.048)
+      Swap: +decodeWidth(10→11) | -numROBEntries(686→670)
+      [COORD] dom=BP (FP=0.334 BP=0.421 SP=0.049)
+      Swap: +l1_size(64→128) | -IntMultDiv(8→7)
+      [COORD] dom=BP (FP=0.329 BP=0.419 SP=0.049)
+      Swap: +l1_size(128→256) | -IntMultDiv(7→6)
+  Start 10/50: CPI=1.2129→0.9058 Area=44.6→162.0 (20 steps) [34407s]

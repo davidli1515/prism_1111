@@ -1,0 +1,37 @@
+Development: reuse Jacobians at previous accepted roots, not only their response
+values. Fixed checkpoint and the same four already-inspected confirmation roots.
+3 arms: scalar_shepard, mscs_shepard, hybrid_shepard. Six batches x2 queries each;
+hybrid allocates one scalar-model anchor and one distinct MSCS-model proposal.
+Compare with BOTH original scalar and scalar quadratic at the same 12-call budget;
+report pure MSCS and hybrid, all outcomes, no selective reporting.
+
+Modified first-order Shepard interpolation, per slice:
+  each center contributes its local linear log-excess-CPI or log-odds response;
+  weights are inverse squared COMPLETE standardized input distance, normalized
+  across centers. At an exact center, only zero-distance centers get weight.
+  This is a convex combination of local affine responses, avoiding an ill-conditioned
+  polynomial residual solve. Use at most the last six DISTINCT visited roots of
+  THAT arm. A new center becomes available only after the arm has accepted it and
+  computed its usual next-step root Jacobian. No gradients at rejected candidates,
+  no new derivative queries, no access to another arm's or future roots.
+  Root response and derivative are preserved (nonidentical centers), with scalar
+  and MSCS getting the identical combination rule and own earlier derivatives.
+  Scalar interpolates four per-slice log(CPI-1/W) responses and their true gradients;
+  MSCS interpolates 4x3 log(P/Base) and their true gradients. Reconstruct CPI with
+  existing physical clamps. One-center predictions use the original predictor
+  exactly. No benchmark-specific rule, new threshold or length-scale tuning.
+
+The old quadratic correction and rejected-point residual fitting are NOT used.
+Same 15-resource legal generator, radius4/2/1 and area cap1.10. All batch decisions
+freeze before shared evaluation. Reused old truth labels only after selection,
+still charged as logical calls; no old histories or seen sets copied in. Shared
+root computation is execution optimization, not a claim of faster MSCS runtime.
+Separate physical forwards, logical calls, root/backward costs and McPAT counts.
+
+Before search: test affine reproduction, exact-center value/derivative recovery,
+and coincident-center stability. After search: independently reconstruct weights,
+responses/rankings, own accepted-center sequence, history/seen, acceptance/budgets.
+Primary development gate: hybrid wins on >=2 roots versus the best original,
+quadratic, or matched Shepard scalar endpoint, includes >=1 non-gcc, and has lower mean normalized CPI.
+All regressions reported. Failure ends this version without changing exponent2,
+center count6 or adding roots. No new holdout run unless a development gate passes.

@@ -1,0 +1,33 @@
+Area-neutral signed resource exchange, seed42, development roots only.
+Four existing roots, fixed width/L1/BP, 15 original resource dimensions.
+Use previously validated up-only and supported down-only endpoint boxes and
+their exact areas. No new range selection based on candidate CPI labels.
+Both arms get identical boxes, area chords, capacity constraints and solver.
+Use one signed variable per resource, so a resource cannot be simultaneously
+increased and decreased to cancel features artificially. Positive/negative
+feature chords may differ. Area limit is root area (zero added area).
+
+Optimize predicted CPI with SLSQP, ftol1e-10, maxiter100, exactly three starts:
+zero, +0.25 on every available positive side, -0.25 on every negative side.
+The derivative at zero chooses the available positive side, otherwise negative;
+this piecewise objective is not claimed convex or globally solved. Each start
+is retained even on solver failure if its final point satisfies area/capacity
+within 1e-7. Reject nonfinite points. Log solver success and slacks.
+Scalar uses per-slice/per-stage aggregate Base log odds and gradients. MSCS
+uses three relative logits, both with identical physical clamps and W_min.
+Round floor and nearest values; repair ROB minimally inside the shared box;
+no hidden projection. Rebuild full inputs for every rounded proposal, score
+both models anew. Reject duplicate/root/illegal/unsupported-box points.
+
+Common final pool = supported original singles + all proposals from BOTH
+models, generated before any candidate labels. This deliberately separates
+ranking information from different candidate-generation privileges. Both rank
+this same pool and receive exact area prefixes up to first area-feasible point.
+Area costs are separately reported. Each arm gets ONE logical CPI query per
+resolved root. All roots' choices freeze before querying/reusing any CPI label.
+Unknown area stops that root; it is not silently classed infeasible. Actual
+complete frozen-surrogate CPI determines acceptance, requiring >1e-6 gain.
+
+Development gate: non-gcc MSCS win, no losses/unresolved roots, code replay
+passed. No full trajectory otherwise. Joint gains alone do not prove original
+Protect future option value, nor independent heldout or gem5 performance.

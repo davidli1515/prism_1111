@@ -1,0 +1,37 @@
+Full greedy development after the automatic pair-priority gate passed.
+Same predeclared composed root as priority_walk_s42_01, same three selected
+workloads mcf/lbm/roms, same checkpoint, same cap1.10*initial area, seed42.
+This is development on already inspected roots, NOT independent confirmation.
+
+Factorial policies: scalar_single,mscs_single,scalar_joint,mscs_joint. Each gets
+6 rounds x1 candidate CPI query, private seen/history, no lookahead. All use the
+same dense resource singles (stride1,2,3,4), original legal width closures,
+buffer>=16, fixed L1/BP. Radius starts4, halves to1 after rejected moves and
+resets4 on accepted CPI gain>1e-6. The dense generator must honor current radius.
+
+At each joint-policy root generate the identical structural universe of two
+distinct pure positive resource moves. Use both raw scalar and M S C S chord
+scores to generate one exactly feasible proposal each. Individually exact-area
+feasible endpoints define the same pair domain as the pilot. Use validated
+lazy_pair_support_v2 ordering to avoid unnecessary area checks, with no area
+approximation or unsafe pruning. Each policy gets the common union of its two
+proposals + singles, with full pair input rebuilt before final ranking.
+Thus scalar_joint is a deliberately strong scalar RANKER given even the pair
+proposed by M S C S at its own root; do not call it a pure scalar-only generator.
+Single policies do not spend work on pair generation. All costs explicit.
+
+Freeze all four methods' current-round choices before any candidate labels;
+reuse old labels only after choice and count method-local logical queries.
+Area errors stop that policy as unresolved. Checkpoint and old outputs read-only.
+Run all three workloads without replacing losses or adding rounds.
+
+Primary comparator at each query: best accepted CPI among scalar_single,
+scalar_joint, and the archived scalar_quadratic curve from priority_walk_s42_01
+(same root/cap/query count, but older sparse single grid, reported explicitly).
+Report full curves, endpoint CPI, anytime normalized-CPI averages and exact
+areas; also compare M S C S joint vs its dense single ablation. Descriptive gate:
+at least2/3 workloads have better anytime quality than the scalar envelope,
+mean advantage positive, no endpoint loss vs that envelope, and a strict roms
+endpoint gain over mscs_single, with every policy resolved and replay passed.
+This gate cannot complete the research by itself: a passing rule still requires
+a configuration chosen independently of tuning for confirmation.

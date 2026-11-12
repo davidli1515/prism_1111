@@ -1,0 +1,27 @@
+Post-hoc minimum-cost mechanism probe; no new root Jacobians or feature pools.
+Use ALL15 active_resources_s42_01/mscs_memory states before queries2..6 across
+mcf/lbm/roms. Source active-run validation must pass first. Same private history,
+same frozen candidate pools, area cap, and fixed inactive L2 parameters.
+
+Observed issue motivating the rule: unconstrained historical interpolation can
+make a resource withdrawal look MORE attractive than the current local model,
+leading to incorrect reclaims in mcf. Do not let history justify a more
+optimistic withdrawal. For any candidate decreasing at least one numerical
+resource/width parameter, score=max(raw CPI forecast, history CPI forecast).
+For candidates with no decreases, score=raw forecast. Same rule for scalar and
+MSCS; no special workload/resource cases, thresholds, lookahead or new fits.
+This max is a conservative heuristic, NOT a physical bound or future-option
+value proof. Complete surrogate forward and exact area still decide outcomes.
+
+Six matched rankers, each1 logical query per state: scalar_raw,mscs_raw,
+scalar_memory,mscs_memory,scalar_guard,mscs_guard. The guards reuse existing
+recorded forecasts. Freeze all15x6 choices BEFORE looking up candidate truth.
+Old paid labels may be reused only afterward and are still logical queries.
+Extra area queries are logged; new model calls only for selected unknown labels.
+
+Pilot gate: mscs_guard improves over raw MSCS in >=2 states, has positive mean
+gain advantage over raw MSCS AND the per-state best of THREE scalar rankers,
+and beats that scalar envelope in >=2 workloads, all resolved/replayed.
+Do not call this a full search or blindly generalize from MSCS-selected states.
+Only a passing probe can motivate a prospective full guarded greedy variant.
+Existing active_confirmation keeps its frozen unguarded memory policy.

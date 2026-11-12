@@ -1,0 +1,33 @@
+固定规则的新起点验证：同一checkpoint、seed42，scalar / 固定1+1 / 自适应
+起点来自同四个benchmark的原有档案；排除前四轮greedy开发JSON中出现过的配置。
+这不是新benchmark、独立硬件测试集或训练分布留出测试。
+选择规则：前沿按面积排序，取最接近75%排序位置的未涉及合法配置；未按效果挑选。
+
+起点 | scalar CPI降幅% | 固定1+1 CPI降幅% | 自适应 CPI降幅%
+602.gcc_s_newrank9 | 0.333191 | 0.557122 | 0.497856
+605.mcf_s_newrank12 | 0.178332 | 0.178332 | 0.178332
+623.xalancbmk_s_newrank9 | 4.355098 | 4.355098 | 4.355098
+641.leela_s_newrank10 | 0.620062 | 0.620062 | 0.620062
+
+自适应相对scalar：{'win': 1, 'tie': 3}
+自适应相对固定1+1：{'loss': 1, 'tie': 3}
+
+首次达到scalar终点的候选验证预算（0=起点已满足；None=预算内未达到）：
+起点 | scalar | 固定1+1 | 自适应
+602.gcc_s_newrank9 | 10 | 6 | 6
+605.mcf_s_newrank12 | 12 | 12 | 12
+623.xalancbmk_s_newrank9 | 12 | 12 | 12
+641.leela_s_newrank10 | 12 | 12 | 12
+
+自适应每轮选择模式：{'hybrid': 20, 'mscs_logit': 4}。
+602.gcc_s_newrank9: 有区分力的比较3次；相同状态候选相对固定1+1改变4/6批，相对scalar改变5/6批；累计损失(乘2){'scalar': 16, 'mscs': 10}。
+605.mcf_s_newrank12: 有区分力的比较0次；相同状态候选相对固定1+1改变0/6批，相对scalar改变0/6批；累计损失(乘2){'scalar': 4, 'mscs': 4}。
+623.xalancbmk_s_newrank9: 有区分力的比较0次；相同状态候选相对固定1+1改变0/6批，相对scalar改变0/6批；累计损失(乘2){'scalar': 2, 'mscs': 2}。
+641.leela_s_newrank10: 有区分力的比较0次；相同状态候选相对固定1+1改变0/6批，相对scalar改变0/6批；累计损失(乘2){'scalar': 0, 'mscs': 0}。
+
+候选验证数：{'scalar_excess': 48, 'hybrid': 48, 'adaptive': 48}；反向标量输出数：{'scalar_excess': 48, 'hybrid': 144, 'adaptive': 144}。
+运行耗时（报告前）：279.64秒；面积计数：{'logical_requests': 148, 'old_safe_store_hits': 26, 'physical_mcpat_calls': 34, 'new_store_hits': 88}。
+面积失败数：0；全部不影响接受决定：True。
+全部预算曲线、模式计数和计算成本见analysis.json；逐步解释及已有标签反事实见decision_audit.json。
+只验证冻结surrogate上的搜索；不代表gem5性能收益，不证明原版保护/解耦机制。
+一次排序领先不代表统计置信度；共享面积缓存不支持端到端时间加速主张。

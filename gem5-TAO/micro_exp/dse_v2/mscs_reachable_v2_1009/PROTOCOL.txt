@@ -1,0 +1,59 @@
+Corrected small attainable-gain experiment, seed 42, fixed checkpoint.
+
+Scope: offline calibration and six new finite FE-only sets. No gem5, area jobs,
+full DSE, or checkpoint training. New candidate CPI cap 30, new root feature
+extractions cap 6. Runtime cap 600 seconds enforced by supervisor. All old files
+are read-only. Existing examined mcf cases are development data, never fresh test.
+
+Development: all ten gcc sets and three mcf sets from reachable_min, plus the
+five nonempty xalan/leela sets from bounds_1009: 18 rows, four benchmarks, already
+available root vectors and complete descendant labels. Deduplicate identical
+bench/config roots. Connected components of roots differing in <=1 non-FE
+parameter are indivisible CV groups, even across workloads. The number of rows
+is not reported as the number of independent contexts.
+
+Features: compact scalar (root CPI distribution, width/cache size and explicit
+remaining FE ranges); rich scalar additionally sees all architecture parameters
+and all 50 quantiles of each of the four Base-derived CPI distributions.
+MSCS adds only four interpretable CPI-weighted conditional pressure shares:
+FP@Decode, FP@Commit, SP@Decode, BP@Commit, each normalized by total pressure.
+It cannot gain extra Base information from the pressure sum.
+
+StandardScaler is fitted separately inside every training fold. Ridge alpha is
+selected from {0.001,0.01,0.1,1,10,100,1000} by 3-fold grouped CV MAE. Compact vs
+rich scalar representation is selected using scalar development CV only; M and
+shuffled controls append four columns to this same selected representation.
+The MSCS and shuffled arms tune alpha by the same training-only procedure.
+Shuffling uses seed 42 within each benchmark, keeping scalar inputs unchanged;
+train and fresh-test permutations are separate. Record the constant-mean baseline,
+train R2, effective ridge dimension, and grouped CV performance. Leave-one-benchmark
+development checks are descriptive; they do not replace the fresh confirmation.
+
+Control gate before new queries: synthetic positive control with fixed scalar
+features and known non-Base-only target, including a 1e-4-scale informative
+column. M must reduce held-out MAE by >=90% vs S and shuffled. A scalar-only
+synthetic negative control must not create a material spurious MSCS effect.
+Controls test the calibration pipeline, not validity of the physical hypothesis.
+
+Fresh confirmation: gcc and mcf, one root of each pattern per benchmark:
+buffer-only, associativity-only, joint. Enumerate each complete legal upgrade
+Cartesian product; require 2..5 descendants. Select from the original scalar
+BO500 archive using only root area/configuration: prefer Pareto roots, choose
+median area within each pattern. Purge any root within one non-FE parameter of
+development, old empty-set roots, or another selected test root. Root selection
+never uses descendant CPI or MSCS. Other parameters and W_min remain identical.
+Require every descendant to be absent from the BO500 snapshot, so using that
+snapshot's Pareto front to choose roots cannot expose a held-out target label.
+
+Save plan.json before querying roots. Save predictions.json with selected models,
+features and per-arm predictions before any fresh descendant CPI is accessed.
+Read-only physical cache reuse does not turn a held-out label into a training
+input. Complete enumeration supplies the offline target g=max(0,1-min(CPI)/CPIroot).
+
+Report all six sets, MAE, errors by remaining-resource pattern, maximum
+underprediction, and constant baseline. Provisional positive signal requires
+>=10% MAE reduction against both S and shuffled, smaller absolute error than
+both on >=4/6 sets, no worse maximum underprediction than S (1e-6 tolerance).
+Failure is not a proof of absent MSCS information; report data/fit diagnostics.
+Success is not a safe bound or established query savings. Stop after this small
+experiment, regardless of outcome. No tuning on fresh labels or automatic sweep.

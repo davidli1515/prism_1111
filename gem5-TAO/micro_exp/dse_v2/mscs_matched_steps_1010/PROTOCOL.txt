@@ -1,0 +1,50 @@
+Matched-state, matched-step diagnostic; fixed checkpoint, seed 42.
+
+Purpose: distinguish immediate candidate ranking value from trajectory/radius
+effects. This is a conditional mechanism audit on FIVE PREVIOUSLY INSPECTED
+local-feedback paths, not fresh generalization or a new search trajectory.
+No policy tuning, retraining, gem5 simulation, or multi-step lookahead.
+
+Read the 30 saved local decisions in the two local_feedback_1010 result sets.
+For each path, inspect decisions chronologically. Compare four frozen policies:
+scalar top two; MSCS top two; scalar first plus distinct MSCS best (hybrid);
+unchanged LocalAllocator with exactly the logged BEFORE-round feedback.
+All four share root, seen exclusions, candidate pool, area cap, and budget TWO.
+Candidate sets (not order within a pair) define disagreement.
+
+Selection uses predictions and prior feedback ONLY, before loading trial labels:
+  1. For each path and pool kind (full, stride1, stride2, stride4), take the FIRST
+     decision where any of the other three pairs differs from scalar's pair.
+  2. Additionally take the FIRST full-pool decision per path where local differs
+     from hybrid. Deduplicate if already selected. No outcome-based replacement.
+At most 25 cells, each with at most eight distinct candidate configurations.
+Full means the exact logged radius and pool. A stride-k pool keeps only actions
+with generator stride k AND an UNCLIPPED grid displacement equal to k times
+that parameter's base quantum. Quanta vary by resource; this is not equal area
+cost or equal numerical parameter displacement. Require at least two actions.
+Report all screened cells and absence of disagreements, not only selected wins.
+
+Freeze source hashes, exact selected pairs and required labels in plan.json
+before reading historical candidate labels or evaluating missing candidates.
+Reuse exact historical labels from matching benchmark, complete configuration,
+checkpoint and the identical 50 slices. Check duplicate consistency. All old
+files are read-only. Only missing labels receive new full-model forward calls.
+Do not requery to get more attractive explanations. No radius updates or
+feedback updates from these diagnostic labels; no assembling a new trajectory.
+
+Use the original per-path area cap. Each method pays TWO logical evaluations,
+including harmful and infeasible candidates. Best feasible CPI improvement
+relative to staying put is the primary outcome; require >1e-6 root CPI to accept.
+Also report unconstrained CPI outcome, to expose area-mediated differences.
+Historical exact area is usable only under matching area-source hashes; use
+the existing source-salted caches, with new writes in this experiment only.
+Area need not be computed for a candidate that improves NONE of its selected
+roots. Explicitly mark that skip. Any improving candidate with failed area stays
+unresolved unless bounds prove it cannot change the pair's best result.
+
+Report full-pool and fixed-stride cells separately; they are correlated, selected
+cases. No significance test, global win-rate claim or speedup from cache reuse.
+Budget-two outcomes do not prove an entire search, hardware gains, Protect's
+future-capacity mechanism, or Decouple's conditional joint-action benefit.
+Independently replay selection, saved predictions, historical feedback timing,
+candidate legality, equal budget, acceptance, and every source/provenance hash.

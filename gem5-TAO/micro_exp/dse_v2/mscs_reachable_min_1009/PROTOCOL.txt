@@ -1,0 +1,35 @@
+Minimal attainable-gain check. Frozen before reading held-out descendants.
+
+Train: all complete gcc FE resource groups available in the existing v5 archives,
+one root per fixed-other-parameters group. Roots come from scalar archives; all
+arms can supply saved CPI labels. Eligible regions have 3..9 descendants.
+Within a group choose the largest completely observed region, then smaller area,
+then lexicographic config. Purge training groups within one non-FE parameter of
+any test root. No new training descendant CPI evaluations.
+
+Test: 605.mcf_s only. From the scalar BO500 Pareto front select the low/middle/high
+area roots among those with exactly 3 legal FE-only upgrades. Full Cartesian
+remaining-upgrade sets, not sampled +1 and max points. No other parameter changes.
+At most 9 new descendant CPI configurations. Only seed 42. No area jobs or DSE.
+
+Target: g=max(0, 1-min_descendant_CPI/root_CPI), equivalent to absolute attainable
+gain after multiplication by known root CPI. Fit the same Ridge(alpha=1) to:
+S: normalized architecture, explicit region ranges, root CPI distributions;
+M: S plus conditional non-Base category composition at every stage;
+P: S plus MSCS rows shuffled separately within train/test, seed 42.
+Scalar includes all 50 quantiles of each stage's per-slice CPI, not just a mean.
+MSCS composition is normalized by total pressure, removing the Base sum.
+Each feature block is scaled by sqrt(dimension), using fixed transforms. No
+hyperparameter tuning, training/test mixing, retrospective threshold selection,
+or held-out labels used in feature selection. This is not a guaranteed upper bound.
+
+Freeze predictions.json before looking up/evaluating test descendant CPI. Store
+full configurations, predictions, root vectors, labels, physical forward counts,
+saved-label reuse and file hashes separately.
+
+Gate (pilot only): M must reduce test MAE by >=10% versus both S and P, improve
+absolute error versus both on >=2 of 3 sets, and not increase maximum underprediction
+versus S (1e-6 relative-gain tolerance). If S error <=1e-6 or training targets have
+range <=1e-6, no positive gate. Passing means motivation for another held-out test,
+not established DSE query savings or statistical significance. Report every set,
+MAE, max underprediction and actual positive-gain opportunities. Stop after this.

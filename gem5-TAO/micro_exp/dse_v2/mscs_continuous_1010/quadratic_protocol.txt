@@ -1,0 +1,31 @@
+Derivative-preserving online response correction; separate experiment after the
+linear multisecant DEVELOPMENT GATE FAILED (mcf). No old files are modified.
+
+The root Jacobian is already exact for the frozen network. A linear secant
+residual update alters that exact derivative. Replace the correction kernel by
+K(dx,dy)=(dx dot dy)^2, preserving value AND first derivative at the current root.
+Only the residual model kernel changes; the last-six history, float64 solve,
+relative cutoff1e-6, actual output spaces and physical clamps stay fixed.
+Unit checks demonstrate zero derivative of the correction and reconstruction
+of a known quadratic response. These are implementation controls, not DSE proof.
+
+Run the same three already examined roots, six rounds, two queries per method.
+Five methods: scalar, MSCS (unchanged controls), scalar_quadratic,
+MSCS_quadratic, hybrid_quadratic. File arm names retain _secant for the first
+four for compatibility, and add hybrid_secant; plan explicitly records kernel.
+Hybrid uses its OWN paid history to fit BOTH scalar and component response
+models; first slot scalar_quadratic best, second MSCS_quadratic best distinct.
+No importing another arm's labels, no global credit, no pressure thresholds.
+All methods' current-batch pairs are frozen before the shared evaluation union.
+Two logical calls per arm even when full-forward/area data can be reused.
+Use a shared 512-entry feature cache (4 times the old 128): pure execution
+optimization, identical input values, not a search-policy or runtime advantage.
+
+Predeclared primary continuation gate: hybrid_quadratic no worse than
+scalar_quadratic at ALL three roots (1e-6 original-CPI tolerance), strictly better
+at >=1, and mean gain >= unchanged scalar. Report pure-MSCS quadratic as ablation
+regardless of sign. Failure stops this variant with no cutoff/history tuning.
+Success justifies an untouched-configuration confirmation, not a paper claim.
+Independently replay both hybrid predictors, choice, shared kernel's derivative
+property, per-arm history, area feasibility and counts. Original scalar and MSCS
+controls must match the preceding linear experiment's unmodified controls.

@@ -1,0 +1,34 @@
+Width-aware greedy priority pilot, seed42, fixed checkpoint, development only.
+Use the same four inspected confirmation roots, no outcome-based root selection.
+Extend the old 15-resource radius4 pool by fetch/decode/dispatch/commit width
+edits of +/-1,2,4 with deterministic constraint closure. Log every collateral
+edit. Bounds from config_dse; L1 size and BP type remain fixed. Both arms see
+the same legal pool and exact area prefixes. Exclude only identical configs
+already proven unsupported by McPAT. A new area error leaves the root unresolved.
+
+Scalar control receives each slice/stage's unclipped Base log odds
+u=log((1-Base)/Base), and its independently checked gradient. It uses
+u_hat=u+grad(u)*delta_full_input. MSCS uses all 3 relative logits and gradients.
+Both reconstruct CPI with the candidate's known W_min, same Base/CPI clamps.
+This avoids giving MSCS an advantage from silently fixing W or clipping the
+scalar root derivative. Full encoded endpoints are rebuilt, no arch-only edits.
+
+For each arm rank all candidates by predicted mean CPI, stable pool-order ties;
+obtain exact areas until first candidate within 1.10*original root area. Area
+calls are separately reported, not claimed equal runtime. Each resolved arm
+gets exactly one logical candidate CPI query. Freeze ALL choices and prediction
+snapshots before reading any selected candidate label. Reuse previously paid
+identical labels only after freezing, counting logical queries normally.
+Acceptance requires actual frozen-surrogate CPI improvement by >1e-6 relative.
+Record all stage/component CPI-account changes using candidate widths; these
+are alternative stage accounts, averaged rather than summed across stages.
+
+Gate for considering a new width walk: at least one non-gcc MSCS win, no losses,
+and independently passing source, legality, width, gradient, numerical, budget,
+area-prefix and outcome checks. This is a development gate, not a final claim.
+If identical choices dominate, don't launch a full search merely to find wins.
+
+Unit checks before running: exact W scaling, equal component slopes reduce to
+scalar, unequal slopes give nonnegative Jensen gap, all closures legal/deduped,
+minimal ROB repair, fixed L1/BP. Four independent autograd outputs per root are
+diagnostic work separate from the 12 MSCS gradient outputs.

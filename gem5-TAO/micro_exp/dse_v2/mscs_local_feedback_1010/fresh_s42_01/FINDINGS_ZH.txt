@@ -1,0 +1,19 @@
+冻结局部规则：两个新增greedy起点；seed42、固定checkpoint
+四个方法全部重新运行，每方法每起点12次候选验证。
+
+起点 | scalar降幅% | 固定1+1降幅% | 全局adaptive降幅% | local降幅%
+602.gcc_s_localfresh5 | 0.377564 | 0.377564 | 0.377564 | 0.377564
+605.mcf_s_localfresh7 | 0.241540 | 0.241540 | 0.241540 | 0.241540
+
+相对各基线胜平负：{'scalar_excess': {'tie': 2}, 'hybrid': {'tie': 2}, 'adaptive': {'tie': 2}}
+新起点是否全部达到开发阶段的同一比较标准：False。
+达到scalar终点所需候选预算：
+602.gcc_s_localfresh5 | 12 | 12 | 12 | 12
+605.mcf_s_localfresh7 | 12 | 12 | 12 | 12
+
+新增候选查询：96；运行耗时（报告前）：106.57秒。
+面积计数：{'logical_requests': 98, 'old_safe_store_hits': 7, 'physical_mcpat_calls': 22, 'new_store_hits': 69}；失败：4。
+已有轨迹shadow改变选择0次，其中所有shadow决策中缺少必要反事实标签0次；不当作在线结果。
+全局/局部反馈差异必须结合实际选择和radius变化解释，不能仅凭loss变化归因。
+所有结果都是冻结surrogate验证，不证明gem5收益或原版Protect/Decouple。
+这是预定的最后阶段；保留全部结果，不再扩展或调规则。

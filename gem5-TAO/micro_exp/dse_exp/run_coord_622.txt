@@ -1,0 +1,381 @@
+nohup: ignoring input
+=== Coordinated DSE Started: Wed Jun 24 01:24:05 AM EDT 2026 ===
+=== Output: results_17bm_coord ===
+=== BO checkpoint: results_17bm_530/bo_checkpoint.json ===
+============================================================
+MSCS-Guided DSE (joint)
+============================================================
+Benchmarks:   ['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+Design space: 2.08e+23
+Methods:      ['gem_coordinated', 'gem_bo_scalar', 'gem_bo_mscs']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  L1=128KB: 17 workloads, 3262 slices
+  L1=16KB: 17 workloads, 3400 slices
+  L1=256KB: 17 workloads, 3262 slices
+  L1=32KB: 17 workloads, 3262 slices
+  L1=64KB: 17 workloads, 3262 slices
+DseEngine: L1 configs=[16, 32, 64, 128, 256], workloads=['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+  GEMPredictor [508.namd_r]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [526.blender_r]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [600.perlbench_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [602.gcc_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [605.mcf_s]: 134 total, subsampled=134, CPI=134, grad=50
+  GEMPredictor [607.cactuBSSN_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [619.lbm_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [620.omnetpp_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [621.wrf_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [623.xalancbmk_s]: 128 total, subsampled=128, CPI=128, grad=50
+  GEMPredictor [631.deepsjeng_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [638.imagick_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [641.leela_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [644.nab_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [648.exchange2_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [654.roms_s]: 200 total, subsampled=200, CPI=200, grad=50
+  GEMPredictor [657.xz_s]: 200 total, subsampled=200, CPI=200, grad=50
+  MultiWorkloadPredictor: 17 workloads
+  ConcordePredictor [508.namd_r]: 200 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM gmean CPI=1.3329, Area=28.57
+    Per-workload CPI: 508.namd_r=0.5695 526.blender_r=1.2037 600.perlbench_s=0.5253 602.gcc_s=4.5827 605.mcf_s=2.5503 607.cactuBSSN_s=4.5969 619.lbm_s=3.5692 620.omnetpp_s=1.9119 621.wrf_s=1.5498 623.xalancbmk_s=3.3676 631.deepsjeng_s=0.7818 638.imagick_s=0.4959 641.leela_s=0.8903 644.nab_s=0.8676 648.exchange2_s=0.5444 654.roms_s=2.7392 657.xz_s=0.4299 
+    Time: 8.413s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_coordinated (starts=50, steps=30)
+============================================================
+      [COORD] dom=BP (FP=0.333 BP=0.426 SP=0.048)
+      Swap: +decodeWidth(10→11) | -commitWidth(8→7)
+      [COORD] dom=BP (FP=0.334 BP=0.421 SP=0.049)
+      Swap: +l1_size(64→128) | -LQEntries(230→222)
+      [COORD] dom=BP (FP=0.329 BP=0.419 SP=0.049)
+      Swap: +l1_size(128→256) | -IntMultDiv(8→7)
+  Start 10/50: CPI=1.2129→0.9058 Area=44.6→162.2 (18 steps) [16700s]
+  Start 20/50: CPI=0.9339→0.7853 Area=73.0→232.4 (30 steps) [36558s]
+  Start 25/50: CPI=1.3659→1.3484 Area=59.2→67.9 (8 steps) [43759s]
+  Start 35/50: CPI=1.0420→0.9840 Area=64.7→218.1 (27 steps) [57133s]
+  Start 50/50: CPI=1.4805→1.1447 Area=76.3→66.3 (23 steps) [75332s]
+
+  Total: 680 evals in 75332s | Pareto=24
+Saved: results_17bm_coord/joint_17_gem_coordinated_results.json
+
+============================================================
+BO + Refine (iterative, 3 rounds × 15 steps)
+============================================================
+
+  Phase 1: Loading BO checkpoint from results_17bm_530/bo_checkpoint.json
+    431 evals loaded
+
+  =======================================================
+  BO + Scalar refine: 3 rounds × 15 steps × 17 benchmarks
+  =======================================================
+
+    Round 1/3: refining 21 points (Pareto=21)
+      [1/21] gmean 1.5491→1.4929 [860s]
+      [2/21] gmean 0.8784→1.1630 [1724s]
+      [3/21] gmean 0.8699→1.1707 [2599s]
+      [4/21] gmean 0.9822→1.0734 [3460s]
+      [5/21] gmean 1.0730→1.2334 [4321s]
+      [6/21] gmean 0.9204→1.0413 [5191s]
+      [7/21] gmean 0.9391→1.1816 [6053s]
+      [8/21] gmean 1.7167→1.5379 [6912s]
+      [9/21] gmean 0.9833→1.1783 [7773s]
+      [10/21] gmean 0.8033→0.8357 [8659s]
+      [11/21] gmean 0.7874→1.1466 [9534s]
+      [12/21] gmean 0.9564→1.1712 [10392s]
+      [13/21] gmean 0.8219→1.3693 [11261s]
+      [14/21] gmean 1.2157→1.5841 [12117s]
+      [15/21] gmean 0.8140→1.1246 [12999s]
+      [16/21] gmean 0.7962→1.1539 [13876s]
+      [17/21] gmean 1.0165→1.2308 [14735s]
+      [18/21] gmean 0.7927→1.1344 [15618s]
+      [19/21] gmean 0.8494→1.1508 [16483s]
+      [20/21] gmean 1.0039→1.1818 [17346s]
+      [21/21] gmean 0.8438→1.0457 [18224s]
+    Round 1 done: +357 configs, +26 new Pareto points
+
+    Round 2/3: refining 26 points (Pareto=45)
+      [1/26] gmean 1.8142→1.5707 [19093s]
+      [2/26] gmean 1.4929→1.5707 [19948s]
+      [3/26] gmean 1.8142→1.5707 [20805s]
+      [4/26] gmean 1.8142→1.5707 [21659s]
+      [5/26] gmean 1.8142→1.5707 [22514s]
+      [6/26] gmean 1.8142→1.5707 [23368s]
+      [7/26] gmean 1.9446→1.5707 [24221s]
+      [8/26] gmean 1.8027→1.5707 [25076s]
+      [9/26] gmean 1.8142→1.5707 [25927s]
+      [10/26] gmean 1.8142→1.5707 [26778s]
+      [11/26] gmean 1.6742→1.4031 [27639s]
+      [12/26] gmean 1.3693→1.4835 [28496s]
+      [13/26] gmean 1.5129→1.4910 [29354s]
+      [14/26] gmean 1.5129→1.4910 [30202s]
+      [15/26] gmean 1.6743→1.4907 [31062s]
+      [16/26] gmean 1.3710→1.4910 [31909s]
+      [17/26] gmean 1.5129→1.4910 [32752s]
+      [18/26] gmean 1.6243→1.5286 [33609s]
+      [19/26] gmean 1.6243→1.5286 [34454s]
+      [20/26] gmean 1.6243→1.5286 [35296s]
+      [21/26] gmean 1.6243→1.5286 [36139s]
+      [22/26] gmean 1.6243→1.5286 [36981s]
+      [23/26] gmean 1.6243→1.5286 [37826s]
+      [24/26] gmean 1.5085→1.4824 [38676s]
+      [25/26] gmean 1.5085→1.4824 [39516s]
+      [26/26] gmean 1.5085→1.4824 [40355s]
+    Round 2 done: +442 configs, +145 new Pareto points
+
+    Round 3/3: refining 145 points (Pareto=176)
+      [1/145] gmean 1.9421→1.5720 [41213s]
+      [2/145] gmean 1.9421→1.5720 [42062s]
+      [3/145] gmean 1.6100→1.4908 [42908s]
+      [4/145] gmean 1.6100→1.4908 [43753s]
+      [5/145] gmean 1.9421→1.5720 [44597s]
+      [6/145] gmean 1.6100→1.4908 [45440s]
+      [7/145] gmean 1.6100→1.4908 [46283s]
+      [8/145] gmean 1.9421→1.5720 [47135s]
+      [9/145] gmean 1.9421→1.5720 [47982s]
+      [10/145] gmean 1.6100→1.4908 [48830s]
+      [11/145] gmean 1.8117→1.5720 [49680s]
+      [12/145] gmean 1.8117→1.5720 [50532s]
+      [13/145] gmean 1.6100→1.4908 [51381s]
+      [14/145] gmean 1.6100→1.4908 [52238s]
+      [15/145] gmean 1.6100→1.4908 [53092s]
+      [16/145] gmean 1.8117→1.5720 [53944s]
+      [17/145] gmean 1.6100→1.4908 [54797s]
+      [18/145] gmean 1.8117→1.5720 [55650s]
+      [19/145] gmean 1.9421→1.5720 [56503s]
+      [20/145] gmean 1.8117→1.5720 [57355s]
+      [21/145] gmean 1.6100→1.4908 [58203s]
+      [22/145] gmean 1.8117→1.5720 [59049s]
+      [23/145] gmean 1.9421→1.5720 [59894s]
+      [24/145] gmean 1.9421→1.5720 [60739s]
+      [25/145] gmean 1.6100→1.4908 [61583s]
+      [26/145] gmean 1.6100→1.4908 [62427s]
+      [27/145] gmean 1.9421→1.5720 [63273s]
+      [28/145] gmean 1.6100→1.4908 [64116s]
+      [29/145] gmean 1.6100→1.4908 [64959s]
+      [30/145] gmean 1.9421→1.5720 [65805s]
+      [31/145] gmean 1.9421→1.5720 [66650s]
+      [32/145] gmean 1.6100→1.4908 [67493s]
+      [33/145] gmean 1.8117→1.5720 [68338s]
+      [34/145] gmean 1.9421→1.5720 [69186s]
+      [35/145] gmean 1.9421→1.5720 [70039s]
+      [36/145] gmean 1.6100→1.4908 [70889s]
+      [37/145] gmean 1.6100→1.4908 [71742s]
+      [38/145] gmean 1.9421→1.5720 [72587s]
+      [39/145] gmean 1.6100→1.4908 [73431s]
+      [40/145] gmean 1.6100→1.4908 [74275s]
+      [41/145] gmean 1.9421→1.5720 [75123s]
+      [42/145] gmean 1.9421→1.5720 [75970s]
+      [43/145] gmean 1.6100→1.4908 [76816s]
+      [44/145] gmean 1.8117→1.5720 [77665s]
+      [45/145] gmean 1.9421→1.5720 [78514s]
+      [46/145] gmean 1.9421→1.5720 [79363s]
+      [47/145] gmean 1.6100→1.4908 [80204s]
+      [48/145] gmean 1.6100→1.4908 [81046s]
+      [49/145] gmean 1.9421→1.5720 [81890s]
+      [50/145] gmean 1.6100→1.4908 [82731s]
+      [51/145] gmean 1.6100→1.4908 [83572s]
+      [52/145] gmean 1.9421→1.5720 [84415s]
+      [53/145] gmean 1.9421→1.5720 [85258s]
+      [54/145] gmean 1.6100→1.4908 [86101s]
+      [55/145] gmean 1.8117→1.5720 [86947s]
+      [56/145] gmean 1.9421→1.5720 [87795s]
+      [57/145] gmean 1.9421→1.5720 [88640s]
+      [58/145] gmean 1.6100→1.4908 [89483s]
+      [59/145] gmean 1.6100→1.4908 [90326s]
+      [60/145] gmean 1.9421→1.5720 [91171s]
+      [61/145] gmean 1.6100→1.4908 [92023s]
+      [62/145] gmean 1.6100→1.4908 [92873s]
+      [63/145] gmean 1.9421→1.5720 [93761s]
+      [64/145] gmean 1.9421→1.5720 [94636s]
+      [65/145] gmean 1.6100→1.4908 [95515s]
+      [66/145] gmean 1.8117→1.5720 [96369s]
+      [67/145] gmean 1.8117→1.5720 [97223s]
+      [68/145] gmean 1.9421→1.5720 [98074s]
+      [69/145] gmean 1.6100→1.4908 [98919s]
+      [70/145] gmean 1.6100→1.4908 [99763s]
+      [71/145] gmean 1.8117→1.5720 [100611s]
+      [72/145] gmean 1.6100→1.4908 [101464s]
+      [73/145] gmean 1.6100→1.4908 [102370s]
+      [74/145] gmean 1.9421→1.5720 [103343s]
+      [75/145] gmean 1.8117→1.5720 [104188s]
+      [76/145] gmean 1.8117→1.5720 [105039s]
+      [77/145] gmean 1.6100→1.4908 [105881s]
+      [78/145] gmean 1.8117→1.5720 [106726s]
+      [79/145] gmean 1.9421→1.5720 [107568s]
+      [80/145] gmean 1.9421→1.5720 [108411s]
+      [81/145] gmean 1.6100→1.4908 [109252s]
+      [82/145] gmean 1.6100→1.4908 [110093s]
+      [83/145] gmean 1.9421→1.5720 [110936s]
+      [84/145] gmean 1.6100→1.4908 [111776s]
+      [85/145] gmean 1.6100→1.4908 [112617s]
+      [86/145] gmean 1.9421→1.5720 [113460s]
+      [87/145] gmean 1.9421→1.5720 [114301s]
+      [88/145] gmean 1.6100→1.4908 [115142s]
+      [89/145] gmean 1.8117→1.5720 [115985s]
+      [90/145] gmean 1.9421→1.5720 [116826s]
+      [91/145] gmean 1.9421→1.5720 [117669s]
+      [92/145] gmean 1.6100→1.4908 [118510s]
+      [93/145] gmean 1.6100→1.4908 [119350s]
+      [94/145] gmean 1.9421→1.5720 [120192s]
+      [95/145] gmean 1.6100→1.4908 [121031s]
+      [96/145] gmean 1.6100→1.4908 [121872s]
+      [97/145] gmean 1.9421→1.5720 [122713s]
+      [98/145] gmean 1.9421→1.5720 [123551s]
+      [99/145] gmean 1.6100→1.4908 [124388s]
+      [100/145] gmean 1.8117→1.5720 [125226s]
+      [101/145] gmean 1.9421→1.5720 [126064s]
+      [102/145] gmean 1.9421→1.5720 [126902s]
+      [103/145] gmean 1.6100→1.4908 [127739s]
+      [104/145] gmean 1.6100→1.4908 [128576s]
+      [105/145] gmean 1.9421→1.5720 [129414s]
+      [106/145] gmean 1.6100→1.4908 [130250s]
+      [107/145] gmean 1.6100→1.4908 [131087s]
+      [108/145] gmean 1.9421→1.5720 [131927s]
+      [109/145] gmean 1.9421→1.5720 [132765s]
+      [110/145] gmean 1.6100→1.4908 [133602s]
+      [111/145] gmean 1.8117→1.5720 [134440s]
+      [112/145] gmean 1.4031→1.7133 [135292s]
+      [113/145] gmean 1.6931→1.5062 [136146s]
+      [114/145] gmean 1.6931→1.5062 [136992s]
+      [115/145] gmean 1.6931→1.5062 [137840s]
+      [116/145] gmean 1.6931→1.5062 [138687s]
+      [117/145] gmean 1.6931→1.5062 [139533s]
+      [118/145] gmean 1.6931→1.5062 [140380s]
+      [119/145] gmean 1.6931→1.5062 [141227s]
+      [120/145] gmean 1.6931→1.5062 [142073s]
+      [121/145] gmean 1.6931→1.5062 [142919s]
+      [122/145] gmean 1.6931→1.5062 [143766s]
+      [123/145] gmean 1.6931→1.5062 [144612s]
+      [124/145] gmean 1.6931→1.5062 [145458s]
+      [125/145] gmean 1.6931→1.5062 [146305s]
+      [126/145] gmean 1.6931→1.5062 [147153s]
+      [127/145] gmean 1.6931→1.5062 [148045s]
+      [128/145] gmean 1.6931→1.5062 [148978s]
+      [129/145] gmean 1.5271→1.5052 [149920s]
+      [130/145] gmean 1.5271→1.5052 [150792s]
+      [131/145] gmean 1.5271→1.5052 [151636s]
+      [132/145] gmean 1.5271→1.5052 [152479s]
+      [133/145] gmean 1.5271→1.5052 [153325s]
+      [134/145] gmean 1.6931→1.5062 [154170s]
+      [135/145] gmean 1.6931→1.5062 [155048s]
+      [136/145] gmean 1.6931→1.5062 [155924s]
+      [137/145] gmean 1.6931→1.5062 [156770s]
+      [138/145] gmean 1.6931→1.5062 [157615s]
+      [139/145] gmean 1.6931→1.5062 [158461s]
+      [140/145] gmean 1.6931→1.5062 [159305s]
+      [141/145] gmean 1.6931→1.5062 [160148s]
+      [142/145] gmean 1.6931→1.5062 [160992s]
+      [143/145] gmean 1.6931→1.5062 [161835s]
+      [144/145] gmean 1.6931→1.5062 [162679s]
+      [145/145] gmean 1.6931→1.5062 [163523s]
+    Round 3 done: +2465 configs, +1394 new Pareto points
+
+    Total: 3264 refined configs in 163524s
+Saved: results_17bm_coord/joint_17_gem_bo_scalar_results.json
+
+  =======================================================
+  BO + MSCS refine: 3 rounds × 15 steps × 17 benchmarks
+  =======================================================
+
+    Round 1/3: refining 21 points (Pareto=21)
+      [1/21] gmean 1.5491→0.9955 [1569s]
+      [2/21] gmean 0.8784→0.8534 [3011s]
+      [3/21] gmean 0.8699→0.8326 [4560s]
+      [4/21] gmean 0.9822→0.9247 [6265s]
+      [5/21] gmean 1.0730→1.0015 [7782s]
+      [6/21] gmean 0.9204→0.8691 [9338s]
+      [7/21] gmean 0.9391→0.8715 [11061s]
+      [8/21] gmean 1.7167→0.9674 [12536s]
+      [9/21] gmean 0.9833→0.9331 [13970s]
+      [10/21] gmean 0.8033→0.7732 [15473s]
+      [11/21] gmean 0.7874→0.7456 [16874s]
+      [12/21] gmean 0.9564→0.9034 [18429s]
+      [13/21] gmean 0.8219→0.7952 [19948s]
+      [14/21] gmean 1.2157→1.0170 [21369s]
+      [15/21] gmean 0.8140→0.7760 [22768s]
+      [16/21] gmean 0.7962→0.7569 [24440s]
+      [17/21] gmean 1.0165→0.9655 [26164s]
+      [18/21] gmean 0.7927→0.7724 [27548s]
+      [19/21] gmean 0.8494→0.8182 [29064s]
+      [20/21] gmean 1.0039→0.9527 [30587s]
+      [21/21] gmean 0.8438→0.7911 [32296s]
+    Round 1 done: +357 configs, +10 new Pareto points
+
+    Round 2/3: refining 10 points (Pareto=26)
+      [1/10] gmean 1.0021→0.9667 [33701s]
+      [2/10] gmean 0.9768→0.9333 [35085s]
+      [3/10] gmean 0.7601→0.7434 [36212s]
+      [4/10] gmean 0.7779→0.7478 [37279s]
+      [5/10] gmean 0.7456→0.7434 [38153s]
+      [6/10] gmean 0.7569→0.7468 [39176s]
+      [7/10] gmean 0.7881→0.7512 [40465s]
+      [8/10] gmean 0.7872→0.7484 [41543s]
+      [9/10] gmean 0.8049→0.7750 [42853s]
+      [10/10] gmean 0.9546→0.9303 [44205s]
+    Round 2 done: +170 configs, +12 new Pareto points
+
+    Round 3/3: refining 12 points (Pareto=33)
+      [1/12] gmean 0.7601→0.7434 [45302s]
+      [2/12] gmean 0.7717→0.7455 [46539s]
+      [3/12] gmean 0.7434→0.7429 [47285s]
+      [4/12] gmean 0.7494→0.7434 [48193s]
+      [5/12] gmean 0.7449→0.7419 [49038s]
+      [6/12] gmean 0.7586→0.7433 [49842s]
+      [7/12] gmean 0.7691→0.7433 [50957s]
+      [8/12] gmean 0.7434→0.7429 [51686s]
+      [9/12] gmean 0.7572→0.7449 [52661s]
+      [10/12] gmean 0.7537→0.7440 [53553s]
+      [11/12] gmean 0.7826→0.7475 [54779s]
+      [12/12] gmean 0.7675→0.7466 [55968s]
+    Round 3 done: +204 configs, +24 new Pareto points
+
+    Total: 731 refined configs in 55968s
+Saved: results_17bm_coord/joint_17_gem_bo_mscs_results.json
+
+============================================================
+Comparison
+============================================================
+  gem_coordinated           | evals= 680 | pareto= 24 | HV=334.5454 | 75332s
+  gem_bo_scalar             | evals=3695 | pareto=1520 | HV=357.6682 | 165483s
+  gem_bo_mscs               | evals=1162 | pareto= 52 | HV=363.7400 | 57927s
+
+  Saved: results_17bm_coord/joint_17_comparison.json
+
+============================================================
+Done! Total: 56882s (948.0min)
+Results: results_17bm_coord
+============================================================
+Loading results from results_17bm_coord...
+  Searching: results_17bm_coord/*_results.json → 3 files
+  Loaded: gem_bo_mscs (1162 evals)
+  Loaded: gem_bo_scalar (3695 evals)
+  Loaded: gem_coordinated (680 evals)
+
+Generating plots...
+  WARNING: gem_attribution trajectories not found, skipping search path plot
+  Saved: results_17bm_coord/joint_pareto_frontier.png
+  Saved: results_17bm_coord/joint_pareto_frontier.pdf
+  Saved: results_17bm_coord/joint_hv_curve.png
+  Saved: results_17bm_coord/joint_hv_curve.pdf
+
+  Ref point: (2.21, 271.34)
+
+Method                     Evals  Pareto   Final HV     Time
+------------------------------------------------------------
+  MSCS coordinated (ours)    680      24   334.5454 1255.5min
+  BO + Scalar refine        3695    1520   357.6682 2758.1min
+  BO + MSCS refine (ours)   1162      52   363.7400 965.5min
+
+All plots saved to results_17bm_coord
+=== Done: Sat Jun 27 11:49:17 AM EDT 2026 ===
+=== Results: results_17bm_coord ===

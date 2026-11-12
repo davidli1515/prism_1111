@@ -1,0 +1,443 @@
+持续研究任务已由用户明确授权，不再等待每轮“下一步”。
+固定checkpoint，保留旧版本，seed42，小规模先验证，无新gem5/训练。
+
+已完成的共同前缀追踪（prefix_s42_01）
+  复用首轮主比较的两个已付费标签，接受LQ71->39。
+  第二轮出现完整候选池分歧，按预定规则验证后停止。
+  四方法总预算均4次，累计CPI收益均1.457540%，仍为平局。
+  独立重放通过；没有把上轮次比较IQ/ROB标签带入初始化反馈。
+  这一次验证没有建立新的优势，不能把不同候选列表当作搜索收益。
+
+当前后续方向
+  不继续靠更换初始点或修改信用阈值找胜例。
+  研究“查询后的分量响应校正”：目前LocalAllocator仅保留scalar/MSCS谁判断对的
+  整数信用，实际查询得到的完整分量响应与预测误差没有用于修正后续响应模型。
+  下一步将对比同等在线历史、同等数学更新的scalar和MSCS多输出割线校正。
+  scalar使用各slice/stage的log(CPI-1/W)，MSCS使用压力对Base的log odds。
+  两者共享输入空间几何，使用同一批各自已付费的历史观测，不使用其他方法或未来标签。
+  这是搜索的在线局部模型，不改checkpoint。先检查语义/数值，再做少量已知回归案例；
+  规则冻结后才进入新配置验证。若无优势则记录并继续下一种有证据支撑的假设。
+
+线性多输出割线校正已结束（secant_development_s42_01）
+  三个已知开发根，4方法各12查询，共144逻辑查询、103次新候选前向、33次新McPAT。
+  计算166秒，4项语义测试通过，12条轨迹/所有历史与numpy伪逆重放通过。
+  CPI降幅%：
+                      scalar     MSCS    scalar_secant  MSCS_secant
+    gcc middle        0.886046  1.233003    0.403059       0.879658
+    gcc newrank9      0.333191  0.770247    0.623072       0.781455
+    mcf middle        0.199213  0.105859    0.255367       0.105859
+  预先设定的开发门槛失败：MSCS_secant在mcf落后于scalar_secant。
+  没有改历史长度6或伪逆阈值1e-6后重试。没有进入留出验证。
+  原scalar数值与旧实验相同；pure MSCS在gcc newrank9的完整6轮结果是本次新测。
+
+正在运行的不同假设（quadratic_development_s42_01）
+  原当前位置Jacobian已精确，线性残差校正会改变这个斜率；新平方内积核只修正
+  有限位移误差，在根处的值和一阶导数都是零，保留当前位置的精确梯度。
+  3项数值控制通过：保留根梯度、重建已知二次响应、零位移稳定。
+  另外加入明确的hybrid候选分配，保留scalar校正版首选，以避免MSCS从未查询
+  有益LQ后无法纠正自己的问题。每方法仍只查2候选，历史只来自自己的已付费查询。
+  原scalar/MSCS、scalar平方核、MSCS平方核、hybrid平方核共5方法，全部报告。
+  主要开发门槛：hybrid平方核对scalar平方核三点均不差、至少一点严格好，
+  且平均收益不低于原scalar。验证前已冻结，失败不调历史/阈值追胜。
+  512项特征缓存仅减少跨方法重复编码；不把共享缓存当作MSCS运行速度优势。
+
+平方内积核开发实验已结束（quadratic_development_s42_01）
+  三个开发点，五方法各12次查询，180逻辑查询、80新候选前向、9新McPAT；78.8秒。
+  hybrid收益为1.233003%、0.557122%、0.199213%，通过预先设定的开发门槛，
+  但与旧LocalAllocator三个最终值完全相同，不能声称新策略胜过旧最佳。
+  原验证器因torch/numpy的log舍入差被校正权重放大而报错；搜索轨迹不改不重跑。
+  保留原验证器；新quadratic_validate_replay_v2先独立核对残差的构造，
+  再用已核对过的已保存残差作为线性系统右端，独立numpy求解。
+  所有15条轨迹的校正值、精确候选排序、方法私有历史、旧scalar/MSCS控制均通过。
+  这是可复查的数值重放修正，不是改变搜索结果或放宽排名要求。
+
+四新根确认已启动（confirmation_s42_01）
+  四工作负载旧前沿按面积排序后，选距中点最近的合法未暴露配置；
+  排除了截至计划冻结时所有mscs_*_1010 JSON里的完整配置，包括只预测过的候选池。
+  新根为gcc idx287、mcf idx261、xalan idx126、leela idx238；未按新预测/结果选点。
+  对照：原scalar、scalar平方核、hybrid平方核、原local；各12查询。
+  主要门槛：hybrid对每点两个scalar中更好的结果至少两胜、含一个非gcc，
+  且平均归一CPI更低；报告所有败例，并单列旧local，不把选择赢家当独立确认。
+  所有代码/输入/规则已冻结，验证全部结束之前不下最终结论。
+
+四新根确认已经完整结束；全部16轨迹、192逻辑查询独立重放通过。
+  hybrid相对原scalar 2胜2平，相对原/校正scalar逐点较好者1胜3平。
+  gcc：0.428379 -> scalar校正1.031917 -> hybrid1.136741%；leela上scalar校正和hybrid同为2.649345%。
+  mcf、xalan两类scalar及hybrid分别同为0.465106%、6.433397%。
+  预定“至少两胜且含非gcc”的门槛失败。不追加根寻找胜例。
+  更完整口径见confirmation_s42_01/FINDINGS_ZH.txt。
+
+零新查询检验response_geometry_s42_01也结束，96组tensor重放/排序均通过。
+  把MSCS响应Jacobian当作残差迁移的相似度，校正输出仍仅用相同scalar历史，
+  在既有hybrid选择的48个标签上误差/排名整体变差；这是有选择偏差的诊断集。
+  MAE归一根CPI：输入核1.965%、scalar响应核9.528%、MSCS响应核3.578%。
+  72个root/候选间比较的二倍排序损失：输入核16、scalar响应核32、MSCS响应核26。
+  诊断门槛失败，不用新搜索预算追这条路，不调核截断值或历史长度。
+
+零新查询机制消融ensemble_audit_s42_01：
+  gcc第三轮同一root/相同历史，校正scalar+原scalar两候选收益0，
+  校正scalar+MSCS（原始或已校正）收益0.288787%，体现分量有限步长响应作用。
+  但去掉MSCS历史校正的整个轨迹并不等价：四根在第4/4/6/4轮首次分歧。
+  第一次分歧之后的日志只作为条件单步分析，不能伪造新算法完整轨迹。
+  因此启动ensemble_walk_s42_01，给两个新对照完整冷启动各12查询：
+  校正scalar+原scalar，以及校正scalar+原MSCS。仍然只有上述四根，已成为开发数据。
+  旧标签仅在冻结选择之后复用，方法私有历史从零开始；报告真实新增前向与逻辑预算。
+
+ensemble_walk_s42_01已完成，8条完整轨迹和96次逻辑查询重放通过。
+  只新增4次候选前向，51个旧标签在冻结选择后复用；无新McPAT；58.5秒。
+  gcc收益%：scalar ensemble 1.023305，省去MSCS历史校正的mixed ensemble 1.164236，
+  旧完整hybrid 1.136741；后者优于前者但不是所有MSCS变体中最高。
+  mcf/xalan两ensemble和全部前序方法分别同为0.465106/6.433397%。
+  leela两个ensemble只有2.120418%，不如scalar平方核和完整hybrid的2.649345%。
+  generic两scalar预测器不解释gcc全部优势；但去掉MSCS校正也非全局等价简化。
+  仍未达到跨工作负载推广门槛，不能声称已找到广泛有效的搜索方案。
+
+转向一次greedy的联合资源分配（joint_allocation_s42_01，4已知开发根各一步）
+  不是未来轨迹前瞻；用同一面积预算在多个增加资源之间分配，一次提出一个配置。
+  scalar和MSCS使用完全相同的合法单资源端点范围、面积梯度信息、SLSQP优化器。
+  scalar以聚合响应的指数模型优化；MSCS以分量logits模型优化，保留响应之间的曲率。
+  端点完整特征的弦插值仅用于连续proposal；舍入后重新构建完整实际特征。
+  ROB/IQ/LQ/SQ约束显式满足；最终精确面积判定接受。面积端点调用单独报告。
+  每方法共同scalar单参数anchor + 各自一个joint/fallback候选；每根各2查询。
+  不要求两个优化器生成同一候选池，明确属于proposal生成对比；另存交叉排序诊断。
+  解析可解的两资源抵消测试已通过，scalar错误边角与MSCS正确配比均核对解析解；
+  这只检查代码表达机制，不是实际PRISM性能证据。运行中逐根做独立JVP与梯度数值检查。
+
+联合增加资源的单步pilot已结束，验证通过。
+  scalar/MSCS收益%：gcc均0.532221，mcf均0.541777，xalan 5.786644/4.891652，leela均1.903832。
+  3平1负；xalan MSCS方案比scalar多投了LQ，实际更差。不扩展成完整轨迹。
+  5次新候选前向、4旧标签复用、16逻辑查询；55个共同面积基点请求，
+  总面积请求63（33次新McPAT），0失败，80.4秒。联合proposal提升本身可被scalar取得。
+
+单候选优先级零查询审计single_query_audit_s42_01：
+  24个相同历史状态，用校正scalar/MSCS各自第一名作一次查询比较：2胜22平0负，
+  两胜仍全在gcc；没有达到非gcc获胜的triage门槛，不启动新的单查询轨迹。
+
+Shepard历史Jacobian复用开发实验结束（shepard_development_s42_01），3项测试及12轨迹独立重放通过。
+  原有已接受根上的Jacobian按每slice完整输入距离平方的倒数组合；只复用本方法的根，
+  不额外在未接受候选上计算导数，scalar和MSCS使用相同组合规则。
+  收益% scalar / MSCS / hybrid：
+    gcc   0.428379 / 1.230692 / 0.428379
+    mcf   0.492573 / 0.492573 / 0.492573
+    xalan 5.977796 / 5.977796 / 5.977796
+    leela 2.120418 / 2.120418 / 2.120418
+  mcf的微小改善同样来自scalar，xalan/leela落后于先前更强scalar控制。
+  主要开发门槛失败。纯MSCS仍在gcc有条件性优势，但不能据此声称已跨工作负载推广。
+
+CPI容忍0.3%的联合回收pilot（reclaim_allocation_s42_01）在第一根的面积基点处停止，
+  没有任何候选CPI标签。不是性能失败结果：fetchBufferSize16->8的McPAT无法计算。
+  reclaim_area_failure_s42_01中保留复现的XML、stdout和参数；返回码1，
+  原因'ERROR: no valid data array organizations found'。旧area_model没有改动。
+  解析测试已验证：scalar零斜率的抵消情形会允许过大回收，完整分量曲率能约束
+  CPI损失；这依然只是代码语义测试，不是实际benchmark成功。
+
+支持范围明确的v2正在运行（reclaim_supported_s42_01）。
+  先仅凭面积后端成功/失败，按最大缩减优先选择各参数双方共同的可计算端点；
+  某参数所有缩减都无法计算，则该参数在这个pilot固定。保存每个失败和缩减后的域。
+  完整网络CPI候选标签仍在双方全部选择冻结之后才读取；无法计算的配置不被称为
+  物理不可行，结论只限共同支持域。选中的联合点若面积失败，仍然保留未解决状态。
+  scalar/MSCS优化相同线性面积目标和CPI<=1.003*root的有限响应约束。
+  root特征弦只用于proposal，最终舍入点重新构造完整特征；实际CPI/面积决定接受。
+  这是预查询的有限步长回收可行性检验，不能代替原文Protect的未来资源价值证明。
+
+支持域回收v2完成，独立重放通过，4点均打平。
+  面积节省%：gcc4.718672、mcf0、xalan4.371869、leela4.566427。
+  leela的MSCS联合缩减没有通过实际CPI上限，双方最终都使用共同备选。
+  9新候选前向、16逻辑查询；53共同面积基点请求，总58次（26次McPAT）。
+  4个面积失败都是已明确记录的各根fetchBufferSize8；无选择后被静默忽略的面积失败。
+  总63.4秒，仅支持域结果；不扩大成完整轨迹。
+
+面积可行性优先审计feasible_priority_s42_02完成并通过独立验证。
+  v1启动阶段缺少Path导入而退出，尚未写计划/查询；原文件和空目录保留，v2仅修复导入。
+  复用已有根上的预测，双方按各自预测CPI顺序获得相同精确面积信息，再各查1个可行候选。
+  面积调用与CPI查询分开计数；不把面积额外信息算成MSCS本身的信息优势。
+  原本的15维候选池排除了同配置已经证实McPAT失败的fetchBufferSize8，其他新失败会停止该根。
+
+面积可行优先15维审计完成：gcc MSCS+0.356255% / scalar0，其他3点打平。8逻辑查询，1新前向。
+
+width_priority_s42_01：将fetch/decode/dispatch/commit的宽度加入共同候选池，显式记录约束连带改动。
+  scalar使用未截断Base log odds与梯度，双方使用候选实际W_min，四根独立autograd验证。
+  3解析/约束测试通过，数值与预算/面积/分量解释重放通过。结果仍1胜3平（只gcc获胜），门槛失败，不扩跑。
+  耗时34.73秒，1新候选前向，8逻辑查询；面积计数{'logical_requests': 13, 'old_safe_store_hits': 13}。
+
+exchange_s42_01启动：面积不得超过原配置，使用共同支持的正负资源端点。
+  一资源一个有符号变量，禁止同一资源增减相互抵消；双方同优化器/3固定初值/共同候选池/各1查询。
+  复用旧根预测仅减少执行耗时，不读候选标签；联合舍入点重新完整编码后预测，所有选择冻结再查标签。
+
+exchange_s42_01完成：4点全部打平，独立验证通过。gcc/mcf/xalan/leela的CPI降低分别0.614920/0/6.240071/1.534592%。
+  共同池的双方选择完全一样，收益不可归因MSCS。4新候选前向，8逻辑查询，20.65秒；不扩跑。
+
+coverage_s42_01完成：17个固定workload全部使用原DEFAULT_CONFIG；规则未改，首轮各1查询。
+  MSCS 3胜14平0负；只有3处选择不同，且均获胜：mcf/lbm/roms。17点全部事先冻结再查标签。
+  CPI降低% scalar/MSCS：mcf2.618515/2.683204；lbm0.739473/0.969620；roms1.299675/2.783730。
+  roms的LQ32->64：scalar预测CPI3.555970，MSCS3.750337，实际3.724670（root3.773716）。
+  MSCS预测FP+0.286701、BP-0.319350、SP+0.009269，实际FP+0.191016、BP-0.240719、SP+0.000657。
+  L1D2->8更稳：MSCS预测3.654459，实际3.668666。两者用同一面积上限，实际面积分别28.5992/30.0577。
+  20新候选前向、34逻辑查询，17根前向/204反向输出；额外17诊断前向/68 scalar梯度反向独立计数。
+  1377完整特征构建74.67秒，总97.23秒；11 McPAT，0面积失败。数值/选择/查询/分量解释/源代码独立重放通过。
+  这是覆盖诊断而非独立成功确认，默认配置不声称历史未见；不得把它叫完整搜索、gem5或原文Protect证明。
+  下一步按固定seed42选择邻近架构，复查3个分歧工作负载的局部复现性，先不改算法。
+
+neighborhood_s42_01完成：固定seed42抽4个合法radius1邻居，在之前3处分歧的mcf/lbm/roms上做条件复现。
+  抽样indices[31,15,26,17]：commitWidth9、RdWrPort1、fetch/decode/dispatch7、fetchBuffer16。无结果驱动替换。
+  12情境8胜3平1负，平均额外CPI降低0.529713个百分点；roms4/4胜；lbm在前端宽度7时有一次负例。
+  预先声明开发门槛通过（>=6胜、>=2workloads、<=1负、均值正且全部resolved），4叶节点及抽样重放通过。
+  这是按17workloads诊断的3个分歧workloads选择后的条件复现，不是全workload无偏推广/新seed/完整搜索。
+  21新候选前向，24逻辑候选查询，总103.46秒。
+
+priority_walk_s42_01启动：三工作负载，一种新组合架构，3方法各6轮x1查询。
+  新根为默认配置IntALU3、L1D相联度4：来自同seed42排列跳过前4项后的首两个不冲突合法动作，不依赖新预测。
+  已核实区别于coverage/neighborhood所有根与候选；不声称全项目或训练集未见。
+  scalar_raw / scalar_Base_only_quadratic（原kernel平方/6历史/pinv1e-6）/mscs_raw；面积上限1.10根。
+  主要比较6查询anytime平均最佳CPI，控制是每个查询步两个scalar的较优值；同时要求终点不输才能过门槛。
+  所有方法每轮先查面积可行性，同一轮选择全部冻结后查完整surrogate；不读其他方法历史。
+  2个Base-only/变化W_min解析测试通过，运行结束将独立重放。
+
+priority_walk_s42_01完成：9轨迹各6查询，独立重放通过，门槛失败（roms终点输）。
+  CPI降低%（raw scalar / scalar quadratic / raw MSCS）：
+    605.mcf_s 7.015060 / 7.015060 / 7.423871
+    619.lbm_s 1.463288 / 1.463288 / 1.818403
+    654.roms_s 7.653812 / 7.521353 / 6.795068
+  相对每一步两个scalar的较优包络，anytime均值MSCS三项都赢，但终点2胜1负。
+  mcf的MSCS在5查询达到scalar6查询的水平；roms前4次领先，第5/6次被scalar反超，不能宣称稳定更好。
+  38新候选前向、54逻辑查询、29共享根前向/348反向输出；另29梯度诊断前向/116反向。
+  2243完整特征构建120.86秒，113 McPAT，0面积失败，总330.50秒。
+  roms后段MSCS只将LQ32->40，然后选择IntALU3->7和fetchBuffer32->16，增益分别仅0.24%、0.11%左右；
+  scalar更早将LQ拉到64，后续SQ和IQ投资带来较大收益。需要验证局部响应的失准/反馈校正，不能只重复扩跑。
+
+feedback_probe_s42_01启动：在全部3workloads的raw MSCS查询5、6之前状态，做6个同历史/同候选池的局部反事实。
+  对比raw MSCS、Base-only scalar quadratic、完整MSCS quadratic，各1查询；同原超参数，不新增调参。
+  全部6状态选择先冻结，再查询/复用非历史标签。该实验不冒充新的完整轨迹。
+
+feedback_probe_s42_01完成：独立检查通过，7新前向+6旧标签复用，18逻辑查询，总40.72秒。
+  roms条件门槛形式上通过（q5 MSCS校正优于scalar校正），但MSCS校正没有修复raw的停滞：q5与raw相同，q6更差。
+  不能用这个弱门槛宣称反馈已解决问题。反而发现scalar建议的roms LQ40->56/72实际都不改善。
+
+interaction_diamond_s42_01完成：补1个未知角点、复用3个旧标签，2.12秒，代数/账目/源代码检查通过。
+  roms raw MSCS查询5之前，只改LQ/IQ的2x2：
+    (40,64)CPI3.488019；(64,64)3.500182；(40,96)3.492131；(64,96)3.443889。
+  两个单独扩容都变差，联合改善1.265%。交互对比-0.060405CPI，约root的-1.7318%。
+  root的MSCS局部预测正确识别符号：单LQ3.618629、单IQ3.710783、联合3.392739；scalar分别3.390804/3.461725/3.349183，误把单项都预测有益。
+  将完整单项输入位移相加，联合MSCS预测3.392765，和真正联合完整输入的局部预测3.392739非常近。
+  同时发现搜索网格限制：LQ40->64需要stride3，旧{1,2,4}不包含；必须给双方同样补stride3控制，不能把网格遗漏算信息价值。
+  这四点来自已观察轨迹，只是事后机制证据；尚未证明MSCS可以自动挑出该组合或比scalar组合策略更好。
+
+pair_priority_protocol.txt已冻结思路，尚未实现/运行：在同6状态自动生成正向双资源组合、双方同池/同面积信息，
+  用已计算单项输入位移之和给所有组合打分，只完整编码双方各自提议的1个组合；对照dense singles与common joint池。
+  必须公平加入stride3，统计所有计算和面积开销；需要自动挑出有效组合并胜过scalar_joint才能继续。
+
+pair_priority_s42_01完成并独立重放通过，预定开发门槛通过。
+  dense单项对照共同补齐stride3；所有资源对自动枚举、按单项完整输入位移之和预测，未指定LQ/IQ。
+  6状态3110个域内pair只完整编码9个提议；12新候选前向+6复用，24逻辑查询。
+  MSCS joint vs scalar joint：4胜1平1负；唯一负例mcf q6仅少改善0.005862个百分点。
+  roms q5：single scalar0 / singleMSCS0.238862 / pairscalar0.803155 / pairMSCS1.265191%；
+       q6：0 / 0.108435 / 0.851532 / 1.351592%。
+  MSCS自动选择LQ40->64 + IQ64->96；scalar选择LQ40->72 + IQ64->96；两个状态同样出现且MSCS更好。
+  此为已观察六状态的同候选池排名诊断，不冒充完整新轨迹/未见确认。
+  278共同单项面积访问、242实际area.get（162McPAT）、0失败；特征构建25.58秒，总298.45秒，主要时间在面积。
+
+lazy_pair_audit_s42_01与s42_02均完成，0新CPI/面积查询，所有6状态选择与eager完全相同。
+  v1每对仍先询问未知端点再碰到已知不可行搭档，只节约约15%。
+  v2先用已知不可行端点短路，再查询未知端点，独立前缀重放通过；scalar50/MSCS58端点访问，双方去重加joint仅70配置。
+  对照原278端点+最多12joint约290个，减少约76%的必要面积配置；这是调用数，不直接宣称墙钟加速。
+  全结构pair共5885个（包括域外端点），排序后lazy合法性筛选与原按可行端点建域完全等价。
+
+pair_walk_protocol.txt已写好，下一步实现/运行完整4臂factorial greedy：scalar_single,mscs_single,scalar_joint,mscs_joint。
+  3workloads各6轮x1查询，同原priority_walk起点/面积cap；候选dense生成器必须接受radius并保持原失败步长递减语义。
+  joint用lazy_pair_support_v2，原单项域+scalar与MSCS各提1pair构成共同池；新pair完整编码后再排名。
+  scalar_joint是拿到MSCS提议的强scalar ranker，不可称完全scalar-only generator；所有收益/成本如实归因。
+  主要对照每query两个新scalar加旧scalar_quadratic曲线的较优包络，并要求roms终点优于新MSCS单项对照。
+  尚未实现pair_walk代码，也未启动该运行；所有已启动实验现在均已结束。
+
+pair_walk_s42_01已实现并启动，运行日志pair_walk.log，统一exec会话10280。
+  pair_walk_support.py: prepare仅访问当前Jacobian、完整候选输入与面积回调，不访问性能标签；dense singles按当前radius筛选。
+  pair_walk_run.py: 4臂/3workloads/6查询，所有当前round决策冻结后查标签；旧priority_walk标签只在选择后复用。
+  pair_walk_validate.py: 数值预测、lazy面积路径、私有seen/history、查询/复用账目、标量包络及MSCS单项ablation在完成后重放。
+  实验仍在进行，不能提前写成功或最终数值。若开发通过，还需独立选取新配置确认，不因开发成功直接完成goal。
+
+pair_walk_s42_01完成：完整重放通过，严格开发门槛失败。
+  scalar_joint/MSCS_joint最终CPI降低%：mcf8.077617/7.988461；lbm1.446165/1.938989；roms9.373313/8.875522。
+  vs scalar单项/组合/旧Q的每步包络，anytime2胜1负，终点1胜2负；不宣称整段搜索稳定胜利。
+  MSCS joint比自身single在三workloads全部更好，但scalar同样从组合能力受益；局部互补证据不能代替整段比较。
+  36新候选前向+27旧标签复用，72逻辑查询，42根前向504输出反向，236 McPAT，0面积失败，599.67秒。
+
+pair_replication_protocol.txt已预先规定新的平均性能问题，不把旧严格gate改成通过。
+  固定原prepare/排序/步长/面积规则；seed42独立挑选2个DEFAULT双动作组合，避开列明旧实验中的完整配置。
+  mcf/lbm/roms两臂6轮共72逻辑查询，全部运行，无结果驱动替换；仅新harness/validator。
+  这是此前已选workloads上的新配置复现，不是训练分布holdout或全workload无偏证明。
+  pair_replication_run.py已启动，日志pair_replication.log；结束后将重放全部私有轨迹及抽样/预算/汇总。
+
+pair_walk_error_audit_01：0新查询，审计已付费的36个joint策略候选。
+  MSCS局部预测32/36比scalar更准；MAE0.025221 vs0.065715 CPI；实际11次拒绝里MSCS仍误报改善8次。
+  样本由两策略选出来，不能作为无偏全域精度；预测更准也不直接推出完整greedy更好。
+
+exact_cached_inputs.py与audit_01：新建独立完整特征编码器加速，原代码未改。
+  不近似依赖、不只改arch slots；原dse_infer所有公式照算，仅纯encode_distribution相同dtype/shape/原始bytes精确复用。
+  私有FunctionType globals，未猴子补丁原module；LRU16384限制内存；键比较完整bytes，不依赖近似hash命中。
+  三bench每个103合法配置（含两种宽度根、所有可用单资源/宽度闭包及固定随机pair），冷/热两次全部bitwise相等。
+  特征构建冷缓存约4.07–4.24倍、热缓存4.91–6.10倍；这是编码时间，不是整体DSE提速。
+  0模型查询。当前replication运行保持原代码，未来实验可用经验证的新encoder。
+
+paid_centers_s42_01完成：六个固定MSCS joint晚期状态，4同历史ranker×1查询；全状态先冻结再读非历史标签。
+  使用全部已付费中心（含拒绝点）Jacobian，固定原Shepard权重；scalar用未截断Base logodds，MSCS用三分量log odds，候选W精确。
+  仅对原raw共同pair池重排，不声称已经测试新的pair生成器。新encoder用于完整输入，原代码保留。
+  MSCS blend在3状态改善raw MSCS：lbm q5 +0.303618%、q6 +0.095861%；roms q5 +1.239054%（scalar blend+1.092878%）。
+  相对raw scalar与scalar blend每状态较优值，5胜1负，平均额外收益0.101464个百分点；mcf q6仍输。
+  预先pilot gate通过；独立NumPy权重/响应/CPI/历史/排序/预算重放通过。
+  8新候选前向+6复用，24逻辑查询；18历史中心前向/216反向输出明确计费；4McPAT，0失败；24.75秒。
+
+paid_centers_walk_s42_01启动：新两臂完整6query greedy，旧pair_walk相同根与3workloads。
+  双方私有全部paid中心记忆；raw pair提议生成器完全不变，只校正最终池排名；原始raw scalar/MSCS轨迹为额外档案对照。
+  面积/见过点/半径/接受准则不变；before-current-label freeze保留，新的历史中心算入forward/backward账目。
+  是开发完整轨迹，不是未见确认；若通过仍需独立配置。
+
+pair_replication_s42_01完成，抽样与两根完整轨迹重放通过：旧raw pair算法未通过新配置门槛。
+  6情境anytime5胜1负，平均额外收益0.359456个百分点；最终3胜3负，平均少改善0.021823个百分点。
+  root0：mcf终点-0.094408pp/lbm+0.976056pp/roms-0.762683pp；
+  root1：mcf+0.105361pp/lbm+0.063572pp/roms-0.418837pp。
+  72新前向/72逻辑候选查询，1337.79秒（使用旧encoder，且新配置面积调用多）。不以early优势冒充endpoint胜利。
+
+pair_archive_audit_01完成：0新查询，以每根面积cap与初始CPI为共同HV参考，计入各臂所有已付费可行点。
+  旧开发根与2新根共9情境，MSCS joint档案HV终点5胜4负；结果仍混合。
+  以独立矩形容斥法校验strip面积通过。只做事后次要指标审计，不更改任何CPI失败gate。
+
+paid_centers_walk_s42_01完成，NumPy插值/全部私有轨迹/面积/查询账目重放通过，开发gate通过。
+  new scalar memory/MSCS memory CPI降低%：mcf8.077617/7.988461；lbm1.440927/2.476854；roms9.001268/9.450733。
+  对照旧raw scalar和新scalar memory每预算较优包络：anytime3/3胜，endpoint2胜1负；
+  终点额外改善分别mcf-0.089155pp、lbm+1.030690pp、roms+0.077420pp，均值+0.339652pp。
+  比旧raw MSCS，lbm再提升0.537865pp、roms0.575211pp、mcf终点不变。
+  36新/36逻辑候选查询，33历史中心前向396反向输出，43McPAT0失败，2386特征构建27.48秒，总152.01秒。
+  原旧pair算法独立配置检验失败不改变；新的memory规则尚需独立配置验证。
+
+memory_confirmation_s42_01已冻结并启动：seed42在DEFAULT三个disjoint小动作的合法组合中抽两个从未在列明旧配置中出现的根。
+  indexes[776,1666]：根0 ROB160、fetchBuffer16、l1d_assoc4；根1 LQ40、SQ24、fetchBuffer16。
+  四臂scalar_raw,mscs_raw,scalar_memory,mscs_memory；每根三workloads各6查询，共144逻辑预算。
+  rule/encoder/pairgenerator/面积cap/步长不变；raw仅当前root、memory仅自己过去全部paid点；每轮全臂冻结后读标签。
+  检验仍条件于此前选择的三workloads，不是全17推广或gem5证明。完成后独立重放，不预先宣称成功。
+
+inactive_l2_audit_01完成：读取671/671原gem5成功配置，L2/L3实际对象均0；McPAT模板number_of_L2s/number_of_L3s均0。
+  gen_spec_traindata.py/_dse.py/_RS.py现有生成器同样未传--l2cache，虽仍随机/传递l2_size,l2_assoc；
+  尚未逐个核对历史原始训练配置，不能泛称每份训练文件都同样设置。原论文MSCS保真度结果并未因此被推翻。
+  直接旧轨迹证据：priority_walk lbm rawMSCS第4步仅改l2_assoc，proxy改善0.326953%；pair_walk lbm MSCSsingle第4步0.302546%。
+  在该无L2硬件配置下不能把这种改善归因于L2资源。证据记录inactive_l2_paid_moves.json，0新查询。
+
+active_resources_s42_01启动：新版本仅冻结L2两参数，全部方法相同限制，checkpoint/旧代码/旧结果不变。
+  原开发根/3bench/4臂/6query；在建pair前过滤无效维度，保留其余完整输入与私有历史逻辑。
+  分别报告rawMSCS和memoryMSCS，开发筛选仅能选一个全局方法进入后续验证，不能按workload事后挑赢家。
+
+gem5_memory_pilot_01启动：3个lbm开发配置（起点、较佳scalar终点、MSCSmemory终点），2worker独立cwd/outdir。
+  与旧gem5验证保持相同无L2设置，不悄悄加缓存或改checkpoint；L2元数据无效在plan里明确记载。
+  W20M/ROI18.7M，原FIFO/tail采集累计stack；gem5整段ROI与surrogate50偶数slice聚合不同，需明确限制。
+  这是事后挑选的单案例验证，不作普遍性能/推广证明；等待三项实际结果与实例化CPU/L1/FU检查。
+
+memory_confirmation_s42_01完成：两个事前选定新三动作根，4臂144逻辑查询，抽样与全部轨迹重放通过，gate通过。
+  MSCSmemory相对每预算raw/memory scalar较优包络，anytime与endpoint均4胜2负；2负全在mcf。
+  平均额外CPI降低：anytime0.088924pp，endpoint0.072328pp；比raw MSCS终点平均多0.196911pp。
+  root0终点：mcf-0.143913pp/lbm+0.931008pp/roms+0.032986pp；
+  root1终点：mcf-1.168543pp/lbm+0.139235pp/roms+0.643196pp。
+  平均收益小且mcf有明显负例，不声称普遍优越。该运行允许了尚未隔离的无效L2元数据，需要有效资源空间复查。
+
+active_resources_s42_01完成，独立重放通过。冻结L2后只有mscs_memory达到开发筛选条件。
+  mcf scalar8.077617% / rawMSCS与memoryMSCS均7.639403%；
+  lbm scalar最好1.446165% / rawMSCS1.582534% / memoryMSCS2.630498%；
+  roms scalar最好9.373313% / rawMSCS8.875522% / memoryMSCS9.450733%。
+  memoryMSCS对scalar包络均值：anytime+0.202518pp、终点+0.274513pp；rawMSCS均值终点为负。
+  active_confirmation协议预选唯一全局方法mscs_memory，并启动2个新有效硬件配置确认，仍固定seed42与3bench。
+  新抽样剔除旧已预测/已付费配置，并把无效L2字段从等价性键删掉，避免把同一实际硬件当新配置。
+
+gem5_memory_pilot_01三项全成功，CPU/FU/L1实际配置验证通过、无L2明确记录，所有冻结hash保持。
+  lbm gem5 CPI：起点4.263390，scalar4.208198，MSCSmemory4.204443。
+  真实ROI收益1.294557% /1.382632%，MSCS多0.088075pp；proxy预测多1.030690pp，方向对但幅度明显高估。
+  单一事后选择开发案例，gem5全ROI与proxy50-slice聚合不同，不能作为普遍搜索优势证明。
+
+withdrawal_guard_s42_01完成：复用active_resources中全部15个MSCSmemory q2..q6前状态，六ranker同池同历史，全部先冻结再读标签。
+  对任何减资源候选：score=max(raw,memory)，纯增资源保持raw；scalar/MSCS规则相同，不是物理上界也不是原Protect未来期权证明。
+  相对rawMSCS改善5状态；对3scalar每状态包络平均多0.096272pp，对rawMSCS平均多0.128686pp，三workloads均有局部胜例。
+  预先gate通过，独立规则/历史/排序/面积/预算重放通过；15新前向+19旧标签复用，90逻辑查询，0新Jacobian，8McPAT0失败，17.02秒。
+  仍为已观察MSCS轨迹上的机制筛查，不冒充完整新搜索。
+
+guarded_greedy_s42_01启动：两新臂scalar_guard/mscs_guard×3bench×6query，仅新增source，不覆盖旧版。
+  同active_resources开发根、固定L2、raw共同pair提议、私有全部已付费历史，max只影响最终回收排序，原接受/步长/面积cap不变。
+  主要比较旧raw scalar、旧memory scalar与新guard scalar的每query较优包络；还要求均值终点胜过旧unguarded MSCSmemory。
+  先验gate为平均anytime/endpoint/相对unguarded均正、>=2workload终点胜、全部重放；失败不扩大这条规则。
+
+guarded_greedy_s42_01完成，完整私有轨迹/NumPy插值/单侧规则/面积/查询账目重放通过，开发gate通过。
+  与旧raw scalar、旧memory scalar和新guard scalar逐query包络相比：anytime3胜；终点2胜1负。
+  mcf终点-0.438214pp；lbm+1.172870pp；roms+0.176200pp；均值anytime+0.280065pp、终点+0.303619pp。
+  对旧unguarded MSCSmemory终点平均+0.029105pp，仅很小改进；mcf没有修复，lbm略退0.011464pp，roms增0.098779pp。
+  36新/36逻辑候选查询，33中心前向396反向，50McPAT0失败；2291特征构建26.89秒，搜索主体173.10秒（不含结束后重放）。
+
+guarded_transfer_s42_01已冻结并启动：seed42从17bench剔除当前mcf/lbm/roms及此前深入gcc/xalan/leela后，选wrf与namd。
+  新硬件根commit9、LQ24、IntALU3；同seed42三动作目录排除全部旧已观察硬件配置（L2字段从等价键删掉）。
+  五臂raw scalar/memory scalar/guard scalar/raw MSCS/guard MSCS，各6查询；L2仍固定，guard规则不变。
+  主对照3scalar每query包络；事前transfer gate要求两个bench都终点获胜、均值anytime与终点正、全部重放。
+  这是当前policy调规则之外的workload/新配置，不是训练holdout；旧coverage对这些workload已有一次查询，明确不冒充完全未见。
+
+unused_fu_audit_01完成：0新模型/仿真查询，读取全部671原gem5 stats和native FU op-class映射，使用issued counts而不是只看committed。
+  mcf65/65两个FP单元所有op均0；gcc53/53两个FP及IntMultDiv均0；lbm57/57 IntMultDiv0；xalan43/43两个FP0；exchange2 62/62两个FP0。
+  这是原ROI中的无使用记录，不泛化到新程序/输入，也未悄悄更改当前冻结的候选域。
+  解释时不能把surrogate对这些资源的敏感性直接宣称真实瓶颈；参数配置存在不等于本workload使用该资源。
+
+guarded_explanations_01完成：所有18个MSCSguard已付费动作均导出CSV及逐stage预测/真实surrogate分量账户，0新查询。
+  16步接受；选中动作仅1个实际用history最大值计分（其余仍可能受被过滤竞争候选影响）；54个平均压力分量变化方向49/54一致(90.74%)。
+  平均分量CPI误差0.008141；1个动作涉及原ROI未使用FU。每stage四分量相加严格还原CPI，四stage取平均不相加。
+  scope明确仅完整frozen-surrogate核验，不是每步gem5验证或已证明硬件因果归因。
+
+curvature_calibration_audit_01启动：0新查询，全部active_resources四臂3bench6query=72已选择标签。
+  仅自己过去误差拟合一个alpha，C_hat=C_scalar+alpha*(C_MSCS-C_scalar)，alpha夹[0,1]、初始1；当前标签不参与当前预测。
+  先验gate为相对raw MSCS预测MAE总体下降且>=2bench下降；只是先筛掉无效校准，不当作搜索成功。
+
+active_confirmation_s42_01完成，两新硬件根全部重放通过，预先gate通过但均值优势极小。
+  MSCSmemory相对raw/memory scalar包络，anytime4胜1平1负，终点3胜1平2负；均值+0.043653pp(anytime)、+0.002238pp(endpoint)。
+  88物理新候选前向/144逻辑候选查询，总1309.92秒含抽样/验证；不能将数值上通过gate等同有实用价值的稳定优势。
+
+guarded_transfer_s42_01完成，抽样/源文件/私有轨迹/预算重放全部通过，但推广gate失败。
+  wrf六query收益scalar17.640659% vsMSCS16.818025%，终点-0.822634pp；namd所有raw/guard策略35.401764%完全平。
+  MSCSguard与rawMSCS在这两个新workload轨迹相同，原回收history规则没有作用；停止扩大不变方法。
+  24新物理前向/60逻辑候选查询，21中心前向252反向输出，195McPAT0失败；特征17.15秒，搜索主体450.93秒。
+
+curvature_calibration_audit_01完成，独立因果系数重放通过但先验gate失败：整体CPI MAE rawMSCS0.023564 ->校准0.022200。
+  改善只在roms，mcf略恶化，lbm完全不变；不因为总体略正就跑完整新校准策略。0新查询。
+
+reclaim_veto动机计数勘误：54个原scalar_raw选择中，MSCS非改善预警15次：其中7个回收全部实际失败；8个增资源里6个实际成功。
+  此前commentary与冻结protocol误写回收8次，正确为7次。独立逐项记录reclaim_veto_motivation_correction.json。
+  更正描述不改冻结规则/选择/gate，保留原文件可追溯。
+
+reclaim_veto_s42_01完成：全部54 scalar_memory历史状态，4同池排名器，私有历史与预算重放通过，gate失败。
+  raw scalar次序，只把MSCS预警有害的回收延后；SCmemory有相同veto规则，另有raw/memory scalar排序控制。
+  对3scalar逐状态包络0胜3负，平均-0.025748pp。相对rawscalar虽1胜0负，但所替代的坏回收往往仍是坏候选，未超过强基线。
+  8新候选前向+64旧标签复用，216逻辑query，0新ranking前向/Jacobian，6McPAT0失败，9.22秒。
+
+directional_guard_s42_01启动：同54缓存状态，增资源按raw scalar，减资源按raw MSCS有限预测CPI（比较代价而不只看正负）。
+  增加raw scalar、memory scalar、单侧memory scalar和全部增资源优先四个对照，排除仅因更保守而获胜的解释。
+  冻结规则与所有选择后才读标签；gate要求对四scalar包络>=2胜、<=1负、均值正，且至少一次有收益的回收胜过无条件增资源优先。
+  是后验机制筛查，不是新整段轨迹；等待结果，失败就不放大同一规则。
+
+directional_guard_s42_01完成并重放：2胜2负，平均对四scalar包络-0.003460pp，gate失败。
+  mcf两个状态获益超过增资源优先对照0.183754/0.225361pp；lbm一处-0.006228pp，roms一处-0.589710pp。
+  4个有用回收胜过无条件upfirst，但原局部分量预测仍会推荐坏回收。5新前向+70复用，270逻辑，0新Jacobian/0新McPAT，1.60秒。
+
+directional_memory_s42_01完成并重放：复合此前两条已检验规则，增资源raw scalar；回收max(rawMSCS,memoryMSCS)。
+  54状态2胜1负，对四scalar每状态包络平均+0.007461pp；保留4个胜过upfirst的有效回收，先验gate通过。
+  mcf两个正例保留；历史max修复roms坏回收；lbm小负例仍在。0新模型/Jacobian/McPAT，75旧标签复用，270逻辑，1.05秒。
+  是多轮后验机制开发，不能当未见确认；冻结plan中新增directional_guard标签库，协议旧句漏提该库，另存label_reuse_note澄清，不改旧文件。
+
+directional_walk_s42_01启动：只新跑mscs_directional和scalar_upfirst两条私有轨迹，3bench各6query。
+  对照档案raw scalar、memory scalar、guard scalar和新upfirst的逐query包络；既有性能标签完全不用于新策略。
+  候选空间/原共同pair生成器/完整编码/宽度/面积cap/步长不变，当前轮全部选择冻结后再读真值。
+  gate：anytime与终点均值正、至少2bench终点胜、至少一有用回收且该bench终点胜upfirst、全代码与预算重放。
+  尚未完成，不预先宣称整段搜索有效；通过后还需新配置/已失败wrf场景的固定规则检验。
+
+directional_walk_s42_01已完成搜索主体：开发gate失败；最终验证在独立重放中，等待validation.json。
+  mcf MSCSdirectional终点追平最强scalar(8.077617%)，虽比upfirst终点多0.316404pp、anytime对包络多0.079283pp。
+  lbm终点1.440927%，比rawscalar少0.005237pp；roms终点9.373313%，与scalar平。
+  三bench均值终点-0.001746pp，只有mcf接受一次有用回收。局部机制优势未转成更好的最终设计，不扩大不变方法。
+  24新物理前向/36逻辑，21中心前向252反向，85McPAT0失败，165.83秒搜索主体。
+
+signed_budget_s42_01已冻结并启动：改为当前root面积不增加的“一减一增”联合资源交换问题，非前瞻树搜索。
+  固定active_resources scalar_raw q5/q6之前六状态；同原radius/history，四臂base scalar/MSCS与exchange scalar/MSCS，各一候选query。
+  只要求实际合并设计合法且最终面积可行，不排除单独增加时超过cap的端点；当前构成端点仍各自结构合法，明确不是全部可能联合域。
+  L2固定，并对所有ranker同样固定在原gem5 ROI里全部无issued ops的FU；这是保守子域，也牺牲收缩unused FU的面积收益，不声称完整前沿。
+  复用旧完整输入方向投影生成有符号pair；各ranker提1pair，合并公共候选池，重新完整编码后用新rootJacobian重排。
+  六状态选择全部冻结才读标签，最多24逻辑candidate queries；root6前向/72输出反向另计。
+  gate预先要求对scalar base/exchange包络平均正，>=2胜且分布>=2workload、<=1负，至少1次胜自身无exchange版本，全部重放。

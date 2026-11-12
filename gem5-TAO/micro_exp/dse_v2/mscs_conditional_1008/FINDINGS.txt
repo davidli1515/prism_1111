@@ -1,0 +1,144 @@
+MSCS 的条件资源价值与有预算的回收核验
+2026-10-08；背景仅沿用 hpca2027-paper1968.pdf III-A、V-B/C、Algorithm 2。
+
+这一轮的进展
+-------------
+找到了固定 surrogate 内可复现的 masked-value 情形，以及独立新配置上有用的
+MSCS 排序信号。它适合指导“哪些回收动作值得优先核验”，仍不足以证明无条件
+Protect 或端到端 Pareto/HV 改善。原始 DSE 代码、旧结果与 checkpoint 均未修改。
+辅助 scalar 回归器只用于建立强对照，PRISM 模型没有重新训练。
+
+1. 一个可以直接复核的四点反事实
+--------------------------------
+623.xalancbmk_s，results/623.xalancbmk_s.json，legacy_1：
+  当前：IQ=90，decodeWidth=8，CPI=1.5627993345。
+  只缩减 IQ 到 58：CPI=1.5636725426，代价 0.055875%。
+  保留 IQ，只将 decodeWidth 增到 12：CPI=1.5526820421。
+  同时 IQ=58、decodeWidth=12：CPI=1.5822672844。
+  decode 增大后，同样的 IQ 回收代价变为 1.905427%。
+  四个配置的 W_min 都是 4，排除了宽度归一化变化；动作相加且两个顺序可交换。
+  第一次缩减 IQ 时，平均逐 slice 的 ||delta MSCS||_1 已有 0.053085。
+
+这证明该 checkpoint 中存在：当前 CPI 差异很小，但资源的后续条件价值很大的情形。
+它不证明此信号永远可靠，也不是 gem5 对真实硬件行为的验证。
+conditional_case_v2.png / .pdf 展示四点 CPI 与首次回收时的压力组成变化。
+
+2. 把论文的 masked contribution 变成可检验标签
+------------------------------------------------
+对当前配置 theta、减配动作 j、未来改善动作 k，分别查询 C0、Cj、Ck、Cjk。
+  当前回收代价 d0 = (Cj-C0)/C0；
+  未来回收代价 dk = (Cjk-Ck)/Ck；
+  混合效应 I = (Cjk-Ck-Cj+C0)/C0。
+只有 I 才去掉了“未来 CPI 降低使相对代价分母变小”的平凡效应。
+当前动作仅保留 0 <= d0 <= 0.003；未来 dk>0.003 标记为风险。
+I>0.001 为另行预设的 material interaction 门槛，没有按结果调整。
+
+MSCS 的两个排序分数：
+  (a) 各 slice 的 ||mj-m0||_1 的均值；
+  (b) 先在每级取 q=(FP,BP,SP)/(FP+BP+SP)，再取 ||qj-q0||_1 的均值。
+(b) 去掉 Base 和总压力大小，只保留压力组成；其表现与 (a) 接近。
+资源身份来自参数 j 的实际干预，不需要从“BP 很大”硬编码映射到某一个资源。
+
+3. 数据和公平性
+----------------
+探索数据：六个 benchmark，每个 3 个旧平台期状态、1 个 default、2 个新随机配置，
+共 36 个 workload-configuration 状态，3,664 次离线 surrogate 查询。
+711 个符合 Protect 条件的 j/k 组合，48 个未来超阈值，61 个 material interaction。
+其中 37 个同时满足未来超阈值、material interaction、scalar additive 预测不超阈值。
+
+确认数据：策略和参数固定后，使用 seed=20261008 新采样的 4 个配置 × 6 benchmarks，
+24 个状态，2,773 次离线查询。666 个符合条件的 j/k 组合，55 个未来超阈值；
+42 个同时满足上述三个“额外隐藏风险”条件。
+四个新配置在六个 workload 间复用，所以 24 个状态并不是 24 个完全独立架构样本。
+
+每个状态先观测：base、所有可用的 decrease(1,4 strides) 和 increase(1,4,8 strides)。
+未来方向只按已经观测的 scalar gain 选取三个不同参数；选择不读取联合查询标签。
+排除 L1 trace 切换，要求两个动作可交换且实际配置增量可加，排除投影假协同。
+没有使用旧面积缓存；这是一项 CPI 条件价值诊断，不包含面积或 HV。
+
+主比较按“回收动作”而不是 j/k 行计数，防止同一资源的三个 partner 重复加权。
+仅保留有三个 future partner 的动作；核验一个回收动作统一支付三次联合查询。
+风险 R_j=max(0,max_k dk-0.003)。排序后核验 top-K 回收动作，比较 sum R_j 与同预算
+oracle 的比例，逐状态平均；所有并列分数使用固定种子的均匀 tie-break，不按标签。
+零风险状态没有可定义的比例，单独计数；它们同样需要付出核验预算。
+所有方法获得相同的前置观测，离线构造标签的成本不计成搜索的免费信息。
+
+对照包括：当前 CPI 代价、scalar additive、参数步长、按配置范围归一化的变化幅度、
+按原配置归一化的变化幅度、逐 slice CPI 代价标准差/P90，以及 scalar 辅助预测器。
+辅助预测器输入含完整配置、动作差/身份/步长、当前 CPI 和已测成本/收益、宽度、
+逐 slice 标量统计。采用固定 ExtraTrees 参数，按 workload 整组留出，状态等权。
+确认阶段仅用探索数据拟合，并排除目标 workload，完全不使用确认集标签训练。
+这里“留出 workload”只针对辅助预测器；六个 workload 都在固定 PRISM 的分布内。
+
+4. 主结果：等预算的风险核验
+----------------------------
+探索集：35 个有合格动作的状态，其中 15 个存在风险。
+                                 检查1个回收(3 queries)   检查3个回收(9 queries)
+  当前 scalar CPI 代价                    66.30%                   81.74%
+  scalar per-slice P90                     83.71%                   93.95%
+  scalar per-slice std                     77.04%                   97.98%
+  scalar learned                          81.65%                   89.79%
+  MSCS L1                                 86.67%                   99.85%
+  pressure-composition L1                  86.67%                   99.78%
+
+独立新配置确认集：24 个状态，其中 18 个存在风险。
+                                 检查1个回收(3 queries)   检查3个回收(9 queries)
+  当前 scalar CPI 代价                    45.92%                   67.10%
+  scalar per-slice P90                     72.73%                   87.97%
+  scalar per-slice std                     54.72%                   87.49%
+  scalar learned                          58.77%                   80.54%
+  参数相对变化幅度                        43.56%                   55.59%
+  参数范围归一化变化幅度                  42.68%                   65.88%
+  步长                                    27.18%                   64.98%
+  MSCS L1                                 69.56%                   93.14%
+  pressure-composition L1                  68.65%                   93.14%
+
+需要完整保留的边界：
+  - 只有三次联合查询时，确认集 P90 scalar 对照比 MSCS 好。
+  - 优势不是每个 benchmark 都存在；详细分 workload 数据保存在 JSON。
+  - 把所有 MSCS 特征加入通用 ExtraTrees，并没有稳定胜过 rich scalar 模型。
+  - 风险捕获率不是 CPI 改善率，也不是 HV 提升率。
+  - 样本规模小且有架构/工作负载内相关性；这是探索加一次固定种子确认的正向证据，
+    不是统计上已确立的普遍优势。
+  - 当前全部结果来自同一个 frozen surrogate，需要 gem5 四点验证和端到端 DSE。
+
+5. 与旧 Protect 的区别及可运行接口
+-----------------------------------
+旧规则直接从大 ||delta MSCS|| 推出 Protect，在很多无害重分配上可能多保留资源。
+本轮得到支持的用途是：MSCS 提供核验优先级，实际条件 CPI 决定保护。
+可按以下流程嵌入后续搜索：
+  (1) 用 current CPI 筛出当前可回收资源；
+  (2) 用 MSCS 响应给有限核验预算排序；
+  (3) 查询所选资源与未来改善动作的联合配置；
+  (4) 有实测条件代价超阈值才 Protect；通过全部所测方向才标记 verified_safe；
+      预算不足明确标记 unverified，不能把“尚未检查”伪装成安全。
+  (5) 由现有 CPI/面积目标在得到的候选和证据上做最终选择。
+
+lookahead_guard.py 实现了 (2)-(4) 的独立接口，支持缓存、严格查询上限和证据日志。
+三项测试通过：大 MSCS 变化不自动 Protect；四点案例正确触发 Protect；预算耗尽
+不误判安全且重复配置不重复付费。尚未接入完整 DSE 驱动，也未声称完成 HV 验证。
+本轮没有继续调 cancellation 阈值，也没有修改 paper 的 MSCS 定义。
+
+6. 复现文件
+-------------
+collect.py                 四点条件响应采集；checkpoint 固定，每个 workload 50 slices。
+analyze.py                 整 workload 留出的辅助预测器和直接分数诊断。
+ranking_controls.py        等资源核验预算比较，包括步骤幅度和 scalar slice 对照。
+confirm_scalar.py          在探索数据冻结 scalar 对照，评估独立确认配置。
+lookahead_guard.py         新策略的可复用核验接口。
+test_guard.py              三项语义/预算测试。
+plot_case.py               四点案例图；conditional_case_v2.pdf / png。
+results/                   探索数据；analysis.json / ranking_controls.json 对应分析。
+confirm/                   新种子确认数据；confirm_scalar.json / confirm_ranking.json。
+
+Python 环境：/scratch2/wl730/conda_envs/hybrid/bin/python
+前缀：OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+例如从仓库根目录运行（输出目录须另取未存在的路径）：
+  /scratch2/wl730/conda_envs/hybrid/bin/python \
+    micro_exp/dse_v2/mscs_conditional_1008/collect.py \
+    --state-set fresh --random-states 4 --seed 20261008 --out /tmp/mscs_confirm_rerun
+
+后续应做：保持规则固定，接入独立面积执行环境，在同初始化/预算/候选/反循环机制
+下做 scalar_guard 与 mscs_guard 对照，再用 gem5 验证被发现的四点交互。
+MSCS 的当前证据定位是“帮助识别当前低代价回收中的未来风险”，没有把归因份额
+解释为物理 headroom，也没有把大向量变化本身当作效用。

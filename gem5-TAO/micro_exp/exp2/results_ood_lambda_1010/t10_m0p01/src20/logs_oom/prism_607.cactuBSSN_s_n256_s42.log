@@ -1,0 +1,28 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /scratch/gem5-TAO/micro_exp/exp2/results_ood_lambda_1010/t10_m0p01/src20/prism/607.cactuBSSN_s/n256_s42
+  Target: 607.cactuBSSN_s | variant=prism | n_shot=256
+  src_labeled : 41,983
+  src_unlabeled: 167,946
+  tgt_shot    : 256
+  tgt_unlabeled: 7,244
+  Train: 217,429 | Src val: 14,046 | Tgt test: 500
+  Batch: 50,000 | steps/epoch: 4 | feeding: gpu-resident
+  Data ready in 14s
+  Params: 2,534,160
+
+============================================================
+Training prism — 1521 epochs, steps/epoch=4
+  Milestones=[2555, 3528, 4563, 5597], gamma=0.5
+  Model selection: source val MAPE (target test is report-only)
+============================================================
+Traceback (most recent call last):
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 548, in <module>
+    main()
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 497, in main
+    model, last_state, best_epoch, history, train_time = train(
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 389, in train
+    for b in train_loader:
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 242, in __iter__
+    yield {k: v[b] for k, v in self.t.items()}
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 242, in <dictcomp>
+    yield {k: v[b] for k, v in self.t.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 894.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 762.81 MiB is free. Process 3583887 has 52.30 GiB memory in use. Process 3584308 has 13.71 GiB memory in use. Process 3808440 has 7.91 GiB memory in use. Including non-PyTorch memory, this process has 4.56 GiB memory in use. Of the allocated memory 4.07 GiB is allocated by PyTorch, and 4.57 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

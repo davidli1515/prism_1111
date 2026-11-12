@@ -1,0 +1,812 @@
+nohup: ignoring input
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_attribution']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 2.005s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_attribution [multi-stage] (starts=50, steps=30)
+============================================================
+
+  Start 2/50: CPI=2.4360, Area=24.51
+      Pressure: FP=0.351 BP=0.483 SP=0.081 → dominant=BP
+      Best: IntALU (red=0.0212, Δarea=0.04, eff=0.0212)
+      Pressure: FP=0.350 BP=0.483 SP=0.079 → dominant=BP
+      Best: l1d_assoc (red=0.0276, Δarea=0.32, eff=0.0276)
+    Step 3: CPI=2.2521, Area=26.25, ↑1 ↓0, dom=BP [0.35/0.48/0.08] [47s]
+    Step 6: CPI=2.2364, Area=36.72, ↑1 ↓0, dom=BP [0.34/0.48/0.08] [90s]
+    Step 8: stagnant
+
+  Start 3/50: CPI=2.7252, Area=22.27
+      Pressure: FP=0.325 BP=0.469 SP=0.095 → dominant=BP
+      Best: LQEntries (red=0.0812, Δarea=0.00, eff=0.0812)
+      Reclaim: fetchWidth(7→6), commitWidth(5→4), numROBEntries(261→245), SQEntries(55→47), IntMultDiv(2→1), FP_ALU(4→3), RdWrPort(2→1), l1i_assoc(16→8)
+      Pressure: FP=0.325 BP=0.469 SP=0.095 → dominant=BP
+      Best: LQEntries (red=0.0637, Δarea=0.00, eff=0.0637)
+      Reclaim: fetchWidth(6→5), numROBEntries(245→229), SQEntries(47→39), FP_ALU(3→2), l1i_assoc(8→4)
+    Step 3: stagnant
+
+  Start 6/50: CPI=2.3581, Area=34.63
+      Pressure: FP=0.312 BP=0.449 SP=0.101 → dominant=BP
+      Best: dispatchWidth (red=0.0393, Δarea=2.23, eff=0.0393)
+      Pressure: FP=0.328 BP=0.457 SP=0.098 → dominant=BP
+      Best: IntALU (red=0.0197, Δarea=0.04, eff=0.0197)
+    Step 3: CPI=2.1499, Area=39.98, ↑1 ↓0, dom=BP [0.33/0.46/0.10] [204s]
+    Step 6: CPI=2.1437, Area=40.10, ↑1 ↓0, dom=BP [0.33/0.45/0.10] [243s]
+    Step 7: stagnant
+
+  Start 7/50: CPI=2.5830, Area=21.18
+      Pressure: FP=0.342 BP=0.475 SP=0.087 → dominant=BP
+      Best: l1_size (red=0.0338, Δarea=0.15, eff=0.0338)
+      Pressure: FP=0.341 BP=0.474 SP=0.087 → dominant=BP
+      Best: l1_size (red=0.0314, Δarea=0.27, eff=0.0314)
+    Step 3: CPI=2.3934, Area=22.32, ↑1 ↓0, dom=BP [0.34/0.47/0.09] [292s]
+    Step 6: CPI=2.2615, Area=24.48, ↑1 ↓0, dom=BP [0.33/0.47/0.09] [333s]
+    Step 8: stagnant
+
+  Start 8/50: CPI=2.6182, Area=18.02
+      Pressure: FP=0.329 BP=0.451 SP=0.103 → dominant=BP
+      Best: IntALU (red=0.0633, Δarea=0.04, eff=0.0633)
+      Reclaim: fetchWidth(7→6), numROBEntries(457→441), LQEntries(128→120), SQEntries(116→108), IntMultDiv(3→2), FP_MultDiv(3→2), l1i_assoc(16→8)
+      Pressure: FP=0.327 BP=0.448 SP=0.105 → dominant=BP
+      Best: l1d_assoc (red=0.0844, Δarea=0.30, eff=0.0844)
+      Reclaim: fetchWidth(6→5), numROBEntries(441→425), LQEntries(120→112), SQEntries(108→100), IntMultDiv(2→1), FP_MultDiv(2→1), l1i_assoc(8→4)
+    Step 3: CPI=2.4736, Area=14.57, ↑1 ↓5, dom=BP [0.32/0.44/0.11] [403s]
+    Step 6: CPI=2.2359, Area=17.12, ↑1 ↓0, dom=BP [0.31/0.44/0.10] [456s]
+    Step 8: stagnant
+
+  Start 10/50: CPI=2.6156, Area=16.76
+      Pressure: FP=0.324 BP=0.456 SP=0.102 → dominant=BP
+      Best: IntALU (red=0.0976, Δarea=0.04, eff=0.0976)
+      Reclaim: commitWidth(5→4), numROBEntries(409→393), SQEntries(27→19), FP_ALU(2→1), l1i_assoc(16→8)
+      Pressure: FP=0.321 BP=0.452 SP=0.104 → dominant=BP
+      Best: l1_size (red=0.0340, Δarea=0.27, eff=0.0340)
+    Step 3: CPI=2.4014, Area=15.38, ↑1 ↓3, dom=BP [0.32/0.45/0.10] [543s]
+    Step 6: CPI=2.2615, Area=16.84, ↑1 ↓0, dom=BP [0.31/0.45/0.10] [597s]
+    Step 7: stagnant
+
+  Start 11/50: CPI=2.3801, Area=19.44
+      Pressure: FP=0.335 BP=0.470 SP=0.087 → dominant=BP
+      Best: l1_size (red=0.0147, Δarea=1.79, eff=0.0147)
+      Pressure: FP=0.330 BP=0.468 SP=0.088 → dominant=BP
+      Best: l1d_assoc (red=0.0052, Δarea=1.00, eff=0.0052)
+    Step 3: CPI=2.2459, Area=31.67, ↑1 ↓0, dom=BP [0.33/0.47/0.09] [666s]
+    Step 6: stagnant
+
+  Start 12/50: CPI=2.5689, Area=22.49
+      Pressure: FP=0.350 BP=0.494 SP=0.077 → dominant=BP
+      Best: LQEntries (red=0.0704, Δarea=0.00, eff=0.0704)
+      Pressure: FP=0.350 BP=0.494 SP=0.078 → dominant=BP
+      Best: l1d_assoc (red=0.0536, Δarea=0.24, eff=0.0536)
+    Step 3: CPI=2.5283, Area=22.73, ↑1 ↓0, dom=BP [0.35/0.49/0.08] [747s]
+    Step 6: CPI=2.4728, Area=22.99, ↑1 ↓0, dom=BP [0.35/0.49/0.08] [793s]
+    Step 9: CPI=2.2564, Area=25.52, ↑1 ↓0, dom=BP [0.34/0.48/0.08] [841s]
+    Step 12: CPI=2.2434, Area=26.51, ↑1 ↓0, dom=BP [0.34/0.48/0.08] [892s]
+    Step 13: stagnant
+
+  Start 14/50: CPI=2.6838, Area=17.11
+      Pressure: FP=0.328 BP=0.461 SP=0.097 → dominant=BP
+      Best: l1d_assoc (red=0.0661, Δarea=0.30, eff=0.0661)
+      Pressure: FP=0.326 BP=0.459 SP=0.097 → dominant=BP
+      Best: l1_size (red=0.0274, Δarea=0.27, eff=0.0274)
+    Step 3: CPI=2.4569, Area=18.40, ↑1 ↓0, dom=BP [0.32/0.46/0.10] [949s]
+    Step 6: CPI=2.3082, Area=29.96, ↑1 ↓0, dom=BP [0.32/0.45/0.09] [994s]
+    Step 9: stagnant
+
+  Start 15/50: CPI=2.4782, Area=20.58
+      Pressure: FP=0.324 BP=0.454 SP=0.095 → dominant=BP
+      Best: IntALU (red=0.0559, Δarea=0.04, eff=0.0559)
+      Pressure: FP=0.321 BP=0.455 SP=0.094 → dominant=BP
+      Best: l1_size (red=0.0149, Δarea=1.26, eff=0.0149)
+    Step 3: CPI=2.3155, Area=22.88, ↑1 ↓0, dom=BP [0.32/0.45/0.09] [1084s]
+    Step 6: CPI=2.3049, Area=34.78, ↑1 ↓0, dom=BP [0.32/0.45/0.09] [1124s]
+    Step 7: stagnant
+
+  Start 16/50: CPI=2.3529, Area=37.23
+      Pressure: FP=0.305 BP=0.449 SP=0.106 → dominant=BP
+      Best: dispatchWidth (red=0.0679, Δarea=2.18, eff=0.0679)
+      Pressure: FP=0.319 BP=0.466 SP=0.099 → dominant=BP
+      Best: LQEntries (red=0.0240, Δarea=0.00, eff=0.0240)
+    Step 3: CPI=2.1642, Area=42.49, ↑1 ↓0, dom=BP [0.32/0.47/0.10] [1188s]
+    Step 6: CPI=2.1596, Area=20.68, ↑1 ↓0, dom=BP [0.32/0.46/0.10] [1235s]
+    Step 8: stagnant
+
+  Start 20/50: CPI=2.4126, Area=131.24
+      Pressure: FP=0.317 BP=0.448 SP=0.101 → dominant=BP
+      Best: dispatchWidth (red=0.0784, Δarea=2.22, eff=0.0784)
+      Pressure: FP=0.330 BP=0.462 SP=0.096 → dominant=BP
+      Best: l1_size (red=0.0263, Δarea=4.50, eff=0.0263)
+    Step 3: CPI=2.1184, Area=141.69, ↑1 ↓0, dom=BP [0.33/0.46/0.09] [1312s]
+    Step 6: stagnant
+
+  Start 21/50: CPI=2.3354, Area=158.43
+      Pressure: FP=0.344 BP=0.465 SP=0.099 → dominant=BP
+      Best: l1_size (red=0.0359, Δarea=2.12, eff=0.0359)
+      Pressure: FP=0.342 BP=0.463 SP=0.100 → dominant=BP
+      Best: l1_size (red=0.0329, Δarea=5.91, eff=0.0329)
+    Step 3: CPI=2.0818, Area=173.67, ↑1 ↓0, dom=BP [0.34/0.46/0.10] [1389s]
+    Step 6: CPI=2.0744, Area=173.79, ↑1 ↓0, dom=BP [0.34/0.45/0.10] [1433s]
+    Step 9: CPI=2.0678, Area=214.68, ↑1 ↓0, dom=BP [0.34/0.45/0.10] [1474s]
+    Step 11: stagnant
+
+  Start 24/50: CPI=2.2029, Area=42.52
+      Pressure: FP=0.306 BP=0.433 SP=0.111 → dominant=BP
+      Best: l1d_assoc (red=0.0463, Δarea=0.00, eff=0.0463)
+      Reclaim: fetchWidth(12→11), commitWidth(7→6), numROBEntries(951→935), LQEntries(101→93), SQEntries(156→148), IntMultDiv(3→2), FP_MultDiv(4→3), RdWrPort(4→3), l1i_assoc(8→4)
+      Pressure: FP=0.304 BP=0.433 SP=0.111 → dominant=BP
+      Best: l1d_assoc (red=0.0300, Δarea=3.86, eff=0.0300)
+      Reclaim: fetchWidth(11→10), commitWidth(6→5), numROBEntries(935→919), LQEntries(93→85), SQEntries(148→140), IntMultDiv(2→1), FP_MultDiv(3→2), RdWrPort(3→2), l1i_assoc(4→2)
+    Step 3: CPI=2.1793, Area=24.29, ↑1 ↓0, dom=BP [0.30/0.43/0.11] [1552s]
+    Step 5: stagnant
+
+  Start 27/50: CPI=2.4048, Area=160.77
+      Pressure: FP=0.318 BP=0.433 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.0500, Δarea=2.30, eff=0.0500)
+      Reclaim: fetchWidth(11→10), commitWidth(7→6), numROBEntries(728→712), LQEntries(232→224), SQEntries(60→52), IntALU(4→3), IntMultDiv(4→3), FP_ALU(6→5), FP_MultDiv(4→3), RdWrPort(7→6), l1d_assoc(32→16), l1i_assoc(16→8)
+      Pressure: FP=0.327 BP=0.458 SP=0.104 → dominant=BP
+      Best: l1_size (red=0.0308, Δarea=2.93, eff=0.0308)
+    Step 3: CPI=2.1363, Area=95.53, ↑1 ↓0, dom=BP [0.32/0.46/0.10] [1626s]
+    Step 6: CPI=2.1311, Area=105.80, ↑1 ↓0, dom=BP [0.32/0.45/0.11] [1657s]
+    Step 7: stagnant
+
+  Start 29/50: CPI=2.1574, Area=64.69
+      Pressure: FP=0.306 BP=0.418 SP=0.120 → dominant=BP
+      Best: dispatchWidth (red=0.1141, Δarea=2.16, eff=0.1141)
+      Pressure: FP=0.317 BP=0.436 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.0449, Δarea=2.25, eff=0.0449)
+    Step 3: CPI=2.0307, Area=71.47, ↑1 ↓0, dom=BP [0.33/0.45/0.11] [1716s]
+    Step 6: CPI=2.0065, Area=94.31, ↑1 ↓0, dom=BP [0.34/0.47/0.11] [1762s]
+    Step 8: stagnant
+
+  Start 30/50: CPI=2.5855, Area=101.59
+      Pressure: FP=0.344 BP=0.480 SP=0.082 → dominant=BP
+      Best: l1_size (red=0.0218, Δarea=1.67, eff=0.0218)
+      Pressure: FP=0.343 BP=0.479 SP=0.082 → dominant=BP
+      Best: l1_size (red=0.0231, Δarea=2.16, eff=0.0231)
+    Step 3: CPI=2.4125, Area=110.10, ↑1 ↓0, dom=BP [0.34/0.48/0.08] [1825s]
+    Step 6: CPI=2.2763, Area=148.01, ↑1 ↓0, dom=BP [0.34/0.47/0.08] [1862s]
+    Step 8: stagnant
+
+  Start 32/50: CPI=2.3017, Area=41.78
+      Pressure: FP=0.321 BP=0.449 SP=0.116 → dominant=BP
+      Best: l1_size (red=0.0366, Δarea=7.82, eff=0.0366)
+      Pressure: FP=0.317 BP=0.446 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.0319, Δarea=2.26, eff=0.0319)
+    Step 3: CPI=2.1394, Area=51.90, ↑1 ↓0, dom=BP [0.33/0.44/0.12] [1924s]
+    Step 6: CPI=2.0200, Area=54.05, ↑1 ↓0, dom=BP [0.33/0.43/0.12] [1959s]
+    Step 9: CPI=2.0122, Area=54.17, ↑1 ↓0, dom=BP [0.33/0.43/0.13] [1997s]
+    Step 12: CPI=1.9991, Area=118.38, ↑1 ↓0, dom=BP [0.33/0.42/0.13] [2032s]
+    Step 15: CPI=1.9884, Area=228.11, ↑1 ↓0, dom=BP [0.33/0.42/0.13] [2068s]
+    Step 18: stagnant
+
+  Start 34/50: CPI=1.9341, Area=155.90
+      Pressure: FP=0.344 BP=0.453 SP=0.114 → dominant=BP
+      Best: dispatchWidth (red=0.0339, Δarea=0.00, eff=0.0339)
+      Pressure: FP=0.345 BP=0.452 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.0270, Δarea=0.00, eff=0.0270)
+    Step 3: CPI=1.9283, Area=156.02, ↑1 ↓0, dom=BP [0.35/0.45/0.11] [2136s]
+    Step 6: CPI=1.9215, Area=234.78, ↑1 ↓0, dom=BP [0.35/0.45/0.12] [2176s]
+    Step 8: stagnant
+
+  Start 35/50: CPI=1.9289, Area=160.05
+      Pressure: FP=0.355 BP=0.459 SP=0.108 → dominant=BP
+      Best: numIQEntries (red=0.0123, Δarea=0.00, eff=0.0123)
+      Pressure: FP=0.355 BP=0.459 SP=0.108 → dominant=BP
+      Best: numIQEntries (red=0.0124, Δarea=0.00, eff=0.0124)
+    Step 3: stagnant
+
+  Start 36/50: CPI=1.9496, Area=127.54
+      Pressure: FP=0.344 BP=0.462 SP=0.106 → dominant=BP
+      Best: dispatchWidth (red=0.0667, Δarea=2.89, eff=0.0667)
+      Pressure: FP=0.354 BP=0.458 SP=0.110 → dominant=BP
+      Best: numIQEntries (red=0.0106, Δarea=0.00, eff=0.0106)
+    Step 3: CPI=1.9277, Area=130.43, ↑1 ↓0, dom=BP [0.35/0.46/0.11] [2276s]
+    Step 4: stagnant
+
+  Start 37/50: CPI=1.9253, Area=202.96
+      Pressure: FP=0.359 BP=0.465 SP=0.106 → dominant=BP
+      Best: LQEntries (red=0.0049, Δarea=0.00, eff=0.0049)
+      Pressure: FP=0.360 BP=0.464 SP=0.106 → dominant=BP
+      Best: LQEntries (red=0.0049, Δarea=0.00, eff=0.0049)
+    Step 3: CPI=1.9210, Area=244.21, ↑1 ↓0, dom=BP [0.36/0.46/0.11] [2315s]
+    Step 4: stagnant
+
+  Start 38/50: CPI=1.9583, Area=124.46
+      Pressure: FP=0.340 BP=0.464 SP=0.109 → dominant=BP
+      Best: dispatchWidth (red=0.0629, Δarea=2.81, eff=0.0629)
+      Pressure: FP=0.340 BP=0.464 SP=0.109 → dominant=BP
+      Best: dispatchWidth (red=0.0663, Δarea=2.81, eff=0.0663)
+    Step 3: stagnant
+
+  Start 39/50: CPI=1.9436, Area=203.47
+      Pressure: FP=0.366 BP=0.475 SP=0.097 → dominant=BP
+      Best: LQEntries (red=0.0052, Δarea=0.00, eff=0.0052)
+      Pressure: FP=0.366 BP=0.475 SP=0.097 → dominant=BP
+      Best: LQEntries (red=0.0051, Δarea=0.03, eff=0.0051)
+    Step 3: CPI=1.9402, Area=203.54, ↑1 ↓0, dom=BP [0.37/0.48/0.10] [2407s]
+    Step 6: CPI=1.9357, Area=203.58, ↑1 ↓0, dom=BP [0.37/0.47/0.10] [2441s]
+    Step 7: stagnant
+
+  Start 40/50: CPI=1.9699, Area=157.39
+      Pressure: FP=0.342 BP=0.463 SP=0.110 → dominant=BP
+      Best: dispatchWidth (red=0.0600, Δarea=2.71, eff=0.0600)
+      Pressure: FP=0.349 BP=0.469 SP=0.106 → dominant=BP
+      Best: dispatchWidth (red=0.0240, Δarea=2.82, eff=0.0240)
+    Step 3: CPI=1.9376, Area=162.96, ↑1 ↓0, dom=BP [0.36/0.47/0.10] [2496s]
+    Step 6: stagnant
+
+  Start 41/50: CPI=1.9583, Area=123.98
+      Pressure: FP=0.344 BP=0.462 SP=0.107 → dominant=BP
+      Best: dispatchWidth (red=0.0703, Δarea=2.67, eff=0.0703)
+      Pressure: FP=0.345 BP=0.462 SP=0.107 → dominant=BP
+      Best: dispatchWidth (red=0.0704, Δarea=2.66, eff=0.0704)
+    Step 3: stagnant
+
+  Start 42/50: CPI=1.9578, Area=107.17
+      Pressure: FP=0.358 BP=0.475 SP=0.099 → dominant=BP
+      Best: LQEntries (red=0.0076, Δarea=0.01, eff=0.0076)
+      Pressure: FP=0.358 BP=0.475 SP=0.099 → dominant=BP
+      Best: LQEntries (red=0.0074, Δarea=0.01, eff=0.0074)
+    Step 3: stagnant
+
+  Start 43/50: CPI=1.9658, Area=132.47
+      Pressure: FP=0.358 BP=0.476 SP=0.099 → dominant=BP
+      Best: LQEntries (red=0.0083, Δarea=0.00, eff=0.0083)
+      Pressure: FP=0.358 BP=0.476 SP=0.099 → dominant=BP
+      Best: LQEntries (red=0.0081, Δarea=0.00, eff=0.0081)
+    Step 3: stagnant
+
+  Start 44/50: CPI=1.9398, Area=194.64
+      Pressure: FP=0.347 BP=0.448 SP=0.118 → dominant=BP
+      Best: dispatchWidth (red=0.0203, Δarea=0.00, eff=0.0203)
+      Pressure: FP=0.347 BP=0.447 SP=0.118 → dominant=BP
+      Best: dispatchWidth (red=0.0121, Δarea=0.00, eff=0.0121)
+    Step 3: CPI=1.9343, Area=235.84, ↑1 ↓0, dom=BP [0.35/0.45/0.12] [2674s]
+    Step 5: no changes, stopping
+
+  Start 45/50: CPI=1.9802, Area=98.97
+      Pressure: FP=0.343 BP=0.463 SP=0.108 → dominant=BP
+      Best: dispatchWidth (red=0.0359, Δarea=2.85, eff=0.0359)
+      Pressure: FP=0.343 BP=0.463 SP=0.108 → dominant=BP
+      Best: dispatchWidth (red=0.0363, Δarea=2.85, eff=0.0363)
+    Step 3: stagnant
+
+  Start 46/50: CPI=1.9462, Area=105.10
+      Pressure: FP=0.361 BP=0.469 SP=0.101 → dominant=BP
+      Best: LQEntries (red=0.0065, Δarea=0.00, eff=0.0065)
+      Pressure: FP=0.362 BP=0.469 SP=0.101 → dominant=BP
+      Best: LQEntries (red=0.0067, Δarea=0.00, eff=0.0067)
+    Step 3: stagnant
+
+  Start 47/50: CPI=1.9373, Area=155.74
+      Pressure: FP=0.347 BP=0.450 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.0305, Δarea=0.00, eff=0.0305)
+      Pressure: FP=0.347 BP=0.449 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.0290, Δarea=0.00, eff=0.0290)
+    Step 3: CPI=1.9318, Area=193.03, ↑1 ↓0, dom=BP [0.35/0.45/0.12] [2812s]
+    Step 6: CPI=1.9274, Area=236.79, ↑1 ↓0, dom=BP [0.35/0.45/0.12] [2846s]
+    Step 7: stagnant
+
+  Start 48/50: CPI=1.9218, Area=242.36
+      Pressure: FP=0.360 BP=0.464 SP=0.106 → dominant=BP
+      Best: LQEntries (red=0.0045, Δarea=0.04, eff=0.0045)
+      Pressure: FP=0.360 BP=0.464 SP=0.106 → dominant=BP
+      Best: LQEntries (red=0.0042, Δarea=0.00, eff=0.0042)
+    Step 3: stagnant
+
+  Start 49/50: CPI=1.9349, Area=160.81
+      Pressure: FP=0.352 BP=0.459 SP=0.110 → dominant=BP
+      Best: IntALU (red=0.0091, Δarea=0.04, eff=0.0091)
+      Pressure: FP=0.352 BP=0.459 SP=0.111 → dominant=BP
+      Best: IntALU (red=0.0088, Δarea=0.04, eff=0.0088)
+    Step 3: CPI=1.9279, Area=198.17, ↑1 ↓0, dom=BP [0.35/0.46/0.11] [2927s]
+    Step 6: CPI=1.9232, Area=239.50, ↑1 ↓0, dom=BP [0.35/0.46/0.11] [2960s]
+    Step 7: stagnant
+
+  Start 50/50: CPI=1.9769, Area=237.67
+      Pressure: FP=0.348 BP=0.462 SP=0.105 → dominant=BP
+      Best: dispatchWidth (red=0.0480, Δarea=2.71, eff=0.0480)
+      Pressure: FP=0.348 BP=0.462 SP=0.105 → dominant=BP
+      Best: dispatchWidth (red=0.0484, Δarea=2.71, eff=0.0484)
+    Step 3: stagnant
+
+  Total: 256 evals in 3012s | Pareto=43 | McPAT_fails=15
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_attribution_results.json
+
+============================================================
+Done! Total: 3013s (50.2min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_scalar']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 2.052s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_scalar_grad (starts=50, steps=30)
+============================================================
+
+  Start 1/50: CPI=2.1765, Area=205.06
+    Step 5: CPI=2.3630, Area=32.07, ↑1 ↓9 [30s]
+    Step 10: CPI=2.5792, Area=13.90, ↑1 ↓5 [58s]
+    Step 15: CPI=2.5740, Area=14.06, ↑1 ↓5 [86s]
+    Step 20: CPI=2.5792, Area=13.88, ↑1 ↓5 [114s]
+    Step 25: CPI=2.5727, Area=14.05, ↑1 ↓5 [142s]
+    Step 30: CPI=2.5784, Area=13.86, ↑1 ↓5 [169s]
+
+  Start 2/50: CPI=2.4320, Area=109.74
+    Step 5: CPI=2.5554, Area=20.84, ↑1 ↓9 [198s]
+    Step 10: CPI=2.6343, Area=14.07, ↑1 ↓5 [226s]
+    Step 15: CPI=2.6127, Area=14.30, ↑1 ↓5 [254s]
+    Step 20: CPI=2.6374, Area=14.04, ↑1 ↓5 [281s]
+    Step 25: CPI=2.6142, Area=14.29, ↑1 ↓5 [308s]
+    Step 30: CPI=2.6434, Area=14.02, ↑1 ↓5 [336s]
+
+  Start 3/50: CPI=2.3083, Area=63.43
+    Step 5: CPI=2.5990, Area=19.42, ↑1 ↓8 [365s]
+    Step 10: CPI=2.7233, Area=13.96, ↑1 ↓4 [393s]
+    Step 15: CPI=2.7486, Area=13.78, ↑1 ↓3 [421s]
+    Step 20: CPI=2.7294, Area=13.94, ↑1 ↓3 [448s]
+    Step 25: CPI=2.7476, Area=13.76, ↑1 ↓3 [476s]
+    Step 30: CPI=2.7285, Area=13.92, ↑1 ↓3 [503s]
+
+  Start 4/50: CPI=2.5484, Area=32.30
+    Step 5: CPI=2.6826, Area=15.21, ↑1 ↓8 [532s]
+    Step 10: CPI=2.7194, Area=13.71, ↑1 ↓4 [559s]
+    Step 15: CPI=2.6871, Area=13.94, ↑1 ↓4 [587s]
+    Step 20: CPI=2.7227, Area=13.68, ↑1 ↓4 [614s]
+    Step 25: CPI=2.6919, Area=13.93, ↑1 ↓4 [641s]
+    Step 30: CPI=2.7324, Area=13.67, ↑1 ↓4 [668s]
+
+  Start 6/50: CPI=2.3168, Area=36.24
+    Step 5: CPI=2.4312, Area=20.40, ↑1 ↓9 [698s]
+    Step 10: CPI=2.5724, Area=13.85, ↑1 ↓5 [725s]
+    Step 15: CPI=2.5789, Area=13.67, ↑1 ↓5 [753s]
+    Step 20: CPI=2.5749, Area=13.83, ↑1 ↓5 [780s]
+    Step 25: CPI=2.5906, Area=13.65, ↑1 ↓5 [808s]
+    Step 30: CPI=2.5864, Area=13.81, ↑1 ↓5 [835s]
+
+  Start 7/50: CPI=2.4275, Area=69.90
+    Step 5: CPI=2.6185, Area=17.68, ↑1 ↓10 [864s]
+    Step 10: CPI=2.6180, Area=14.18, ↑1 ↓5 [891s]
+    Step 15: CPI=2.6321, Area=13.99, ↑1 ↓5 [919s]
+    Step 20: CPI=2.6186, Area=14.15, ↑1 ↓5 [946s]
+    Step 25: CPI=2.6324, Area=13.98, ↑1 ↓5 [974s]
+    Step 30: CPI=2.6199, Area=14.14, ↑1 ↓5 [1001s]
+
+  Start 9/50: CPI=2.5603, Area=56.80
+    Step 5: CPI=2.5541, Area=51.89, ↑1 ↓6 [1030s]
+    Step 10: CPI=2.6048, Area=24.62, ↑1 ↓9 [1058s]
+    Step 15: CPI=2.7389, Area=13.71, ↑1 ↓6 [1085s]
+    Step 20: CPI=2.7047, Area=13.88, ↑1 ↓5 [1112s]
+    Step 25: CPI=2.7375, Area=13.69, ↑1 ↓5 [1140s]
+    Step 30: CPI=2.7043, Area=13.85, ↑1 ↓5 [1167s]
+
+  Start 10/50: CPI=2.3470, Area=44.60
+
+  Start 11/50: CPI=2.2321, Area=28.13
+    Step 5: CPI=2.6118, Area=16.59, ↑1 ↓8 [1226s]
+    Step 10: CPI=2.6275, Area=14.03, ↑1 ↓5 [1253s]
+    Step 15: CPI=2.6169, Area=14.19, ↑1 ↓5 [1281s]
+    Step 20: CPI=2.6266, Area=14.01, ↑1 ↓5 [1308s]
+    Step 25: CPI=2.6161, Area=14.17, ↑1 ↓5 [1335s]
+    Step 30: CPI=2.6276, Area=13.99, ↑1 ↓5 [1363s]
+
+  Start 12/50: CPI=2.3212, Area=72.36
+    Step 5: CPI=2.5716, Area=17.01, ↑1 ↓9 [1392s]
+    Step 10: CPI=2.5972, Area=14.28, ↑1 ↓5 [1419s]
+    Step 15: CPI=2.5784, Area=14.53, ↑1 ↓5 [1447s]
+    Step 20: CPI=2.6020, Area=14.27, ↑1 ↓4 [1474s]
+    Step 25: CPI=2.5836, Area=14.52, ↑1 ↓4 [1501s]
+    Step 30: CPI=2.6102, Area=14.26, ↑1 ↓4 [1528s]
+
+  Start 13/50: CPI=2.4760, Area=38.06
+    Step 5: CPI=2.6244, Area=14.53, ↑1 ↓8 [1558s]
+    Step 10: CPI=2.6309, Area=14.06, ↑1 ↓5 [1585s]
+    Step 15: CPI=2.6192, Area=14.23, ↑1 ↓5 [1613s]
+    Step 20: CPI=2.6324, Area=14.04, ↑1 ↓5 [1640s]
+    Step 25: CPI=2.6217, Area=14.20, ↑1 ↓5 [1668s]
+    Step 30: CPI=2.6442, Area=14.02, ↑1 ↓5 [1695s]
+
+  Start 14/50: CPI=2.4233, Area=68.47
+    Step 5: CPI=2.4060, Area=23.91, ↑1 ↓8 [1724s]
+    Step 10: CPI=2.6025, Area=13.53, ↑1 ↓4 [1752s]
+    Step 15: CPI=2.5962, Area=13.70, ↑1 ↓4 [1779s]
+    Step 20: CPI=2.6086, Area=13.51, ↑1 ↓4 [1806s]
+    Step 25: CPI=2.6077, Area=13.68, ↑1 ↓4 [1833s]
+    Step 30: CPI=2.6226, Area=13.50, ↑1 ↓4 [1860s]
+
+  Start 16/50: CPI=2.5554, Area=77.71
+    Step 5: CPI=2.6700, Area=26.52, ↑1 ↓9 [1889s]
+    Step 10: CPI=2.7190, Area=13.82, ↑1 ↓5 [1916s]
+    Step 15: CPI=2.6837, Area=14.06, ↑1 ↓5 [1943s]
+    Step 20: CPI=2.7305, Area=13.80, ↑1 ↓5 [1970s]
+    Step 25: CPI=2.6986, Area=14.04, ↑1 ↓5 [1997s]
+    Step 30: CPI=2.7503, Area=13.77, ↑1 ↓5 [2025s]
+
+  Start 17/50: CPI=2.0560, Area=53.89
+    Step 5: CPI=2.3823, Area=19.73, ↑1 ↓9 [2054s]
+    Step 10: CPI=2.6086, Area=13.75, ↑1 ↓5 [2081s]
+    Step 15: CPI=2.6176, Area=13.57, ↑1 ↓5 [2109s]
+    Step 20: CPI=2.6203, Area=13.73, ↑1 ↓5 [2136s]
+    Step 25: CPI=2.6354, Area=13.55, ↑1 ↓5 [2163s]
+    Step 30: CPI=2.6446, Area=13.71, ↑1 ↓3 [2191s]
+
+  Start 19/50: CPI=2.4035, Area=30.91
+    Step 5: CPI=2.4625, Area=23.80, ↑1 ↓11 [2220s]
+    Step 10: CPI=2.6667, Area=14.02, ↑1 ↓5 [2248s]
+    Step 15: CPI=2.6662, Area=14.18, ↑1 ↓5 [2276s]
+    Step 20: CPI=2.6869, Area=14.00, ↑1 ↓5 [2303s]
+    Step 25: CPI=2.6835, Area=14.17, ↑1 ↓4 [2330s]
+    Step 30: CPI=2.6942, Area=13.98, ↑1 ↓4 [2358s]
+
+  Start 20/50: CPI=1.9795, Area=73.04
+    Step 5: CPI=2.3776, Area=18.57, ↑1 ↓8 [2388s]
+    Step 10: CPI=2.5836, Area=14.15, ↑1 ↓5 [2416s]
+    Step 15: CPI=2.5970, Area=13.97, ↑1 ↓4 [2443s]
+    Step 20: CPI=2.5942, Area=14.14, ↑1 ↓4 [2470s]
+    Step 25: CPI=2.6026, Area=13.96, ↑1 ↓3 [2498s]
+    Step 30: CPI=2.5972, Area=14.13, ↑1 ↓3 [2525s]
+
+  Start 22/50: CPI=2.3367, Area=90.61
+    Step 5: CPI=2.4165, Area=22.34, ↑1 ↓8 [2555s]
+    Step 10: CPI=2.5514, Area=14.03, ↑1 ↓4 [2582s]
+    Step 15: CPI=2.5388, Area=14.28, ↑1 ↓4 [2609s]
+    Step 20: CPI=2.5516, Area=14.02, ↑1 ↓4 [2637s]
+    Step 25: CPI=2.5430, Area=14.27, ↑1 ↓4 [2664s]
+    Step 30: CPI=2.5567, Area=14.01, ↑1 ↓4 [2693s]
+
+  Start 23/50: CPI=2.5699, Area=38.59
+    Step 5: CPI=2.4734, Area=19.04, ↑1 ↓9 [2724s]
+    Step 10: CPI=2.5615, Area=14.16, ↑1 ↓5 [2752s]
+    Step 15: CPI=2.5684, Area=13.89, ↑1 ↓5 [2779s]
+    Step 20: CPI=2.5612, Area=14.14, ↑1 ↓5 [2807s]
+    Step 25: CPI=2.5726, Area=13.87, ↑1 ↓5 [2834s]
+    Step 30: CPI=2.5635, Area=14.11, ↑1 ↓5 [2862s]
+
+  Start 24/50: CPI=2.4307, Area=33.56
+    Step 5: CPI=2.6385, Area=14.28, ↑1 ↓9 [2891s]
+    Step 10: CPI=2.6259, Area=14.39, ↑1 ↓5 [2919s]
+    Step 15: CPI=2.6536, Area=14.12, ↑1 ↓5 [2946s]
+    Step 20: CPI=2.6345, Area=14.37, ↑1 ↓5 [2974s]
+    Step 25: CPI=2.6583, Area=14.10, ↑1 ↓4 [3001s]
+    Step 30: CPI=2.6378, Area=14.35, ↑1 ↓4 [3029s]
+
+  Start 25/50: CPI=2.4307, Area=59.21
+    Step 5: CPI=2.6235, Area=14.12, ↑1 ↓7 [3058s]
+    Step 10: CPI=2.6580, Area=13.85, ↑1 ↓5 [3085s]
+    Step 15: CPI=2.6262, Area=14.09, ↑1 ↓5 [3113s]
+    Step 20: CPI=2.6589, Area=13.83, ↑1 ↓5 [3140s]
+    Step 25: CPI=2.6404, Area=14.07, ↑1 ↓4 [3167s]
+    Step 30: CPI=2.6719, Area=13.81, ↑1 ↓4 [3195s]
+
+  Start 27/50: CPI=2.2200, Area=30.52
+    Step 5: CPI=2.6503, Area=15.46, ↑1 ↓8 [3225s]
+    Step 10: CPI=2.6241, Area=14.45, ↑1 ↓5 [3253s]
+    Step 15: CPI=2.6516, Area=14.18, ↑1 ↓5 [3280s]
+    Step 20: CPI=2.6361, Area=14.42, ↑1 ↓5 [3308s]
+    Step 25: CPI=2.6723, Area=14.16, ↑1 ↓5 [3336s]
+    Step 30: CPI=2.6609, Area=14.41, ↑1 ↓4 [3363s]
+
+  Start 28/50: CPI=2.2541, Area=40.13
+    Step 5: CPI=2.6921, Area=16.47, ↑1 ↓8 [3393s]
+    Step 10: CPI=2.6621, Area=14.23, ↑1 ↓5 [3420s]
+    Step 15: CPI=2.6953, Area=13.97, ↑1 ↓5 [3448s]
+    Step 20: CPI=2.6607, Area=14.21, ↑1 ↓5 [3475s]
+    Step 25: CPI=2.6963, Area=13.95, ↑1 ↓5 [3502s]
+    Step 30: CPI=2.6625, Area=14.18, ↑1 ↓5 [3530s]
+
+  Start 29/50: CPI=2.3365, Area=85.63
+    Step 5: CPI=2.6327, Area=18.25, ↑1 ↓6 [3559s]
+    Step 10: CPI=2.6960, Area=13.91, ↑1 ↓5 [3587s]
+    Step 15: CPI=2.6619, Area=14.16, ↑1 ↓5 [3614s]
+    Step 20: CPI=2.6979, Area=13.89, ↑1 ↓5 [3642s]
+    Step 25: CPI=2.6653, Area=14.14, ↑1 ↓4 [3669s]
+    Step 30: CPI=2.6985, Area=13.88, ↑1 ↓4 [3696s]
+
+  Start 32/50: CPI=2.2324, Area=44.98
+    Step 5: CPI=2.6281, Area=13.70, ↑1 ↓8 [3726s]
+    Step 10: CPI=2.6181, Area=13.85, ↑1 ↓5 [3754s]
+    Step 15: CPI=2.6350, Area=13.68, ↑1 ↓4 [3781s]
+    Step 20: CPI=2.6195, Area=13.84, ↑1 ↓4 [3809s]
+    Step 25: CPI=2.6342, Area=13.66, ↑1 ↓4 [3836s]
+    Step 30: CPI=2.6192, Area=13.83, ↑1 ↓4 [3864s]
+
+  Start 33/50: CPI=2.4037, Area=159.60
+    Step 5: CPI=2.6434, Area=16.36, ↑1 ↓8 [3893s]
+    Step 10: CPI=2.6676, Area=13.81, ↑1 ↓5 [3920s]
+    Step 15: CPI=2.6523, Area=13.97, ↑1 ↓5 [3948s]
+    Step 20: CPI=2.6679, Area=13.79, ↑1 ↓5 [3976s]
+    Step 25: CPI=2.6538, Area=13.95, ↑1 ↓5 [4003s]
+    Step 30: CPI=2.6671, Area=13.77, ↑1 ↓5 [4031s]
+
+  Start 35/50: CPI=2.1574, Area=64.69
+    Step 5: CPI=2.3790, Area=20.84, ↑1 ↓8 [4061s]
+    Step 10: CPI=2.5815, Area=13.84, ↑1 ↓5 [4088s]
+    Step 15: CPI=2.5814, Area=14.09, ↑1 ↓5 [4116s]
+    Step 20: CPI=2.5940, Area=13.82, ↑1 ↓5 [4143s]
+    Step 25: CPI=2.5925, Area=14.07, ↑1 ↓5 [4170s]
+    Step 30: CPI=2.6086, Area=13.80, ↑1 ↓5 [4198s]
+
+  Start 36/50: CPI=2.5855, Area=101.59
+    Step 5: CPI=2.5848, Area=23.95, ↑1 ↓10 [4227s]
+    Step 10: CPI=2.6401, Area=14.21, ↑1 ↓4 [4255s]
+    Step 15: CPI=2.6727, Area=13.95, ↑1 ↓3 [4282s]
+    Step 20: CPI=2.6404, Area=14.20, ↑1 ↓3 [4310s]
+    Step 25: CPI=2.6721, Area=13.94, ↑1 ↓3 [4337s]
+    Step 30: CPI=2.6416, Area=14.19, ↑1 ↓3 [4365s]
+
+  Start 38/50: CPI=2.3017, Area=41.78
+    Step 5: CPI=2.5747, Area=16.32, ↑1 ↓10 [4394s]
+
+  Start 41/50: CPI=2.4953, Area=45.30
+    Step 5: CPI=2.5493, Area=21.33, ↑0 ↓10 [4441s]
+    Step 10: CPI=2.6782, Area=13.51, ↑1 ↓4 [4468s]
+    Step 15: CPI=2.6616, Area=13.68, ↑1 ↓4 [4496s]
+    Step 20: CPI=2.6787, Area=13.50, ↑1 ↓4 [4523s]
+    Step 25: CPI=2.6621, Area=13.65, ↑1 ↓4 [4550s]
+    Step 30: CPI=2.6832, Area=13.47, ↑1 ↓4 [4578s]
+
+  Start 46/50: CPI=2.4931, Area=105.32
+    Step 5: CPI=2.5683, Area=19.81, ↑1 ↓11 [4608s]
+    Step 10: CPI=2.6574, Area=13.75, ↑1 ↓4 [4636s]
+    Step 15: CPI=2.6741, Area=13.57, ↑1 ↓4 [4664s]
+    Step 20: CPI=2.6594, Area=13.74, ↑1 ↓4 [4691s]
+    Step 25: CPI=2.6773, Area=13.56, ↑1 ↓4 [4719s]
+    Step 30: CPI=2.6608, Area=13.73, ↑1 ↓4 [4746s]
+
+  Start 48/50: CPI=2.3993, Area=33.89
+    Step 5: CPI=2.3982, Area=21.81, ↑1 ↓9 [4776s]
+    Step 10: CPI=2.5539, Area=14.07, ↑1 ↓5 [4803s]
+
+  Start 49/50: CPI=2.3592, Area=48.42
+    Step 5: CPI=2.2803, Area=47.43, ↑1 ↓7 [4850s]
+
+  Start 50/50: CPI=2.6212, Area=76.35
+    Step 5: CPI=2.6502, Area=26.82, ↑1 ↓10 [4896s]
+    Step 10: CPI=2.7682, Area=14.16, ↑1 ↓4 [4924s]
+    Step 15: CPI=2.7233, Area=14.40, ↑1 ↓4 [4951s]
+    Step 20: CPI=2.7657, Area=14.14, ↑1 ↓4 [4979s]
+    Step 25: CPI=2.7207, Area=14.39, ↑1 ↓4 [5006s]
+    Step 30: CPI=2.7631, Area=14.12, ↑1 ↓4 [5034s]
+
+  Total: 937 evals in 5034s | Pareto=48 | McPAT_fails=17
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_scalar_grad_results.json
+
+============================================================
+Done! Total: 5040s (84.0min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_scalar_noreclaim']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 1.995s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_scalar_noreclaim (starts=50, steps=30)
+============================================================
+
+  Start 1/50: CPI=2.1765, Area=205.06
+
+  Start 2/50: CPI=2.4320, Area=109.74
+
+  Start 3/50: CPI=2.3083, Area=63.43
+
+  Start 4/50: CPI=2.5484, Area=32.30
+
+  Start 6/50: CPI=2.3168, Area=36.24
+
+  Start 7/50: CPI=2.4275, Area=69.90
+
+  Start 9/50: CPI=2.5603, Area=56.80
+
+  Start 10/50: CPI=2.3470, Area=44.60
+
+  Start 11/50: CPI=2.2321, Area=28.13
+
+  Start 12/50: CPI=2.3212, Area=72.36
+
+  Start 13/50: CPI=2.4760, Area=38.06
+
+  Start 14/50: CPI=2.4233, Area=68.47
+
+  Start 16/50: CPI=2.5554, Area=77.71
+
+  Start 17/50: CPI=2.0560, Area=53.89
+
+  Start 19/50: CPI=2.4035, Area=30.91
+
+  Start 20/50: CPI=1.9795, Area=73.04
+
+  Start 22/50: CPI=2.3367, Area=90.61
+
+  Start 23/50: CPI=2.5699, Area=38.59
+
+  Start 24/50: CPI=2.4307, Area=33.56
+
+  Start 25/50: CPI=2.4307, Area=59.21
+
+  Start 27/50: CPI=2.2200, Area=30.52
+
+  Start 28/50: CPI=2.2541, Area=40.13
+
+  Start 29/50: CPI=2.3365, Area=85.63
+
+  Start 32/50: CPI=2.2324, Area=44.98
+
+  Start 33/50: CPI=2.4037, Area=159.60
+
+  Start 35/50: CPI=2.1574, Area=64.69
+
+  Start 36/50: CPI=2.5855, Area=101.59
+
+  Start 38/50: CPI=2.3017, Area=41.78
+
+  Start 41/50: CPI=2.4953, Area=45.30
+    Step 5: CPI=2.3356, Area=61.72, ↑1 ↓0 [455s]
+
+  Start 46/50: CPI=2.4931, Area=105.32
+
+  Start 48/50: CPI=2.3993, Area=33.89
+
+  Start 49/50: CPI=2.3592, Area=48.42
+
+  Start 50/50: CPI=2.6212, Area=76.35
+
+  Total: 96 evals in 545s | Pareto=9 | McPAT_fails=17
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_scalar_noreclaim_results.json
+
+============================================================
+Done! Total: 545s (9.1min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_bo']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 2.060s
+
+[4/4] Running DSE methods...
+
+============================================================
+GEM + BO (budget=500)
+============================================================
+  Init 10/30 [14s]
+  Init 20/30 [29s]
+  Init 30/30 [45s]
+  Iter 50/500 | Pareto=5 | HV=174.3567 [80s]
+  Iter 100/500 | Pareto=11 | HV=205.6340 [164s]
+  Iter 150/500 | Pareto=15 | HV=209.1547 [260s]
+  Iter 200/500 | Pareto=17 | HV=220.6139 [345s]
+  Iter 250/500 | Pareto=20 | HV=221.7084 [431s]
+  Iter 300/500 | Pareto=17 | HV=227.3270 [529s]
+  Iter 350/500 | Pareto=19 | HV=228.0888 [631s]
+  Iter 400/500 | Pareto=20 | HV=228.0955 [743s]
+  Iter 450/500 | Pareto=20 | HV=228.1563 [874s]
+
+  Total: 388 evals in 1029s | Pareto=20
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_bo_results.json
+
+============================================================
+Done! Total: 1030s (17.2min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================
+Loading results for 605.mcf_s...
+  Loaded: gem_attribution (256 evals)
+  Loaded: gem_bo (388 evals)
+  Loaded: gem_scalar_grad (937 evals)
+  Loaded: gem_scalar_noreclaim (96 evals)
+
+Generating plots...
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_search_path.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_pareto_frontier.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_hv_curve.png
+
+Method                     Evals  Pareto   Final HV     Time
+------------------------------------------------------------
+  GEM+BO                     388      20   254.9981  17.2min
+  GEM ∂CPI/∂p                937      48   213.1726  83.9min
+  GEM Attribution (ours)     256      43   259.3443  50.2min
+
+All plots saved to /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s

@@ -1,0 +1,71 @@
+Full-feature Jacobian greedy, frozen search-only pilot, seed 42, 2026-10-10
+
+All new code/results are confined to this directory. No existing source, result,
+checkpoint, normalizer, area cache or gem5 result is changed. No retraining.
+
+Question: do component log-odds responses improve finite-step candidate/step-size
+selection versus equally informed scalar first-order responses?
+
+Scope
+  gcc and mcf; low and middle area roots of each saved safe BO500 Pareto front.
+  Four paired starts, selected before inspecting MSCS or new action outcomes.
+  All arms share starting configuration, fixed area cap = 1.10 * root exact area,
+  legal action generator, widths, L1 trace, slice IDs, stop rule and exact-call budget.
+  15 resource parameters listed in core.PARAMS; one resource per action, +/- strides
+  1/2/4 (ROB unit=32, IQ/LQ/SQ unit=8, other parameters one legal grid increment).
+  No repair/projection side effects. Cache-size trace switching and categorical BP
+  changes excluded. Discrete endpoints are legal; interpolated feature vectors are
+  mathematical derivative checks, not hardware configurations.
+
+Local predictions
+  Rebuild every candidate's complete 4681-input vector. The input displacement,
+  including throughput/D3 features, is multiplied by the ROOT network Jacobian.
+  This is not an exact architecture derivative through the nondifferentiable encoder.
+  No candidate network output is used to propose candidates.
+  Scalar-linear: per-slice/stage CPI tangent, clipped to physical/model floor/ceiling.
+  Scalar-excess: exponential extrapolation of CPI minus 1/W using the SAME CPI tangent,
+  per slice/stage. This strong scalar control preserves detailed Base information.
+  MSCS-logit: linearize the twelve log(P/Base) components, reconstruct stage softmax,
+  apply the unchanged checkpoint CPI function, then aggregate slices/stages.
+  It predicts finite-step curvature from component responses, not cancellation magnitude.
+  No hand-coded FP->resource association, Scancel, Protect, lookahead, fitted regression,
+  or threshold tuning. Clamp behavior is retained; width is fixed throughout a walk.
+  Scalar and MSCS tangents must agree to tolerance at the root. Jacobian correctness
+  is checked independently with autograd directional derivatives and finite differences.
+
+Greedy
+  Three arms each take six rounds, verifying at most two previously unqueried candidates
+  per round. Every proposal is ranked by predicted CPI, fixed generator-order tie break.
+  Query both CPI and exact area of each chosen candidate; infeasible trials still cost
+  budget. Accept best area-feasible strictly improving verified candidate. Otherwise stay
+  at the root and reduce allowed stride radius 4->2->1. On acceptance reset radius to 4.
+  Recompute Jacobian when root changes; reuse it if root stays fixed. All exact candidate
+  evaluations enter the logical history; no repeated trials. Budget <=12 candidates plus
+  starting configuration per arm/start. Acceptance is based on exact surrogate CPI/area.
+  This tests constrained local search, not a complete Pareto-front DSE claim.
+
+Audit and explanations
+  Predictions/selection saved before their candidate output/area calls.
+  For every MSCS trial record predicted/actual 4x3 CPI pressure contributions and changes,
+  CPI gain, resource, stride, rejection/acceptance and cumulative verification count.
+  Across stages these are separate accounts; averaging stage sums gives CPI change
+  up to documented Base-clamp effects. Never sum four stages as four separate penalties.
+  Afterwards, exhaustively evaluate the INITIAL candidate pools only, <=360 configurations
+  total, for CPI ranking/response diagnostics. These audit labels never enter a search.
+  Any outputs already evaluated by searches can be reused only for this offline audit.
+  Rank diagnostics do not assert area feasibility of all unverified candidates.
+  Save all component predictions/actuals, full-versus-arch-only slope comparisons, top-2
+  gain capture, sign agreement, regret and ReLU-region limitations. No selection by results.
+
+Cost/continuation
+  Search <=144 exact candidate calls plus <=12 distinct logical starting evaluations;
+  derivative recomputation has separate forward-call and backward-output counts.
+  MSCS uses 12 backward scalar outputs, scalar uses 4; never equate their time to one query.
+  Record encoder, root forward, derivative, ranking, verification and area time separately.
+  Feature caches are cold per trajectory. Existing safe area caches are read-only; new
+  areas use private McPAT XMLs. Area cache reuse across arms makes raw wall times unsuitable
+  for an end-to-end speedup claim; report compute timings and exact area requests separately.
+  The 4 starts/one seed are exploratory. Report ties/losses and comparison to BOTH scalar
+  arms. Improvement versus scalar-linear alone is insufficient. No more seeds or full DSE
+  automatically follow. No new gem5 jobs. User's existing gem5 stacks do not validate every
+  newly predicted response; explanations here are explicitly checked against the surrogate.

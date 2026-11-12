@@ -1,0 +1,35 @@
+Minimal post-hoc mechanism test, NOT a new full trajectory or confirmation.
+Use exactly the MSCS_joint states before queries5 and6, all mcf/lbm/roms, from
+pair_walk_s42_01. No replacement or filtering by which states were failures.
+Re-use the complete frozen common candidate pools, legal radius/seen domain,
+root areas/caps, and exact candidate widths of those states.
+
+Four rankers on each IDENTICAL pool and identical available paid history:
+raw scalar; raw MSCS; scalar all-paid-center interpolation; MSCS all-paid-center
+interpolation. All paid centers include rejected candidates, not just accepted
+roots. They are only the owning trajectory's history before this decision.
+No later outcome, other arm's history, or current candidate label may influence
+predictions. Recompute Jacobians only at paid centers; explicitly count root
+forwards and output backwards. They are additional computation, not free work.
+
+Use the existing Shepard blend_responses without changing its inverse squared
+feature-distance weights or tuning any bandwidth. Scalar response is per-stage
+unclipped Base log odds u=log((1-Base)/Base), with exact gradient. MSCS response
+is the three log(P_k/Base), with their gradients. Each center's response is
+linearly extended to the complete candidate input, then blended with the same
+feature-distance weights. Reconstruct candidate CPI with exact W_min and the
+same Base floor and CPI ceiling. This differs from the previous accepted-root
+Shepard experiment by including ALL paid candidates and supporting changing W.
+
+This tests feedback transfer for ranking only. Pair proposals remain the
+already frozen raw-model common pool: it does NOT test regenerated pairs under
+the interpolated model. Four rankers get one candidate query each per state.
+Freeze decisions in all six states before any non-history candidate outcomes.
+Reuse old paid labels only after choices; record physical vs logical counts.
+
+Prospective pilot criterion: MSCS interpolation improves on raw MSCS in at
+least2 states, wins against scalar interpolation in at least2 workloads, and
+has positive mean advantage over the per-state better of raw scalar and
+scalar interpolation. All states must be resolved and numerically replayed.
+If it fails, do not launch an interpolated full greedy run. This local criterion
+does not justify paper claims or replacing independent configuration tests.

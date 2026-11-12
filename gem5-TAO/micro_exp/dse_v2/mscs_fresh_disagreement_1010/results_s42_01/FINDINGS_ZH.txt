@@ -1,0 +1,41 @@
+新起点、预测分歧条件下的最小验证：固定checkpoint和原策略
+新起点仅指未进入已有1010实验的根/候选池；原档案已评估过这些配置，不是训练或硬件留出。
+每点只做单步、每方法两个候选；冷启动local严格等于固定1+1，不检验反馈迁移。
+筛查7点，选中1点；未满足名额1。
+筛查成本7次根前向、84个反向输出；候选新前向4次。
+候选中此前出现在排除清单的有0个；未复用候选CPI标签。
+标量使用相同root、slice和输入位移，独立标量反向验证其梯度与MSCS恢复的梯度一致。
+全池为主比较；若分歧首次出现在固定stride池，则额外报告该池，不能合并成独立样本。
+
+筛查记录:
+  602.gcc_s_freshidx128: 第一个分歧池=None; 入选=False
+  602.gcc_s_freshidx227: 第一个分歧池=None; 入选=False
+  602.gcc_s_freshidx238: 第一个分歧池=stride4; 入选=True
+  605.mcf_s_freshidx15: 第一个分歧池=None; 入选=False
+  605.mcf_s_freshidx138: 第一个分歧池=None; 入选=False
+  605.mcf_s_freshidx194: 第一个分歧池=None; 入选=False
+  605.mcf_s_freshidx196: 第一个分歧池=None; 入选=False
+
+primary_full: 1组
+  mscs_vs_scalar: 0胜 1平 0负 0未知
+  hybrid_vs_scalar: 0胜 1平 0负 0未知
+  local_vs_scalar: 0胜 1平 0负 0未知
+
+secondary_fixed_stride: 1组
+  mscs_vs_scalar: 0胜 1平 0负 0未知
+  hybrid_vs_scalar: 0胜 1平 0负 0未知
+  local_vs_scalar: 0胜 1平 0负 0未知
+
+单步CPI降幅%：scalar / MSCS / hybrid / cold local
+602.gcc_s_freshidx238_full  1.103692 / 1.103692 / 1.103692 / 1.103692
+  LQEntries 71->39 (scalar,mscs,hybrid,local): scalar预测+0.521612%, MSCS预测+0.400386%, 完整模型+1.103692%, 面积可行True
+  l1d_assoc 16->32 (scalar,mscs,hybrid,local): scalar预测+0.426445%, MSCS预测+0.422355%, 完整模型+1.040541%, 面积可行False
+602.gcc_s_freshidx238_stride4  1.103692 / 1.103692 / 1.103692 / 1.103692
+  numROBEntries 876->1004 (mscs,hybrid,local): scalar预测+0.193420%, MSCS预测+0.191534%, 完整模型+0.289140%, 面积可行True
+  numIQEntries 84->116 (scalar): scalar预测+0.220099%, MSCS预测+0.054408%, 完整模型+0.281298%, 面积可行True
+  LQEntries 71->39 (scalar,mscs,hybrid,local): scalar预测+0.521612%, MSCS预测+0.400386%, 完整模型+1.103692%, 面积可行True
+
+所有验证值来自同一冻结surrogate；没有新gem5。
+按预测分歧选点，且样本极小：不外推总体搜索胜率、硬件收益或运行时间加速。
+筛查和验证费用分别列出，不把提前筛查成本当作免费在线信息。
+没有验证原版Protect的未来能力保护，也没有验证Decouple的联合动作收益。

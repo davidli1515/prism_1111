@@ -1,0 +1,711 @@
+nohup: ignoring input
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 605.mcf_s
+======================================================================
+
+  Parameters: 18
+  Full Shapley: 18! = 6.40e+15 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim, DEFAULT→min)...
+    18 params with valid range, 5.2s
+    Vectors (12-dim, DEFAULT→min perturbation):
+      fetchWidth           norm=0.0392  default→min (8→4)            FP=[-0.019,-0.027,-0.005,-0.003] BP=[-0.001,+0.014,-0.010,-0.007] SP=[+0.007,+0.001,+0.003,-0.002]
+      decodeWidth          norm=0.4182  default→min (8→4)            FP=[-0.136,-0.103,+0.085,+0.067] BP=[-0.017,-0.175,-0.140,-0.126] SP=[+0.108,+0.236,-0.013,-0.008]
+      dispatchWidth        norm=0.1860  default→min (8→4)            FP=[-0.114,-0.073,+0.014,+0.009] BP=[+0.006,-0.020,-0.083,-0.069] SP=[+0.051,+0.035,+0.011,+0.002]
+      commitWidth          norm=0.0409  default→min (8→4)            FP=[-0.019,-0.029,-0.004,-0.003] BP=[-0.001,+0.015,-0.011,-0.009] SP=[+0.007,+0.001,+0.003,-0.001]
+      wbWidth              norm=0.0008  default→min (8→4)            FP=[+0.000,-0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      numROBEntries        norm=0.0087  default→min (192→72)         FP=[+0.004,+0.006,+0.003,+0.003] BP=[-0.000,-0.003,+0.000,+0.000] SP=[-0.001,+0.000,-0.000,+0.000]
+      numIQEntries         norm=0.0186  default→min (64→32)          FP=[-0.001,+0.012,+0.001,+0.001] BP=[+0.000,-0.014,-0.001,-0.001] SP=[+0.000,+0.001,-0.001,+0.000]
+      LQEntries            norm=0.0340  default→min (32→16)          FP=[+0.008,-0.018,-0.005,-0.004] BP=[-0.001,+0.023,+0.009,+0.006] SP=[-0.006,-0.004,-0.002,-0.001]
+      SQEntries            norm=0.0068  default→min (32→16)          FP=[-0.002,-0.004,+0.001,+0.001] BP=[+0.001,+0.004,-0.002,-0.001] SP=[+0.001,+0.001,+0.000,+0.000]
+      fetchBufferSize      norm=0.0858  default→min (32→8)           FP=[+0.050,-0.002,-0.009,-0.008] BP=[-0.010,+0.037,+0.032,+0.021] SP=[-0.030,-0.025,-0.014,-0.003]
+      IntALU               norm=0.0129  default→min (2→1)            FP=[+0.001,+0.007,-0.002,-0.002] BP=[-0.000,-0.008,+0.003,+0.003] SP=[+0.002,+0.003,+0.001,+0.001]
+      IntMultDiv           norm=0.0004  default→inc (1→2)            FP=[-0.000,-0.000,-0.000,+0.000] BP=[+0.000,-0.000,-0.000,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      FP_ALU               norm=0.0003  default→min (2→1)            FP=[+0.000,+0.000,+0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_MultDiv           norm=0.0007  default→inc (1→2)            FP=[+0.000,-0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      RdWrPort             norm=0.0028  default→min (2→1)            FP=[+0.002,-0.000,-0.001,-0.001] BP=[-0.000,+0.001,+0.001,+0.001] SP=[-0.001,-0.000,-0.000,+0.000]
+      l1_size              norm=0.0305  default→min (64→16)          FP=[+0.014,+0.012,-0.006,-0.005] BP=[-0.003,-0.001,+0.015,+0.013] SP=[-0.006,-0.007,-0.005,-0.002]
+      l1d_assoc            norm=0.0109  default→inc (2→4)            FP=[+0.006,+0.004,-0.003,-0.002] BP=[-0.001,-0.000,+0.005,+0.004] SP=[-0.003,-0.002,-0.000,-0.000]
+      l1i_assoc            norm=0.0004  default→inc (2→4)            FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    153 pairs computed
+
+  Step 3: Grouping (threshold=0.3)...
+    3 groups:
+      G1 (10 params, 10!=3628800): ['l1_size', 'l1d_assoc', 'dispatchWidth', 'IntMultDiv', 'commitWidth', 'FP_ALU', 'fetchBufferSize', 'fetchWidth', 'RdWrPort', 'decodeWidth']
+      G2 (6 params, 6!=720): ['SQEntries', 'wbWidth', 'LQEntries', 'l1i_assoc', 'FP_MultDiv', 'IntALU']
+      G3 (2 params, 2!=2): ['numROBEntries', 'numIQEntries']
+    Max group size: 10
+    Pruned cost: 3.63e+06  (vs full 6.40e+15)
+    Reduction: 1763971593.4x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_cosine_heatmap.png
+    Cache invalid (mode changed or params differ), recomputing...
+
+  Step 4a: Full MC Shapley (2000 permutations)...
+      MC Shapley: 50/2000 permutations, 767 unique evals
+      MC Shapley: 100/2000 permutations, 1460 unique evals
+      MC Shapley: 150/2000 permutations, 2146 unique evals
+      MC Shapley: 200/2000 permutations, 2795 unique evals
+      MC Shapley: 250/2000 permutations, 3429 unique evals
+      MC Shapley: 300/2000 permutations, 4052 unique evals
+      MC Shapley: 350/2000 permutations, 4680 unique evals
+      MC Shapley: 400/2000 permutations, 5284 unique evals
+      MC Shapley: 450/2000 permutations, 5876 unique evals
+      MC Shapley: 500/2000 permutations, 6460 unique evals
+      MC Shapley: 550/2000 permutations, 7038 unique evals
+      MC Shapley: 600/2000 permutations, 7603 unique evals
+      MC Shapley: 650/2000 permutations, 8172 unique evals
+      MC Shapley: 700/2000 permutations, 8741 unique evals
+      MC Shapley: 750/2000 permutations, 9300 unique evals
+      MC Shapley: 800/2000 permutations, 9850 unique evals
+      MC Shapley: 850/2000 permutations, 10393 unique evals
+      MC Shapley: 900/2000 permutations, 10937 unique evals
+      MC Shapley: 950/2000 permutations, 11463 unique evals
+      MC Shapley: 1000/2000 permutations, 11999 unique evals
+      MC Shapley: 1050/2000 permutations, 12513 unique evals
+      MC Shapley: 1100/2000 permutations, 13030 unique evals
+      MC Shapley: 1150/2000 permutations, 13543 unique evals
+      MC Shapley: 1200/2000 permutations, 14049 unique evals
+      MC Shapley: 1250/2000 permutations, 14565 unique evals
+      MC Shapley: 1300/2000 permutations, 15060 unique evals
+      MC Shapley: 1350/2000 permutations, 15566 unique evals
+      MC Shapley: 1400/2000 permutations, 16054 unique evals
+      MC Shapley: 1450/2000 permutations, 16536 unique evals
+      MC Shapley: 1500/2000 permutations, 17032 unique evals
+      MC Shapley: 1550/2000 permutations, 17526 unique evals
+      MC Shapley: 1600/2000 permutations, 18019 unique evals
+      MC Shapley: 1650/2000 permutations, 18495 unique evals
+      MC Shapley: 1700/2000 permutations, 18997 unique evals
+      MC Shapley: 1750/2000 permutations, 19484 unique evals
+      MC Shapley: 1800/2000 permutations, 19966 unique evals
+      MC Shapley: 1850/2000 permutations, 20440 unique evals
+      MC Shapley: 1900/2000 permutations, 20926 unique evals
+      MC Shapley: 1950/2000 permutations, 21391 unique evals
+      MC Shapley: 2000/2000 permutations, 21857 unique evals
+    21857 unique evals, 5677.5s
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: 10 params > 8, using MC Shapley (2000 perms)
+      MC Shapley: 50/2000 permutations, 296 unique evals
+      MC Shapley: 100/2000 permutations, 466 unique evals
+      MC Shapley: 150/2000 permutations, 599 unique evals
+      MC Shapley: 200/2000 permutations, 688 unique evals
+      MC Shapley: 250/2000 permutations, 778 unique evals
+      MC Shapley: 300/2000 permutations, 833 unique evals
+      MC Shapley: 350/2000 permutations, 877 unique evals
+      MC Shapley: 400/2000 permutations, 910 unique evals
+      MC Shapley: 450/2000 permutations, 936 unique evals
+      MC Shapley: 500/2000 permutations, 952 unique evals
+      MC Shapley: 550/2000 permutations, 966 unique evals
+      MC Shapley: 600/2000 permutations, 977 unique evals
+      MC Shapley: 650/2000 permutations, 985 unique evals
+      MC Shapley: 700/2000 permutations, 991 unique evals
+      MC Shapley: 750/2000 permutations, 993 unique evals
+      MC Shapley: 800/2000 permutations, 997 unique evals
+      MC Shapley: 850/2000 permutations, 1001 unique evals
+      MC Shapley: 900/2000 permutations, 1003 unique evals
+      MC Shapley: 950/2000 permutations, 1010 unique evals
+      MC Shapley: 1000/2000 permutations, 1013 unique evals
+      MC Shapley: 1050/2000 permutations, 1015 unique evals
+      MC Shapley: 1100/2000 permutations, 1016 unique evals
+      MC Shapley: 1150/2000 permutations, 1017 unique evals
+      MC Shapley: 1200/2000 permutations, 1019 unique evals
+      MC Shapley: 1250/2000 permutations, 1021 unique evals
+      MC Shapley: 1300/2000 permutations, 1021 unique evals
+      MC Shapley: 1350/2000 permutations, 1023 unique evals
+      MC Shapley: 1400/2000 permutations, 1023 unique evals
+      MC Shapley: 1450/2000 permutations, 1024 unique evals
+      MC Shapley: 1500/2000 permutations, 1024 unique evals
+      MC Shapley: 1550/2000 permutations, 1024 unique evals
+      MC Shapley: 1600/2000 permutations, 1024 unique evals
+      MC Shapley: 1650/2000 permutations, 1024 unique evals
+      MC Shapley: 1700/2000 permutations, 1024 unique evals
+      MC Shapley: 1750/2000 permutations, 1024 unique evals
+      MC Shapley: 1800/2000 permutations, 1024 unique evals
+      MC Shapley: 1850/2000 permutations, 1024 unique evals
+      MC Shapley: 1900/2000 permutations, 1024 unique evals
+      MC Shapley: 1950/2000 permutations, 1024 unique evals
+      MC Shapley: 2000/2000 permutations, 1024 unique evals
+    Group 0: ['l1_size', 'l1d_assoc', 'dispatchWidth', 'IntMultDiv', 'commitWidth', 'FP_ALU', 'fetchBufferSize', 'fetchWidth', 'RdWrPort', 'decodeWidth'] → 1024 evals (10! = 3628800)
+    Group 1: ['SQEntries', 'wbWidth', 'LQEntries', 'l1i_assoc', 'FP_MultDiv', 'IntALU'] → 64 evals (6! = 720)
+    Group 2: ['numROBEntries', 'numIQEntries'] → 4 evals (2! = 2)
+    1092 unique evals, 281.8s
+
+  Step 4c: One-at-a-time ΔCPI...
+    18 evals, 4.8s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    fetchBufferSize         +0.4307    +0.5284    +0.2037
+    commitWidth             +0.3184    +0.2906    -0.0064
+    fetchWidth              +0.3052    +0.3020    +0.0028
+    l1_size                 +0.1460    +0.1404    +0.1095
+    decodeWidth             +0.1033    +0.0724    +0.0074
+    IntALU                  +0.0878    -0.0028    -0.0028
+    numROBEntries           +0.0612    +0.0549    +0.0549
+    l1d_assoc               +0.0493    +0.0505    +0.0318
+    LQEntries               +0.0307    +0.0160    +0.0145
+    RdWrPort                +0.0172    +0.0186    +0.0050
+    SQEntries               +0.0060    +0.0040    +0.0026
+    numIQEntries            +0.0023    +0.0005    +0.0005
+    FP_MultDiv              +0.0022    -0.0008    -0.0009
+    FP_ALU                  +0.0007    +0.0007    +0.0001
+    l1i_assoc               -0.0002    -0.0005    -0.0005
+    wbWidth                 -0.0008    -0.0013    -0.0013
+    IntMultDiv              -0.0010    -0.0009    -0.0010
+    dispatchWidth           -0.9506    -0.8673    -1.7756
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0      21857    5677.5s
+    Pruned Shapley (ours)            0.847     0.001485       1092     281.8s
+    One-at-a-time (ΔCPI)             0.538     0.052702         18       4.8s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_shapley_concorde.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/mcf_shapley_results.json
+
+  Done!
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 623.xalancbmk_s
+======================================================================
+
+  Parameters: 18
+  Full Shapley: 18! = 6.40e+15 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim, DEFAULT→min)...
+    18 params with valid range, 5.1s
+    Vectors (12-dim, DEFAULT→min perturbation):
+      fetchWidth           norm=0.0390  default→min (8→4)            FP=[-0.017,-0.027,-0.002,-0.002] BP=[+0.004,+0.017,-0.010,-0.006] SP=[+0.006,+0.002,+0.004,+0.001]
+      decodeWidth          norm=0.1107  default→min (8→4)            FP=[-0.019,-0.021,+0.014,-0.000] BP=[-0.012,-0.065,-0.017,-0.006] SP=[+0.026,+0.076,-0.007,-0.003]
+      dispatchWidth        norm=0.1127  default→min (8→4)            FP=[-0.063,-0.062,+0.000,-0.002] BP=[+0.006,+0.013,-0.050,-0.042] SP=[+0.015,+0.008,+0.008,+0.003]
+      commitWidth          norm=0.0346  default→min (8→4)            FP=[-0.013,-0.025,-0.004,-0.005] BP=[+0.003,+0.017,-0.006,-0.003] SP=[+0.003,+0.000,+0.003,+0.001]
+      wbWidth              norm=0.0011  default→min (8→4)            FP=[+0.000,-0.001,-0.000,-0.000] BP=[-0.000,+0.001,+0.000,+0.000] SP=[-0.000,-0.000,+0.000,+0.000]
+      numROBEntries        norm=0.0094  default→min (192→72)         FP=[+0.003,-0.003,-0.001,-0.000] BP=[-0.001,+0.006,+0.005,+0.003] SP=[+0.001,+0.000,-0.001,-0.000]
+      numIQEntries         norm=0.0673  default→min (64→32)          FP=[+0.012,+0.047,-0.009,-0.006] BP=[-0.002,-0.040,+0.016,+0.008] SP=[-0.010,-0.007,-0.006,-0.001]
+      LQEntries            norm=0.0869  default→min (32→16)          FP=[-0.001,-0.061,-0.003,-0.002] BP=[+0.001,+0.061,+0.002,+0.002] SP=[+0.001,+0.000,+0.002,+0.000]
+      SQEntries            norm=0.0288  default→min (32→16)          FP=[-0.001,-0.020,-0.000,-0.000] BP=[+0.000,+0.021,-0.000,+0.000] SP=[+0.001,-0.000,+0.001,+0.000]
+      fetchBufferSize      norm=0.0484  default→min (32→8)           FP=[+0.012,-0.029,-0.003,-0.001] BP=[-0.003,+0.035,+0.006,+0.004] SP=[-0.006,-0.003,-0.001,-0.000]
+      IntALU               norm=0.0144  default→min (2→1)            FP=[-0.006,+0.005,+0.002,+0.002] BP=[+0.001,-0.009,-0.002,-0.001] SP=[+0.006,+0.005,+0.001,+0.000]
+      IntMultDiv           norm=0.0002  default→inc (1→2)            FP=[+0.000,+0.000,+0.000,-0.000] BP=[-0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_ALU               norm=0.0021  default→min (2→1)            FP=[+0.000,+0.001,-0.000,-0.000] BP=[-0.000,-0.001,+0.001,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_MultDiv           norm=0.0007  default→inc (1→2)            FP=[-0.000,-0.000,+0.000,+0.000] BP=[+0.000,-0.000,-0.000,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      RdWrPort             norm=0.0017  default→min (2→1)            FP=[+0.000,+0.001,-0.001,-0.000] BP=[+0.000,-0.000,+0.001,+0.001] SP=[-0.000,-0.000,-0.000,-0.000]
+      l1_size              norm=0.0098  default→min (64→16)          FP=[+0.005,+0.006,+0.000,-0.000] BP=[-0.001,-0.003,+0.003,+0.003] SP=[-0.001,-0.001,-0.001,-0.000]
+      l1d_assoc            norm=0.0034  default→inc (2→4)            FP=[+0.001,+0.002,-0.001,-0.001] BP=[-0.000,-0.001,+0.002,+0.001] SP=[-0.000,+0.000,-0.000,-0.000]
+      l1i_assoc            norm=0.0008  default→inc (2→4)            FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.001,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    153 pairs computed
+
+  Step 3: Grouping (threshold=0.3)...
+    3 groups:
+      G1 (11 params, 11!=39916800): ['numIQEntries', 'FP_ALU', 'SQEntries', 'LQEntries', 'IntMultDiv', 'fetchWidth', 'commitWidth', 'l1_size', 'wbWidth', 'l1d_assoc', 'fetchBufferSize']
+      G2 (4 params, 4!=24): ['dispatchWidth', 'RdWrPort', 'FP_MultDiv', 'l1i_assoc']
+      G3 (3 params, 3!=6): ['numROBEntries', 'IntALU', 'decodeWidth']
+    Max group size: 11
+    Pruned cost: 3.99e+07  (vs full 6.40e+15)
+    Reduction: 160392839.5x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_cosine_heatmap.png
+    Cache invalid (mode changed or params differ), recomputing...
+
+  Step 4a: Full MC Shapley (2000 permutations)...
+      MC Shapley: 50/2000 permutations, 767 unique evals
+      MC Shapley: 100/2000 permutations, 1460 unique evals
+      MC Shapley: 150/2000 permutations, 2146 unique evals
+      MC Shapley: 200/2000 permutations, 2795 unique evals
+      MC Shapley: 250/2000 permutations, 3429 unique evals
+      MC Shapley: 300/2000 permutations, 4052 unique evals
+      MC Shapley: 350/2000 permutations, 4680 unique evals
+      MC Shapley: 400/2000 permutations, 5284 unique evals
+      MC Shapley: 450/2000 permutations, 5876 unique evals
+      MC Shapley: 500/2000 permutations, 6460 unique evals
+      MC Shapley: 550/2000 permutations, 7038 unique evals
+      MC Shapley: 600/2000 permutations, 7603 unique evals
+      MC Shapley: 650/2000 permutations, 8172 unique evals
+      MC Shapley: 700/2000 permutations, 8741 unique evals
+      MC Shapley: 750/2000 permutations, 9300 unique evals
+      MC Shapley: 800/2000 permutations, 9850 unique evals
+      MC Shapley: 850/2000 permutations, 10393 unique evals
+      MC Shapley: 900/2000 permutations, 10937 unique evals
+      MC Shapley: 950/2000 permutations, 11463 unique evals
+      MC Shapley: 1000/2000 permutations, 11999 unique evals
+      MC Shapley: 1050/2000 permutations, 12513 unique evals
+      MC Shapley: 1100/2000 permutations, 13030 unique evals
+      MC Shapley: 1150/2000 permutations, 13543 unique evals
+      MC Shapley: 1200/2000 permutations, 14049 unique evals
+      MC Shapley: 1250/2000 permutations, 14565 unique evals
+      MC Shapley: 1300/2000 permutations, 15060 unique evals
+      MC Shapley: 1350/2000 permutations, 15566 unique evals
+      MC Shapley: 1400/2000 permutations, 16054 unique evals
+      MC Shapley: 1450/2000 permutations, 16536 unique evals
+      MC Shapley: 1500/2000 permutations, 17032 unique evals
+      MC Shapley: 1550/2000 permutations, 17526 unique evals
+      MC Shapley: 1600/2000 permutations, 18019 unique evals
+      MC Shapley: 1650/2000 permutations, 18495 unique evals
+      MC Shapley: 1700/2000 permutations, 18997 unique evals
+      MC Shapley: 1750/2000 permutations, 19484 unique evals
+      MC Shapley: 1800/2000 permutations, 19966 unique evals
+      MC Shapley: 1850/2000 permutations, 20440 unique evals
+      MC Shapley: 1900/2000 permutations, 20926 unique evals
+      MC Shapley: 1950/2000 permutations, 21391 unique evals
+      MC Shapley: 2000/2000 permutations, 21857 unique evals
+    21857 unique evals, 5711.8s
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: 11 params > 8, using MC Shapley (2000 perms)
+      MC Shapley: 50/2000 permutations, 368 unique evals
+      MC Shapley: 100/2000 permutations, 619 unique evals
+      MC Shapley: 150/2000 permutations, 816 unique evals
+      MC Shapley: 200/2000 permutations, 981 unique evals
+      MC Shapley: 250/2000 permutations, 1127 unique evals
+      MC Shapley: 300/2000 permutations, 1238 unique evals
+      MC Shapley: 350/2000 permutations, 1336 unique evals
+      MC Shapley: 400/2000 permutations, 1427 unique evals
+      MC Shapley: 450/2000 permutations, 1495 unique evals
+      MC Shapley: 500/2000 permutations, 1553 unique evals
+      MC Shapley: 550/2000 permutations, 1608 unique evals
+      MC Shapley: 600/2000 permutations, 1657 unique evals
+      MC Shapley: 650/2000 permutations, 1709 unique evals
+      MC Shapley: 700/2000 permutations, 1755 unique evals
+      MC Shapley: 750/2000 permutations, 1796 unique evals
+      MC Shapley: 800/2000 permutations, 1826 unique evals
+      MC Shapley: 850/2000 permutations, 1852 unique evals
+      MC Shapley: 900/2000 permutations, 1871 unique evals
+      MC Shapley: 950/2000 permutations, 1890 unique evals
+      MC Shapley: 1000/2000 permutations, 1909 unique evals
+      MC Shapley: 1050/2000 permutations, 1927 unique evals
+      MC Shapley: 1100/2000 permutations, 1944 unique evals
+      MC Shapley: 1150/2000 permutations, 1955 unique evals
+      MC Shapley: 1200/2000 permutations, 1962 unique evals
+      MC Shapley: 1250/2000 permutations, 1970 unique evals
+      MC Shapley: 1300/2000 permutations, 1980 unique evals
+      MC Shapley: 1350/2000 permutations, 1986 unique evals
+      MC Shapley: 1400/2000 permutations, 1994 unique evals
+      MC Shapley: 1450/2000 permutations, 2000 unique evals
+      MC Shapley: 1500/2000 permutations, 2009 unique evals
+      MC Shapley: 1550/2000 permutations, 2012 unique evals
+      MC Shapley: 1600/2000 permutations, 2015 unique evals
+      MC Shapley: 1650/2000 permutations, 2019 unique evals
+      MC Shapley: 1700/2000 permutations, 2020 unique evals
+      MC Shapley: 1750/2000 permutations, 2022 unique evals
+      MC Shapley: 1800/2000 permutations, 2026 unique evals
+      MC Shapley: 1850/2000 permutations, 2029 unique evals
+      MC Shapley: 1900/2000 permutations, 2030 unique evals
+      MC Shapley: 1950/2000 permutations, 2031 unique evals
+      MC Shapley: 2000/2000 permutations, 2032 unique evals
+    Group 0: ['numIQEntries', 'FP_ALU', 'SQEntries', 'LQEntries', 'IntMultDiv', 'fetchWidth', 'commitWidth', 'l1_size', 'wbWidth', 'l1d_assoc', 'fetchBufferSize'] → 2032 evals (11! = 39916800)
+    Group 1: ['dispatchWidth', 'RdWrPort', 'FP_MultDiv', 'l1i_assoc'] → 16 evals (4! = 24)
+    Group 2: ['numROBEntries', 'IntALU', 'decodeWidth'] → 8 evals (3! = 6)
+    2056 unique evals, 526.1s
+
+  Step 4c: One-at-a-time ΔCPI...
+    18 evals, 4.9s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    decodeWidth             +0.6964    -0.0262    -0.0275
+    commitWidth             +0.6299    +1.2437    -0.0122
+    fetchWidth              +0.5730    +1.1709    -0.0033
+    fetchBufferSize         +0.3927    +0.3846    +0.2590
+    l1_size                 +0.2765    +0.3449    +0.2537
+    numROBEntries           +0.2632    +0.2566    +0.2561
+    IntALU                  +0.1047    +0.0334    +0.0350
+    numIQEntries            +0.0983    +0.1135    +0.0566
+    l1d_assoc               +0.0914    +0.1239    +0.0898
+    LQEntries               +0.0479    +0.0588    +0.0264
+    SQEntries               +0.0252    +0.0263    +0.0230
+    RdWrPort                +0.0172    +0.0188    +0.0079
+    FP_MultDiv              +0.0052    -0.0002    -0.0010
+    wbWidth                 +0.0025    +0.0075    -0.0036
+    IntMultDiv              -0.0001    -0.0012    +0.0006
+    FP_ALU                  -0.0008    +0.0009    -0.0001
+    l1i_assoc               -0.0024    -0.0026    -0.0022
+    dispatchWidth           -2.4651    -3.8986    -3.9098
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0      21857    5711.8s
+    Pruned Shapley (ours)            0.695     0.184597       2056     526.1s
+    One-at-a-time (ΔCPI)             0.245     0.187849         18       4.9s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_concorde.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/623.xalancbmk_s/xalan_shapley_results.json
+
+  Done!
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 600.perlbench_s
+======================================================================
+
+  Parameters: 18
+  Full Shapley: 18! = 6.40e+15 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim, DEFAULT→min)...
+    18 params with valid range, 7.8s
+    Vectors (12-dim, DEFAULT→min perturbation):
+      fetchWidth           norm=0.0405  default→min (8→4)            FP=[-0.025,-0.024,-0.002,-0.002] BP=[+0.013,+0.012,-0.007,-0.006] SP=[+0.002,+0.002,+0.002,-0.000]
+      decodeWidth          norm=1.5126  default→min (8→4)            FP=[-0.535,-0.342,+0.392,+0.589] BP=[-0.039,-0.313,-0.556,-0.650] SP=[+0.391,+0.632,-0.017,-0.003]
+      dispatchWidth        norm=0.3280  default→min (8→4)            FP=[-0.177,-0.121,-0.058,-0.026] BP=[+0.007,-0.062,-0.135,-0.180] SP=[-0.044,-0.030,-0.020,-0.003]
+      commitWidth          norm=0.0532  default→min (8→4)            FP=[-0.035,-0.028,+0.002,+0.001] BP=[+0.012,+0.007,-0.017,-0.015] SP=[+0.007,+0.006,+0.002,+0.000]
+      wbWidth              norm=0.0019  default→min (8→4)            FP=[-0.000,-0.001,-0.000,+0.000] BP=[+0.000,+0.001,-0.000,-0.001] SP=[-0.000,-0.000,-0.000,-0.000]
+      numROBEntries        norm=0.0340  default→min (192→72)         FP=[-0.007,-0.001,+0.016,+0.015] BP=[+0.002,+0.000,-0.010,-0.006] SP=[+0.016,+0.012,+0.007,+0.003]
+      numIQEntries         norm=0.0138  default→min (64→32)          FP=[+0.006,+0.006,-0.003,-0.001] BP=[-0.000,+0.000,+0.008,+0.006] SP=[-0.002,-0.002,-0.001,-0.000]
+      LQEntries            norm=0.0054  default→min (32→16)          FP=[+0.002,-0.002,-0.001,-0.001] BP=[-0.000,+0.004,+0.002,+0.002] SP=[-0.001,-0.000,+0.000,-0.000]
+      SQEntries            norm=0.0185  default→min (32→16)          FP=[+0.006,-0.003,-0.003,-0.002] BP=[+0.002,+0.011,+0.009,+0.009] SP=[-0.002,-0.001,+0.000,+0.000]
+      fetchBufferSize      norm=0.2875  default→min (32→8)           FP=[+0.158,-0.022,-0.032,-0.015] BP=[-0.024,+0.143,+0.140,+0.118] SP=[-0.034,-0.023,-0.008,-0.001]
+      IntALU               norm=0.1204  default→min (2→1)            FP=[+0.047,+0.073,-0.006,-0.003] BP=[+0.012,-0.009,+0.058,+0.058] SP=[-0.003,-0.007,+0.005,+0.003]
+      IntMultDiv           norm=0.0004  default→inc (1→2)            FP=[-0.000,-0.000,+0.000,+0.000] BP=[+0.000,+0.000,-0.000,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      FP_ALU               norm=0.0003  default→min (2→1)            FP=[+0.000,+0.000,-0.000,-0.000] BP=[+0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      FP_MultDiv           norm=0.0014  default→inc (1→2)            FP=[+0.001,+0.000,-0.000,-0.000] BP=[+0.000,+0.000,+0.001,+0.001] SP=[-0.000,-0.000,-0.000,-0.000]
+      RdWrPort             norm=0.0112  default→min (2→1)            FP=[+0.004,+0.004,+0.001,+0.001] BP=[+0.002,+0.003,+0.006,+0.007] SP=[+0.001,+0.000,+0.001,+0.000]
+      l1_size              norm=0.0472  default→min (64→16)          FP=[+0.024,+0.031,+0.007,+0.004] BP=[-0.003,-0.009,+0.013,+0.018] SP=[+0.002,+0.001,+0.003,+0.001]
+      l1d_assoc            norm=0.0052  default→inc (2→4)            FP=[+0.003,+0.003,+0.001,+0.001] BP=[-0.000,-0.000,+0.001,+0.002] SP=[+0.001,+0.001,+0.001,+0.000]
+      l1i_assoc            norm=0.0009  default→inc (2→4)            FP=[-0.000,-0.000,+0.000,+0.000] BP=[+0.000,-0.000,-0.000,-0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    153 pairs computed
+
+  Step 3: Grouping (threshold=0.3)...
+    4 groups:
+      G1 (11 params, 11!=39916800): ['numIQEntries', 'FP_MultDiv', 'IntALU', 'commitWidth', 'decodeWidth', 'dispatchWidth', 'RdWrPort', 'FP_ALU', 'fetchBufferSize', 'l1_size', 'fetchWidth']
+      G2 (3 params, 3!=6): ['l1i_assoc', 'IntMultDiv', 'numROBEntries']
+      G3 (2 params, 2!=2): ['SQEntries', 'LQEntries']
+      G4 (2 params, 2!=2): ['l1d_assoc', 'wbWidth']
+    Max group size: 11
+    Pruned cost: 3.99e+07  (vs full 6.40e+15)
+    Reduction: 160392919.8x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_cosine_heatmap.png
+    Cache invalid (mode changed or params differ), recomputing...
+
+  Step 4a: Full MC Shapley (2000 permutations)...
+      MC Shapley: 50/2000 permutations, 767 unique evals
+      MC Shapley: 100/2000 permutations, 1460 unique evals
+      MC Shapley: 150/2000 permutations, 2146 unique evals
+      MC Shapley: 200/2000 permutations, 2795 unique evals
+      MC Shapley: 250/2000 permutations, 3429 unique evals
+      MC Shapley: 300/2000 permutations, 4052 unique evals
+      MC Shapley: 350/2000 permutations, 4680 unique evals
+      MC Shapley: 400/2000 permutations, 5284 unique evals
+      MC Shapley: 450/2000 permutations, 5876 unique evals
+      MC Shapley: 500/2000 permutations, 6460 unique evals
+      MC Shapley: 550/2000 permutations, 7038 unique evals
+      MC Shapley: 600/2000 permutations, 7603 unique evals
+      MC Shapley: 650/2000 permutations, 8172 unique evals
+      MC Shapley: 700/2000 permutations, 8741 unique evals
+      MC Shapley: 750/2000 permutations, 9300 unique evals
+      MC Shapley: 800/2000 permutations, 9850 unique evals
+      MC Shapley: 850/2000 permutations, 10393 unique evals
+      MC Shapley: 900/2000 permutations, 10937 unique evals
+      MC Shapley: 950/2000 permutations, 11463 unique evals
+      MC Shapley: 1000/2000 permutations, 11999 unique evals
+      MC Shapley: 1050/2000 permutations, 12513 unique evals
+      MC Shapley: 1100/2000 permutations, 13030 unique evals
+      MC Shapley: 1150/2000 permutations, 13543 unique evals
+      MC Shapley: 1200/2000 permutations, 14049 unique evals
+      MC Shapley: 1250/2000 permutations, 14565 unique evals
+      MC Shapley: 1300/2000 permutations, 15060 unique evals
+      MC Shapley: 1350/2000 permutations, 15566 unique evals
+      MC Shapley: 1400/2000 permutations, 16054 unique evals
+      MC Shapley: 1450/2000 permutations, 16536 unique evals
+      MC Shapley: 1500/2000 permutations, 17032 unique evals
+      MC Shapley: 1550/2000 permutations, 17526 unique evals
+      MC Shapley: 1600/2000 permutations, 18019 unique evals
+      MC Shapley: 1650/2000 permutations, 18495 unique evals
+      MC Shapley: 1700/2000 permutations, 18997 unique evals
+      MC Shapley: 1750/2000 permutations, 19484 unique evals
+      MC Shapley: 1800/2000 permutations, 19966 unique evals
+      MC Shapley: 1850/2000 permutations, 20440 unique evals
+      MC Shapley: 1900/2000 permutations, 20926 unique evals
+      MC Shapley: 1950/2000 permutations, 21391 unique evals
+      MC Shapley: 2000/2000 permutations, 21857 unique evals
+    21857 unique evals, 8958.4s
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: 11 params > 8, using MC Shapley (2000 perms)
+      MC Shapley: 50/2000 permutations, 368 unique evals
+      MC Shapley: 100/2000 permutations, 619 unique evals
+      MC Shapley: 150/2000 permutations, 816 unique evals
+      MC Shapley: 200/2000 permutations, 981 unique evals
+      MC Shapley: 250/2000 permutations, 1127 unique evals
+      MC Shapley: 300/2000 permutations, 1238 unique evals
+      MC Shapley: 350/2000 permutations, 1336 unique evals
+      MC Shapley: 400/2000 permutations, 1427 unique evals
+      MC Shapley: 450/2000 permutations, 1495 unique evals
+      MC Shapley: 500/2000 permutations, 1553 unique evals
+      MC Shapley: 550/2000 permutations, 1608 unique evals
+      MC Shapley: 600/2000 permutations, 1657 unique evals
+      MC Shapley: 650/2000 permutations, 1709 unique evals
+      MC Shapley: 700/2000 permutations, 1755 unique evals
+      MC Shapley: 750/2000 permutations, 1796 unique evals
+      MC Shapley: 800/2000 permutations, 1826 unique evals
+      MC Shapley: 850/2000 permutations, 1852 unique evals
+      MC Shapley: 900/2000 permutations, 1871 unique evals
+      MC Shapley: 950/2000 permutations, 1890 unique evals
+      MC Shapley: 1000/2000 permutations, 1909 unique evals
+      MC Shapley: 1050/2000 permutations, 1927 unique evals
+      MC Shapley: 1100/2000 permutations, 1944 unique evals
+      MC Shapley: 1150/2000 permutations, 1955 unique evals
+      MC Shapley: 1200/2000 permutations, 1962 unique evals
+      MC Shapley: 1250/2000 permutations, 1970 unique evals
+      MC Shapley: 1300/2000 permutations, 1980 unique evals
+      MC Shapley: 1350/2000 permutations, 1986 unique evals
+      MC Shapley: 1400/2000 permutations, 1994 unique evals
+      MC Shapley: 1450/2000 permutations, 2000 unique evals
+      MC Shapley: 1500/2000 permutations, 2009 unique evals
+      MC Shapley: 1550/2000 permutations, 2012 unique evals
+      MC Shapley: 1600/2000 permutations, 2015 unique evals
+      MC Shapley: 1650/2000 permutations, 2019 unique evals
+      MC Shapley: 1700/2000 permutations, 2020 unique evals
+      MC Shapley: 1750/2000 permutations, 2022 unique evals
+      MC Shapley: 1800/2000 permutations, 2026 unique evals
+      MC Shapley: 1850/2000 permutations, 2029 unique evals
+      MC Shapley: 1900/2000 permutations, 2030 unique evals
+      MC Shapley: 1950/2000 permutations, 2031 unique evals
+      MC Shapley: 2000/2000 permutations, 2032 unique evals
+    Group 0: ['numIQEntries', 'FP_MultDiv', 'IntALU', 'commitWidth', 'decodeWidth', 'dispatchWidth', 'RdWrPort', 'FP_ALU', 'fetchBufferSize', 'l1_size', 'fetchWidth'] → 2032 evals (11! = 39916800)
+    Group 1: ['l1i_assoc', 'IntMultDiv', 'numROBEntries'] → 8 evals (3! = 6)
+    Group 2: ['SQEntries', 'LQEntries'] → 4 evals (2! = 2)
+    Group 3: ['l1d_assoc', 'wbWidth'] → 4 evals (2! = 2)
+    2048 unique evals, 813.7s
+
+  Step 4c: One-at-a-time ΔCPI...
+    18 evals, 7.7s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    fetchBufferSize         +0.4616    +0.4790    +0.2932
+    commitWidth             +0.1472    +0.1464    -0.0003
+    fetchWidth              +0.1455    +0.1441    +0.0033
+    IntALU                  +0.0957    +0.0933    +0.0089
+    l1_size                 +0.0570    +0.0556    +0.0541
+    decodeWidth             +0.0511    +0.0699    +0.0346
+    l1d_assoc               +0.0231    +0.0251    +0.0250
+    RdWrPort                +0.0085    +0.0081    +0.0004
+    numROBEntries           +0.0079    -0.0008    -0.0007
+    numIQEntries            +0.0032    +0.0047    +0.0034
+    LQEntries               +0.0028    +0.0037    +0.0035
+    l1i_assoc               +0.0006    +0.0005    +0.0005
+    wbWidth                 +0.0005    +0.0004    +0.0003
+    FP_ALU                  +0.0003    +0.0003    +0.0002
+    FP_MultDiv              +0.0002    +0.0001    +0.0001
+    IntMultDiv              +0.0002    +0.0001    +0.0001
+    SQEntries               +0.0001    +0.0093    +0.0091
+    dispatchWidth           -0.4456    -0.4638    -0.8651
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0      21857    8958.4s
+    Pruned Shapley (ours)            0.847     0.000065       2048     813.7s
+    One-at-a-time (ΔCPI)             0.474     0.014131         18       7.7s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_shapley_concorde.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/600.perlbench_s/perlbench_shapley_results.json
+
+  Done!
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 641.leela_s
+======================================================================
+
+  Parameters: 18
+  Full Shapley: 18! = 6.40e+15 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim, DEFAULT→min)...
+    18 params with valid range, 7.8s
+    Vectors (12-dim, DEFAULT→min perturbation):
+      fetchWidth           norm=0.0357  default→min (8→4)            FP=[-0.014,-0.006,-0.015,-0.016] BP=[+0.009,+0.012,+0.005,+0.007] SP=[-0.005,-0.015,+0.002,+0.000]
+      decodeWidth          norm=1.2721  default→min (8→4)            FP=[-0.437,-0.314,+0.310,+0.448] BP=[-0.030,-0.280,-0.472,-0.558] SP=[+0.325,+0.558,-0.027,-0.008]
+      dispatchWidth        norm=0.1969  default→min (8→4)            FP=[-0.113,-0.085,-0.024,-0.023] BP=[+0.005,-0.026,-0.084,-0.097] SP=[-0.014,-0.012,-0.014,-0.004]
+      commitWidth          norm=0.0357  default→min (8→4)            FP=[-0.020,-0.011,-0.014,-0.014] BP=[+0.009,+0.012,+0.001,+0.002] SP=[-0.002,-0.012,+0.002,+0.000]
+      wbWidth              norm=0.0012  default→min (8→4)            FP=[+0.000,-0.000,+0.000,+0.000] BP=[-0.000,+0.000,-0.001,-0.001] SP=[-0.000,+0.000,+0.000,-0.000]
+      numROBEntries        norm=0.0059  default→min (192→72)         FP=[+0.003,+0.004,-0.000,+0.001] BP=[+0.001,-0.001,+0.003,+0.001] SP=[-0.001,-0.000,-0.000,+0.000]
+      numIQEntries         norm=0.0409  default→min (64→32)          FP=[+0.015,+0.018,-0.012,-0.010] BP=[+0.000,-0.001,+0.017,+0.013] SP=[-0.014,-0.016,-0.004,-0.001]
+      LQEntries            norm=0.0315  default→min (32→16)          FP=[+0.011,-0.010,-0.007,-0.006] BP=[+0.000,+0.020,+0.010,+0.009] SP=[-0.008,-0.007,-0.000,-0.000]
+      SQEntries            norm=0.0129  default→min (32→16)          FP=[+0.005,-0.001,-0.002,-0.002] BP=[+0.000,+0.007,+0.003,+0.002] SP=[-0.006,-0.006,-0.001,-0.000]
+      fetchBufferSize      norm=0.2816  default→min (32→8)           FP=[+0.146,-0.004,-0.061,-0.049] BP=[-0.017,+0.118,+0.122,+0.095] SP=[-0.090,-0.074,-0.020,-0.004]
+      IntALU               norm=0.0803  default→min (2→1)            FP=[+0.027,+0.041,-0.016,-0.014] BP=[+0.010,+0.006,+0.039,+0.037] SP=[-0.012,-0.021,+0.003,+0.003]
+      IntMultDiv           norm=0.0003  default→inc (1→2)            FP=[-0.000,-0.000,-0.000,-0.000] BP=[+0.000,-0.000,+0.000,+0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      FP_ALU               norm=0.0046  default→min (2→1)            FP=[+0.000,-0.002,-0.002,-0.002] BP=[-0.001,+0.001,+0.002,+0.002] SP=[+0.000,+0.001,-0.001,-0.000]
+      FP_MultDiv           norm=0.0022  default→inc (1→2)            FP=[+0.001,+0.000,-0.001,-0.001] BP=[+0.000,+0.001,+0.001,+0.001] SP=[-0.001,-0.001,-0.000,-0.000]
+      RdWrPort             norm=0.0039  default→min (2→1)            FP=[+0.000,-0.000,-0.000,-0.000] BP=[+0.001,+0.002,+0.002,+0.002] SP=[-0.000,-0.001,-0.000,+0.000]
+      l1_size              norm=0.0443  default→min (64→16)          FP=[+0.021,+0.024,-0.007,-0.007] BP=[-0.002,-0.002,+0.018,+0.018] SP=[-0.008,-0.011,+0.001,+0.000]
+      l1d_assoc            norm=0.0030  default→inc (2→4)            FP=[+0.001,+0.002,-0.001,-0.000] BP=[+0.000,+0.000,+0.001,+0.001] SP=[-0.000,-0.000,+0.001,+0.000]
+      l1i_assoc            norm=0.0009  default→inc (2→4)            FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    153 pairs computed
+
+  Step 3: Grouping (threshold=0.3)...
+    3 groups:
+      G1 (12 params, 12!=479001600): ['FP_MultDiv', 'decodeWidth', 'l1i_assoc', 'fetchBufferSize', 'IntALU', 'numIQEntries', 'l1_size', 'l1d_assoc', 'SQEntries', 'RdWrPort', 'dispatchWidth', 'LQEntries']
+      G2 (3 params, 3!=6): ['wbWidth', 'numROBEntries', 'IntMultDiv']
+      G3 (3 params, 3!=6): ['fetchWidth', 'FP_ALU', 'commitWidth']
+    Max group size: 12
+    Pruned cost: 4.79e+08  (vs full 6.40e+15)
+    Reduction: 13366079.7x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_cosine_heatmap.png
+    Cache invalid (mode changed or params differ), recomputing...
+
+  Step 4a: Full MC Shapley (2000 permutations)...
+      MC Shapley: 50/2000 permutations, 767 unique evals
+      MC Shapley: 100/2000 permutations, 1460 unique evals
+      MC Shapley: 150/2000 permutations, 2146 unique evals
+      MC Shapley: 200/2000 permutations, 2795 unique evals
+      MC Shapley: 250/2000 permutations, 3429 unique evals
+      MC Shapley: 300/2000 permutations, 4052 unique evals
+      MC Shapley: 350/2000 permutations, 4680 unique evals
+      MC Shapley: 400/2000 permutations, 5284 unique evals
+      MC Shapley: 450/2000 permutations, 5876 unique evals
+      MC Shapley: 500/2000 permutations, 6460 unique evals
+      MC Shapley: 550/2000 permutations, 7038 unique evals
+      MC Shapley: 600/2000 permutations, 7603 unique evals
+      MC Shapley: 650/2000 permutations, 8172 unique evals
+      MC Shapley: 700/2000 permutations, 8741 unique evals
+      MC Shapley: 750/2000 permutations, 9300 unique evals
+      MC Shapley: 800/2000 permutations, 9850 unique evals
+      MC Shapley: 850/2000 permutations, 10393 unique evals
+      MC Shapley: 900/2000 permutations, 10937 unique evals
+      MC Shapley: 950/2000 permutations, 11463 unique evals
+      MC Shapley: 1000/2000 permutations, 11999 unique evals
+      MC Shapley: 1050/2000 permutations, 12513 unique evals
+      MC Shapley: 1100/2000 permutations, 13030 unique evals
+      MC Shapley: 1150/2000 permutations, 13543 unique evals
+      MC Shapley: 1200/2000 permutations, 14049 unique evals
+      MC Shapley: 1250/2000 permutations, 14565 unique evals
+      MC Shapley: 1300/2000 permutations, 15060 unique evals
+      MC Shapley: 1350/2000 permutations, 15566 unique evals
+      MC Shapley: 1400/2000 permutations, 16054 unique evals
+      MC Shapley: 1450/2000 permutations, 16536 unique evals
+      MC Shapley: 1500/2000 permutations, 17032 unique evals
+      MC Shapley: 1550/2000 permutations, 17526 unique evals
+      MC Shapley: 1600/2000 permutations, 18019 unique evals
+      MC Shapley: 1650/2000 permutations, 18495 unique evals
+      MC Shapley: 1700/2000 permutations, 18997 unique evals
+      MC Shapley: 1750/2000 permutations, 19484 unique evals
+      MC Shapley: 1800/2000 permutations, 19966 unique evals
+      MC Shapley: 1850/2000 permutations, 20440 unique evals
+      MC Shapley: 1900/2000 permutations, 20926 unique evals
+      MC Shapley: 1950/2000 permutations, 21391 unique evals
+      MC Shapley: 2000/2000 permutations, 21857 unique evals
+    21857 unique evals, 8719.8s
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: 12 params > 8, using MC Shapley (2000 perms)
+      MC Shapley: 50/2000 permutations, 413 unique evals
+      MC Shapley: 100/2000 permutations, 744 unique evals
+      MC Shapley: 150/2000 permutations, 1025 unique evals
+      MC Shapley: 200/2000 permutations, 1273 unique evals
+      MC Shapley: 250/2000 permutations, 1494 unique evals
+      MC Shapley: 300/2000 permutations, 1705 unique evals
+      MC Shapley: 350/2000 permutations, 1860 unique evals
+      MC Shapley: 400/2000 permutations, 2025 unique evals
+      MC Shapley: 450/2000 permutations, 2187 unique evals
+      MC Shapley: 500/2000 permutations, 2318 unique evals
+      MC Shapley: 550/2000 permutations, 2444 unique evals
+      MC Shapley: 600/2000 permutations, 2556 unique evals
+      MC Shapley: 650/2000 permutations, 2648 unique evals
+      MC Shapley: 700/2000 permutations, 2743 unique evals
+      MC Shapley: 750/2000 permutations, 2835 unique evals
+      MC Shapley: 800/2000 permutations, 2904 unique evals
+      MC Shapley: 850/2000 permutations, 2984 unique evals
+      MC Shapley: 900/2000 permutations, 3059 unique evals
+      MC Shapley: 950/2000 permutations, 3115 unique evals
+      MC Shapley: 1000/2000 permutations, 3179 unique evals
+      MC Shapley: 1050/2000 permutations, 3239 unique evals
+      MC Shapley: 1100/2000 permutations, 3294 unique evals
+      MC Shapley: 1150/2000 permutations, 3342 unique evals
+      MC Shapley: 1200/2000 permutations, 3390 unique evals
+      MC Shapley: 1250/2000 permutations, 3434 unique evals
+      MC Shapley: 1300/2000 permutations, 3470 unique evals
+      MC Shapley: 1350/2000 permutations, 3508 unique evals
+      MC Shapley: 1400/2000 permutations, 3544 unique evals
+      MC Shapley: 1450/2000 permutations, 3578 unique evals
+      MC Shapley: 1500/2000 permutations, 3615 unique evals
+      MC Shapley: 1550/2000 permutations, 3653 unique evals
+      MC Shapley: 1600/2000 permutations, 3690 unique evals
+      MC Shapley: 1650/2000 permutations, 3714 unique evals
+      MC Shapley: 1700/2000 permutations, 3739 unique evals
+      MC Shapley: 1750/2000 permutations, 3759 unique evals
+      MC Shapley: 1800/2000 permutations, 3776 unique evals
+      MC Shapley: 1850/2000 permutations, 3791 unique evals
+      MC Shapley: 1900/2000 permutations, 3808 unique evals
+      MC Shapley: 1950/2000 permutations, 3832 unique evals
+      MC Shapley: 2000/2000 permutations, 3852 unique evals
+    Group 0: ['FP_MultDiv', 'decodeWidth', 'l1i_assoc', 'fetchBufferSize', 'IntALU', 'numIQEntries', 'l1_size', 'l1d_assoc', 'SQEntries', 'RdWrPort', 'dispatchWidth', 'LQEntries'] → 3852 evals (12! = 479001600)
+    Group 1: ['wbWidth', 'numROBEntries', 'IntMultDiv'] → 8 evals (3! = 6)
+    Group 2: ['fetchWidth', 'FP_ALU', 'commitWidth'] → 8 evals (3! = 6)
+    3868 unique evals, 1526.9s
+
+  Step 4c: One-at-a-time ΔCPI...
+    18 evals, 7.5s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    fetchBufferSize         +0.4647    +0.4343    +0.1943
+    fetchWidth              +0.2183    +0.0072    +0.0067
+    commitWidth             +0.2160    -0.0037    -0.0039
+    IntALU                  +0.1249    +0.1090    +0.0033
+    l1_size                 +0.0912    +0.0828    +0.0738
+    l1d_assoc               +0.0257    +0.0203    +0.0195
+    LQEntries               +0.0157    +0.0138    +0.0101
+    SQEntries               +0.0075    +0.0047    +0.0003
+    FP_ALU                  +0.0072    +0.0131    +0.0127
+    RdWrPort                +0.0061    +0.0054    +0.0007
+    numROBEntries           +0.0047    +0.0027    +0.0027
+    FP_MultDiv              +0.0019    +0.0015    -0.0001
+    numIQEntries            +0.0017    +0.0018    +0.0017
+    IntMultDiv              +0.0001    +0.0001    +0.0001
+    l1i_assoc               -0.0003    -0.0003    -0.0003
+    wbWidth                 -0.0005    -0.0009    -0.0010
+    decodeWidth             -0.0114    +0.2402    +0.0220
+    dispatchWidth           -0.6211    -0.3804    -1.2755
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0      21857    8719.8s
+    Pruned Shapley (ours)            0.513     0.011969       3868    1526.9s
+    One-at-a-time (ΔCPI)             0.486     0.033939         18       7.5s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_concorde.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_results.json
+
+  Done!

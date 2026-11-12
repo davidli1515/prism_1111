@@ -1,0 +1,42 @@
+Online multi-output secant hypothesis, fixed PRISM checkpoint, seed42.
+Development only: exactly the three roots in local_feedback/results_s42_01/plan.
+Four policies, six greedy rounds, two candidates per round, cap1.10original area:
+scalar, MSCS (unchanged numerical controls), scalar_secant, MSCS_secant.
+Original legal radius4/2/1 generator, all feature inputs, no new constraints,
+no cross-trajectory labels or credit, no candidate lookahead.
+
+Both secant methods use the SAME input-space geometry and SAME history length6.
+At each current root, begin with its exact network Jacobian. For each of the
+latest six observations paid by THIS trajectory (initial root also observed),
+form the local linear prediction's residual. A minimum-norm multisecant update
+fits those residuals in full normalized input space, separately per slice.
+Gram pseudoinverse uses float64, relative eigenvalue cutoff1e-6, no tuned ridge.
+Root remains anchored. Current-root observations have zero displacement.
+Scalar response is log(CPI_stage_slice-1/W), clamped excess >=1e-10; its gradient
+is gc/excess, exactly the existing scalar-excess local model's transformed score.
+MSCS response is log(p_pressure/p_Base), all three pressures per stage/slice.
+Scalar's API receives ONLY per-stage/slice CPI-derived responses, no pressure
+composition. MSCS receives its component responses. Checkpoint is never updated.
+This is a search-state Jacobian correction, not auxiliary offline surrogate fit.
+
+Freeze all four methods' current-round pairs before evaluating the union. Counts
+remain TWO logical queries per method even if physical forward/area is shared.
+Each history/seen set receives only that method's chosen pair. No best-of-arms
+history, no trial-credit sharing. Refuse source overwrite; results new directory.
+Candidate truth stacks are saved to make replay/calibration provenance explicit.
+Do not compute area for nonimproving candidates; propagate unknown improving area.
+Stop an affected trajectory if acceptance is unresolved, rather than inventing area.
+
+Preflight: no-history equality; secant interpolation of known observations;
+scalar composition firewall; nonzero MSCS sensitivity to a constant-Base change;
+zero-displacement stability. Independent replay uses numpy eigensolves and
+saved directional slopes/responses, checks each method's causal observation IDs,
+original generator/acceptance and budgets. Numerical control trajectories must
+match previously run scalar results on these SAME development roots.
+
+Development continuation gate: MSCS_secant no worse than scalar_secant at all
+three roots (tolerance1e-6 original CPI), strict better at >=1 root, AND average
+gain no lower than unchanged scalar. A failed gate ends this experiment without
+retuning the cutoff/history length on its outcomes. Investigate a different
+evidence-supported hypothesis if needed. A passed gate authorizes a separate
+frozen-policy novel-root confirmation; it does not establish generalization.

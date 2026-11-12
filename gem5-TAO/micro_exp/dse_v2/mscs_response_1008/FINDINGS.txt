@@ -1,0 +1,199 @@
+MSCS-guided DSE：固定 checkpoint 的诊断与响应预测检验
+日期：2026-10-08
+背景：micro_exp/hpca2027-paper1968.pdf，重点是 III-A、V-A/B/C 和 Algorithm 2。
+
+约束与文件保留
+---------------
+不重新训练，不改变 checkpoint，不更改已有 MSCS 采集定义。
+本目录是独立实验分支；已有 dse_exp、dse_v2 搜索文件和历史结果保持原版本。
+在用户补充“不要直接改”前，对 common.py、mscs_reclaim_v2.py、check_masking.py、
+analyze_masking.py 的四处直接修改已逐项撤回。preserved_sha256.json 记录撤回后的
+四个文件和 checkpoint 的 SHA256，用于验证本目录实验没有再改变它们。
+唯一新建的持久代码、缓存、日志和实验结果都位于本目录。
+
+结论先行
+---------
+1. 用户指出的信息缺口成立：当前 MSCS 不是资源剩余容量的充分统计量。
+   但 CPI 由 Base 决定，并不意味着压力组成不能预测未查询动作的结果。
+   “额外状态信息”与“对后续动作有可验证的预测力”必须分别证明。
+2. 论文 Lemma 1 的三角不等式是成立的；由此跳到 Decouple/Protect 的收益保证，
+   中间缺少一个把压力变化联系到后续收益的假设或实证结果。
+3. 发现了影响新版 DSE 评估的 McPAT 并发文件竞争，以及 masking 标签缺失值问题。
+   在修复后的独立环境重跑前，不应依据受影响的历史 HV/面积排序判断策略优劣。
+4. 本次实现并实际检验了两种 search-only 的 MSCS 响应预测方案。
+   在这批选定状态中，它们没有胜过匹配的 scalar 基线。不能报告成功的新 DSE 方法。
+   这些结果也不证明所有 MSCS-guided 搜索都不可能有效。
+
+一、与论文的关系：哪里是事实，哪里是附加假设
+-------------------------------------------
+论文 III-A 使用共同 W_min 记账；每级 Base+FP+BP+SP=1，CPI=1/(W_min*Base)。
+给定 W_min、某个样本的 CPI 和严格跨级一致性，Base 可恢复。
+每级三个压力分量的总和固定，组成仍有两个自由度；四级在非退化情况下还有八个
+自由度。单调性是不等式约束，不会一般性地把这些组成唯一确定。
+但这些组成记录“损失怎样被归类”，不直接给出 ROB、IQ、LQ、FU 等资源的边际价值。
+低占用、前端饥饿、下游阻塞等情形也不能仅由这些比例还原出反事实容量。
+
+论文 V-B 将压力变化之和与 CPI 改善对应时，应明确 W_min 固定：
+  e_t = m_t(theta) - m_t(theta')，仅含压力分量；
+  B' - B = sum_T e_(s,T)；
+  CPI(theta)-CPI(theta') = (B'-B)/(W*B*B')。
+改变 dispatchWidth 等可能改变 W_min，不能继续忽略 W 的变化。
+实际代码还包含 Base clamp、不同 stage 的预测误差、slice 均值和 workload 几何均值；
+因此不能从最终的单个 joint CPI 精确反算每个 stage/slice 的平均 Base。
+
+Lemma 1 只说明 Scancel = ||e||_1 - |sum(e)| 检测符号相消。
+“Scancel 大 => 增大这个参数后未来更好”和“||e||_1 大 => 缩小它会损失未来机会”
+不由三角不等式推出。需要预测后续动作的效果，并在尚未查询的配置上验证。
+同样，先前已经查过的候选若具有已知 CPI/面积，其当前质量不需要由 MSCS 改判。
+
+二、先修复实验基础：已确认的问题
+--------------------------------
+原路径 mscs_reclaim_v2.prefetch_areas 使用 ThreadPoolExecutor。
+原路径 dse_exp/area_model.compute_area 使用 mcpat_temp_<pid>.xml。
+同进程线程拥有同一 PID 和 work_dir，因而可能覆盖、读取或删除彼此的 XML。
+本目录 safe_area.py 给每次调用独立 TemporaryDirectory，并使用本目录独立缓存。
+失败不会作为正常面积或持久 None 写入缓存；错误信息单独保留。
+旧缓存不删除、不更名，也不导入新实验。
+
+结果 results/area_audit.json：
+  固定抽样：六个 benchmark 各第一个保存状态的 base 和最多前三个已记录 single。
+  共 21 个配置，16 个旧缓存值与当前隔离重算不一致。
+  六个 base 中四个不一致；例如：
+    gcc base:       27.7521 -> 30.1104 mm^2
+    xalancbmk base:  21.5658 -> 172.583 mm^2
+    leela base:     26.5020 -> 31.3815 mm^2
+    exchange2 base: 44.1796 -> 47.7641 mm^2
+  三个额外串行复算与新并发结果精确一致。
+  历史各 cache 文件中有 9,279 个 key 出现多个值。
+历史不同版本也可能造成缓存差异，不能将每一个差异都归因于竞争；共享 XML 的竞争
+则已由代码路径直接确认。论文 dse_exp 旧版结果是否受影响须另行追溯，不能从新版
+ThreadPool 缺陷直接推断论文的所有结果失效。
+
+原 check_masking.py 在 A(single) 失败时跳过 single 的 CPI；随后计算 pair synergy
+时把这个缺失 gain 当成 0。只有真实 no-op 才能合理使用 0；缺失响应是未知值。
+在六个 benchmark、60 个状态中重新读取固定 checkpoint 后：
+  补齐 232 个原来缺失的合法单资源响应；
+  5,295 个保存的 pair 中，2,035 个涉及至少一个未知而被当作 0 的 single gain；
+  26/60 个状态的最佳 single gain 因补齐观测而提高。
+原有“平台期”“dead single”“masked”和 synergy 比值因此有选择/标签偏差。
+本目录 probe.py 独立重建这些观测，不写回旧 JSON。
+
+三、尝试的理论桥梁：用压力响应预测未查询组合
+------------------------------------------
+这是由论文的归一化 MSCS 定义和当前模型 softmax 输出推导的新局部假设；不是论文
+已经证明的物理规律，也不等于真实硬件剩余容量。
+
+在每个 slice、每个 stage 上，令 m=softmax(z)，r_t=m_t/m_Base。
+  CPI = (1 + sum_t r_t)/W。
+若两个资源动作的 logit 差可以相加，则
+  m_ij = normalize(m_i * m_j / m_0)，每个 stage 分别归一化；
+  r_ij,t = r_i,t * r_j,t / r_0,t。
+固定 W、无 clamp 时，记 d_i=r_i-r_0，得到
+  CPI_ij = CPI_i + CPI_j - CPI_0 + (1/W)*sum_t(d_i,t*d_j,t/r_0,t)。
+最后的有符号交互项是 scalar single CPI 没有直接保留的信息。
+它区分互补与同向强化；单独的 Scancel 大小不能完成这种区分。
+
+反例构造（四级使用相同分布，满足论文弱单调性；W=4）：
+  m0=(.2,.3,.3,.2)，mi=(.2,.5,.1,.2)，mj=(.2,.1,.5,.2)。
+  三者 CPI 都是 1.25，单步 scalar 完全相同；
+  在上述 logit 可加假设下，互补动作得到 CPI≈0.9167，同向动作得到 CPI≈1.5833。
+这证明在明确附加假设下存在可用的额外信息；并不证明当前 workload 必然处于该情形。
+
+当前 checkpoint 的 ReLU MLP 在相同激活区域内对输入是仿射的，但还必须保证
+完整 4,681 维输入的动作变化可加。仅原始架构参数可加并不充分：吞吐分布、D3、
+L1 trace 切换、离散投影和 ReLU 边界都会破坏这个假设。
+因此本实现只用于排序并精确验证候选，不以预测组合直接接受设计。
+对单个资源更大步长，使用 m(k)=normalize(m0*(m1/m0)^k) 做同类假设检验。
+不能先对 MSCS 取 slice 均值后套公式；正式检验保留逐 slice 预测后再按现有 CPI
+定义聚合，并明确保留 W_min 与 clamp。
+
+四、实际检验：没有筛选正结果
+---------------------------
+固定模型：exp1/results/lambda_sweep_1004/t10_c1_m0p01_s42.pt。
+固定六个 benchmark 和已有 60 个选定状态；每 workload 50 slices，选择顺序与旧代码
+一致。重新计算的 base 和已记录 single CPI 均通过旧值一致性检查。
+不依赖旧面积、不声称 HV 提升，不把 surrogate 结果称为 gem5 结果。
+
+指标：在保留已知最佳 single 的前提下，验证 top-k 新候选后取得的最佳正收益，除以
+该候选集合和已知 single 的最佳可得收益。先逐状态算比例，再平均。
+所有策略获得同样的 base+single 观测，并支付相同 k 个新配置查询。
+离线为了构造 oracle 的穷举成本单独记录，不假装是搜索免费得到的数据。
+
+组合检验，results/exact.json：897 次新 surrogate 查询补齐 base/single，pair 标签
+来自原来保存的 surrogate CPI；排除非可加投影和未知/no-op 单动作后有 5,241 个
+可组合 pair。已记录 pair 的面积筛选仍会造成候选选择偏差。
+                              top-1       top-3       top-5
+  scalar CPI 相加              98.68%      99.02%      99.83%
+  scalar CPI 相乘              98.68%      99.02%      99.83%
+  MSCS 响应组合                98.10%      99.02%      99.83%
+  per-slice/stage Base 对照     98.68%      99.02%      99.83%
+  随机                        66.43%      68.32%      70.05%
+在 58 个 pair 还能超过最佳 single 的状态上，top-1 对额外收益的保留比例分别是
+scalar 95.04%、MSCS 93.09%；因此上述结论不是只由保留 single 带来的高分造成。
+限制为不切换 L1 的 5,145 个 pair，结论不变。
+
+大步长检验，results/scale.json：2/4/8 strides，去重、排除 L1 trace 切换及改变动作
+方向的投影；1,630 个新候选，总离线查询 2,491 次。
+                              top-1       top-3       top-5
+  scalar CPI 线性外推           81.80%      92.56%      93.50%
+  scalar CPI 对数外推           81.80%      92.56%      93.50%
+  MSCS 响应外推                80.20%      88.84%      89.62%
+  per-slice/stage Base 对照     80.20%      89.31%      90.25%
+  随机                        51.73%      59.52%      65.89%
+以上均为这批选定状态上的诊断，不能外推为整个设计空间或所有 checkpoint 的定论。
+
+五、下一步的研究判据与论文措辞
+-----------------------------
+优先事项是使用修复的面积执行环境，重新建立 scalar 与 MSCS 的等预算对照。
+不要在已污染面积的 frontier 上继续调 gamma/tau_m 并据此解释因果。
+
+若继续沿论文 Algorithm 2 改进，应把“保护资源”转成可检验的条件价值：
+  D_(j|k) = CPI(theta-delta_j+delta_k) - CPI(theta+delta_k)，
+  D_(j|0) = CPI(theta-delta_j) - CPI(theta)，
+  I_(j,k) = D_(j|k) - D_(j|0)。
+I 大且为正才表示做完 k 后缩减 j 更昂贵。大 ||delta MSCS|| 本身不提供这个标签。
+MSCS 的角色是预测尚未查询的 I 或筛选验证对象；采用与 scalar 相同的有限差分
+历史、候选集合、去重、反循环规则、面积约束和查询预算进行比较。
+本次 plus/plus 与更大 increase 检验没有测试 decrease/increase 的 Protect 条件价值，
+不能据此直接判定 Protect 在修正面积后一定无效。
+
+操作性的“剩余能力”可定义为在 CPI 容忍度内可验证的减配步长；这是一种干预定义，
+无需声称恢复物理 queue occupancy 或真实余量。scalar 可以通过更多探针得到它，
+所以 MSCS 的贡献必须体现为相同预算下更好的预测或更少的探针，而不是宣称 scalar
+原则上永远不可能识别。
+
+建议将论文 V-B 的信息损失结论与 V-C 的策略有效性结论分开表述：
+保留三角不等式引理；明确固定宽度/聚合条件；把 Decouple/Protect 视为待实证的
+利用策略。只有修正后的等预算实验支持时，才声称这些压力变化具有 actionable value。
+若仍无收益，应如实收缩 DSE 部分的论断；本次结果不影响 III/IV 的模型训练与
+label-efficiency 贡献，也没有为其重新做验证。
+
+六、可复用文件与运行方式
+-----------------------
+response.py：组合/大步长响应预测和仅精确评估 top-k 的搜索接口。
+probe.py：缺失 single 审计、逐 slice 组合检验。
+scale_probe.py：大步长检验。
+safe_area.py：独立线程安全 McPAT 适配层及独立 cache。
+audit_area.py：面积抽样重算、并发/串行核验。
+run_v4_safe.py：复用原版 v4，仅在该进程中替换面积依赖；原文件不变。
+test_response.py：五项测试，均通过；包括概率组合、反例、大步长公式、预算去重、
+并发工作目录隔离。run_v4_safe.py 的 CLI 已检查，尚未运行完整 v4 DSE sweep。
+
+默认 /usr/bin/python 的 torch 缺 libcudnn.so.9，本次使用已有环境：
+  /scratch2/wl730/conda_envs/hybrid/bin/python
+建议附加 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1。
+
+从仓库根目录执行新实验（--out 使用未存在的路径）：
+  /scratch2/wl730/conda_envs/hybrid/bin/python \
+    micro_exp/dse_v2/mscs_response_1008/probe.py --exact --out /tmp/pair_response_rerun.json
+  /scratch2/wl730/conda_envs/hybrid/bin/python \
+    micro_exp/dse_v2/mscs_response_1008/scale_probe.py --out /tmp/scale_response_rerun.json
+
+在独立结果目录重跑保留版 v4：
+  /scratch2/wl730/conda_envs/hybrid/bin/python \
+    micro_exp/dse_v2/mscs_response_1008/run_v4_safe.py \
+    --bench 602.gcc_s --method bo_v4_scalar --seed 42 \
+    --out micro_exp/dse_v2/mscs_response_1008/results/v4_safe
+再以同样参数运行 --method bo_v4_mscs；原版步内可能超过 query budget，应比较
+相同 query count 的 archive 前缀，并使用共同、事先固定的 HV reference。
+不要把本 wrapper 当作已经完成的论文复现实验或新 MSCS 方法。

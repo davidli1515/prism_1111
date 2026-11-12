@@ -1,0 +1,53 @@
+% Section V-C: Balance Is Not a Monotone Proxy for Quality
+% Figures (single column):
+%   micro_exp/dse_v2/traj/results_small/figs/fig_balance_gem5_column_leela.pdf   (case study, model + gem5 + median)
+%   micro_exp/dse_v2/traj/results_rw/figs/fig_stage_jain_opt_cpi_column.pdf      (four search methods, with CPI)
+% Citation: jain1984 (DEC-TR-301).
+
+\subsection{Balance Is Not a Monotone Proxy for Quality}
+\label{sec:char_balance}
+
+A common intuition is that a good design is a balanced one, with no single bottleneck dominating.
+%
+We quantify the balance of stage $s$ with the Jain index~\cite{jain1984} of its stall cycles,
+\begin{equation}
+J_s = \frac{\left(\sum_{k} c_{k,s}\right)^2}{3\sum_{k} c_{k,s}^2}, \quad k \in \{FP, BP, SP\},
+\end{equation}
+which ranges from $1/3$ (a single stall type) to 1 (equal stall types).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/fig_balance_gem5_column_leela.pdf}
+\caption{Case study: Dispatch balance along greedy search. Model and gem5 are evaluated on the same representative search; median and 25--75\% are over 1,000 searches.}
+\label{fig:balance_case}
+\end{figure}
+
+\paragraph{Case study}
+Figure~\ref{fig:balance_case} shows four patterns of Dispatch balance as greedy search lowers CPI, each confirmed by gem5 on the same designs.
+%
+On nab, balance rises steadily from 0.52 to 0.85; on leela, it starts high and saturates near 0.94.
+%
+On cactuBSSN, balance peaks at 0.68 midway and falls back to 0.52 (gem5: 0.64 and 0.48), although CPI keeps decreasing.
+%
+On gcc, Dispatch remains unbalanced throughout ($J \leq 0.46$).
+%
+Thus, the same search procedure can raise, lower, or leave balance unchanged while improving the design.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/fig_stage_jain_opt_cpi_column.pdf}
+\caption{Per-stage balance (left axis) and CPI normalized to the search start (right axis, dotted) along four search methods; median over 17 benchmarks. For BO, GA, and random search, the design shown is the best one found so far within the area budget.}
+\label{fig:balance_opt}
+\end{figure}
+
+\paragraph{Across search methods}
+Figure~\ref{fig:balance_opt} aggregates all benchmarks for the four search methods.
+%
+CPI decreases by 13--37\%, yet balance barely moves: for BO, GA, and random search, Dispatch balance changes by at most 0.04, and only greedy search shows a clear rise (0.58$\rightarrow$0.72), followed by a slight drop.
+%
+The stage ordering is identical across all methods: Dispatch is the most balanced stage, while Commit stays near the $1/3$ floor throughout.
+%
+Statically, good designs are only slightly more balanced: among 100k random designs at matched area, the best 2\% have a Dispatch balance just 0.06 higher than the rest (16 of 17 benchmarks).
+
+\paragraph{Takeaway}
+Balance is weakly associated with design quality but is not a monotone proxy for it: improving a design need not make it more balanced, and the balance of one stage does not indicate that of another.

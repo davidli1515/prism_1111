@@ -1,0 +1,102 @@
+  L1=128KB: 17 workloads, 3262 slices
+  L1=16KB: 17 workloads, 3400 slices
+  L1=256KB: 17 workloads, 3262 slices
+  L1=32KB: 17 workloads, 3262 slices
+  L1=64KB: 17 workloads, 3262 slices
+DseEngine: L1 configs=[16, 32, 64, 128, 256], workloads=['508.namd_r', '526.blender_r', '600.perlbench_s', '602.gcc_s', '605.mcf_s', '607.cactuBSSN_s', '619.lbm_s', '620.omnetpp_s', '621.wrf_s', '623.xalancbmk_s', '631.deepsjeng_s', '638.imagick_s', '641.leela_s', '644.nab_s', '648.exchange2_s', '654.roms_s', '657.xz_s']
+
+======================================================================
+Shapley Value Pruning — 644.nab_s
+======================================================================
+
+  Parameters: 18
+  Full Shapley: 18! = 6.40e+15 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim, DEFAULT→min)...
+    18 params with valid range, 3.7s
+    Vectors (12-dim, DEFAULT→min perturbation):
+      fetchWidth           norm=0.1355  default→min (8→4)            FP=[-0.044,-0.095,+0.004,+0.006] BP=[+0.014,+0.073,-0.031,-0.027] SP=[+0.009,+0.001,+0.008,+0.001]
+      decodeWidth          norm=1.3511  default→min (8→4)            FP=[-0.503,-0.435,+0.335,+0.389] BP=[-0.029,-0.211,-0.579,-0.608] SP=[+0.326,+0.513,-0.009,-0.003]
+      dispatchWidth        norm=0.2184  default→min (8→4)            FP=[-0.113,-0.109,-0.014,-0.006] BP=[+0.006,+0.003,-0.098,-0.112] SP=[-0.016,-0.015,-0.008,-0.002]
+      commitWidth          norm=0.1277  default→min (8→4)            FP=[-0.041,-0.090,+0.005,+0.005] BP=[+0.011,+0.068,-0.031,-0.026] SP=[+0.007,+0.000,+0.006,+0.001]
+      wbWidth              norm=0.0020  default→min (8→4)            FP=[+0.001,-0.000,-0.000,-0.000] BP=[-0.000,+0.001,+0.001,+0.001] SP=[-0.001,-0.000,-0.000,-0.000]
+      numROBEntries        norm=0.0508  default→min (192→72)         FP=[+0.025,+0.031,-0.004,-0.004] BP=[-0.007,-0.019,+0.017,+0.013] SP=[-0.009,-0.005,-0.005,-0.001]
+      numIQEntries         norm=0.1411  default→min (64→32)          FP=[+0.056,+0.092,-0.018,-0.007] BP=[-0.010,-0.051,+0.056,+0.036] SP=[-0.020,-0.016,-0.010,-0.002]
+      LQEntries            norm=0.1073  default→min (32→16)          FP=[+0.019,-0.063,-0.012,-0.005] BP=[+0.000,+0.078,+0.023,+0.015] SP=[-0.010,-0.007,-0.002,-0.001]
+      SQEntries            norm=0.0431  default→min (32→16)          FP=[-0.005,-0.031,+0.002,+0.001] BP=[+0.003,+0.029,-0.003,-0.001] SP=[+0.002,+0.002,+0.001,+0.000]
+      fetchBufferSize      norm=0.2212  default→min (32→8)           FP=[+0.067,-0.113,-0.016,-0.005] BP=[-0.013,+0.160,+0.057,+0.042] SP=[-0.019,-0.012,-0.003,-0.000]
+      IntALU               norm=0.0020  default→min (2→1)            FP=[+0.001,-0.001,-0.000,-0.000] BP=[+0.000,+0.001,+0.001,+0.001] SP=[-0.000,-0.000,-0.000,-0.000]
+      IntMultDiv           norm=0.0008  default→inc (1→2)            FP=[-0.000,-0.001,+0.000,+0.000] BP=[+0.000,+0.000,-0.000,-0.000] SP=[+0.000,+0.000,-0.000,-0.000]
+      FP_ALU               norm=0.0003  default→min (2→1)            FP=[+0.000,+0.000,-0.000,+0.000] BP=[+0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,+0.000,+0.000]
+      FP_MultDiv           norm=0.0393  default→inc (1→2)            FP=[+0.021,+0.019,-0.006,-0.002] BP=[-0.001,+0.000,+0.019,+0.015] SP=[-0.007,-0.006,+0.000,+0.000]
+      RdWrPort             norm=0.0049  default→min (2→1)            FP=[-0.002,-0.003,-0.000,+0.000] BP=[+0.001,+0.002,-0.001,-0.001] SP=[+0.001,+0.000,+0.000,+0.000]
+      l1_size              norm=0.0327  default→min (64→16)          FP=[+0.010,+0.024,+0.002,+0.001] BP=[-0.001,-0.015,+0.008,+0.010] SP=[+0.002,+0.002,+0.002,+0.000]
+      l1d_assoc            norm=0.0050  default→inc (2→4)            FP=[+0.003,+0.001,-0.001,-0.000] BP=[-0.001,+0.001,+0.003,+0.002] SP=[-0.000,-0.000,+0.000,+0.000]
+      l1i_assoc            norm=0.0002  default→inc (2→4)            FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,+0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    153 pairs computed
+
+  Step 3: Grouping (threshold=0.3)...
+    3 groups:
+      G1 (13 params, 13!=6227020800): ['numIQEntries', 'numROBEntries', 'RdWrPort', 'commitWidth', 'FP_MultDiv', 'fetchWidth', 'l1_size', 'IntMultDiv', 'dispatchWidth', 'l1d_assoc', 'decodeWidth', 'FP_ALU', 'l1i_assoc']
+      G2 (4 params, 4!=24): ['SQEntries', 'LQEntries', 'fetchBufferSize', 'IntALU']
+      G3 (1 params, 1!=1): ['wbWidth']
+    Max group size: 13
+    Pruned cost: 6.23e+09  (vs full 6.40e+15)
+    Reduction: 1028160.0x
+  Saved: result_shapley_520/644.nab_s/nab_cosine_heatmap.png
+
+  Step 4a: Loaded Full MC Shapley from cache
+    2795 evals, 636.8s (cached)
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0 (13 params): MC 10 perms, 140 evals
+    Group 1 (4 params): exact, 16 evals (4!=24)
+    Group 2 (1 params): exact, 2 evals (1!=1)
+    158 unique evals, 30.5s
+
+  Step 4b2: Matched MC (8 perms = 152 evals, matching pruned 158)...
+    152 evals, 29.2s
+
+  Step 4c: One-at-a-time ΔCPI...
+    18 evals, 3.6s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    fetchBufferSize         +0.4141    +0.2804    +0.1451
+    fetchWidth              +0.1905    +0.1206    +0.0026
+    numIQEntries            +0.1543    +0.2530    +0.1230
+    commitWidth             +0.1331    +0.2882    +0.0007
+    numROBEntries           +0.0672    +0.0632    +0.0855
+    l1_size                 +0.0658    +0.0819    +0.0534
+    FP_MultDiv              +0.0446    +0.0605    +0.0036
+    LQEntries               +0.0308    +0.0443    +0.0105
+    l1d_assoc               +0.0109    +0.0122    +0.0010
+    IntALU                  +0.0052    +0.0027    +0.0011
+    wbWidth                 +0.0021    +0.0018    +0.0019
+    FP_ALU                  +0.0007    +0.0008    +0.0004
+    l1i_assoc               +0.0000    +0.0001    -0.0006
+    IntMultDiv              -0.0000    -0.0000    -0.0002
+    RdWrPort                -0.0013    -0.0021    -0.0036
+    SQEntries               -0.0061    -0.0042    -0.0148
+    decodeWidth             -0.1338    -0.3795    +0.0107
+    dispatchWidth           -0.2894    +0.0383    -0.6612
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0       2795     636.8s
+    Pruned Shapley (ours)            0.891     0.012500        158      30.5s
+    Matched MC                       0.986     0.005702        152      29.2s
+    One-at-a-time (ΔCPI)             0.719     0.016005         18       3.6s
+
+    >>> Pruned LOSES vs Matched MC (ρ 0.891 vs 0.986)
+  Saved: result_shapley_520/644.nab_s/nab_shapley_comparison.png
+  Saved: result_shapley_520/644.nab_s/nab_shapley_concorde.png
+  Saved: result_shapley_520/644.nab_s/nab_shapley_results.json
+
+  Done!

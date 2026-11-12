@@ -1,0 +1,22 @@
+% Section V-D: Discussion (links V-B and V-C to FYI / DIP)
+
+\subsection{Discussion}
+\label{sec:char_discussion}
+
+Sections~\ref{sec:char_states} and~\ref{sec:char_balance} point to the same stage.
+%
+The bottleneck states differ mainly at Dispatch, and balance changes mainly at Dispatch; Commit, in contrast, stays nearly constant across states and near the $1/3$ floor throughout search.
+%
+Under our accounting, Commit therefore distinguishes designs poorly, whereas Dispatch reveals how they differ.
+
+This agrees with recent per-instruction work.
+%
+FYI~\cite{fyi} builds CPI stacks at dispatch, where the impact of miss events is most visible, and DIP~\cite{dip} shows that commit-time stacks capture only how instructions leave the out-of-order window and must be complemented by dispatch-time stacks, because the window decouples the two.
+%
+Both observations are made within a single design; our results show that the same holds across the design space.
+%
+The decoupling also explains why the balance of one stage does not indicate that of another.
+
+Consequently, no single stage suffices to characterize a design space: Commit hides the differences between designs, and Dispatch alone misses how stages diverge.
+%
+A multi-stage stack captures both, and PRISM makes it available for every design without per-design simulation.

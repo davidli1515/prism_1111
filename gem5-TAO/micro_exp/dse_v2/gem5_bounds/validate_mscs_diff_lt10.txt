@@ -1,0 +1,39 @@
+checkpoint lt10: /scratch/gem5-TAO/micro_exp/exp1/results/lambda_sweep_1004/t10_c1_m0p01_s42.pt   gem5 runs 671
+
+=== 1. component level (all configs, n=671): MAE of the share, |pred - gem5| ===
+           Dec    Disp     Iss     Com
+  Base   0.035   0.034   0.034   0.033
+  FP     0.040   0.048   0.028   0.021
+  BP     0.025   0.046   0.040   0.025
+  SP     0.031   0.027   0.015   0.005
+  Pearson r per component (pooled over configs):
+  Base    0.98    0.98    0.98    0.98
+  FP      0.98    0.98    0.84    0.91
+  BP      0.88    0.88    0.96    0.98
+  SP      0.87    0.86    0.82    0.70
+  dominant pressure type (argmax FP/BP/SP) agreement per stage: Dec 0.990  Disp 0.797  Iss 1.000  Com 1.000
+
+=== 2. finite differences dMSCS = MSCS(modified) - MSCS(base), n=561 config pairs ===
+  (a) Pearson r between predicted and gem5 dMSCS, per component
+           Dec    Disp     Iss     Com
+  Base    0.87    0.87    0.87    0.88
+  FP      0.90    0.89    0.92    0.96
+  BP      0.80    0.92    0.84    0.86
+  SP      0.66    0.64    0.63    0.61
+  (b) sign agreement of dMSCS where |gem5 d| > 0.02
+  Base   0.95(135)   0.94(135)   0.95(135)   0.95(135)
+  FP     0.92(170)   0.89(213)   0.97(155)   0.88( 32)
+  BP     0.86( 91)   0.83(160)   0.98(241)   0.92(139)
+  SP     0.96(140)   0.96(131)   0.97( 65)     -     
+  (c) error cancellation: MAE of level vs MAE of difference, and corr(err_base, err_modified)
+      cancellation <=> errors of the two configs are positively correlated, so diff MAE << sqrt(2) x level MAE
+  Base  0.033/0.011 r=+0.85   0.032/0.011 r=+0.85   0.032/0.011 r=+0.86   0.031/0.010 r=+0.86
+  FP    0.040/0.016 r=+0.83   0.048/0.027 r=+0.61   0.028/0.011 r=+0.83   0.020/0.007 r=+0.86
+  BP    0.024/0.010 r=+0.79   0.045/0.020 r=+0.74   0.038/0.018 r=+0.86   0.025/0.011 r=+0.86
+  SP    0.030/0.011 r=+0.76   0.025/0.010 r=+0.77   0.014/0.006 r=+0.88   0.004/0.001 r=+0.88
+  (d) direction-level: per change, does the predicted largest |dMSCS| pressure component (12) match gem5?
+      top changed component match 0.55 (n=295)
+  (e) Dispatch stage only, dominant-type agreement: level (base configs) vs which type shrinks most under the change
+      Dispatch dominant type (level) 0.83   Dispatch most-reduced type (difference) 0.76 (n=261)
+
+Note: changes are resource-group moves (one group of parameters maxed, or BP type switched), not single +1 steps.

@@ -1,0 +1,47 @@
+% Section V-B: Six Bottleneck States Suffice  (v2: small-start greedy as the single greedy setting)
+% Figures -> copy into images/ (source on the server):
+%   images/fig_state_centroids_col_small.pdf  <- micro_exp/dse_v2/traj/results_small/figs/fig_state_centroids_col_small.pdf
+%   images/fig_state_pca_opt_col_small_v2.pdf    <- micro_exp/dse_v2/traj/results_opt_clusters/fig_state_pca_opt_col_small_v2.pdf
+% Numbers: results_small/state_clusters_v1.txt, results_small/robust_clusters_small.txt,
+%          results_opt_clusters/independent_clusters_small.txt
+
+\subsection{Six Bottleneck States Suffice}
+\label{sec:char_states}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_state_centroids_col_small.pdf}
+  \caption{Stall composition}
+  \label{fig:state_centroids}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_state_pca_opt_col_small_v2.pdf}
+  \caption{States across search methods}
+  \label{fig:state_pca}
+\end{subfigure}
+\caption{Six bottleneck states. (a) Centroid of each state: share of FP/BP/SP stall cycles at Dispatch (solid) and Commit (hatched); shares are of the six components combined, and Dispatch and Commit each account for half by construction. (b) Greedy designs projected onto the first two principal components, colored by state; circles: state centroids; black markers: centroids from clustering the designs of BO, GA, and random search independently ($k=5$ by the elbow).}
+\label{fig:states}
+\end{figure}
+
+Following Pesto~\cite{pesto}, we represent each design by the FP/BP/SP stall shares at Dispatch and Commit, and group designs with k-means, choosing $k$ by the elbow method.
+%
+Pesto clusters the instructions of a single simulated core configuration, because every stack requires cycle-level simulation; with PRISM, we cluster the 337k designs visited by greedy search across all 17 benchmarks.
+%
+The elbow yields $k=6$, and the states are stable: re-clustering on resampled searches reproduces the same partition (ARI 0.96--0.99).
+
+Figure~\ref{fig:state_centroids} shows the six states.
+%
+The Commit side is nearly identical across states, with 89--99\% of Commit stall cycles being BP in all states but S5; the states differ mainly at Dispatch.
+%
+S0 is almost purely frontend-bound at Dispatch (11\% BP), and S2, S1, and S3 shift progressively toward backend pressure (23\%, 37\%, and 47\% BP).
+%
+S4 carries the largest squash pressure, and S5, a rare state (0.6\%) of commit starvation, appears only in poorly provisioned designs.
+
+Figure~\ref{fig:state_pca} confirms that this structure is low-dimensional: the first principal component alone explains 79\% of the variance, and S0, S2, S1, and S3 are ordered along it from frontend- to backend-bound.
+%
+The states are not specific to greedy search (Fig.~\ref{fig:state_pca}, black markers): clustering the designs of BO, GA, and random search independently yields five of the same states, with no new state, and their designs lie as close to the six centroids as the greedy designs do (median distance 0.036--0.037 vs.\ 0.035).
+%
+Thus, although the design space spans 17 parameters, its bottlenecks reduce to a few physically interpretable states, ordered mainly by the frontend--backend balance at Dispatch.

@@ -1,0 +1,271 @@
+nohup: ignoring input
+============================================================
+Exp 5c: Penetration-Guided DSE
+============================================================
+Benchmark:    605.mcf_s
+Design space: 2.08e+23
+Methods:      ['gem_attribution']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+DseEngine: 531 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM CPI=2.4405, Concorde CPI=2.6551, Area=28.57
+    MSCS FP: [0.782,0.495,0.110,0.051]
+    MSCS BP: [0.028,0.327,0.751,0.869]
+    MSCS SP: [0.128,0.115,0.076,0.018]
+    Penetration: FP=0.0507, BP=0.0275, SP=0.0180
+    Time: 2.277s
+
+[4/4] Running DSE methods...
+
+============================================================
+gem_attribution (starts=30, steps=30)
+============================================================
+
+  Start 2/30: CPI=2.4360, Area=24.51
+      Pressure: FP=0.351 BP=0.483 SP=0.081 → dominant=BP
+      Best: numIQEntries (red=0.0101, Δarea=0.00, eff=10131.7483)
+      Reclaim: SQEntries(36→16), FP_ALU(2→1), FP_MultDiv(4→1), l1i_assoc(4→2)
+      Pressure: FP=0.349 BP=0.484 SP=0.082 → dominant=BP
+      Best: decodeWidth (red=0.0045, Δarea=0.00, eff=4530.4873)
+      Reclaim: numIQEntries(39→32)
+    Step 3: CPI=2.4388, Area=20.65, ↑1 ↓0, dom=BP [0.35/0.48/0.08] [87s]
+    Step 4: stagnant
+
+  Start 3/30: CPI=2.7252, Area=22.27
+      Pressure: FP=0.325 BP=0.469 SP=0.095 → dominant=BP
+      Best: LQEntries (red=0.5228, Δarea=0.00, eff=522844.6657)
+      Reclaim: fetchWidth(7→4), commitWidth(5→4), SQEntries(55→16), IntMultDiv(2→1), FP_ALU(4→1), l1i_assoc(16→2)
+      Pressure: FP=0.327 BP=0.466 SP=0.097 → dominant=BP
+      Best: LQEntries (red=0.2947, Δarea=0.00, eff=294747.9203)
+      Reclaim: RdWrPort(2→1)
+    Step 3: CPI=2.7307, Area=13.87, ↑1 ↓0, dom=BP [0.33/0.47/0.10] [158s]
+    Step 5: stagnant
+
+  Start 6/30: CPI=2.3581, Area=34.63
+      Pressure: FP=0.312 BP=0.449 SP=0.101 → dominant=BP
+      Best: LQEntries (red=0.0185, Δarea=0.00, eff=18537.7830)
+      Reclaim: fetchWidth(5→4), commitWidth(7→4), SQEntries(60→16), l1i_assoc(16→2)
+      Pressure: FP=0.313 BP=0.445 SP=0.102 → dominant=BP
+      Best: dispatchWidth (red=0.0822, Δarea=0.00, eff=82229.9129)
+      Reclaim: FP_MultDiv(2→1)
+    Step 3: CPI=2.3510, Area=32.81, ↑1 ↓1, dom=BP [0.31/0.45/0.10] [296s]
+    Step 4: stagnant
+
+  Start 7/30: CPI=2.5830, Area=21.18
+      Pressure: FP=0.342 BP=0.475 SP=0.087 → dominant=BP
+      Best: dispatchWidth (red=0.0235, Δarea=0.00, eff=23538.0109)
+      Reclaim: SQEntries(136→16), IntMultDiv(2→1), FP_MultDiv(4→1), l1i_assoc(8→2)
+      Pressure: FP=0.340 BP=0.476 SP=0.088 → dominant=BP
+      Best: dispatchWidth (red=0.0216, Δarea=0.00, eff=21582.0073)
+      Reclaim: numIQEntries(47→32)
+    Step 3: stagnant
+
+  Start 8/30: CPI=2.6182, Area=18.02
+      Pressure: FP=0.329 BP=0.451 SP=0.103 → dominant=BP
+      Best: dispatchWidth (red=0.0356, Δarea=0.00, eff=35584.6191)
+      Reclaim: fetchWidth(7→4), IntMultDiv(3→1), FP_MultDiv(3→1), l1i_assoc(16→2)
+      Pressure: FP=0.329 BP=0.451 SP=0.103 → dominant=BP
+      Best: dispatchWidth (red=0.0400, Δarea=0.00, eff=39950.1345)
+    Step 3: stagnant
+
+  Start 10/30: CPI=2.6156, Area=16.76
+      Pressure: FP=0.324 BP=0.456 SP=0.102 → dominant=BP
+      Best: LQEntries (red=0.2054, Δarea=0.00, eff=205422.8144)
+      Reclaim: commitWidth(5→4), SQEntries(27→16), FP_ALU(2→1), l1i_assoc(16→2)
+      Pressure: FP=0.324 BP=0.457 SP=0.102 → dominant=BP
+      Best: dispatchWidth (red=0.0546, Δarea=0.00, eff=54615.9130)
+    Step 3: CPI=2.6233, Area=14.26, ↑1 ↓0, dom=BP [0.32/0.46/0.10] [531s]
+    Step 4: stagnant
+
+  Start 11/30: CPI=2.1495, Area=44.91
+      Pressure: FP=0.364 BP=0.484 SP=0.091 → dominant=BP
+      Best: FP_ALU (red=0.0023, Δarea=0.00, eff=2300.8911)
+      Reclaim: numIQEntries(79→32), IntMultDiv(8→1), FP_MultDiv(8→1)
+      Pressure: FP=0.369 BP=0.480 SP=0.090 → dominant=BP
+      Best: numIQEntries (red=0.0500, Δarea=0.00, eff=50025.2404)
+      Reclaim: FP_ALU(7→1)
+    Step 3: CPI=2.1580, Area=35.30, ↑1 ↓0, dom=BP [0.37/0.48/0.09] [638s]
+    Step 5: stagnant
+
+  Start 12/30: CPI=2.0757, Area=111.07
+      Pressure: FP=0.340 BP=0.436 SP=0.117 → dominant=BP
+      Best: dispatchWidth (red=0.2070, Δarea=0.00, eff=207006.7966)
+      Reclaim: IntMultDiv(2→1), FP_ALU(6→1), FP_MultDiv(3→1), l1i_assoc(16→2)
+      Pressure: FP=0.339 BP=0.436 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.2038, Δarea=0.00, eff=203838.2372)
+    Step 3: CPI=2.0600, Area=90.85, ↑1 ↓0, dom=BP [0.34/0.44/0.12] [781s]
+    Step 4: stagnant
+
+  Start 15/30: CPI=2.5957, Area=27.13
+      Pressure: FP=0.322 BP=0.450 SP=0.109 → dominant=BP
+      Best: numIQEntries (red=0.0268, Δarea=0.00, eff=26814.0368)
+      Reclaim: fetchWidth(8→4), decodeWidth(6→4), commitWidth(7→4), SQEntries(230→16), IntMultDiv(8→1), FP_ALU(3→1), FP_MultDiv(8→1), RdWrPort(2→1), l1i_assoc(4→2)
+      Pressure: FP=0.323 BP=0.444 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.2373, Δarea=0.00, eff=237255.8543)
+    Step 3: CPI=2.5907, Area=13.95, ↑1 ↓0, dom=BP [0.32/0.44/0.12] [909s]
+    Step 6: CPI=2.5427, Area=14.00, ↑1 ↓0, dom=BP [0.32/0.43/0.12] [982s]
+    Step 7: stagnant
+
+  Start 16/30: CPI=2.3781, Area=32.03
+      Pressure: FP=0.332 BP=0.442 SP=0.115 → dominant=BP
+      Best: l1_size (red=0.0645, Δarea=0.00, eff=64454.3002)
+      Reclaim: SQEntries(58→16), IntMultDiv(8→1), FP_ALU(7→1), l1i_assoc(4→2)
+      Pressure: FP=0.326 BP=0.447 SP=0.113 → dominant=BP
+      Best: numIQEntries (red=0.0269, Δarea=0.00, eff=26919.2277)
+      Reclaim: FP_MultDiv(5→1)
+    Step 3: CPI=2.3284, Area=23.47, ↑1 ↓0, dom=BP [0.33/0.45/0.11] [1127s]
+    Step 4: stagnant
+
+  Start 17/30: CPI=2.2310, Area=85.21
+      Pressure: FP=0.355 BP=0.478 SP=0.083 → dominant=BP
+      Best: LQEntries (red=0.0233, Δarea=0.00, eff=23332.0691)
+      Reclaim: SQEntries(159→16), IntMultDiv(4→1), FP_ALU(3→1), FP_MultDiv(7→1), l1i_assoc(4→2)
+      Pressure: FP=0.352 BP=0.480 SP=0.085 → dominant=BP
+      Best: LQEntries (red=0.0275, Δarea=0.00, eff=27517.8264)
+    Step 3: CPI=2.2357, Area=76.21, ↑1 ↓0, dom=BP [0.35/0.48/0.08] [1246s]
+    Step 4: stagnant
+
+  Start 18/30: CPI=2.1885, Area=142.15
+      Pressure: FP=0.301 BP=0.441 SP=0.106 → dominant=BP
+      Best: LQEntries (red=0.5307, Δarea=0.00, eff=530744.6982)
+      Reclaim: fetchWidth(9→4), commitWidth(7→4), SQEntries(69→16), IntMultDiv(4→1), FP_ALU(5→1), l1i_assoc(16→2)
+      Pressure: FP=0.300 BP=0.444 SP=0.105 → dominant=BP
+      Best: dispatchWidth (red=0.2244, Δarea=0.00, eff=224385.9446)
+    Step 3: stagnant
+
+  Start 19/30: CPI=2.4668, Area=28.83
+      Pressure: FP=0.349 BP=0.489 SP=0.077 → dominant=BP
+      Best: LQEntries (red=0.1440, Δarea=0.00, eff=143961.6668)
+      Reclaim: numIQEntries(47→32), SQEntries(129→16), IntMultDiv(2→1), FP_ALU(6→1), FP_MultDiv(3→1), l1i_assoc(4→2)
+      Pressure: FP=0.350 BP=0.487 SP=0.078 → dominant=BP
+      Best: LQEntries (red=0.0760, Δarea=0.00, eff=76002.2371)
+    Step 3: CPI=2.4681, Area=22.28, ↑1 ↓0, dom=BP [0.35/0.49/0.08] [1463s]
+    Step 4: stagnant
+
+  Start 20/30: CPI=2.0213, Area=49.21
+      Pressure: FP=0.352 BP=0.466 SP=0.099 → dominant=BP
+      Best: numIQEntries (red=0.0466, Δarea=0.00, eff=46624.1526)
+      Reclaim: SQEntries(49→16), IntMultDiv(6→1), FP_ALU(6→1), FP_MultDiv(8→1)
+      Pressure: FP=0.350 BP=0.469 SP=0.098 → dominant=BP
+      Best: numIQEntries (red=0.0562, Δarea=0.00, eff=56175.0700)
+    Step 3: CPI=2.0304, Area=39.97, ↑1 ↓0, dom=BP [0.35/0.47/0.10] [1584s]
+    Step 4: stagnant
+
+  Start 21/30: CPI=1.9299, Area=160.54
+      Pressure: FP=0.354 BP=0.460 SP=0.108 → dominant=BP
+      Best: dispatchWidth (red=0.0751, Δarea=0.00, eff=75122.6081)
+      Reclaim: IntMultDiv(5→1), FP_ALU(7→1), FP_MultDiv(5→1), l1i_assoc(32→2)
+      Pressure: FP=0.352 BP=0.463 SP=0.107 → dominant=BP
+      Best: dispatchWidth (red=0.0606, Δarea=0.00, eff=60635.0603)
+    Step 3: CPI=1.9370, Area=143.40, ↑1 ↓0, dom=BP [0.35/0.46/0.11] [1690s]
+    Step 4: stagnant
+
+  Start 22/30: CPI=1.9412, Area=160.95
+      Pressure: FP=0.362 BP=0.466 SP=0.103 → dominant=BP
+      Best: dispatchWidth (red=0.0483, Δarea=0.00, eff=48271.7296)
+      Reclaim: SQEntries(200→16), IntMultDiv(7→1), FP_ALU(4→1), l1i_assoc(32→2)
+      Pressure: FP=0.357 BP=0.473 SP=0.102 → dominant=BP
+      Best: dispatchWidth (red=0.0218, Δarea=0.00, eff=21840.1474)
+      Reclaim: FP_MultDiv(5→1)
+    Step 3: CPI=1.9568, Area=145.04, ↑1 ↓1, dom=BP [0.36/0.47/0.10] [1784s]
+    Step 5: stagnant
+
+  Start 23/30: CPI=1.9403, Area=164.13
+      Pressure: FP=0.359 BP=0.468 SP=0.103 → dominant=BP
+      Best: LQEntries (red=0.0385, Δarea=0.00, eff=38466.2808)
+      Reclaim: IntMultDiv(8→1), FP_ALU(4→1), FP_MultDiv(7→1), l1i_assoc(32→2)
+      Pressure: FP=0.356 BP=0.473 SP=0.102 → dominant=BP
+      Best: LQEntries (red=0.0406, Δarea=0.00, eff=40581.0948)
+    Step 3: CPI=1.9449, Area=146.63, ↑1 ↓0, dom=BP [0.36/0.47/0.10] [1879s]
+    Step 4: stagnant
+
+  Start 24/30: CPI=1.9733, Area=160.57
+      Pressure: FP=0.343 BP=0.462 SP=0.108 → dominant=BP
+      Best: LQEntries (red=0.0320, Δarea=0.00, eff=32015.3119)
+      Reclaim: decodeWidth(11→4), commitWidth(8→4), numROBEntries(760→72), IntMultDiv(8→1), FP_ALU(8→1), l1i_assoc(32→2)
+      Pressure: FP=0.312 BP=0.394 SP=0.132 → dominant=BP
+      Best: dispatchWidth (red=0.4862, Δarea=0.00, eff=486223.6039)
+      Reclaim: fetchWidth(12→4)
+    Step 3: CPI=2.0868, Area=130.63, ↑1 ↓1, dom=BP [0.31/0.39/0.13] [1966s]
+    Step 6: CPI=2.0872, Area=128.17, ↑1 ↓0, dom=BP [0.31/0.40/0.13] [2025s]
+    Step 9: CPI=2.0840, Area=128.23, ↑1 ↓0, dom=BP [0.31/0.39/0.13] [2078s]
+    Step 10: stagnant
+
+  Start 25/30: CPI=1.9394, Area=236.82
+      Pressure: FP=0.352 BP=0.459 SP=0.112 → dominant=BP
+      Best: dispatchWidth (red=0.0636, Δarea=0.00, eff=63611.2184)
+      Reclaim: numIQEntries(114→32), IntMultDiv(7→1), FP_ALU(6→1)
+      Pressure: FP=0.361 BP=0.464 SP=0.099 → dominant=BP
+      Best: numIQEntries (red=0.0995, Δarea=0.00, eff=99482.7732)
+      Reclaim: FP_MultDiv(5→1), l1i_assoc(32→2)
+    Step 3: CPI=1.9553, Area=220.50, ↑1 ↓0, dom=BP [0.36/0.47/0.10] [2174s]
+    Step 5: stagnant
+
+  Start 26/30: CPI=1.9323, Area=126.97
+      Pressure: FP=0.347 BP=0.450 SP=0.113 → dominant=BP
+      Best: dispatchWidth (red=0.2249, Δarea=0.00, eff=224928.2360)
+      Reclaim: IntMultDiv(6→1), FP_ALU(7→1), FP_MultDiv(8→1), l1i_assoc(32→2)
+      Pressure: FP=0.346 BP=0.454 SP=0.111 → dominant=BP
+      Best: dispatchWidth (red=0.1968, Δarea=0.00, eff=196753.4330)
+    Step 3: CPI=1.9399, Area=108.47, ↑1 ↓0, dom=BP [0.35/0.45/0.11] [2291s]
+    Step 4: stagnant
+
+  Start 27/30: CPI=1.9700, Area=165.79
+      Pressure: FP=0.365 BP=0.482 SP=0.092 → dominant=BP
+      Best: LQEntries (red=0.0407, Δarea=0.00, eff=40744.3385)
+      Reclaim: SQEntries(226→16), IntMultDiv(8→1), FP_ALU(5→1), l1i_assoc(32→2)
+      Pressure: FP=0.359 BP=0.489 SP=0.092 → dominant=BP
+      Best: LQEntries (red=0.0471, Δarea=0.00, eff=47108.0596)
+      Reclaim: FP_MultDiv(5→1)
+    Step 3: CPI=1.9847, Area=149.64, ↑1 ↓1, dom=BP [0.36/0.49/0.09] [2394s]
+    Step 5: stagnant
+
+  Start 28/30: CPI=1.9274, Area=194.97
+      Pressure: FP=0.348 BP=0.447 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.1771, Δarea=0.00, eff=177126.6246)
+      Reclaim: IntMultDiv(5→1), FP_MultDiv(8→1), l1i_assoc(32→2)
+      Pressure: FP=0.346 BP=0.451 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.1684, Δarea=0.00, eff=168370.9779)
+      Reclaim: FP_ALU(8→1)
+    Step 3: CPI=1.9363, Area=176.34, ↑1 ↓1, dom=BP [0.35/0.45/0.11] [2505s]
+    Step 6: stagnant
+
+  Start 29/30: CPI=1.9299, Area=158.21
+      Pressure: FP=0.346 BP=0.450 SP=0.116 → dominant=BP
+      Best: dispatchWidth (red=0.2018, Δarea=0.00, eff=201758.1628)
+      Reclaim: IntMultDiv(7→1), FP_MultDiv(8→1), l1i_assoc(32→2)
+      Pressure: FP=0.343 BP=0.454 SP=0.115 → dominant=BP
+      Best: dispatchWidth (red=0.1760, Δarea=0.00, eff=176028.0340)
+      Reclaim: FP_ALU(8→1)
+    Step 3: CPI=1.9378, Area=139.34, ↑1 ↓1, dom=BP [0.34/0.45/0.11] [2656s]
+    Step 6: stagnant
+
+  Start 30/30: CPI=1.9484, Area=205.04
+      Pressure: FP=0.366 BP=0.475 SP=0.097 → dominant=BP
+      Best: dispatchWidth (red=0.0372, Δarea=0.00, eff=37208.2188)
+      Reclaim: IntMultDiv(8→1), FP_ALU(8→1), FP_MultDiv(6→1), l1i_assoc(32→2)
+      Pressure: FP=0.362 BP=0.481 SP=0.096 → dominant=BP
+      Best: LQEntries (red=0.0369, Δarea=0.00, eff=36851.8384)
+    Step 3: CPI=1.9575, Area=186.06, ↑1 ↓0, dom=BP [0.36/0.48/0.10] [2795s]
+    Step 4: stagnant
+
+  Total: 135 evals in 2820s | Pareto=17 | McPAT_fails=6
+Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s/605.mcf_s_gem_attribution_results.json
+
+============================================================
+Done! Total: 2820s (47.0min)
+Results: /scratch/gem5-TAO/micro_exp/dse_exp/results/605.mcf_s
+============================================================

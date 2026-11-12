@@ -1,0 +1,64 @@
+Local resource/direction feedback: one rule, seed42, fixed checkpoint
+
+Purpose
+  Test whether restricting MSCS trust to the action family actually supported
+  by past observations improves on both fixed1+1 and global adaptive allocation.
+  This is a search-policy experiment, not training or a proof of Protect/Decouple.
+
+Frozen rule
+  Start from fixed1+1. First slot minimizes a corrected scalar candidate score;
+  second slot is the MSCS-best DISTINCT candidate. Always only two verifications.
+  A bucket is exactly (parameter name, increase/decrease sign), uniformly for
+  all15 parameters. No benchmark, resource-specific exception, decay or fitting.
+  For the first slot only, use the current MSCS CPI prediction for a candidate
+  if MSCS has lower cumulative ranking loss than scalar in that bucket.
+  Otherwise use the current scalar prediction, including all unobserved ties.
+  Scores and Jacobians are freshly computed at each changed root as before.
+  Feedback is added AFTER the whole frozen candidate batch has been evaluated.
+  Score root vs each queried candidate, and candidate vs candidate only when
+  both belong to the SAME bucket. Never transfer cross-resource pairwise credit.
+  Loss: correct0, predicted tie0.5, inversion1; ignore actual ties within
+  1e-6*root_CPI. Store twice losses as integers, reusing the old rank_feedback.
+  Area does not affect ranking credit; exact area still governs acceptance.
+  Buckets retain evidence through later roots within this trajectory only.
+  This remains a heuristic about transfer across stride/state, not a guarantee.
+
+Unchanged controls
+  Same full-feature scalar-excess and MSCS-logit predictions, candidate generator,
+  six rounds, two unseen candidates/round, fixed widths/L1 trace/BP, area cap1.10,
+  strict CPI acceptance, radius4 after accept and radius-halving after reject.
+  Do not silently change the radius policy while testing feedback locality.
+  New output directory only; previous sources/results/caches read-only.
+
+Fast first stage
+  Three previously examined regression cases, preselected for their known issues:
+    gcc middle (global adaptive improved over fixed1+1),
+    gcc newrank9 (global adaptive lost to fixed1+1),
+    mcf middle (pure MSCS had been overly conservative).
+  Reuse independently revalidated scalar/fixed1+1/global-adaptive controls.
+  Run only local: at most36 NEW candidate forward calls; no extra oracle audit.
+  Before these runs, a causal shadow analysis uses saved hybrid/adaptive traces:
+  decide before current labels, update only from each logged trajectory's own
+  verified candidates. Report unknown counterfactual labels. A shadow decision
+  is not a completed new trajectory and is never labeled an online gain.
+
+Predeclared stop/extension criterion
+  Proceed to fresh starts only if local matches or beats BOTH fixed1+1 and
+  global adaptive in every regression case, and strictly improves over at least
+  one of them in at least one case (relative1e-6 of root CPI tolerance).
+  Otherwise STOP after36 candidate queries, retain all outcomes, do not tune.
+  If passed: two fresh gcc/mcf roots nearest the 50% area-sorted Pareto rank,
+  exclude all configurations in prior greedy results including this pilot;
+  tie lower rank. Run scalar, fixed1+1, global adaptive, local, 12 queries each
+  (at most96 additional calls). Freeze that root manifest before any evaluation.
+  No extra seeds, new gem5 or checkpoint changes in either stage.
+
+Validation and interpretation
+  Tests cover bucket isolation across resources/directions, no cross-resource
+  pair credit, causal batch update, ties/dedup, reversal, and identical numerics.
+  Independently replay predictions, local corrected scores, selection, bucket
+  feedback, acceptance, legal moves, budgets and the gate; freeze source hashes.
+  Report every even budget2..12, final gains, all failures, and source preservation.
+  Inspect the first same-root divergence and radius changes using existing labels
+  only. If locality does not change that divergence, do not blame global transfer.
+  All validation labels are frozen-surrogate outputs; no claim of hardware benefit.

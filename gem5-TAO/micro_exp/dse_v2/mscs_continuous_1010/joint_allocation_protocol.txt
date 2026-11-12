@@ -1,0 +1,51 @@
+One greedy joint-allocation decision per existing confirmation root (4 development
+roots, seed42). New hypothesis: the component finite-response model can allocate
+shared area among several resources more effectively than scalar compression.
+No lookahead, retraining, new roots, seeds or tuning. This is not heldout evidence.
+
+Same domain and information for both algorithms:
+  15 existing resource parameters, increases only, up to the maximum legal positive
+  single-resource move at radius4. Widths/trace/BP fixed. Exact legal final configs.
+  One continuous fraction per resource endpoint, all in [0,1]. Root feature chord
+  basis made from COMPLETE individually legal endpoint encodings. Joint feature
+  chord is an explicit proposal approximation, NOT claimed exact or additive.
+  Each basis endpoint's exact McPAT area is supplied to BOTH algorithms; area
+  calls/costs recorded separately and not hidden in candidate CPI-query savings.
+  A linear area constraint from those endpoint differences and an explicit ROB >=
+  DIQ+IQ+LQ+SQ resource-capacity constraint apply to both. Area chord is approximate;
+  selected candidates still require exact area before acceptance.
+
+Optimizer: scipy SLSQP from root fractions0; bounds[0,1], analytic gradient,
+ftol1e-10,maxiter100. Scalar objective uses unchanged per-stage/slice log-excess
+finite prediction; MSCS uses unchanged per-stage/slice component-logit prediction.
+Each includes the original physical CPI clamps. Same normalized objective and
+constraints. No benchmark-specific resource mapping, pressure-norm filter or
+opaque cancellation score.
+
+Round the solution by floor and nearest legal per-parameter VALUES, explicitly
+raise ROB to the legal minimum if necessary and within the declared endpoint box.
+Discard illegal or linear-area-infeasible rounded configs. Rebuild complete inputs
+at remaining rounded endpoints and select the best using that arm's SAME original
+finite predictor on the actual input displacement. Record feature-chord mismatch.
+Thus the optimizer's additive feature approximation cannot silently become the
+reported final prediction. Fallback: best distinct original single-resource
+candidate under that arm's finite ranking if no feasible new rounded endpoint.
+
+Two paid CPI candidates per algorithm: shared unchanged scalar single-move anchor,
+and its own best distinct joint/fallback proposal. BOTH proposals frozen before
+ANY candidate full network forward. Accept best exact-area-feasible improvement.
+Same legal design domain and continuous optimization, but each model generates its
+own joint proposal. This is a proposal-generation comparison, not identical finite
+candidate-pool ranking. It cannot isolate every difference in candidate generation.
+Each also scores the other's proposal using its frozen root model, as an offline
+cross-ranking diagnostic after generation but before outcomes; no extra query.
+Report shared-area-only and all logical/physical CPI costs, solver success, rounding,
+exact vs predicted area, all four outcomes, and any unknown feasible status.
+
+Independent checks before labels: root scalar/MSCS derivatives agree; finite
+central differences verify both analytic objective gradients at an interior probe;
+legal endpoint boxes/area constraints/rounding and final full-input predictions.
+After labels: validate CPI/stack identity, choice and acceptance; report composition
+and actual component changes for selected candidates. These are surrogate responses,
+not gem5 or causal names for physical resource bottlenecks. Protect is not tested.
+No full trajectories automatically launched on ties or infeasible-only outcomes.

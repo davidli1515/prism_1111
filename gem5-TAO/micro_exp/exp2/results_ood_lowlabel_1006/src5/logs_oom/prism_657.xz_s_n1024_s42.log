@@ -1,0 +1,30 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /scratch/gem5-TAO/micro_exp/exp2/results_ood_lowlabel_1006/src5/prism/657.xz_s/n1024_s42
+  Target: 657.xz_s | variant=prism | n_shot=1024
+  src_labeled : 10,494
+  src_unlabeled: 199,460
+  tgt_shot    : 1,024
+  tgt_unlabeled: 6,451
+  Train: 217,429 | Src val: 14,046 | Tgt test: 500
+  Batch: 50,000 | steps/epoch: 4 | feeding: gpu-resident
+  Data ready in 63s
+  Params: 2,534,160
+
+============================================================
+Training prism — 1521 epochs, steps/epoch=4
+  Milestones=[2555, 3528, 4563, 5597], gamma=0.5
+  Model selection: source val MAPE (target test is report-only)
+============================================================
+Traceback (most recent call last):
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 495, in main
+    model, last_state, best_epoch, history, train_time = train(
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 397, in train
+    loss.backward()
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/_tensor.py", line 626, in backward
+    torch.autograd.backward(
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/autograd/__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 94.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 64.44 MiB is free. Process 2191846 has 7.91 GiB memory in use. Process 2223572 has 7.91 GiB memory in use. Process 2258825 has 7.91 GiB memory in use. Process 2473964 has 1.87 GiB memory in use. Process 2491571 has 38.50 GiB memory in use. Process 2510527 has 7.92 GiB memory in use. Including non-PyTorch memory, this process has 6.71 GiB memory in use. Process 2530650 has 416.00 MiB memory in use. Of the allocated memory 6.18 GiB is allocated by PyTorch, and 31.01 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

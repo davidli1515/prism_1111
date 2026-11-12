@@ -1,0 +1,58 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /scratch/gem5-TAO/micro_exp/exp2/results_ood_lowlabel_1006/src20/supervised/508.namd_r/n1024_s42
+  Target: 508.namd_r | variant=supervised | n_shot=1024
+  src_labeled : 41,983
+  src_unlabeled: 167,946
+  tgt_shot    : 1,024
+  tgt_unlabeled: 6,476
+  Train: 43,007 | Src val: 14,046 | Tgt test: 500
+  Batch: 43,007 | steps/epoch: 1 | feeding: gpu-resident
+  Data ready in 60s
+  Params: 2,534,160
+
+============================================================
+Training supervised — 1521 epochs, steps/epoch=1
+  Milestones=[638, 882, 1140, 1399], gamma=0.5
+  Model selection: source val MAPE (target test is report-only)
+============================================================
+Traceback (most recent call last):
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 495, in main
+    model, last_state, best_epoch, history, train_time = train(
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 393, in train
+    loss, ld = bnfix_step(model, x, b["mscs"].to(device, non_blocking=True),
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 343, in bnfix_step
+    mp = model(x[lm])
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/scratch/gem5-TAO/micro_exp/exp1/model.py", line 60, in forward
+    h = self.backbone(x)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/scratch/gem5-TAO/micro_exp/exp1/model.py", line 34, in forward
+    return self.block(x)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/modules/dropout.py", line 70, in forward
+    return F.dropout(input, self.p, self.training, self.inplace)
+  File "/scratch2/wl730/conda_envs/hybrid/lib/python3.10/site-packages/torch/nn/functional.py", line 1425, in dropout
+    _VF.dropout_(input, p, training) if inplace else _VF.dropout(input, p, training)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 42.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 10.44 MiB is free. Process 2191846 has 7.91 GiB memory in use. Process 2223572 has 7.91 GiB memory in use. Process 2258825 has 7.91 GiB memory in use. Process 2473964 has 1.87 GiB memory in use. Process 2491571 has 38.50 GiB memory in use. Process 2510527 has 7.92 GiB memory in use. Process 2540944 has 3.78 GiB memory in use. Including non-PyTorch memory, this process has 3.39 GiB memory in use. Of the allocated memory 2.89 GiB is allocated by PyTorch, and 13.25 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

@@ -1,0 +1,77 @@
+Device: cuda:0
+Ablation: concorde
+Ratios: ['90%']
+Output: ./results/exp4_concorde
+
+[1/2] Loading benchmarks...
+  Found 17 benchmarks
+    Loading 508.namd_r ... 8000 samples
+    Loading 526.blender_r ... 8000 samples
+    Loading 600.perlbench_s ... 24000 samples
+    Loading 602.gcc_s ... 24000 samples
+    Loading 605.mcf_s ... 8000 samples
+    Loading 607.cactuBSSN_s ... 8000 samples
+    Loading 619.lbm_s ... 24000 samples
+    Loading 620.omnetpp_s ... 8000 samples
+    Loading 621.wrf_s ... 8000 samples
+    Loading 623.xalancbmk_s ... 8000 samples
+    Loading 631.deepsjeng_s ... 8000 samples
+    Loading 638.imagick_s ... 8000 samples
+    Loading 641.leela_s ... 8000 samples
+    Loading 644.nab_s ... 8000 samples
+    Loading 648.exchange2_s ... 8000 samples
+    Loading 654.roms_s ... 8000 samples
+    Loading 657.xz_s ... 7975 samples
+  Total: 183,975 samples across 17 benchmarks
+
+############################################################
+# Labeled: 90%  Ablation: concorde  GPU: 0
+############################################################
+  [labeled_only] Filtered to 155,228 labeled samples
+  Labeled ratio: 90%
+  Labeled: 155,228 | Unlabeled in train: 0 | Train size: 155,228
+  Test: 11,499
+
+[2/2] Training...
+  Concorde params: 1,025,537
+  Concorde arch: 3873 -> [256, 128] -> 1
+
+============================================================
+Training Concorde — labeled=90%
+  Optimizer: AdamW (lr=0.001, wd=0.3)
+  Loss: relative error |y_hat - y| / y
+============================================================
+  Epoch   1 | Loss=0.162065 | Test MAPE=13.06% | lr=1.00e-03 | 5s
+  Epoch  10 | Loss=0.089686 | Test MAPE=8.63% | lr=1.00e-03 | 43s
+  Epoch  20 | Loss=0.079791 | Test MAPE=7.99% | lr=1.00e-03 | 82s
+  Epoch  30 | Loss=0.074990 | Test MAPE=8.39% | lr=9.99e-04 | 123s
+  Epoch  40 | Loss=0.073687 | Test MAPE=8.46% | lr=9.98e-04 | 162s
+  Epoch  50 | Loss=0.073701 | Test MAPE=7.98% | lr=9.97e-04 | 202s
+  Epoch  60 | Loss=0.073358 | Test MAPE=9.03% | lr=9.96e-04 | 243s
+  Early stopping at epoch 67 (best MAPE=6.69%, 272s)
+  Best Concorde test MAPE: 6.69% (total time: 272s)
+
+Results for labeled=90% ablation=concorde:
+  Overall MAPE: 6.69%
+  Benchmark                 MAPE%
+  --------------------------------
+  508.namd_r               10.97%
+  526.blender_r            11.56%
+  600.perlbench_s           8.75%
+  602.gcc_s                 2.14%
+  605.mcf_s                 4.88%
+  607.cactuBSSN_s          10.02%
+  619.lbm_s                 3.06%
+  620.omnetpp_s             6.13%
+  621.wrf_s                 8.14%
+  623.xalancbmk_s           5.11%
+  631.deepsjeng_s           6.61%
+  638.imagick_s             5.65%
+  641.leela_s               5.87%
+  644.nab_s                 6.91%
+  648.exchange2_s           7.73%
+  654.roms_s                6.52%
+  657.xz_s                 15.97%
+  Result saved to ./results/exp4_concorde/exp4_90pct.json
+
+Done.

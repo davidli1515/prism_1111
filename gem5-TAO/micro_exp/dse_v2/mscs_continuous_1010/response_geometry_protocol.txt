@@ -1,0 +1,33 @@
+Development-only, zero new network/area queries, all four completed confirmation
+hybrid trajectories: 24 rounds, 48 own queried candidates. These are selected-label
+observations, not an unbiased neighborhood or another holdout.
+
+Hypothesis: MSCS Jacobian preserves response distinctions lost by scalar tangents.
+Use those distinctions to transfer observed finite-response residuals across actions.
+Only geometry changes; fitted responses are four per-slice scalar log(CPI-1/W),
+so every method receives exactly the same scalar history and output targets.
+
+Predictors:
+  raw scalar; original input-kernel2 scalar;
+  scalar-response-kernel2 scalar; MSCS-response-kernel2 scalar.
+Feature-space kernel uses the original saved input displacement Gram.
+Scalar geometry is per-slice 4-stage relative excess-CPI slope.
+MSCS geometry is per-slice 4x3 log-odds slope weighted by sqrt(pressure share
+conditional on non-Base). Squared inner product kernel, pseudoinverse rtol=1e-6,
+last-six history unchanged. No tuning, new constants, extra history or labels.
+The scalar target residual is identical in all corrections. Both kernels preserve
+root value and first derivative. No component norm veto or pressure-to-resource map.
+
+Replay all 24 decisions chronologically and predict before reading each current
+round outcome. Freeze all score arrays and choices before analysis reads labels.
+Use current-own queried candidates ONLY for error and ranking metrics. Two other
+methods' labels and future labels do not fit the response model. No simulated
+search improvement when a newly chosen candidate has no label.
+Report all benchmarks, normalized CPI MAE, root+pair ranking inversions and tie
+loss, very large prediction errors, and old selector coverage of new top-two.
+Predeclared diagnostic gate: MSCS geometry lower global rank loss than BOTH scalar
+kernel baselines, lower mean normalized absolute error than BOTH, and improves
+rank loss over the better scalar kernel on >=2 workloads including >=1 non-gcc.
+This is a strict triage criterion, not an algorithmic necessity or significance.
+If it fails, do not launch searches or tune kernel cutoff/history on these labels.
+Preserve code, inputs, plans and outcomes; checkpoint and old results unchanged.

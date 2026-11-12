@@ -1,0 +1,39 @@
+Frozen-checkpoint finite-set bound audit, seed 42
+
+Question: Can root MSCS exclude complete, unqueried FE-only configuration sets
+that the scalar width bound cannot exclude, without losing Pareto improvements?
+
+Sources: the shared scalar-BO initialization in mscs_guard_v5/results_full_01.
+Benchmarks fixed in advance: 623.xalancbmk_s and 641.leela_s. Select the
+lowest-area, middle-rank (floor), and highest-area Pareto points. Do not replace
+empty sets or select roots by MSCS or descendant outcomes.
+
+For each root, enumerate every legal nonempty upgrade in the Cartesian product
+fetchBufferSize x l1i_assoc. Other parameters and W_min stay exactly fixed.
+Reject configurations changed by validity projection; never silently repair.
+This bounds FE-only terminal designs, not paths later changing other resources.
+
+For slice i, c_i is the existing surrogate's four-stage mean CPI, with its
+existing clamps. Main candidate bound: max(1/W_min, mean_i[c_i*(1-FP_i,Decode)]).
+The per-slice product is formed before averaging. Also report a more optimistic
+variant replacing FP_i,Decode by max_stage FP_i,stage. Neither is assumed valid.
+Scalar control: 1/W_min. All methods use the same exact finite-set minimum area,
+including zero or negative increments. Area failure disables pruning of that
+entire region (area lower bound zero); it never removes a performance probe.
+
+Freeze all decisions in decisions.json before looking up or inferring ANY
+descendant CPI. Decision function receives only root bounds, candidate areas,
+and the original BO front. Enumerated descendant CPIs are offline audit labels,
+including hits in later archives; these cannot enter the decision front.
+
+Physical reuse is separate from logical savings: saved later CPI labels are
+still unqueried at the BO snapshot. Exclude snapshot-known configs from query
+savings. Save full configurations and provenance. Use private McPAT directories
+and source-salted safe area caches, never the old threaded shared-XML cache.
+
+Report bound violations, whole-region prunes, extra pruned unseen designs vs
+scalar, false prunes, lost HV, and oracle-prunable regions. If a whole region
+cannot prune even with its exact best CPI and exact minimum area, record that
+geometric obstruction. No tuning after seeing labels. No full DSE runs here.
+Exhaustive validation certifies only these finite sets under the surrogate,
+not true gem5 CPI or untested hardware regions.

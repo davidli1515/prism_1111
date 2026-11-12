@@ -1,0 +1,89 @@
+MSCS conditional branch ordering, v5.0
+
+Active-run scope update (user request, 2026-10-08 America/New_York):
+  results_full_01 now runs ONLY seed 42, keeping all six workloads and all
+  three methods at 5000 queries each (18 method runs instead of 54).
+  Existing seed-42 processes and their completed BO initialization continue.
+  run_control.json blocks seeds 43/44 before model imports or experiment work.
+  queue_effective.json records the six retained and twelve cancelled job pairs;
+  queue.json below remains the original launch record. The already loaded
+  driver is preserved at versions/run_before_seed_filter.py for its source hash.
+  These results will not establish robustness across random seeds.
+
+Background: hpca2027-paper1968.pdf, Section V (masked-value Protect), and
+dse_v2/mscs_1008.md. This experiment tests conditional branch ordering, not a
+new resource-headroom representation, a change to the model, or a proof that
+pressure magnitude measures resource value.
+
+Fixed before full runs:
+  Six workloads: gcc, mcf, xalancbmk, imagick, leela, exchange2.
+  Seeds: 42, 43, 44. Three methods per workload/seed.
+  One fresh 500-query BO initialization shared by the three methods.
+  Each method spends exactly 5000 distinct surrogate configuration queries.
+  Same checkpoint, normalization and lexicographically selected 50 even slices.
+  Reference = 1.1 times the componentwise maximum of the common initial BO
+  archive, fixed before refinement. Comparisons across seeds use paired ratios.
+
+Immediate scalar baseline:
+  Evaluate every +1 direction, choose positive CPI gain / incremental area.
+  From that intermediate state evaluate -1/-4 reclaims on other parameters;
+  accept cost <= 0.3% and choose greatest area saving.
+
+Guarded methods (identical except ranking):
+  Among cheap, nonnegative-cost reclaims at fixed L1 trace size, rank by either
+  per-slice relative CPI-cost P90 (scalar_guard) or mean per-slice L1 change of
+  FP/BP/SP proportions conditional on non-Base mass (mscs_guard).
+  Select at most three distinct reclaim parameters (one stride per resource).
+  Evaluate +1/+4/+8 future probes, excluding L1-size changes; select the best
+  observed improvement for each of the top three distinct scalar directions.
+  Charge ALL these precursor/reference queries. Then query at most nine joint
+  configurations in ranked reclaim order. Require actual configuration effects
+  to commute and add, excluding projection artifacts.
+  Only a measured joint whose CPI cost versus its own future reference is
+  <= 0.3% and whose area is smaller is a verified reclaim for that future.
+  Choose the next actual configuration among future references, verified
+  joints and directly CPI-improving reclaims, using the common gain/area rule.
+  If none improves the intermediate state, retain the immediate scalar choice.
+  A bad joint does not ban that resource on other paths. Unqueried joints are
+  not implicitly safe. Every queried valid-area configuration enters the archive,
+  including risky/rejected joints and probes not chosen for the walk.
+
+Shared mechanics:
+  Maximum 15 steps per walk; previously expanded states are not expanded again.
+  When the Pareto frontier is exhausted, take 30 charged random restart probes
+  using a fixed method-independent seed, until the exact budget is spent.
+  Stopping at a partial step still retains all observations in the archive.
+  Physical inference/area reuse across methods is allowed; a method must still
+  pay for every configuration on its first observation. No cross-arm decisions
+  or labels are accessible before that payment.
+  Private McPAT XML directories; independent SQLite cache keyed by exactly the
+  XML-relevant settings and salted with model/template/executable hashes.
+  Area failures are excluded from the Pareto set and logged. Their surrogate
+  observations still consume budget. No legacy area cache or frontier is used.
+
+Primary question:
+  At 5000 total queries, is MSCS ordering better than scalar_guard ordering?
+  Compare paired HV, HV curves, query allocation and actual joint steps taken.
+  Scalar baseline is secondary: it differs in the whole lookahead mechanism.
+  Risk detection alone is not success. More detected risks without more HV
+  is a negative end-to-end result for this implementation.
+  Per-arm wall time is NOT a speed comparison: later arms reuse physical caches.
+  This run measures query efficiency. A wall-time/Jacobian claim requires a
+  separate equally warmed or cold-cache timing experiment.
+
+Limits:
+  Surrogate-only results cannot establish gem5 Pareto quality or generalization.
+  Full-budget random and BO are required before claiming superiority to those
+  algorithms (especially given the negative greedy results in mscs_1008.md).
+  The present experiment does not evaluate Jacobian acceleration. J_CPI is a
+  scalar baseline; J_MSCS would need its own matched-budget ablation. Existing
+  arch-slot-only derivatives omit configuration-dependent distribution inputs.
+
+Run (from repository root):
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 \
+    /scratch2/wl730/conda_envs/hybrid/bin/python \
+    micro_exp/dse_v2/mscs_guard_v5/run_queue.py \
+    --out micro_exp/dse_v2/mscs_guard_v5/results_full_01 --jobs 6 --mcpat-workers 2
+
+Checks and outputs live in this new directory only. The prior exploration
+record, original code and checkpoint are covered by preserved_sha256.json.

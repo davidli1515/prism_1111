@@ -1,0 +1,66 @@
+What the automatic-pair experiments are testing
+
+The fixed model predicts stage/slice probabilities (Base,FP,BP,SP). Let
+ell_k = log(P_k/Base), q_k = exp(ell_k)/sum_j exp(ell_j). At a fixed width W,
+ignoring the explicit safety clamps for the derivation only,
+
+    C(x) = [1 + sum_k exp(ell_k(x))] / W.
+
+For a finite action i with COMPLETE encoded displacement delta_i, the local
+component model keeps a_ik = grad_x ell_k dot delta_i. Let
+S = sum_k exp(ell_k(root))/W. Its prediction is
+
+    C_MS(i) = 1/W + S sum_k q_k exp(a_ik).
+
+The matched scalar first-order model has only u=log((1-Base)/Base) and its
+gradient. Its finite log-odds prediction collapses the component responses:
+
+    C_scalar(i) = 1/W + S exp(sum_k q_k a_ik).
+
+The gap is a finite-response Jensen gap, NOT independent information in Base,
+not a physical bound on arbitrary hardware edits, and not a guarantee that the
+local model remains accurate across network activation boundaries. A scalar
+model with additional higher-order derivatives/evaluations can recover some of
+this information; the comparison is at the stated first-order information and
+candidate-query budgets. Our scalar control even receives per-stage/per-slice
+unclipped Base and exact candidate W, beyond just the aggregate scalar CPI.
+
+For two actions, approximate the full joint input displacement by delta_i+delta_j.
+The component prediction retains the cross-response structure:
+
+    C_MS(i+j)-C_MS(i)-C_MS(j)+C(root)
+        = S sum_k q_k [exp(a_ik)-1][exp(a_jk)-1].
+
+Opposing component responses can make this term NEGATIVE. Two finite single
+moves can each be harmful, while their joint move is beneficial. The pair can
+be scored from already computed single-action displacements and one root
+component Jacobian, before a joint full-network query. The scalar collapse can
+mis-rank the separate moves and miss the appropriate joint step sizes.
+This is a concrete use of decomposition to propose/rank coupled resource
+changes; it does not require assigning FP to front-end hardware or BP to a
+specific resource. The parameter-to-component response is learned locally.
+
+Implementation safeguards:
+- Actual probability normalization, Base floor and CPI cap remain in the code.
+- Candidate width W_min is exact. Paired pure resource moves keep W fixed.
+- The chord is ONLY for pair proposal generation; selected proposals are
+  fully re-encoded before final scalar/MSCS ranking.
+- Both rankers receive the same legal pair universe and common proposed pool.
+- Actual complete frozen-surrogate forward and exact McPAT area govern acceptance.
+- All pressure-cycle explanations average alternative stage accounts; they do
+  not sum four stages as disjoint elapsed cycles.
+
+Evidence and limits as of 2026-10-11:
+interaction_diamond_s42_01 is a POST-HOC frozen-surrogate witness on roms:
+LQ40/IQ64:3.488019; LQ64/IQ64:3.500182; LQ40/IQ96:3.492131;
+LQ64/IQ96:3.443889. Both single increases hurt, the pair helps by1.265%.
+The automatic pair pilot then selected LQ64/IQ96 from693 legal pairs at this
+state, without naming either resource in its selector. It beat a scalar ranker
+choosing LQ72/IQ96; both had equal1-query budgets. It also replicated locally
+at the next recorded roms state. These states were already inspected; this is
+not independent confirmation, a complete new trajectory, or gem5 evidence.
+
+This supports investigating Decouple through conditional joint response.
+It does NOT establish the original Protect claim (small immediate reclaim
+cost but lost future investment value). Protect still needs its own measured
+conditional counterfactual. Large component norms alone were not validated.

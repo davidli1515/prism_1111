@@ -1,0 +1,43 @@
+Why compare component log-odds with a nonlinear scalar control?
+
+For one slice and one stage, with fixed width W and inactive numerical clamps,
+let ell_k = log(P_k / Base), for k in FP/BP/SP, and let
+d_k = grad_input(ell_k) dot [features(candidate) - features(root)].
+The proposed finite-action model is
+
+  C_MSCS = (1 + sum_k exp(ell_k + d_k)) / W.
+
+Write q_k = P_k / sum_j P_j and C0 = root CPI. Then
+
+  C_MSCS = 1/W + (C0 - 1/W) sum_k q_k exp(d_k),
+  dC     = (C0 - 1/W) sum_k q_k d_k.
+
+The scalar-excess control retains the same C0 and SAME complete-input dC:
+
+  C_scalar = 1/W + (C0 - 1/W) exp(dC / (C0 - 1/W)).
+
+Thus their linear terms agree. To second order their difference is
+
+  0.5 * (C0 - 1/W) * Var_q(d_k).
+
+Within this local model, Jensen's inequality gives C_MSCS >= C_scalar.
+This distinguishes a change that relieves all components from one that relieves
+some while increasing others. A summed first derivative loses that variance.
+It can change which finite resource/step-size edit is most promising.
+
+Scope of these equations:
+  - The implemented search retains the original CPI epsilon and clamp rules;
+    the concise equations above describe the unclamped limiting expression.
+  - This is a tangent in full model input space. The feature encoder is discrete.
+    A candidate may cross ReLU boundaries, making affine-logit extrapolation wrong.
+  - Scalar second-order derivatives or direct evaluations can also reveal curvature.
+    This is not an impossibility result for scalar DSE.
+  - Consistently permuting component labels and their derivatives leaves ranking
+    unchanged. A search advantage here would establish useful component response
+    geometry, not prove that the FP/BP names uniquely identify physical resources.
+  - Per-action explanations must be checked against the evaluated stack, and later
+    gem5 if hardware claims are desired. A label alone is not causal attribution.
+  - The fixed experiment reports search outcome, prediction accuracy and cost as
+    separate questions. More accurate component predictions need not change ranking.
+
+This note adds no search rules, tuned coefficients or new experiments.

@@ -1,0 +1,46 @@
+Review of the minimal pilot's interpretation (no additional model queries)
+
+The arithmetic and data separation checks passed, but that does not establish
+that the experimental design could detect incremental MSCS information.
+The result supports only: this particular ridge specification did not improve
+predictions for these three mcf sets. It does not justify rejecting attainable-
+gain modeling, resource-conditioned MSCS bounds, or MSCS guidance generally.
+
+Additional checks of saved data:
+  - Ten gcc training roots all have CPI in [4.920690, 5.132464]. Test mcf roots
+    have CPI [2.281745, 2.250736, 2.164469]. Training on one workload conflates
+    informational value with cross-workload extrapolation.
+  - Four training roots form one component connected by single non-FE parameter
+    changes. The ten rows are not ten independent microarchitectural contexts;
+    this relation yields seven components within the gcc training set.
+  - All three held-out regions are exactly the same resource pattern:
+    fetchBufferSize already 64, l1i_assoc 4 -> {8,16,32}. They provide no test of
+    joint fetch-buffer/associativity effects or diverse remaining-resource ranges.
+  - Two test targets are zero. The third is only 0.0924837% relative CPI gain.
+  - Scalar has 229 features, MSCS has 829, with ten training rows and fixed ridge
+    alpha=1. This choice was not validated for signal detection on training data.
+  - Training R2 is 0.317625 for scalar and 0.317858 for MSCS. Fitted training gain
+    spans only roughly 0.462%..0.690%, versus actual 0.233%..1.518%.
+  - Effective ridge degrees of freedom (excluding intercept) are 0.491820 and
+    0.493383. Adding MSCS barely changes the fitted model's effective flexibility.
+  - After the fixed block scaling, summed training variance is 0.0344524 for
+    architecture, 0.0261796 for region ranges, 0.000137544 for CPI distributions,
+    and 0.000199254 for MSCS composition. Input scaling and limited training
+    diversity sharply restrict what the extra features can contribute.
+  - Mean-gain baseline test MAE is 0.535852 percentage points, versus 0.483936
+    for scalar and 0.484560 for MSCS. Predictions are all near the training mean.
+
+Revised interpretation:
+This is an inconclusive signal-detection pilot, with no positive evidence for
+this implementation. Its failure cannot distinguish insufficient MSCS signal
+from an underinformative dataset, regularization/representation choices, or
+workload shift. The earlier report's recommendation not to expand this exact
+implementation remains practical; it must not be read as evidence against the
+research direction. Correct code execution is separate from a diagnostic design.
+
+Before another substantive conclusion: check low-dimensional, physically defined
+features and train-only preprocessing/regularization; include a positive control
+where added MSCS contains a known learnable signal; use grouped validation and
+preselected held-out regions with different remaining-resource patterns. These
+three mcf cases have now been examined and must not become a newly tuned method's
+claimed unseen confirmation set. No follow-up experiment was launched in this review.

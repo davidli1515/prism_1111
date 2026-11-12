@@ -1,0 +1,51 @@
+% Case study: goes in Section V-C, after \paragraph{Across search methods} and before \paragraph{Takeaway}
+% (Balance_Is_Not_a_Monotone_Proxy_for_Quality.tex). Requires fig:balance_case and the six states of sec:char_states.
+% Figure: micro_exp/dse_v2/traj/feature/figs/fig_case_cactuBSSN.pdf (plot_case_cactuBSSN.py)
+% Data: results_rw (100k random designs), gem5_val*/runs (198 runs), feature/gem5/runs/607.cactuBSSN_s/p840_s23_mshr16
+% Settings must state: no L2/L3, 4 L1D MSHRs, no prefetchers.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/fig_case_cactuBSSN.pdf}
+\caption{Case study: cactuBSSN. (a) CPI along the greedy search of Figure~\ref{fig:balance_case} from step 9 (L1 at its maximum). The band spans the lowest CPI found by tuning (model: 100k designs; gem5: 198 runs); the rightmost point adds 16 MSHRs to the final design. Labels give the state of each gem5 point. (b) gem5 stacks of the final design with 4 MSHRs (solid) and 16 MSHRs (hatched); SP is negligible. $J$: Jain index.}
+\label{fig:case_cactu}
+\end{figure}
+
+\paragraph{Case study: beyond the design space}
+Why does cactuBSSN stop improving in Figure~\ref{fig:balance_case}?
+%
+PRISM first shows that CPI has a floor: 0.99 over 100k random designs (gem5: 1.00 over 198 runs).
+%
+Any fast CPI model can report this, but the stacks also explain it.
+%
+The 53 designs within 5\% of the floor use ROBs from 315 to 1,022 entries, yet stall alike: Commit BP is 88\% of CPI at the median, and all fall in S0 or S2.
+%
+Further search is therefore unlikely to help.
+%
+The window is not the limit either: at the largest L1, a ROB in the top rather than bottom quartile gains only 2.3\%, and Dispatch BP is just 0.17 cycles per instruction at the end of the search.
+%
+gem5 confirms this: CPI stays at 1.22 as the ROB grows from 284 to 350 (Figure~\ref{fig:case_cactu}a), although PRISM still predicts a 5\% gain there.
+
+PRISM stops here by construction: its stack merges all BP into one component, and its inputs cover only the 17 searched parameters.
+%
+It has, however, reduced 100k designs to one design and one question: what is this BP?
+%
+We switch to gem5 under the same accounting, where the two stacks of the final design differ by only 0.012 cycles per component on average.
+%
+One existing run splits the BP: 85\% of Commit BP is memory.
+%
+L1 misses no longer change (22.8 per kilo-instruction), while the L1D miss status holding registers (MSHRs) are nearly exhausted: 3.12 of 4 are in use on average, and they block the cache for 65\% of cycles.
+%
+This last inference is a human diagnosis from cache counters, not a reading of the stack.
+
+One new run validates it.
+%
+With 16 MSHRs and all 17 parameters unchanged, CPI falls from 1.05 to 0.65, 35\% below the best tuned design.
+%
+The design also moves to S1, which no sampled tuned design reaches below CPI 1.11.
+%
+Dispatch FP falls from 0.69 to 0.25 although the frontend is unchanged, so it was a symptom of the backend rather than frontend starvation (Figure~\ref{fig:case_cactu}b).
+%
+Dispatch balance rises from 0.48 to 0.66 only as a by-product, and Commit stays at the $1/3$ floor.
+%
+We use MSHRs to demonstrate the workflow, not to propose them: CPI shows that tuning is exhausted, the stacks show why, and a few gem5 runs find and validate a fix outside the design space.

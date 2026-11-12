@@ -1,0 +1,98 @@
+% Section V-B: Characterize (new framework; replaces Six_Bottleneck_States_Suffice.tex and
+% Balance_Is_Not_a_Monotone_Proxy_for_Quality.tex, which are kept unchanged).
+% Figures (images/):
+%   fig_state_centroids_col_small.pdf, fig_state_pca_opt_col_small_v2.pdf   (states, half column each)
+%   fig_balance_gem5_column_leela.pdf                                       (balance case, single column)
+%   fig_stage_jain_opt_cpi_column.pdf                                       (balance across methods, single column)
+% Numbers: results_small/state_clusters_v1.txt, robust_clusters_small.txt, results_opt_clusters/independent_clusters_small.txt,
+%          per-benchmark state spread from results_small/state_clusters_v1.npz (labels_<bench>),
+%          gem5_val4/settings_validation_pooled.txt (state agreement), results_rw (balance).
+
+\subsection{Characterizing the Design Space}
+\label{sec:char_states}
+\label{sec:char_balance}
+
+A CPI stack explains one design.
+%
+With a stack for every searched design, two stack-based analysis tools can be applied to the whole design space: bottleneck-state clustering~\cite{pesto} and bottleneck balance~\cite{archexplorer}.
+%
+We use them to ask two questions: which bottleneck states does the space contain, and do better designs have more balanced bottlenecks?
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_state_centroids_col_small.pdf}
+  \caption{Stall composition}
+  \label{fig:state_centroids}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.49\columnwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/fig_state_pca_opt_col_small_v2.pdf}
+  \caption{States across search methods}
+  \label{fig:state_pca}
+\end{subfigure}
+\caption{Bottleneck states. (a) Centroid of each state: stall share of FP/BP/SP at Dispatch (solid) and Commit (hatched); each stage accounts for about half. (b) Greedy designs on the first two principal components, colored by state; circles: state centroids; black markers: centroids from clustering BO, GA, and random-search designs independently.}
+\label{fig:states}
+\end{figure}
+
+\paragraph{Tool 1: bottleneck states}
+Following Pesto~\cite{pesto}, we describe each design by the stall shares of FP, BP, and SP at Dispatch and Commit, the entry and exit of the out-of-order window, and group designs with k-means, choosing $k$ by the elbow method.
+%
+Pesto clusters the instructions of one simulated design; we cluster the 337k designs of greedy search across all benchmarks.
+
+The elbow yields six states (Fig.~\ref{fig:state_centroids}).
+%
+They differ mainly at Dispatch, ordered from frontend- to backend-bound: BP accounts for 11\%, 23\%, 37\%, and 47\% of Dispatch stalls in S0, S2, S1, and S3.
+%
+S4 carries the most squash stalls, and S5 is rare (0.6\%).
+%
+This order is the dominant axis of the space: the first principal component explains 79\% of the variance (Fig.~\ref{fig:state_pca}).
+%
+Commit is nearly identical across states, with 89--99\% of its stalls being BP in all states but S5, a property of how Commit attributes stalls rather than of the designs.
+
+The states are not an artifact of the search, the workload, or the model.
+%
+Clustering the designs of BO, GA, and random search independently yields five of the same states and no new one (Fig.~\ref{fig:state_pca}, black markers).
+%
+Each of S0--S4 occurs in 5 to 11 benchmarks, and 15 of 17 benchmarks span at least two states.
+%
+PRISM and gem5 assign the same or an adjacent state to 85\% of the validated designs (\S\ref{sec:char_settings}), and re-clustering resampled searches reproduces the partition (ARI 0.96--0.99).
+
+\paragraph{Tool 2: bottleneck balance}
+Bottleneck-driven DSE~\cite{archexplorer} repeatedly relieves the largest bottleneck, which implies that better designs have more balanced bottlenecks.
+%
+We test this premise at the granularity of stall categories, measuring the balance of stage $s$ with the Jain index~\cite{jain1984} of its stall cycles,
+\begin{equation}
+J_s = \frac{\left(\sum_{k} c_{k,s}\right)^2}{3\sum_{k} c_{k,s}^2}, \quad k \in \{\mathrm{FP}, \mathrm{BP}, \mathrm{SP}\},
+\end{equation}
+which ranges from $1/3$ (a single stall category) to 1 (equal categories).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/fig_stage_jain_opt_cpi_column.pdf}
+\caption{Per-stage balance (left axis) and CPI normalized to the search start (right axis, dotted) along four search methods; median over 17 benchmarks. For BO, GA, and random search, the design shown is the best one found so far within the area budget.}
+\label{fig:balance_opt}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/fig_balance_gem5_column_leela.pdf}
+\caption{Dispatch balance along greedy search on four benchmarks. Model and gem5 are evaluated on the same representative search; median and 25--75\% are over 1,000 searches.}
+\label{fig:balance_case}
+\end{figure}
+
+Along the searches, CPI decreases by 13--37\%, yet balance barely moves (Fig.~\ref{fig:balance_opt}): for BO, GA, and random search, Dispatch balance changes by at most 0.04, and only greedy search shows a clear rise (0.58$\rightarrow$0.72).
+%
+Statically, among 100k random designs at matched area, the best 2\% have a Dispatch balance only 0.06 higher than the rest.
+%
+Dispatch is the most balanced stage under every method, while Commit stays near $1/3$, again because of its accounting.
+
+gem5 confirms these trends on the same designs (Fig.~\ref{fig:balance_case}): balance rises on nab, saturates on leela, stays low on gcc, and on cactuBSSN peaks midway and falls back (model 0.68$\rightarrow$0.52, gem5 0.64$\rightarrow$0.48) while CPI keeps decreasing.
+%
+Balance is thus weakly associated with design quality but is not a monotone proxy for it: the premise of bottleneck-driven DSE does not hold at the category level.
+
+\paragraph{Summary}
+Across the space, bottlenecks fall into a few states ordered along one frontend--backend axis, and balance does not reveal whether further tuning pays off.
+%
+Next, we follow a search that stalls and ask whether it is trapped in a state and what pressure remains (\S V-C).

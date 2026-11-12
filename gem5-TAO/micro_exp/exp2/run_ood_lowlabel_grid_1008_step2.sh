@@ -1,0 +1,22 @@
+#!/bin/bash
+# Low-label OOD grid, step 2: source ratios 5%, 50%, 80%; N in {32,256,1024,2048}; 23 targets; seed 42.
+#   prism    = V3 + 40k extra unlabeled (test/val windows excluded)  -> all N
+#   concorde/supervised: 5% only N=2048 (32/256/1024 exist in results_ood_lowlabel_1006 / lowlabel23_1007); 50%/80% all N
+# Runs on GPUs 0 1 2 3. Each sub-launcher skips results already in this grid dir.
+cd /scratch/gem5-TAO/micro_exp/exp2
+OUT=/scratch/gem5-TAO/micro_exp/exp2/results_ood_lowlabel_grid_1008
+ALL=$(ls /scratch2/wl730/micro_traindata_packed/gem/*.npy | xargs -n1 basename | sed 's/\.npy$//' | tr '\n' ' ')
+LAM="--lam-task 10 --lam-const 1 --lam-mono 0.01 --lam-unlab 1 --norm subset --extra40k"
+G="0 1 2 3"
+go() {  # $1 ratio  $2 tag  $3 variants  $4 shots  $5 max_jobs  $6 logname
+  TARGETS="$ALL" SHOTS="$4" SEEDS="42" VARIANTS="$3" RESULTS_DIR=$OUT/$2 \
+  LAM_ARGS="$LAM --src-ratio $1" GPUS="$G" MAX_JOBS=$5 \
+  bash run_ood_lowlabel_extra.sh > $OUT.$6.log 2>&1
+}
+mkdir -p $OUT
+go 0.05 src5  "prism"                     "32 256 1024 2048" 8  src5_prism &
+go 0.05 src5  "concorde supervised"       "2048"             4  src5_base  &
+go 0.50 src50 "concorde supervised prism" "32 256 1024 2048" 10 src50 &
+go 0.80 src80 "concorde supervised prism" "32 256 1024 2048" 10 src80 &
+wait
+echo "ALL DONE $(date)"

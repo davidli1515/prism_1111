@@ -1,0 +1,31 @@
+A. bootstrap: 30 x 100 random start ids (of 1000) from the random-start walks, all 17 benchmarks
+   elbow k: {np.int64(5): np.int64(9), np.int64(6): np.int64(21)}  (reference k = 6)
+   matched centroid distance: mean 0.003, worst-state mean 0.005 (max 0.011)
+   ARI vs reference labels on all 540k states: median 0.964 (min 0.886)
+   benchmarks whose end-state mode matches the reference: median 17/17 (min 16)
+
+B. fresh data: 100 new random starts (seed 3026), 17 benchmarks
+   states: 55193; share per reference state: S0 20.7%, S1 19.9%, S2 19.9%, S3 19.2%, S4 19.6%, S5 0.7%   (1000-walk run: S0 20.7%, S1 19.3%, S2 20.3%, S3 19.8%, S4 19.1%, S5 0.7%)
+   independent k-means on the new data: elbow k = 6; k=6 centroids matched to reference: S0 0.000, S1 0.002, S2 0.001, S3 0.001, S4 0.003, S5 0.003
+   ARI(independent clustering, reference-centroid labels) on the new states: 0.989
+   silhouette with reference centroids: 0.46 (1000-walk run 0.45)
+   per benchmark end-state distribution: new 100 starts vs 1000-walk run (mode match, total-variation distance)
+     namd_r       new end mode S1 (100%) vs S1 (100%)  match yes  TV 0.00
+     blender_r    new end mode S4 (90%) vs S4 (91%)  match yes  TV 0.01
+     perlbench_s  new end mode S1 (100%) vs S1 (100%)  match yes  TV 0.00
+     gcc_s        new end mode S0 (88%) vs S0 (84%)  match yes  TV 0.04
+     mcf_s        new end mode S3 (95%) vs S3 (95%)  match yes  TV 0.00
+     cactuBSSN_s  new end mode S2 (91%) vs S2 (88%)  match yes  TV 0.03
+     lbm_s        new end mode S2 (45%) vs S2 (54%)  match yes  TV 0.09
+     omnetpp_s    new end mode S2 (95%) vs S2 (94%)  match yes  TV 0.01
+     wrf_s        new end mode S3 (54%) vs S3 (57%)  match yes  TV 0.05
+     xalancbmk_s  new end mode S2 (89%) vs S2 (83%)  match yes  TV 0.08
+     deepsjeng_s  new end mode S4 (94%) vs S4 (96%)  match yes  TV 0.02
+     imagick_s    new end mode S3 (58%) vs S3 (57%)  match yes  TV 0.01
+     leela_s      new end mode S4 (100%) vs S4 (100%)  match yes  TV 0.00
+     nab_s        new end mode S3 (49%) vs S3 (52%)  match yes  TV 0.04
+     exchange2_s  new end mode S4 (98%) vs S4 (98%)  match yes  TV 0.00
+     roms_s       new end mode S0 (61%) vs S0 (56%)  match yes  TV 0.05
+     xz_s         new end mode S1 (100%) vs S1 (100%)  match yes  TV 0.00
+   end-state mode matches: 17/17; total-variation distance median 0.01
+   transition probabilities vs 1000-walk run: correlation 1.00; dominant exit per state same: 6/6

@@ -1,0 +1,25 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /scratch/gem5-TAO/micro_exp/exp2/results_ood_lowlabel_1006/src20/concorde/607.cactuBSSN_s/n256_s42
+  Target: 607.cactuBSSN_s | variant=concorde | n_shot=256
+  src_labeled : 41,983
+  src_unlabeled: 167,946
+  tgt_shot    : 256
+  tgt_unlabeled: 7,244
+  Train: 42,239 | Src val: 14,046 | Tgt test: 500
+Traceback (most recent call last):
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 480, in main
+    train_loader, val_loader, test_loader = make_loaders(
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 261, in make_loaders
+    loaders = (mk(tr, actual_bs, True, drop),
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 260, in <lambda>
+    mk = lambda a, bs, sh, dl: GPUBatches(a, device, bs, sh, dl)
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 229, in __init__
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 229, in <dictcomp>
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

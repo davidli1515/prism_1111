@@ -1,0 +1,173 @@
+nohup: ignoring input
+=== BO+refine (iterative) Started: Mon May  4 12:23:39 PM EDT 2026 ===
+=== Output: results_0505_1209 ===
+=== BO checkpoint: /scratch/gem5-TAO/micro_exp/dse_exp/results_0504_0148/joint_605_623_641_600_gem_bo_results.json ===
+============================================================
+MSCS-Guided DSE (joint)
+============================================================
+Benchmarks:   ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+Design space: 2.08e+23
+Methods:      ['gem_bo_scalar', 'gem_bo_mscs']
+
+[1/4] Loading models...
+  GEM: 2,534,160 params
+  Concorde: 2,116,609 params
+
+[2/4] Loading normalizers...
+  Loading cached normalizers...
+
+[3/4] Loading precomputed features...
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+  GEMPredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+  GEMPredictor [623.xalancbmk_s]: 258 total, CPI=200, grad=50
+  GEMPredictor [641.leela_s]: 400 total, CPI=200, grad=50
+  GEMPredictor [600.perlbench_s]: 400 total, CPI=200, grad=50
+  MultiWorkloadPredictor: 4 workloads
+  ConcordePredictor [605.mcf_s]: 273 total, CPI=200, grad=50
+
+  Sanity check...
+    GEM gmean CPI=1.3917, Area=28.57
+    Per-workload CPI: 605.mcf_s=2.4405 623.xalancbmk_s=3.2881 641.leela_s=0.8967 600.perlbench_s=0.5214 
+    Time: 4.266s
+
+[4/4] Running DSE methods...
+
+============================================================
+BO + Refine (iterative, 3 rounds × 15 steps)
+============================================================
+
+  Phase 1: Loading BO checkpoint from /scratch/gem5-TAO/micro_exp/dse_exp/results_0504_0148/joint_605_623_641_600_gem_bo_results.json
+    404 evals loaded
+
+  =======================================================
+  BO + Scalar refine: 3 rounds × 15 steps × 4 benchmarks
+  =======================================================
+
+    Round 1/3: refining 18 points (Pareto=18)
+      [1/18] gmean 1.0808→1.4364 [334s]
+      [2/18] gmean 1.1131→1.3972 [663s]
+      [3/18] gmean 0.9398→1.2974 [999s]
+      [4/18] gmean 1.1712→1.4290 [1330s]
+      [5/18] gmean 1.3787→1.3749 [1658s]
+      [6/18] gmean 1.0076→1.2977 [1991s]
+      [7/18] gmean 0.9580→1.3280 [2325s]
+      [8/18] gmean 0.9329→1.2762 [2659s]
+      [9/18] gmean 1.1706→1.4699 [2988s]
+      [10/18] gmean 1.0145→1.3093 [3322s]
+      [11/18] gmean 0.9662→1.2805 [3654s]
+      [12/18] gmean 1.3080→1.5017 [3984s]
+      [13/18] gmean 1.0108→1.3147 [4314s]
+      [14/18] gmean 1.1212→1.4068 [4641s]
+      [15/18] gmean 0.9525→1.3359 [4975s]
+      [16/18] gmean 0.9422→1.2739 [5310s]
+      [17/18] gmean 0.9768→1.3606 [5646s]
+      [18/18] gmean 1.1173→1.3516 [5974s]
+    Round 1 done: +72 configs, +10 new Pareto points
+
+    Round 2/3: refining 10 points (Pareto=27)
+      [1/10] gmean 1.4312→1.4135 [6300s]
+      [2/10] gmean 1.3260→1.3494 [6633s]
+      [3/10] gmean 1.3306→1.3656 [6966s]
+      [4/10] gmean 1.3121→1.3128 [7299s]
+      [5/10] gmean 1.3097→1.3147 [7633s]
+      [6/10] gmean 1.3584→1.3431 [7963s]
+      [7/10] gmean 1.3529→1.3826 [8296s]
+      [8/10] gmean 1.3397→1.3251 [8629s]
+      [9/10] gmean 1.3903→1.3826 [8964s]
+      [10/10] gmean 1.4516→1.4195 [9304s]
+    Round 2 done: +40 configs, +10 new Pareto points
+
+    Round 3/3: refining 10 points (Pareto=32)
+      [1/10] gmean 1.3147→1.3549 [9642s]
+      [2/10] gmean 1.3823→1.3549 [9977s]
+      [3/10] gmean 1.4153→1.3734 [10312s]
+      [4/10] gmean 1.4038→1.3734 [10645s]
+      [5/10] gmean 1.4153→1.3734 [10979s]
+      [6/10] gmean 1.3955→1.3827 [11316s]
+      [7/10] gmean 1.3251→1.3417 [11649s]
+      [8/10] gmean 1.3557→1.3827 [11983s]
+      [9/10] gmean 1.3955→1.3827 [12317s]
+      [10/10] gmean 1.6451→1.4791 [12656s]
+    Round 3 done: +40 configs, +24 new Pareto points
+
+    Total: 152 refined configs in 12656s
+Saved: results_0505_1209/joint_605_623_641_600_gem_bo_scalar_results.json
+
+  =======================================================
+  BO + MSCS refine: 3 rounds × 15 steps × 4 benchmarks
+  =======================================================
+
+    Round 1/3: refining 18 points (Pareto=18)
+      [1/18] gmean 1.0808→1.0211 [899s]
+      [2/18] gmean 1.1131→1.0767 [1660s]
+      [3/18] gmean 0.9398→0.9215 [2531s]
+      [4/18] gmean 1.1712→1.1078 [3349s]
+      [5/18] gmean 1.3787→1.0772 [4163s]
+      [6/18] gmean 1.0076→0.9595 [5020s]
+      [7/18] gmean 0.9580→0.9289 [5855s]
+      [8/18] gmean 0.9329→0.9118 [6616s]
+      [9/18] gmean 1.1706→1.1141 [7441s]
+      [10/18] gmean 1.0145→0.9695 [8287s]
+      [11/18] gmean 0.9662→0.9496 [9082s]
+      [12/18] gmean 1.3080→1.1482 [9861s]
+      [13/18] gmean 1.0108→0.9759 [10667s]
+      [14/18] gmean 1.1212→1.0668 [11464s]
+      [15/18] gmean 0.9525→0.9271 [12245s]
+      [16/18] gmean 0.9422→0.9239 [12889s]
+      [17/18] gmean 0.9768→0.9530 [13718s]
+      [18/18] gmean 1.1173→1.0614 [14522s]
+    Round 1 done: +72 configs, +4 new Pareto points
+
+    Round 2/3: refining 4 points (Pareto=16)
+      [1/4] gmean 1.0772→1.0457 [15286s]
+      [2/4] gmean 1.0642→1.0323 [16027s]
+      [3/4] gmean 0.9154→0.9070 [16645s]
+      [4/4] gmean 0.9118→0.9098 [17083s]
+    Round 2 done: +16 configs, +3 new Pareto points
+
+    Round 3/3: refining 3 points (Pareto=19)
+      [1/3] gmean 0.9124→0.9078 [17519s]
+      [2/3] gmean 0.9070→0.9035 [18041s]
+      [3/3] gmean 0.9132→0.9098 [18504s]
+    Round 3 done: +12 configs, +6 new Pareto points
+
+    Total: 100 refined configs in 18504s
+Saved: results_0505_1209/joint_605_623_641_600_gem_bo_mscs_results.json
+
+============================================================
+Comparison
+============================================================
+  gem_bo_scalar             | evals= 556 | pareto= 49 | HV=242.2525 | 14073s
+  gem_bo_mscs               | evals= 504 | pareto= 24 | HV=246.3484 | 19920s
+
+  Saved: results_0505_1209/joint_605_623_641_600_comparison.json
+
+============================================================
+Done! Total: 18507s (308.5min)
+Results: results_0505_1209
+============================================================
+run_dse_430.sh: line 36: em_bo_mscs: command not found
+Loading results from results_0505_1209...
+  Searching: results_0505_1209/*_results.json → 2 files
+  Loaded: gem_bo_mscs (504 evals)
+  Loaded: gem_bo_scalar (556 evals)
+
+Generating plots...
+  WARNING: gem_attribution trajectories not found, skipping search path plot
+  Saved: results_0505_1209/joint_pareto_frontier.png
+  Saved: results_0505_1209/joint_hv_curve.png
+
+  Ref point: (1.90, 271.46)
+
+Method                     Evals  Pareto   Final HV     Time
+------------------------------------------------------------
+  BO + Scalar refine         556      49   242.2525 234.5min
+  BO + MSCS refine (ours)    504      24   246.3484 332.0min
+
+All plots saved to results_0505_1209
+=== Done: Mon May  4 09:03:21 PM EDT 2026 ===
+=== Results: results_0505_1209 ===

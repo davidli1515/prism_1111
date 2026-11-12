@@ -1,0 +1,94 @@
+  605.mcf_s: loaded 273 slices
+  623.xalancbmk_s: loaded 258 slices
+  641.leela_s: loaded 400 slices
+  600.perlbench_s: loaded 400 slices
+DseEngine: 1331 slices total, workloads: ['605.mcf_s', '623.xalancbmk_s', '641.leela_s', '600.perlbench_s']
+
+======================================================================
+Shapley Value Pruning — 641.leela_s
+======================================================================
+
+  Parameters: 16
+  Full Shapley: 16! = 2.09e+13 permutations
+
+  Step 1: Computing MSCS finite-diff vectors (12-dim)...
+    16 params with valid increase, 6.8s
+    Vectors (12-dim):
+      fetchWidth           norm=0.0034  FP=[+0.002,+0.001,-0.001,-0.001] BP=[-0.000,+0.001,+0.001,+0.001] SP=[-0.001,-0.001,-0.000,-0.000]
+      decodeWidth          norm=0.0196  FP=[-0.003,-0.001,+0.007,+0.006] BP=[-0.002,-0.006,-0.011,-0.009] SP=[+0.004,+0.005,+0.002,+0.000]
+      dispatchWidth        norm=0.1827  FP=[+0.029,+0.019,-0.054,-0.062] BP=[+0.021,+0.075,+0.064,+0.065] SP=[-0.050,-0.092,-0.006,+0.001]
+      commitWidth          norm=0.0007  FP=[+0.000,-0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+      numROBEntries        norm=0.0016  FP=[-0.001,+0.000,+0.001,+0.000] BP=[+0.000,-0.001,-0.000,-0.001] SP=[+0.000,+0.000,-0.000,-0.000]
+      numIQEntries         norm=0.0043  FP=[+0.002,+0.002,-0.001,-0.001] BP=[-0.000,-0.001,+0.002,+0.001] SP=[-0.001,-0.001,-0.000,-0.000]
+      LQEntries            norm=0.0095  FP=[+0.004,-0.003,-0.002,-0.002] BP=[-0.000,+0.006,+0.003,+0.003] SP=[-0.002,-0.002,-0.000,-0.000]
+      SQEntries            norm=0.0042  FP=[-0.001,-0.001,+0.001,+0.002] BP=[+0.000,+0.000,-0.002,-0.002] SP=[+0.001,+0.001,+0.001,+0.000]
+      IntALU               norm=0.0120  FP=[-0.003,+0.006,+0.001,+0.003] BP=[+0.004,-0.000,+0.004,+0.003] SP=[+0.006,+0.001,+0.003,+0.001]
+      IntMultDiv           norm=0.0003  FP=[-0.000,-0.000,-0.000,-0.000] BP=[+0.000,-0.000,+0.000,+0.000] SP=[+0.000,+0.000,+0.000,+0.000]
+      FP_ALU               norm=0.0014  FP=[+0.000,+0.001,-0.000,-0.000] BP=[-0.000,-0.000,+0.000,+0.000] SP=[-0.000,-0.001,+0.000,+0.000]
+      FP_MultDiv           norm=0.0022  FP=[+0.001,+0.000,-0.001,-0.001] BP=[+0.000,+0.001,+0.001,+0.001] SP=[-0.001,-0.001,-0.000,-0.000]
+      RdWrPort             norm=0.0026  FP=[-0.001,-0.001,+0.001,+0.001] BP=[+0.000,+0.001,-0.001,-0.000] SP=[+0.001,+0.001,+0.000,+0.000]
+      l1_size              norm=0.0195  FP=[+0.009,+0.011,-0.004,-0.002] BP=[+0.000,-0.001,+0.008,+0.007] SP=[-0.004,-0.005,+0.001,+0.000]
+      l1d_assoc            norm=0.0030  FP=[+0.001,+0.002,-0.001,-0.000] BP=[+0.000,+0.000,+0.001,+0.001] SP=[-0.000,-0.000,+0.001,+0.000]
+      l1i_assoc            norm=0.0009  FP=[+0.000,+0.000,-0.000,-0.000] BP=[-0.000,+0.000,+0.000,+0.000] SP=[-0.000,-0.000,-0.000,-0.000]
+
+  Step 2: Computing pairwise cosine similarity...
+    120 pairs computed
+
+  Step 3: Grouping (threshold=0.5)...
+    5 groups:
+      G1 (8 params, 8!=40320): ['fetchWidth', 'FP_MultDiv', 'SQEntries', 'l1i_assoc', 'l1_size', 'decodeWidth', 'dispatchWidth', 'numIQEntries']
+      G2 (2 params, 2!=2): ['l1d_assoc', 'numROBEntries']
+      G3 (2 params, 2!=2): ['RdWrPort', 'FP_ALU']
+      G4 (2 params, 2!=2): ['LQEntries', 'commitWidth']
+      G5 (2 params, 2!=2): ['IntMultDiv', 'IntALU']
+    Max group size: 8
+    Pruned cost: 4.03e+04  (vs full 2.09e+13)
+    Reduction: 518815460.4x
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_cosine_heatmap.png
+
+  Step 4a: Loaded Full MC Shapley from /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_results.json
+    2316 evals, 918.3s (cached)
+
+  Step 4b: Pruned Shapley (exact within groups)...
+    Group 0: ['fetchWidth', 'FP_MultDiv', 'SQEntries', 'l1i_assoc', 'l1_size', 'decodeWidth', 'dispatchWidth', 'numIQEntries'] → 256 evals (8! = 40320)
+    Group 1: ['l1d_assoc', 'numROBEntries'] → 4 evals (2! = 2)
+    Group 2: ['RdWrPort', 'FP_ALU'] → 4 evals (2! = 2)
+    Group 3: ['LQEntries', 'commitWidth'] → 4 evals (2! = 2)
+    Group 4: ['IntMultDiv', 'IntALU'] → 4 evals (2! = 2)
+    272 unique evals, 108.8s
+
+  Step 4c: One-at-a-time ΔCPI...
+    16 evals, 6.8s
+
+  ======================================================================
+  Results:
+  ======================================================================
+
+    Param                   Full MC     Pruned   One-at-a
+    ──────────────────────────────────────────────────
+    l1_size                 +0.0478    +0.0494    +0.0467
+    IntALU                  +0.0428    +0.0388    +0.0388
+    fetchWidth              +0.0192    +0.0008    +0.0007
+    commitWidth             +0.0152    -0.0017    -0.0017
+    l1d_assoc               +0.0102    +0.0102    +0.0097
+    LQEntries               +0.0053    +0.0064    +0.0064
+    SQEntries               +0.0039    +0.0031    +0.0028
+    FP_MultDiv              +0.0025    +0.0027    +0.0021
+    RdWrPort                +0.0014    +0.0010    +0.0009
+    numIQEntries            +0.0011    +0.0014    +0.0004
+    numROBEntries           +0.0009    -0.0006    -0.0011
+    IntMultDiv              +0.0004    +0.0004    +0.0004
+    FP_ALU                  -0.0001    +0.0009    +0.0009
+    l1i_assoc               -0.0001    -0.0001    +0.0000
+    dispatchWidth           -0.0096    -0.0343    +0.0038
+    decodeWidth             -0.0384    -0.0586    -0.0136
+
+    Method                      Spearman ρ          MSE      Evals       Time
+    ──────────────────────────────────────────────────────────────────────
+    Full MC Shapley                  1.000            0       2316     918.3s
+    Pruned Shapley (ours)            0.706     0.000104        272     108.8s
+    One-at-a-time (ΔCPI)             0.541     0.000091         16       6.8s
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_comparison.png
+  Saved: /scratch/gem5-TAO/micro_exp/dse_exp/results/641.leela_s/leela_shapley_results.json
+
+  Done!

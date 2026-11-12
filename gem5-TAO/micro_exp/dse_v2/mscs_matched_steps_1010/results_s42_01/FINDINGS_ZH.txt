@@ -1,0 +1,84 @@
+相同状态/候选池/两候选预算：已检查轨迹的条件机制诊断
+不是新根节点泛化，不是完整搜索，不是 gem5。
+筛查 30 个旧状态、120 个分层池；按预测分歧预选 14 个单步比较。
+每方法每单步2次逻辑验证；去重需 30 个标签，复用 23，新前向 7。
+固定stride仅保留未裁剪、相同生成倍率的动作；不同资源的基准量不同。
+full 与 stride 行可能同根且相关；不作统计显著性或整体搜索胜率推断。
+
+full: 5 个比较
+  mscs_vs_scalar: 3胜 1平 1负 0未知
+  hybrid_vs_scalar: 1胜 4平 0负 0未知
+  local_vs_scalar: 2胜 3平 0负 0未知
+  mscs_vs_hybrid: 2胜 2平 1负 0未知
+  local_vs_hybrid: 1胜 4平 0负 0未知
+fixed_stride: 9 个比较
+  mscs_vs_scalar: 6胜 0平 3负 0未知
+  hybrid_vs_scalar: 2胜 4平 3负 0未知
+  local_vs_scalar: 2胜 4平 3负 0未知
+  mscs_vs_hybrid: 4胜 5平 0负 0未知
+  local_vs_hybrid: 0胜 9平 0负 0未知
+
+单步CPI降幅%（scalar / MSCS / hybrid / local）:
+602.gcc_s_middle_r1_full  0.000000 / 0.000000 / 0.000000 / 0.000000
+  LQEntries 24->56 (scalar,hybrid,local): 预测scalar +3.38386%, MSCS -6.79565%, 完整模型 -0.63828%, 面积可行 True
+  fetchBufferSize 16->64 (mscs): 预测scalar +0.76952%, MSCS +0.65551%, 完整模型 -0.04972%, 面积可行 True
+  l1d_assoc 2->32 (scalar,mscs,hybrid,local): 预测scalar +2.93280%, MSCS +2.93013%, 完整模型 +0.61653%, 面积可行 False
+602.gcc_s_middle_r1_stride1  0.064903 / 0.192661 / 0.064903 / 0.064903
+  LQEntries 24->32 (scalar,hybrid,local): 预测scalar +0.89134%, MSCS -0.03270%, 完整模型 -0.11346%, 面积可行 True
+  fetchBufferSize 16->32 (scalar,mscs,hybrid,local): 预测scalar +0.25818%, MSCS +0.24499%, 完整模型 +0.06490%, 面积可行 True
+  l1d_assoc 2->4 (mscs): 预测scalar +0.19855%, MSCS +0.19852%, 完整模型 +0.19266%, 面积可行 True
+602.gcc_s_middle_r1_stride2  0.000000 / 0.526195 / 0.000000 / 0.000000
+  LQEntries 24->40 (scalar,hybrid,local): 预测scalar +1.75357%, MSCS -1.43842%, 完整模型 -0.77299%, 面积可行 True
+  fetchBufferSize 16->64 (scalar,mscs,hybrid,local): 预测scalar +0.76952%, MSCS +0.65551%, 完整模型 -0.04972%, 面积可行 True
+  l1d_assoc 2->8 (mscs): 预测scalar +0.59432%, MSCS +0.59422%, 完整模型 +0.52619%, 面积可行 True
+602.gcc_s_middle_r1_stride4  0.000000 / 0.121015 / 0.000000 / 0.000000
+  numROBEntries 432->560 (mscs): 预测scalar +0.18927%, MSCS +0.17725%, 完整模型 +0.12102%, 面积可行 True
+  LQEntries 24->56 (scalar,hybrid,local): 预测scalar +3.38386%, MSCS -6.79565%, 完整模型 -0.63828%, 面积可行 True
+  l1d_assoc 2->32 (scalar,mscs,hybrid,local): 预测scalar +2.93280%, MSCS +2.93013%, 完整模型 +0.61653%, 面积可行 False
+602.gcc_s_middle_r2_full  0.000000 / 0.526195 / 0.000000 / 0.526195
+  LQEntries 24->32 (scalar): 预测scalar +0.89134%, MSCS -0.03270%, 完整模型 -0.11346%, 面积可行 True
+  LQEntries 24->40 (scalar,hybrid): 预测scalar +1.75357%, MSCS -1.43842%, 完整模型 -0.77299%, 面积可行 True
+  fetchBufferSize 16->64 (mscs,hybrid,local): 预测scalar +0.76952%, MSCS +0.65551%, 完整模型 -0.04972%, 面积可行 True
+  l1d_assoc 2->8 (mscs,local): 预测scalar +0.59432%, MSCS +0.59422%, 完整模型 +0.52619%, 面积可行 True
+602.gcc_s_newrank9_r2_full  0.000000 / 0.177645 / 0.000000 / 0.000000
+  LQEntries 44->28 (scalar): 预测scalar +1.08712%, MSCS -1.05955%, 完整模型 -0.38857%, 面积可行 True
+  LQEntries 44->16 (scalar,hybrid,local): 预测scalar +1.87657%, MSCS -6.52900%, 完整模型 -2.09751%, 面积可行 True
+  FP_MultDiv 3->1 (mscs): 预测scalar +0.19104%, MSCS +0.19021%, 完整模型 +0.17765%, 面积可行 True
+  l1d_assoc 16->32 (mscs,hybrid,local): 预测scalar +0.81524%, MSCS +0.81286%, 完整模型 +1.21144%, 面积可行 False
+602.gcc_s_newrank9_r2_stride1  0.137329 / 0.159230 / 0.159230 / 0.159230
+  numIQEntries 86->94 (mscs,hybrid,local): 预测scalar +0.32036%, MSCS +0.14226%, 完整模型 +0.15923%, 面积可行 True
+  LQEntries 44->36 (scalar): 预测scalar +0.54770%, MSCS +0.08369%, 完整模型 +0.13733%, 面积可行 True
+  l1d_assoc 16->32 (scalar,mscs,hybrid,local): 预测scalar +0.81524%, MSCS +0.81286%, 完整模型 +1.21144%, 面积可行 False
+602.gcc_s_newrank9_r2_stride2  0.070651 / 0.177645 / 0.177645 / 0.177645
+  numIQEntries 86->102 (scalar): 预测scalar +0.63715%, MSCS -0.14026%, 完整模型 +0.07065%, 面积可行 True
+  LQEntries 44->28 (scalar,hybrid,local): 预测scalar +1.08712%, MSCS -1.05955%, 完整模型 -0.38857%, 面积可行 True
+  FP_MultDiv 3->1 (mscs,hybrid,local): 预测scalar +0.19104%, MSCS +0.19021%, 完整模型 +0.17765%, 面积可行 True
+  l1i_assoc 8->32 (mscs): 预测scalar +0.09218%, MSCS +0.09208%, 完整模型 +0.15051%, 面积可行 False
+602.gcc_s_newrank9_r3_full  0.070651 / 0.177645 / 0.177645 / 0.177645
+  numIQEntries 86->94 (mscs): 预测scalar +0.32036%, MSCS +0.14226%, 完整模型 +0.15923%, 面积可行 True
+  numIQEntries 86->102 (scalar,local): 预测scalar +0.63715%, MSCS -0.14026%, 完整模型 +0.07065%, 面积可行 True
+  LQEntries 44->28 (scalar,hybrid): 预测scalar +1.08712%, MSCS -1.05955%, 完整模型 -0.38857%, 面积可行 True
+  FP_MultDiv 3->1 (mscs,hybrid,local): 预测scalar +0.19104%, MSCS +0.19021%, 完整模型 +0.17765%, 面积可行 True
+602.gcc_s_newrank9_r4_stride4  0.000000 / 0.242871 / 0.000000 / 0.000000
+  numROBEntries 631->759 (mscs): 预测scalar +0.03353%, MSCS +0.02817%, 完整模型 +0.24287%, 面积可行 True
+  numIQEntries 86->118 (scalar,hybrid,local): 预测scalar +1.12263%, MSCS -2.77146%, 完整模型 -0.31450%, 面积可行 True
+  RdWrPort 2->6 (scalar,mscs,hybrid,local): 预测scalar +0.07919%, MSCS +0.06875%, 完整模型 +0.05447%, 面积可行 False
+605.mcf_s_middle_r1_stride2  0.199213 / 0.105859 / 0.105859 / 0.105859
+  LQEntries 79->95 (scalar): 预测scalar +0.30124%, MSCS -0.13131%, 完整模型 +0.19921%, 面积可行 True
+  RdWrPort 2->4 (scalar,mscs,hybrid,local): 预测scalar +1.19691%, MSCS +1.15467%, 完整模型 +0.73594%, 面积可行 False
+  l2_size 4096->1024 (mscs,hybrid,local): 预测scalar +0.13351%, MSCS +0.13196%, 完整模型 +0.10586%, 面积可行 True
+605.mcf_s_middle_r1_stride4  0.159665 / 0.000000 / 0.000000 / 0.000000
+  LQEntries 79->111 (scalar): 预测scalar +0.42146%, MSCS -1.12915%, 完整模型 +0.15966%, 面积可行 True
+  IntALU 8->4 (mscs,hybrid,local): 预测scalar +0.17661%, MSCS +0.16584%, 完整模型 -0.01671%, 面积可行 None
+  RdWrPort 2->6 (scalar,mscs,hybrid,local): 预测scalar +2.36504%, MSCS +2.19501%, 完整模型 +1.04750%, 面积可行 False
+605.mcf_s_middle_r2_stride1  0.073688 / 0.069048 / 0.069048 / 0.069048
+  LQEntries 79->87 (scalar): 预测scalar +0.09974%, MSCS +0.00161%, 完整模型 +0.07369%, 面积可行 True
+  RdWrPort 2->3 (scalar,mscs,hybrid,local): 预测scalar +0.60210%, MSCS +0.59157%, 完整模型 +0.51444%, 面积可行 False
+  l2_size 4096->2048 (mscs,hybrid,local): 预测scalar +0.08917%, MSCS +0.08848%, 完整模型 +0.06905%, 面积可行 True
+605.mcf_s_middle_r3_full  0.073688 / 0.069048 / 0.073688 / 0.073688
+  LQEntries 79->87 (scalar,hybrid,local): 预测scalar +0.09974%, MSCS +0.00161%, 完整模型 +0.07369%, 面积可行 True
+  IntALU 8->7 (mscs): 预测scalar +0.04516%, MSCS +0.04449%, 完整模型 +0.03450%, 面积可行 True
+  l2_size 4096->2048 (scalar,mscs,hybrid,local): 预测scalar +0.08917%, MSCS +0.08848%, 完整模型 +0.06905%, 面积可行 True
+
+所有新代码和结果放在独立目录；原策略、原结果与checkpoint未修改。
+原版Protect需要未来投资的条件反事实，Decouple需要联合动作检验；本轮均未证明。

@@ -1,0 +1,236 @@
+Device: cuda:1
+Dataset: 18k
+  GEM data:     /scratch2/wl730/micro_traindata_packed/gem
+  Concord data: /scratch2/wl730/micro_traindata_packed/concord
+Ablation: concorde
+Ratios: ['20%']
+Output: ./results_525/exp4_18k_concorde
+
+[1/2] Loading benchmarks...
+  Found 23 benchmarks
+    Loading 508.namd_r ... 8000 samples
+    Loading 526.blender_r ... 8000 samples
+    Loading 600.perlbench_s ... 24000 samples
+    Loading 602.gcc_s ... 24000 samples
+    Loading 605.mcf_s ... 8000 samples
+    Loading 607.cactuBSSN_s ... 8000 samples
+    Loading 619.lbm_s ... 24000 samples
+    Loading 620.omnetpp_s ... 8000 samples
+    Loading 621.wrf_s ... 8000 samples
+    Loading 623.xalancbmk_s ... 8000 samples
+    Loading 631.deepsjeng_s ... 8000 samples
+    Loading 638.imagick_s ... 8000 samples
+    Loading 641.leela_s ... 8000 samples
+    Loading 644.nab_s ... 8000 samples
+    Loading 648.exchange2_s ... 8000 samples
+    Loading 654.roms_s ... 8000 samples
+    Loading 657.xz_s ... 7975 samples
+    Loading brotli ... 8000 samples
+    Loading gumbo ... 8000 samples
+    Loading jsonnet ... 8000 samples
+    Loading re2 ... 8000 samples
+    Loading snappy ... 8000 samples
+    Loading wuffs ... 8000 samples
+  Total: 231,975 samples across 23 benchmarks
+
+############################################################
+# Dataset=18k Labeled=20% Ablation=concorde GPU=1
+############################################################
+  [labeled_only] Filtered to 43,495 labeled samples
+  Labeled ratio: 20%
+  Labeled: 43,495 | Unlabeled in train: 0 | Train size: 43,495 | Batch: 43,495
+  Test: 14,499
+
+[2/2] Training...
+  Concorde arch: 3873 → [256, 128] → 1
+  Concorde params: 1,025,537
+  Optimizer: AdamW (lr=0.001, wd=1e-05)
+  Scheduler: MultiStepLR per-step (milestones=[10000, 14000, 18000, 22000], gamma=0.5)
+
+============================================================
+Training Concorde — labeled=20%
+  Fixed 1500 epochs (no early stopping)
+============================================================
+  Epoch   1 | Loss=0.993139 | Test MAPE=95.50% best=95.50% | lr=1.00e-03 step=1 | 5s
+  Epoch  10 | Loss=0.422256 | Test MAPE=61.75% best=61.75% | lr=1.00e-03 step=10 | 42s
+  Epoch  20 | Loss=0.286142 | Test MAPE=32.85% best=32.85% | lr=1.00e-03 step=20 | 83s
+  Epoch  30 | Loss=0.202102 | Test MAPE=21.70% best=21.70% | lr=1.00e-03 step=30 | 122s
+  Epoch  40 | Loss=0.168940 | Test MAPE=18.63% best=18.63% | lr=1.00e-03 step=40 | 161s
+  Epoch  50 | Loss=0.146735 | Test MAPE=17.56% best=17.54% | lr=1.00e-03 step=50 | 201s
+  Epoch  60 | Loss=0.136948 | Test MAPE=14.96% best=14.96% | lr=1.00e-03 step=60 | 240s
+  Epoch  70 | Loss=0.126334 | Test MAPE=14.05% best=13.46% | lr=1.00e-03 step=70 | 279s
+  Epoch  80 | Loss=0.118374 | Test MAPE=12.65% best=12.65% | lr=1.00e-03 step=80 | 319s
+  Epoch  90 | Loss=0.112242 | Test MAPE=12.24% best=12.24% | lr=1.00e-03 step=90 | 361s
+  Epoch 100 | Loss=0.108845 | Test MAPE=12.31% best=11.93% | lr=1.00e-03 step=100 | 402s
+  Epoch 110 | Loss=0.110347 | Test MAPE=12.55% best=11.61% | lr=1.00e-03 step=110 | 445s
+  Epoch 120 | Loss=0.111274 | Test MAPE=11.45% best=11.37% | lr=1.00e-03 step=120 | 487s
+  Epoch 130 | Loss=0.102154 | Test MAPE=11.30% best=11.21% | lr=1.00e-03 step=130 | 529s
+  Epoch 140 | Loss=0.105247 | Test MAPE=11.97% best=11.16% | lr=1.00e-03 step=140 | 571s
+  Epoch 150 | Loss=0.103743 | Test MAPE=11.59% best=10.90% | lr=1.00e-03 step=150 | 612s
+  Epoch 160 | Loss=0.096109 | Test MAPE=10.83% best=10.73% | lr=1.00e-03 step=160 | 653s
+  Epoch 170 | Loss=0.095598 | Test MAPE=10.65% best=10.65% | lr=1.00e-03 step=170 | 695s
+  Epoch 180 | Loss=0.097548 | Test MAPE=10.96% best=10.65% | lr=1.00e-03 step=180 | 736s
+  Epoch 190 | Loss=0.092520 | Test MAPE=10.68% best=10.35% | lr=1.00e-03 step=190 | 778s
+  Epoch 200 | Loss=0.092062 | Test MAPE=11.47% best=10.35% | lr=1.00e-03 step=200 | 819s
+  Epoch 210 | Loss=0.093568 | Test MAPE=10.73% best=10.35% | lr=1.00e-03 step=210 | 861s
+  Epoch 220 | Loss=0.090634 | Test MAPE=10.10% best=10.10% | lr=1.00e-03 step=220 | 902s
+  Epoch 230 | Loss=0.086854 | Test MAPE=10.33% best=10.10% | lr=1.00e-03 step=230 | 944s
+  Epoch 240 | Loss=0.089400 | Test MAPE=9.97% best=9.97% | lr=1.00e-03 step=240 | 985s
+  Epoch 250 | Loss=0.085011 | Test MAPE=9.92% best=9.92% | lr=1.00e-03 step=250 | 1027s
+  Epoch 260 | Loss=0.088197 | Test MAPE=9.90% best=9.90% | lr=1.00e-03 step=260 | 1069s
+  Epoch 270 | Loss=0.088310 | Test MAPE=10.04% best=9.90% | lr=1.00e-03 step=270 | 1109s
+  Epoch 280 | Loss=0.081590 | Test MAPE=10.60% best=9.65% | lr=1.00e-03 step=280 | 1150s
+  Epoch 290 | Loss=0.083838 | Test MAPE=9.59% best=9.35% | lr=1.00e-03 step=290 | 1191s
+  Epoch 300 | Loss=0.081399 | Test MAPE=9.98% best=9.35% | lr=1.00e-03 step=300 | 1232s
+  Epoch 310 | Loss=0.092990 | Test MAPE=10.67% best=9.35% | lr=1.00e-03 step=310 | 1275s
+  Epoch 320 | Loss=0.080999 | Test MAPE=10.34% best=9.35% | lr=1.00e-03 step=320 | 1317s
+  Epoch 330 | Loss=0.076410 | Test MAPE=9.08% best=9.08% | lr=1.00e-03 step=330 | 1359s
+  Epoch 340 | Loss=0.077943 | Test MAPE=9.77% best=9.08% | lr=1.00e-03 step=340 | 1400s
+  Epoch 350 | Loss=0.071767 | Test MAPE=9.69% best=8.87% | lr=1.00e-03 step=350 | 1442s
+  Epoch 360 | Loss=0.074139 | Test MAPE=9.34% best=8.87% | lr=1.00e-03 step=360 | 1483s
+  Epoch 370 | Loss=0.073506 | Test MAPE=8.90% best=8.87% | lr=1.00e-03 step=370 | 1524s
+  Epoch 380 | Loss=0.075604 | Test MAPE=8.81% best=8.81% | lr=1.00e-03 step=380 | 1567s
+  Epoch 390 | Loss=0.070755 | Test MAPE=9.25% best=8.81% | lr=1.00e-03 step=390 | 1609s
+  Epoch 400 | Loss=0.065870 | Test MAPE=8.74% best=8.66% | lr=1.00e-03 step=400 | 1650s
+  Epoch 410 | Loss=0.071719 | Test MAPE=9.11% best=8.66% | lr=1.00e-03 step=410 | 1691s
+  Epoch 420 | Loss=0.079026 | Test MAPE=9.48% best=8.66% | lr=1.00e-03 step=420 | 1734s
+  Epoch 430 | Loss=0.072558 | Test MAPE=9.17% best=8.66% | lr=1.00e-03 step=430 | 1776s
+  Epoch 440 | Loss=0.083995 | Test MAPE=9.51% best=8.66% | lr=1.00e-03 step=440 | 1818s
+  Epoch 450 | Loss=0.068466 | Test MAPE=8.67% best=8.62% | lr=1.00e-03 step=450 | 1858s
+  Epoch 460 | Loss=0.065039 | Test MAPE=8.47% best=8.39% | lr=1.00e-03 step=460 | 1900s
+  Epoch 470 | Loss=0.068256 | Test MAPE=9.44% best=8.39% | lr=1.00e-03 step=470 | 1941s
+  Epoch 480 | Loss=0.076964 | Test MAPE=9.37% best=8.39% | lr=1.00e-03 step=480 | 1983s
+  Epoch 490 | Loss=0.069422 | Test MAPE=8.70% best=8.39% | lr=1.00e-03 step=490 | 2026s
+  Epoch 500 | Loss=0.063278 | Test MAPE=8.32% best=8.32% | lr=1.00e-03 step=500 | 2068s
+  Epoch 510 | Loss=0.061238 | Test MAPE=8.91% best=8.29% | lr=1.00e-03 step=510 | 2109s
+  Epoch 520 | Loss=0.061594 | Test MAPE=8.25% best=8.25% | lr=1.00e-03 step=520 | 2150s
+  Epoch 530 | Loss=0.058363 | Test MAPE=8.47% best=8.07% | lr=1.00e-03 step=530 | 2191s
+  Epoch 540 | Loss=0.065788 | Test MAPE=9.57% best=8.07% | lr=1.00e-03 step=540 | 2231s
+  Epoch 550 | Loss=0.067319 | Test MAPE=8.87% best=8.07% | lr=1.00e-03 step=550 | 2273s
+  Epoch 560 | Loss=0.069444 | Test MAPE=9.27% best=8.07% | lr=1.00e-03 step=560 | 2315s
+  Epoch 570 | Loss=0.066901 | Test MAPE=8.80% best=8.07% | lr=1.00e-03 step=570 | 2356s
+  Epoch 580 | Loss=0.066249 | Test MAPE=8.81% best=8.07% | lr=1.00e-03 step=580 | 2398s
+  Epoch 590 | Loss=0.061733 | Test MAPE=9.30% best=8.07% | lr=1.00e-03 step=590 | 2441s
+  Epoch 600 | Loss=0.061643 | Test MAPE=8.40% best=8.07% | lr=1.00e-03 step=600 | 2483s
+  Epoch 610 | Loss=0.057303 | Test MAPE=8.31% best=7.94% | lr=1.00e-03 step=610 | 2525s
+  Epoch 620 | Loss=0.058223 | Test MAPE=8.45% best=7.94% | lr=1.00e-03 step=620 | 2568s
+  Epoch 630 | Loss=0.064672 | Test MAPE=7.84% best=7.83% | lr=1.00e-03 step=630 | 2609s
+  Epoch 640 | Loss=0.064173 | Test MAPE=9.02% best=7.83% | lr=1.00e-03 step=640 | 2651s
+  Epoch 650 | Loss=0.065064 | Test MAPE=8.75% best=7.83% | lr=1.00e-03 step=650 | 2692s
+  Epoch 660 | Loss=0.057650 | Test MAPE=7.83% best=7.83% | lr=1.00e-03 step=660 | 2734s
+  Epoch 670 | Loss=0.054659 | Test MAPE=7.88% best=7.83% | lr=1.00e-03 step=670 | 2777s
+  Epoch 680 | Loss=0.054634 | Test MAPE=8.30% best=7.77% | lr=1.00e-03 step=680 | 2820s
+  Epoch 690 | Loss=0.066232 | Test MAPE=8.20% best=7.77% | lr=1.00e-03 step=690 | 2860s
+  Epoch 700 | Loss=0.057718 | Test MAPE=8.09% best=7.77% | lr=1.00e-03 step=700 | 2901s
+  Epoch 710 | Loss=0.057148 | Test MAPE=8.20% best=7.77% | lr=1.00e-03 step=710 | 2944s
+  Epoch 720 | Loss=0.058718 | Test MAPE=8.22% best=7.77% | lr=1.00e-03 step=720 | 2984s
+  Epoch 730 | Loss=0.057476 | Test MAPE=7.73% best=7.73% | lr=1.00e-03 step=730 | 3023s
+  Epoch 740 | Loss=0.051990 | Test MAPE=8.47% best=7.73% | lr=1.00e-03 step=740 | 3063s
+  Epoch 750 | Loss=0.055364 | Test MAPE=8.80% best=7.73% | lr=1.00e-03 step=750 | 3103s
+  Epoch 760 | Loss=0.060183 | Test MAPE=7.78% best=7.73% | lr=1.00e-03 step=760 | 3143s
+  Epoch 770 | Loss=0.057181 | Test MAPE=7.88% best=7.73% | lr=1.00e-03 step=770 | 3183s
+  Epoch 780 | Loss=0.066234 | Test MAPE=9.00% best=7.73% | lr=1.00e-03 step=780 | 3222s
+  Epoch 790 | Loss=0.053334 | Test MAPE=8.85% best=7.73% | lr=1.00e-03 step=790 | 3262s
+  Epoch 800 | Loss=0.053899 | Test MAPE=8.13% best=7.60% | lr=1.00e-03 step=800 | 3303s
+  Epoch 810 | Loss=0.058435 | Test MAPE=7.92% best=7.60% | lr=1.00e-03 step=810 | 3343s
+  Epoch 820 | Loss=0.054832 | Test MAPE=7.89% best=7.60% | lr=1.00e-03 step=820 | 3382s
+  Epoch 830 | Loss=0.049130 | Test MAPE=8.43% best=7.51% | lr=1.00e-03 step=830 | 3422s
+  Epoch 840 | Loss=0.054649 | Test MAPE=8.31% best=7.48% | lr=1.00e-03 step=840 | 3462s
+  Epoch 850 | Loss=0.056161 | Test MAPE=8.38% best=7.48% | lr=1.00e-03 step=850 | 3501s
+  Epoch 860 | Loss=0.055240 | Test MAPE=8.60% best=7.48% | lr=1.00e-03 step=860 | 3541s
+  Epoch 870 | Loss=0.053576 | Test MAPE=7.85% best=7.48% | lr=1.00e-03 step=870 | 3579s
+  Epoch 880 | Loss=0.054387 | Test MAPE=8.09% best=7.48% | lr=1.00e-03 step=880 | 3619s
+  Epoch 890 | Loss=0.050166 | Test MAPE=8.00% best=7.48% | lr=1.00e-03 step=890 | 3658s
+  Epoch 900 | Loss=0.047051 | Test MAPE=7.87% best=7.40% | lr=1.00e-03 step=900 | 3697s
+  Epoch 910 | Loss=0.057724 | Test MAPE=8.25% best=7.40% | lr=1.00e-03 step=910 | 3739s
+  Epoch 920 | Loss=0.057309 | Test MAPE=8.82% best=7.40% | lr=1.00e-03 step=920 | 3778s
+  Epoch 930 | Loss=0.054338 | Test MAPE=8.09% best=7.40% | lr=1.00e-03 step=930 | 3817s
+  Epoch 940 | Loss=0.045853 | Test MAPE=7.98% best=7.37% | lr=1.00e-03 step=940 | 3856s
+  Epoch 950 | Loss=0.046449 | Test MAPE=7.47% best=7.31% | lr=1.00e-03 step=950 | 3895s
+  Epoch 960 | Loss=0.058656 | Test MAPE=7.63% best=7.30% | lr=1.00e-03 step=960 | 3935s
+  Epoch 970 | Loss=0.052915 | Test MAPE=7.61% best=7.30% | lr=1.00e-03 step=970 | 3974s
+  Epoch 980 | Loss=0.057996 | Test MAPE=7.77% best=7.30% | lr=1.00e-03 step=980 | 4012s
+  Epoch 990 | Loss=0.053606 | Test MAPE=7.92% best=7.30% | lr=1.00e-03 step=990 | 4051s
+  Epoch 1000 | Loss=0.060648 | Test MAPE=8.11% best=7.30% | lr=1.00e-03 step=1000 | 4089s
+  Epoch 1010 | Loss=0.048914 | Test MAPE=7.73% best=7.30% | lr=1.00e-03 step=1010 | 4128s
+  Epoch 1020 | Loss=0.047670 | Test MAPE=7.55% best=7.30% | lr=1.00e-03 step=1020 | 4165s
+  Epoch 1030 | Loss=0.045436 | Test MAPE=7.46% best=7.21% | lr=1.00e-03 step=1030 | 4203s
+  Epoch 1040 | Loss=0.052985 | Test MAPE=7.89% best=7.21% | lr=1.00e-03 step=1040 | 4241s
+  Epoch 1050 | Loss=0.054946 | Test MAPE=8.50% best=7.21% | lr=1.00e-03 step=1050 | 4280s
+  Epoch 1060 | Loss=0.058811 | Test MAPE=7.78% best=7.21% | lr=1.00e-03 step=1060 | 4319s
+  Epoch 1070 | Loss=0.049776 | Test MAPE=7.81% best=7.21% | lr=1.00e-03 step=1070 | 4357s
+  Epoch 1080 | Loss=0.044578 | Test MAPE=7.49% best=7.21% | lr=1.00e-03 step=1080 | 4396s
+  Epoch 1090 | Loss=0.046837 | Test MAPE=7.22% best=7.16% | lr=1.00e-03 step=1090 | 4434s
+  Epoch 1100 | Loss=0.043919 | Test MAPE=7.19% best=7.10% | lr=1.00e-03 step=1100 | 4473s
+  Epoch 1110 | Loss=0.047251 | Test MAPE=7.24% best=7.10% | lr=1.00e-03 step=1110 | 4513s
+  Epoch 1120 | Loss=0.062722 | Test MAPE=8.09% best=7.03% | lr=1.00e-03 step=1120 | 4553s
+  Epoch 1130 | Loss=0.048254 | Test MAPE=7.98% best=7.03% | lr=1.00e-03 step=1130 | 4595s
+  Epoch 1140 | Loss=0.043583 | Test MAPE=7.58% best=7.03% | lr=1.00e-03 step=1140 | 4634s
+  Epoch 1150 | Loss=0.046982 | Test MAPE=7.41% best=7.03% | lr=1.00e-03 step=1150 | 4674s
+  Epoch 1160 | Loss=0.048486 | Test MAPE=7.56% best=7.03% | lr=1.00e-03 step=1160 | 4714s
+  Epoch 1170 | Loss=0.041987 | Test MAPE=7.83% best=7.03% | lr=1.00e-03 step=1170 | 4754s
+  Epoch 1180 | Loss=0.049646 | Test MAPE=7.78% best=7.03% | lr=1.00e-03 step=1180 | 4794s
+  Epoch 1190 | Loss=0.044517 | Test MAPE=7.38% best=7.03% | lr=1.00e-03 step=1190 | 4835s
+  Epoch 1200 | Loss=0.050323 | Test MAPE=7.86% best=7.03% | lr=1.00e-03 step=1200 | 4875s
+  Epoch 1210 | Loss=0.057173 | Test MAPE=7.82% best=7.03% | lr=1.00e-03 step=1210 | 4917s
+  Epoch 1220 | Loss=0.061657 | Test MAPE=8.71% best=7.03% | lr=1.00e-03 step=1220 | 4957s
+  Epoch 1230 | Loss=0.047220 | Test MAPE=7.67% best=7.03% | lr=1.00e-03 step=1230 | 4998s
+  Epoch 1240 | Loss=0.043169 | Test MAPE=7.48% best=7.03% | lr=1.00e-03 step=1240 | 5037s
+  Epoch 1250 | Loss=0.043614 | Test MAPE=7.38% best=7.03% | lr=1.00e-03 step=1250 | 5077s
+  Epoch 1260 | Loss=0.039747 | Test MAPE=7.05% best=7.03% | lr=1.00e-03 step=1260 | 5116s
+  Epoch 1270 | Loss=0.069654 | Test MAPE=8.04% best=7.03% | lr=1.00e-03 step=1270 | 5155s
+  Epoch 1280 | Loss=0.047994 | Test MAPE=7.24% best=7.03% | lr=1.00e-03 step=1280 | 5193s
+  Epoch 1290 | Loss=0.045333 | Test MAPE=7.62% best=7.03% | lr=1.00e-03 step=1290 | 5231s
+  Epoch 1300 | Loss=0.042384 | Test MAPE=7.42% best=7.03% | lr=1.00e-03 step=1300 | 5270s
+  Epoch 1310 | Loss=0.040687 | Test MAPE=7.92% best=6.98% | lr=1.00e-03 step=1310 | 5309s
+  Epoch 1320 | Loss=0.048317 | Test MAPE=7.49% best=6.98% | lr=1.00e-03 step=1320 | 5347s
+  Epoch 1330 | Loss=0.045233 | Test MAPE=7.20% best=6.98% | lr=1.00e-03 step=1330 | 5383s
+  Epoch 1340 | Loss=0.043009 | Test MAPE=7.21% best=6.98% | lr=1.00e-03 step=1340 | 5420s
+  Epoch 1350 | Loss=0.040161 | Test MAPE=7.21% best=6.98% | lr=1.00e-03 step=1350 | 5457s
+  Epoch 1360 | Loss=0.051596 | Test MAPE=7.65% best=6.95% | lr=1.00e-03 step=1360 | 5492s
+  Epoch 1370 | Loss=0.041875 | Test MAPE=7.45% best=6.95% | lr=1.00e-03 step=1370 | 5525s
+  Epoch 1380 | Loss=0.049809 | Test MAPE=7.75% best=6.95% | lr=1.00e-03 step=1380 | 5559s
+  Epoch 1390 | Loss=0.048866 | Test MAPE=7.22% best=6.95% | lr=1.00e-03 step=1390 | 5592s
+  Epoch 1400 | Loss=0.041175 | Test MAPE=7.34% best=6.95% | lr=1.00e-03 step=1400 | 5624s
+  Epoch 1410 | Loss=0.037654 | Test MAPE=7.47% best=6.95% | lr=1.00e-03 step=1410 | 5657s
+  Epoch 1420 | Loss=0.040850 | Test MAPE=7.06% best=6.93% | lr=1.00e-03 step=1420 | 5690s
+  Epoch 1430 | Loss=0.037227 | Test MAPE=7.12% best=6.91% | lr=1.00e-03 step=1430 | 5723s
+  Epoch 1440 | Loss=0.038272 | Test MAPE=7.42% best=6.90% | lr=1.00e-03 step=1440 | 5756s
+  Epoch 1450 | Loss=0.040708 | Test MAPE=7.09% best=6.84% | lr=1.00e-03 step=1450 | 5789s
+  Epoch 1460 | Loss=0.037788 | Test MAPE=7.43% best=6.84% | lr=1.00e-03 step=1460 | 5821s
+  Epoch 1470 | Loss=0.041212 | Test MAPE=7.75% best=6.84% | lr=1.00e-03 step=1470 | 5854s
+  Epoch 1480 | Loss=0.041534 | Test MAPE=7.73% best=6.84% | lr=1.00e-03 step=1480 | 5887s
+  Epoch 1490 | Loss=0.048622 | Test MAPE=7.23% best=6.84% | lr=1.00e-03 step=1490 | 5920s
+  Epoch 1500 | Loss=0.039145 | Test MAPE=7.53% best=6.84% | lr=1.00e-03 step=1500 | 5952s
+  Best Concorde test MAPE: 6.84% (total time: 5952s)
+
+Results for dataset=18k labeled=20% ablation=concorde:
+  Overall MAPE: 6.84%
+  Benchmark                 MAPE%
+  --------------------------------
+  508.namd_r                9.64%
+  526.blender_r             8.83%
+  600.perlbench_s           8.56%
+  602.gcc_s                 1.91%
+  605.mcf_s                 4.31%
+  607.cactuBSSN_s           6.91%
+  619.lbm_s                 3.52%
+  620.omnetpp_s             4.93%
+  621.wrf_s                 8.02%
+  623.xalancbmk_s           4.91%
+  631.deepsjeng_s           7.03%
+  638.imagick_s             6.94%
+  641.leela_s               6.29%
+  644.nab_s                 7.43%
+  648.exchange2_s           7.40%
+  654.roms_s                6.38%
+  657.xz_s                 13.35%
+  brotli                   10.77%
+  gumbo                     9.80%
+  jsonnet                   9.43%
+  re2                      11.26%
+  snappy                    7.07%
+  wuffs                     5.61%
+  Result saved to ./results_525/exp4_18k_concorde/exp4_20pct.json
+
+Done.

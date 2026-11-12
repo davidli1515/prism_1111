@@ -1,0 +1,58 @@
+Adaptive allocation of two candidate queries: frozen protocol, seed 42
+
+Purpose and scope
+  Test a single search change: does previous verified ranking quality tell us
+  when to give both proposal slots to scalar or to MSCS? This is not lookahead,
+  retraining, a new CPI model, or a test of Protect/Decouple mechanisms.
+  Six previously inspected roots from the hybrid pilot. These are development
+  cases, NOT held-out confirmation. No root selection or per-benchmark rules.
+
+Unchanged numerical and search controls
+  Same checkpoint, complete endpoint feature reconstruction, component-logit
+  MSCS predictor and scalar-excess predictor as the hybrid pilot. Adaptive uses
+  12 backward outputs and recovers scalar slopes from that component Jacobian.
+  Same 15-parameter single-action generator, fixed width/L1 trace/BP, 6 rounds,
+  two unseen candidate verifications per round, area cap 1.10 times root area.
+  Both candidates are frozen before either is evaluated. Accept the feasible
+  strict CPI improvement with lowest CPI; accept -> radius4, reject -> halve to1.
+
+One fixed allocation rule; no tuning sweep
+  Each trajectory starts with zero ranking losses. Lower cumulative ranking
+  loss gets both slots. Equal loss uses the prior hybrid rule (scalar best,
+  plus MSCS best distinct). Stable ties preserve generator order.
+  AFTER both candidates have been evaluated, score both predictors on the
+  same three pairs among {root, candidate1, candidate2}. The root's known CPI
+  is the root prediction for both experts. Actual ties within 1e-6*root_CPI are
+  omitted; a correct predicted order costs0, a predicted tie costs0.5, an
+  inversion costs1. Store twice this loss as integers to avoid accumulator ties
+  from rounding. The same tolerance defines predicted ties. Add losses over
+  all completed rounds; no decay, learned threshold, prior or benchmark rules.
+  Update affects NEXT round only. Neither unqueried labels, future decisions,
+  other trajectories' feedback, area outcomes nor parameter names enter it.
+  Area-infeasible candidates still have usable CPI labels; feasibility remains
+  an independent exact area check. This is selected-candidate online feedback,
+  not an unbiased whole-pool accuracy estimate or confidence certificate.
+  Ranking, not absolute calibration: exaggerated but correct ordering is not
+  penalized more than a small numerical error that preserves the same order.
+
+Efficient controls and budget
+  Reuse scalar_excess, mscs_logit and fixed hybrid trajectories read-only from
+  mscs_hybrid_greedy_1010/results_s42_01. Independently replay that entire pilot
+  before running. Freeze its source/result hashes and checkpoint identity.
+  Do NOT use those baseline outcomes to initialize/update this allocator.
+  Run only adaptive: at most 6*6*2 = 72 NEW candidate forward calls; no extra
+  oracle audit, new gem5, retraining, extra seeds or post-result rule changes.
+  Source-salted exact area caches may be read; new areas use a private store.
+  Record physical and logical costs separately. Historical wall times are not
+  a controlled runtime comparison; do not claim an end-to-end speedup.
+
+Checks and reporting, fixed before outcomes
+  Tests cover timing/causality, ties/dedup/budget, expert-swap symmetry after
+  informative feedback, ranking versus calibration, and reversible leadership.
+  Independent saved-trace replay checks every prediction, frozen selection,
+  state update, candidate legality, acceptance, area constraints and budget.
+  Report final CPI gain, all even budgets2/4/6/8/10/12, first budget reaching
+  scalar's final CPI, expert allocation counts, and informative comparisons.
+  Show all six cases, including losses/ties. Explain divergence from fixed
+  hybrid using verified candidates only. Report area failures and whether their
+  missing values could change acceptance. Preserve every old file and result.

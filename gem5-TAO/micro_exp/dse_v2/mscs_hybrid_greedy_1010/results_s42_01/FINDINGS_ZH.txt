@@ -1,0 +1,41 @@
+多步 greedy：scalar 保留一个名额，MSCS 提供另一个候选
+
+固定 checkpoint，seed 42，面积上限=起点面积×1.10。每法每起点 6 轮，每轮最多 2 次候选验证。
+三组均使用原有完整特征、15 资源、1/2/4 步长、相同接受和缩步规则。
+两个旧胜负案例单独作回归，另外四个起点已被上一轮单步实验检查，不能当作未看过的确认集。
+
+组别 | 起点 | scalar降幅% | MSCS降幅% | hybrid降幅% | hybrid对scalar优势(百分点)
+regression | 602.gcc_s_middle | 0.88605 | 1.23300 | 0.91945 | +0.03341
+regression | 605.mcf_s_middle | 0.19921 | 0.10586 | 0.19921 | +0.00000
+extension | 602.gcc_s_rank3 | 0.97149 | 0.97149 | 0.97149 | +0.00000
+extension | 605.mcf_s_rank4 | 0.45635 | 0.45635 | 0.45635 | +0.00000
+extension | 623.xalancbmk_s_rank6 | 1.37600 | 1.37600 | 1.37600 | +0.00000
+extension | 641.leela_s_rank7 | 0.80803 | 0.80803 | 0.80803 | +0.00000
+
+regression: hybrid 对 scalar: 1 胜 / 1 平 / 0 负，容差 0.001 个百分点。
+regression: hybrid 对 MSCS: 1 胜 / 0 平 / 1 负，容差 0.001 个百分点。
+extension: hybrid 对 scalar: 0 胜 / 4 平 / 0 负，容差 0.001 个百分点。
+extension: hybrid 对 MSCS: 0 胜 / 4 平 / 0 负，容差 0.001 个百分点。
+
+逐步候选名额使用（以 hybrid 自己所在状态的 scalar 排序为比较对象）：
+602.gcc_s_middle: 改变scalar前二候选集合 3 轮；接受MSCS名额 3 步；其中超出scalar前二 2 步。
+605.mcf_s_middle: 改变scalar前二候选集合 0 轮；接受MSCS名额 0 步；其中超出scalar前二 0 步。
+602.gcc_s_rank3: 改变scalar前二候选集合 2 轮；接受MSCS名额 4 步；其中超出scalar前二 2 步。
+605.mcf_s_rank4: 改变scalar前二候选集合 0 轮；接受MSCS名额 0 步；其中超出scalar前二 0 步。
+623.xalancbmk_s_rank6: 改变scalar前二候选集合 0 轮；接受MSCS名额 2 步；其中超出scalar前二 0 步。
+641.leela_s_rank7: 改变scalar前二候选集合 0 轮；接受MSCS名额 2 步；其中超出scalar前二 0 步。
+
+成本（不以共享面积缓存下的运行时声称方法加速）：
+scalar_excess: 候选前向 72，根节点前向 19，反向标量 76，搜索计算(不含面积/JVP诊断) 59.406s，其中特征 58.220s、Jacobian 0.285s。
+mscs_logit: 候选前向 72，根节点前向 20，反向标量 240，搜索计算(不含面积/JVP诊断) 62.786s，其中特征 60.740s、Jacobian 0.815s。
+hybrid: 候选前向 72，根节点前向 19，反向标量 228，搜索计算(不含面积/JVP诊断) 59.978s，其中特征 58.014s、Jacobian 0.760s。
+面积调用 {'logical_requests': 222, 'old_safe_store_hits': 53, 'new_store_hits': 125, 'physical_mcpat_calls': 44}；失败 2。
+实验耗时 236.1 秒（写 summary 时），无额外候选池穷举。
+
+结论边界：
+  保留 scalar 首选只保证该状态下验证这个候选，不保证胜过 scalar 的两个名额或后续路径。
+  解释、CPI 改善均基于固定 surrogate；没有新 gem5 证据。
+  Protect/Decouple 本轮没有参与决策；分量相反变化不直接命名为保护或解耦。
+  两个旧案例是回归检查，四个扩展起点不是完全独立确认集。单 seed、小样本，不作总体优势结论。
+原来源文件 SHA256 保持不变: True
+全部逐轮预测与选择的独立重放: True
