@@ -22,6 +22,11 @@ checkpoints, is in the Hugging Face dataset
 | `micro_exp/dse_exp/precompute/*.tar.zst` | Precomputed DSE feature arrays |
 | `micro_exp/<experiment>.tar.zst` | Complete experiment directories, including all results and `.pt` checkpoints (`exp2` is split into `exp2/exp2.tar.zst.part*`) |
 | `train_data/micro_traindata_packed{,_all}.tar.zst` | Packed training arrays (scripts reference them at `/scratch2/wl730/micro_traindata_packed{,_all}`) |
+| `micro_ckpt/<benchmark>.tar.zst` | Per-SimPoint gem5 run directories: `simpletrace.txt`, stats, configs, logs (without the checkpoints themselves) |
+
+The gem5 SimPoint checkpoints (`cpt.<tick>/`, whose memory images contain SPEC binaries and inputs)
+and the SPEC run directories needed to restart from them are in a separate **private** dataset,
+shared only with holders of a SPEC CPU2017 license. Contact the author for access.
 
 Download and extract one shard:
 
