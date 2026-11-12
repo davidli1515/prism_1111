@@ -1,0 +1,21 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /scratch/gem5-TAO/micro_exp/exp2/results_ood_lowlabel_1006/src20/prism/snappy/n32_s42
+  Target: snappy | variant=prism | n_shot=32
+  src_labeled : 41,985
+  src_unlabeled: 167,951
+  tgt_shot    : 32
+  tgt_unlabeled: 7,461
+  Train: 217,429 | Src val: 14,039 | Tgt test: 507
+Traceback (most recent call last):
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 480, in main
+    train_loader, val_loader, test_loader = make_loaders(
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 262, in make_loaders
+    mk(va, batch_size, False, False),
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 260, in <lambda>
+    mk = lambda a, bs, sh, dl: GPUBatches(a, device, bs, sh, dl)
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 229, in __init__
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+  File "/scratch/gem5-TAO/micro_exp/exp2/train_ood_lowlabel.py", line 229, in <dictcomp>
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 252.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 203.75 MiB is free. Process 498911 has 7.72 GiB memory in use. Process 521496 has 7.91 GiB memory in use. Process 536694 has 7.93 GiB memory in use. Process 644530 has 7.93 GiB memory in use. Process 647022 has 7.93 GiB memory in use. Process 648463 has 3.73 GiB memory in use. Process 658250 has 7.91 GiB memory in use. Process 671422 has 7.93 GiB memory in use. Process 671683 has 7.92 GiB memory in use. Process 742079 has 7.89 GiB memory in use. Including non-PyTorch memory, this process has 4.22 GiB memory in use. Of the allocated memory 3.81 GiB is allocated by PyTorch, and 2.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

@@ -1,0 +1,46 @@
+{
+ "bench": "648.exchange2_s",
+ "params": [
+  "fetchWidth",
+  "decodeWidth",
+  "dispatchWidth",
+  "commitWidth",
+  "numROBEntries",
+  "numIQEntries",
+  "LQEntries",
+  "SQEntries",
+  "IntALU",
+  "IntMultDiv",
+  "FP_ALU",
+  "FP_MultDiv",
+  "RdWrPort",
+  "l1_size",
+  "l1d_assoc",
+  "l1i_assoc",
+  "wbWidth"
+ ],
+ "fixed": {
+  "l2_size": 1024,
+  "l2_assoc": 8,
+  "bp_type": 1,
+  "fetchBufferSize": 32
+ },
+ "optimiser": "ArchGym sko.GA",
+ "size_pop": 16,
+ "max_iter": 32,
+ "prob_mut": 0.01,
+ "objective": "min CPI s.t. area <= A_ref",
+ "A_ref": 21.285945892333984,
+ "A_ref_def": "median end area of greedy small-start walks",
+ "ckpt": "/scratch/gem5-TAO/micro_exp/exp1/results/lambda_sweep_1004/t10_c1_m0p01_s42.pt",
+ "max_slices": 50,
+ "area": "dse17 fast area model",
+ "calibration": {
+  "method": "per-benchmark CPI scale c_b = mean(model/gem5) on K fixed gem5 designs; CPI_cal = CPI / c_b; MSCS proportions unchanged",
+  "K": 8,
+  "seed": 0,
+  "script": "calibrate_traj.py",
+  "factor": 1.0764676257451966,
+  "source": "results_ga/648.exchange2_s"
+ }
+}

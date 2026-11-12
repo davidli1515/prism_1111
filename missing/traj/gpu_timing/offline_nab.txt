@@ -1,0 +1,12 @@
+Offline (one-time) cost of PRISM inputs, measured single core (taskset, OMP_NUM_THREADS=1) on copies of
+644.nab_s slices, L1 = 64 KB, with gpu_timing/offline_timing_run.sh (originals untouched; the regenerated
+slice_0 dse_precomputed.npy is bit-identical to precompute/l1_64/644.nab_s/slice_0).
+Per slice: extract warmup trace (head), ext-sim cache/BP warmup, ext-sim on the slice, dse_precompute (analytical models).
+slice   head   warmup   sim   precompute   total (s)
+0       1.77    9.08   0.22     2.35       13.41
+50      2.13   11.46   0.21     2.32       16.12
+98      2.53   13.54   0.22     2.62       18.90
+Linear fit total(slice id) = 0.056*id + 13.38 s (warmup length grows with slice id).
+Used slices: first 50 even slice ids per benchmark (DseEngine order), x 5 L1 sizes.
+per benchmark: 1.42-1.44 CPU-h; total over 17 benchmarks: 24.2 CPU-h (nab per-slice times applied to every benchmark)
+offline_total_h 24.2

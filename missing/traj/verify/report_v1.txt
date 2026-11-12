@@ -1,0 +1,58 @@
+
+L1. shared pieces
+  [PASS] 10k fresh sample17 designs satisfy all invariants and project17 is idempotent  -- 0 bad
+  [PASS] stored designs valid + projection-stable: greedy random  -- 0/20000 of 460762 unique
+  [PASS] stored designs valid + projection-stable: greedy small  -- 0/20000 of 269036 unique
+  [PASS] stored designs valid + projection-stable: greedy seed2  -- 0/20000 of 44512 unique
+  [PASS] stored designs valid + projection-stable: BO  -- 0/20000 of 57274 unique
+  [PASS] stored designs valid + projection-stable: GA  -- 0/20000 of 37568 unique
+  [PASS] stored designs valid + projection-stable: RW  -- 0/20000 of 100000 unique
+  (43s)
+
+L2. stored data
+  checked results: 17 benchmarks x 1000 walks
+  checked results_small: 17 benchmarks x 1000 walks
+  checked results_seed2: 17 benchmarks x 100 walks
+  [PASS] joint_17: 1000 walks, CPI = geomean of the 17 workload CPIs  -- 1000 walks
+  [PASS] results_bo: 17 x 10 files x 500 finite evaluations
+  [PASS] results_ga: 17 x 10 files x 512 finite evaluations
+  [PASS] results_rw: 17 x 10 files x 10000 finite evaluations
+  [PASS] re-evaluation matches stored values: greedy random  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: greedy small  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: greedy seed2  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: BO  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: GA  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: RW  -- max rel/abs err 0.0e+00 0.0e+00 0.0e+00
+  [PASS] re-evaluation matches stored values: greedy candidates  -- max rel/abs err 0.0e+00
+  [PASS] greedy walks 0, 7, 31 of gcc re-run bit-exact
+  [PASS] GA gcc seed 3 re-run bit-exact
+  [PASS] RW gcc first 300 designs re-generated bit-exact
+  (170s)
+
+L3. algorithms
+  [PASS] greedy replay results (40 walks x 17, 21654 states): next state = chosen candidate  -- 0 bad
+  [PASS] greedy replay results: decision rule reproduced  -- 0 bad, 0 float32 near-ties
+  [PASS] greedy replay results: candidate validity = move()  -- 0 bad
+  [PASS] greedy replay results_small (40 walks x 17, 13536 states): next state = chosen candidate  -- 0 bad
+  [PASS] greedy replay results_small: decision rule reproduced  -- 0 bad, 0 float32 near-ties
+  [PASS] greedy replay results_small: candidate validity = move()  -- 0 bad
+  [PASS] BO: 30 random initial points then 500 total; recorded CPI = CPI the optimiser saw  -- 0 files
+  [PASS] GA: feasible flag = area <= A_ref, 32 generations x 16  -- 0 files
+  [PASS] RW: every benchmark sees the same designs
+  (318s)
+
+L4. analysis
+  [PASS] Pareto routine = brute force on 200 random sets (incl. ties)
+  [PASS] Jain: equal -> 1, single -> 1/3, scale-invariant
+  [PASS] walk-end extraction used in the analyses = groupby
+  independent: Dispatch Jain end > start (median over small-start walks) in 17/17   [reported 17/17]
+  independent: state mode at A_ref == greedy: BO 14/17, GA 13/17, RW-100k 13/17   [reported BO 14, GA 13, RW-100k 13]
+  independent: best-2% vs all at A_ref+-5%: best more balanced 16/17, median +0.059   [reported 16/17, +0.059]
+  [PASS] headline numbers reproduced by independent code
+  benchmark-shuffle null (BO/GA/RW mode of benchmark i vs greedy mode of benchmark pi(i)), 10k permutations:
+    BO       observed 14/17, null mean 3.9, p(null >= observed) = 0.0000
+    GA       observed 13/17, null mean 3.8, p(null >= observed) = 0.0001
+    RW-100k  observed 13/17, null mean 3.8, p(null >= observed) = 0.0000
+  (327s)
+
+SUMMARY: 0 FAIL

@@ -1,0 +1,33 @@
+1. states with >= 5% of designs per benchmark (greedy + BO + GA + random-18k)
+  namd_r       n= 55891 S0:  3.5 S1: 42.8 S2: 16.7 S3: 36.9 S4:  0.0 S5:  0.0  -> 3
+  blender_r    n= 52342 S0:  0.4 S1:  2.4 S2: 19.4 S3:  3.1 S4: 74.6 S5:  0.0  -> 2
+  perlbench_s  n= 46740 S0:  0.0 S1:  6.2 S2:  1.7 S3: 85.0 S4:  7.1 S5:  0.0  -> 3
+  gcc_s        n= 42091 S0: 90.4 S1:  0.6 S2:  8.9 S3:  0.0 S4:  0.0 S5:  0.0  -> 2
+  mcf_s        n= 42380 S0:  0.0 S1: 10.2 S2:  5.3 S3:  6.6 S4: 77.8 S5:  0.0  -> 4
+  cactuBSSN_s  n= 50645 S0: 46.7 S1:  8.8 S2: 35.0 S3:  9.4 S4:  0.0 S5:  0.0  -> 4
+  lbm_s        n= 35485 S0: 61.9 S1: 14.7 S2: 14.3 S3:  9.1 S4:  0.0 S5:  0.0  -> 4
+  omnetpp_s    n= 44325 S0:  4.9 S1:  7.0 S2: 81.2 S3:  4.1 S4:  2.8 S5:  0.0  -> 2
+  wrf_s        n= 47575 S0: 11.7 S1: 27.2 S2: 52.6 S3:  8.5 S4:  0.0 S5:  0.0  -> 4
+  xalancbmk_s  n= 51272 S0: 83.5 S1:  2.6 S2: 13.6 S3:  0.3 S4:  0.0 S5:  0.0  -> 2
+  deepsjeng_s  n= 45576 S0:  0.0 S1:  0.2 S2:  0.2 S3: 57.0 S4: 27.1 S5: 15.5  -> 3
+  imagick_s    n= 58080 S0:  0.4 S1: 56.4 S2: 33.2 S3:  9.7 S4:  0.4 S5:  0.0  -> 3
+  leela_s      n= 47856 S0:  0.0 S1:  0.1 S2:  0.2 S3:  2.4 S4: 97.3 S5:  0.0  -> 1
+  nab_s        n= 55793 S0:  7.4 S1: 34.4 S2: 35.0 S3: 20.7 S4:  2.4 S5:  0.0  -> 4
+  exchange2_s  n= 44665 S0:  0.0 S1:  0.7 S2:  0.1 S3: 91.4 S4:  7.8 S5:  0.0  -> 2
+  roms_s       n= 45557 S0: 71.4 S1:  5.9 S2: 19.6 S3:  3.1 S4:  0.0 S5:  0.0  -> 3
+  xz_s         n= 49163 S0:  2.1 S1: 21.8 S2:  8.4 S3: 67.7 S4:  0.0 S5:  0.0  -> 3
+  total designs 815436
+  1 states: 1 benchmarks: leela_s
+  2 states: 5 benchmarks: blender_r, gcc_s, omnetpp_s, xalancbmk_s, exchange2_s
+  3 states: 6 benchmarks: namd_r, perlbench_s, deepsjeng_s, imagick_s, roms_s, xz_s
+  4 states: 5 benchmarks: mcf_s, cactuBSSN_s, lbm_s, wrf_s, nab_s
+
+2. static balance at A_ref (+-5% area): Dispatch Jain, best 2% CPI minus all (median over benchmarks)
+  100k : median +0.059; best more balanced in 16/17 benchmarks; designs at A_ref per benchmark: median 3001, min 97
+  18k  : median +0.058; best more balanced in 15/16 benchmarks; designs at A_ref per benchmark: median 591, min 90
+
+3. cactuBSSN case
+  100k : floor 0.988; within 5%: 53 designs, ROB 315-1022, Commit BP share of CPI median 88%, states S0 37, S2 16
+         largest L1 (256): 19811 designs; ROB top vs bottom quartile median CPI 1.231 vs 1.257 (2.1% gain)
+  18k  : floor 1.004; within 5%: 37 designs, ROB 305-1010, Commit BP share of CPI median 85%, states S0 27, S2 10
+         largest L1 (256): 3567 designs; ROB top vs bottom quartile median CPI 1.231 vs 1.258 (2.1% gain)
