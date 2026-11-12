@@ -28,13 +28,35 @@ The gem5 SimPoint checkpoints (`cpt.<tick>/`, whose memory images contain SPEC b
 and the SPEC run directories needed to restart from them are in a separate **private** dataset,
 shared only with holders of a SPEC CPU2017 license. Contact the author for access.
 
-Download and extract one shard:
+## Combining this code with the data
+
+`fetch_data.sh` downloads shards and unpacks each one into its place in this directory, so the
+result is the original working tree:
 
 ```bash
-hf download David1515/ml_cpu_prism --repo-type dataset \
-    --include "micro_exp/exp1.tar.zst" --local-dir ./data
-zstd -dc data/micro_exp/exp1.tar.zst | tar -xf - -C micro_exp/
+git clone https://github.com/davidli1515/prism_1111.git
+cd prism_1111/gem5-TAO
+pip install -U huggingface_hub        # provides the `hf` CLI; also needs zstd
+./fetch_data.sh                       # everything, ~130 GB
+./fetch_data.sh "micro_exp/exp1.tar.zst" "train_data/*"   # or only selected shards
 ```
+
+Where each shard goes (paths relative to `gem5-TAO/`):
+
+| Shard in the dataset | Unpacked into |
+|---|---|
+| `micro_exp/<experiment>.tar.zst`, `micro_exp/_files.tar.zst` | `micro_exp/` |
+| `micro_exp/exp2/exp2.tar.zst.part00..03` (concatenate all 4) | `micro_exp/` |
+| `micro_exp/dse_exp/_rest.tar.zst` | `micro_exp/dse_exp/` |
+| `micro_exp/dse_exp/traces/<benchmark>.tar.zst` | `micro_exp/dse_exp/traces/` |
+| `micro_exp/dse_exp/precompute/*.tar.zst` | `micro_exp/dse_exp/precompute/` |
+| `train_data/*.tar.zst` | `$DATA/` (default `data/`) |
+| `micro_ckpt/<benchmark>.tar.zst` | `$DATA/micro_ckpt/m5out_cpts/` |
+| `code/gem5-TAO-src.tar.zst` | not needed (same code as this directory) |
+
+Files that exist both here and in a shard are identical, so unpacking over the checkout is safe.
+The scripts read training data and checkpoints from `/scratch2/wl730/...`; the script prints how to
+point them at `$DATA` instead.
 
 Not distributed: SPEC CPU2017 binaries, sources and inputs (licensed), build outputs, temporary
 files and third-party projects.
