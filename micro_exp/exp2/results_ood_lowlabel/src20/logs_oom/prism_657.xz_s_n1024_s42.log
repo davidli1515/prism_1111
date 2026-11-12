@@ -1,0 +1,21 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /path/to/gem5/micro_exp/exp2/results_ood_lowlabel/src20/prism/657.xz_s/n1024_s42
+  Target: 657.xz_s | variant=prism | n_shot=1024
+  src_labeled : 41,988
+  src_unlabeled: 167,966
+  tgt_shot    : 1,024
+  tgt_unlabeled: 6,451
+  Train: 217,429 | Src val: 14,046 | Tgt test: 500
+Traceback (most recent call last):
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 480, in main
+    train_loader, val_loader, test_loader = make_loaders(
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 261, in make_loaders
+    loaders = (mk(tr, actual_bs, True, drop),
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 260, in <lambda>
+    mk = lambda a, bs, sh, dl: GPUBatches(a, device, bs, sh, dl)
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 229, in __init__
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 229, in <dictcomp>
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.79 GiB. GPU 2 has a total capacity of 79.25 GiB of which 736.00 MiB is free. Process 2491571 has 38.53 GiB memory in use. Process 2510527 has 7.93 GiB memory in use. Process 2745377 has 7.90 GiB memory in use. Process 2771096 has 7.92 GiB memory in use. Process 2847946 has 7.92 GiB memory in use. Process 2867489 has 7.91 GiB memory in use. Including non-PyTorch memory, this process has 416.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

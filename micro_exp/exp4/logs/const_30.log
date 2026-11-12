@@ -1,0 +1,81 @@
+Device: cuda:2
+Ablation: const_only
+Ratios: ['30%']
+Output: ./results/exp4_const_only
+
+[1/2] Loading benchmarks...
+  Found 17 benchmarks
+    Loading 508.namd_r ... 8000 samples
+    Loading 526.blender_r ... 8000 samples
+    Loading 600.perlbench_s ... 24000 samples
+    Loading 602.gcc_s ... 24000 samples
+    Loading 605.mcf_s ... 8000 samples
+    Loading 607.cactuBSSN_s ... 8000 samples
+    Loading 619.lbm_s ... 24000 samples
+    Loading 620.omnetpp_s ... 8000 samples
+    Loading 621.wrf_s ... 8000 samples
+    Loading 623.xalancbmk_s ... 8000 samples
+    Loading 631.deepsjeng_s ... 8000 samples
+    Loading 638.imagick_s ... 8000 samples
+    Loading 641.leela_s ... 8000 samples
+    Loading 644.nab_s ... 8000 samples
+    Loading 648.exchange2_s ... 8000 samples
+    Loading 654.roms_s ... 8000 samples
+    Loading 657.xz_s ... 7975 samples
+  Total: 183,975 samples across 17 benchmarks
+
+############################################################
+# Labeled: 30%  Ablation: const_only  GPU: 2
+############################################################
+  Labeled ratio: 30%
+  Labeled: 51,742 | Unlabeled: 120,734 | Total train: 172,476
+  Test: 11,499
+
+[2/2] Training...
+  GEM params: 1,234,320
+
+============================================================
+Training GEM Semi-Supervised
+  labeled=30%  ablation=const_only
+============================================================
+  Epoch   1 | L_task=0.032925 L_const=0.513319 L_cself=0.036504 L_mono=0.000000 | Test MAPE=17.06% | lr=1.00e-03 | 20s
+  Epoch  10 | L_task=0.009987 L_const=0.131981 L_cself=0.000317 L_mono=0.000000 | Test MAPE=12.87% | lr=9.97e-04 | 185s
+  Epoch  20 | L_task=0.007850 L_const=0.086651 L_cself=0.000250 L_mono=0.000000 | Test MAPE=10.92% | lr=9.89e-04 | 353s
+  Epoch  30 | L_task=0.006839 L_const=0.071269 L_cself=0.000219 L_mono=0.000000 | Test MAPE=9.27% | lr=9.76e-04 | 518s
+  Epoch  40 | L_task=0.006370 L_const=0.060450 L_cself=0.000204 L_mono=0.000000 | Test MAPE=8.72% | lr=9.57e-04 | 684s
+  Epoch  50 | L_task=0.006020 L_const=0.058716 L_cself=0.000194 L_mono=0.000000 | Test MAPE=8.40% | lr=9.33e-04 | 845s
+  Epoch  60 | L_task=0.005852 L_const=0.056491 L_cself=0.000177 L_mono=0.000000 | Test MAPE=8.51% | lr=9.05e-04 | 1016s
+  Epoch  70 | L_task=0.005768 L_const=0.054552 L_cself=0.000174 L_mono=0.000000 | Test MAPE=8.07% | lr=8.72e-04 | 1183s
+  Epoch  80 | L_task=0.005555 L_const=0.051426 L_cself=0.000164 L_mono=0.000000 | Test MAPE=8.11% | lr=8.35e-04 | 1332s
+  Epoch  90 | L_task=0.005521 L_const=0.048787 L_cself=0.000157 L_mono=0.000000 | Test MAPE=7.93% | lr=7.94e-04 | 1469s
+  Epoch 100 | L_task=0.005449 L_const=0.046747 L_cself=0.000156 L_mono=0.000000 | Test MAPE=7.76% | lr=7.50e-04 | 1597s
+  Epoch 110 | L_task=0.005449 L_const=0.044387 L_cself=0.000151 L_mono=0.000000 | Test MAPE=7.93% | lr=7.03e-04 | 1727s
+  Epoch 120 | L_task=0.005331 L_const=0.042633 L_cself=0.000152 L_mono=0.000000 | Test MAPE=7.44% | lr=6.55e-04 | 1862s
+  Epoch 130 | L_task=0.005279 L_const=0.041670 L_cself=0.000143 L_mono=0.000000 | Test MAPE=8.03% | lr=6.04e-04 | 2007s
+  Early stopping at epoch 137 (best MAPE=7.40%, 2107s)
+  Best test MAPE: 7.40% (total time: 2107s)
+
+Results for labeled=30% ablation=const_only:
+  Overall MAPE: 7.40%
+  Benchmark                 MAPE%
+  --------------------------------
+  508.namd_r               10.36%
+  526.blender_r            10.92%
+  600.perlbench_s          11.02%
+  602.gcc_s                 2.58%
+  605.mcf_s                 5.88%
+  607.cactuBSSN_s           6.04%
+  619.lbm_s                 2.70%
+  620.omnetpp_s             5.64%
+  621.wrf_s                 9.72%
+  623.xalancbmk_s           5.81%
+  631.deepsjeng_s           8.31%
+  638.imagick_s             8.53%
+  641.leela_s               7.93%
+  644.nab_s                 8.25%
+  648.exchange2_s          10.49%
+  654.roms_s                8.03%
+  657.xz_s                 15.39%
+  Result saved to ./results/exp4_const_only/exp4_30pct.json
+
+Done.

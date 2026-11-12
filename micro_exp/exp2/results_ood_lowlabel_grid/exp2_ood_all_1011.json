@@ -1,0 +1,144 @@
+{
+  "description": "Unseen-workload OOD (leave-one-benchmark-out, window-isolated): overall CPI MAPE (%) = mean over 23 held-out benchmarks of target_mape, seed 42, model selected by source-val",
+  "keys": "results[source_label_ratio][method][N]",
+  "source_label_ratio": {
+    "src5": 0.05,
+    "src20": 0.2,
+    "src50": 0.5,
+    "src80": 0.8,
+    "src100": 1.0
+  },
+  "N": [
+    256,
+    1024,
+    2048
+  ],
+  "targets": [
+    "508.namd_r",
+    "526.blender_r",
+    "600.perlbench_s",
+    "602.gcc_s",
+    "605.mcf_s",
+    "607.cactuBSSN_s",
+    "619.lbm_s",
+    "620.omnetpp_s",
+    "621.wrf_s",
+    "623.xalancbmk_s",
+    "631.deepsjeng_s",
+    "638.imagick_s",
+    "641.leela_s",
+    "644.nab_s",
+    "648.exchange2_s",
+    "654.roms_s",
+    "657.xz_s",
+    "brotli",
+    "gumbo",
+    "jsonnet",
+    "re2",
+    "snappy",
+    "wuffs"
+  ],
+  "methods": {
+    "Concorde": "concorde",
+    "PRISM-V2": "supervised (labeled only)",
+    "PRISM": "prism (V3 + BN fix + 40k extra unlabeled, held-out windows removed)"
+  },
+  "lambdas": {
+    "task": 10.0,
+    "const": 1.0,
+    "mono": 0.01,
+    "unlab": 1.0
+  },
+  "loss_norm": "subset",
+  "sources": {
+    "default": "results_ood_lowlabel_grid",
+    "Concorde/PRISM-V2 at src5,src20 & 256<=N<=1024": "results_ood_lowlabel (8 targets: 508.namd_r, 602.gcc_s, 605.mcf_s, 607.cactuBSSN_s, 638.imagick_s, 657.xz_s, re2, snappy) / results_ood_lowlabel23 (other 15)"
+  },
+  "results": {
+    "src5": {
+      "Concorde": {
+        "256": 10.6608,
+        "1024": 8.6703,
+        "2048": 7.6677
+      },
+      "PRISM-V2": {
+        "256": 11.1734,
+        "1024": 9.1105,
+        "2048": 8.0959
+      },
+      "PRISM": {
+        "256": 9.7826,
+        "1024": 7.3635,
+        "2048": 6.2902
+      }
+    },
+    "src20": {
+      "Concorde": {
+        "256": 8.7749,
+        "1024": 6.9221,
+        "2048": 6.2037
+      },
+      "PRISM-V2": {
+        "256": 9.4619,
+        "1024": 7.6487,
+        "2048": 6.9505
+      },
+      "PRISM": {
+        "256": 7.2219,
+        "1024": 5.327,
+        "2048": 4.5981
+      }
+    },
+    "src50": {
+      "Concorde": {
+        "256": 7.1625,
+        "1024": 5.435,
+        "2048": 4.8319
+      },
+      "PRISM-V2": {
+        "256": 7.7717,
+        "1024": 5.9351,
+        "2048": 5.3223
+      },
+      "PRISM": {
+        "256": 6.5833,
+        "1024": 4.8278,
+        "2048": 4.2657
+      }
+    },
+    "src80": {
+      "Concorde": {
+        "256": 6.3335,
+        "1024": 4.742,
+        "2048": 4.238
+      },
+      "PRISM-V2": {
+        "256": 6.8658,
+        "1024": 5.0175,
+        "2048": 4.4242
+      },
+      "PRISM": {
+        "256": 6.6939,
+        "1024": 4.7931,
+        "2048": 4.3145
+      }
+    },
+    "src100": {
+      "Concorde": {
+        "256": 6.1147,
+        "1024": 4.6115,
+        "2048": 4.0862
+      },
+      "PRISM-V2": {
+        "256": 6.4783,
+        "1024": 4.8442,
+        "2048": 4.1847
+      },
+      "PRISM": {
+        "256": 6.8331,
+        "1024": 4.8384,
+        "2048": 4.3024
+      }
+    }
+  }
+}

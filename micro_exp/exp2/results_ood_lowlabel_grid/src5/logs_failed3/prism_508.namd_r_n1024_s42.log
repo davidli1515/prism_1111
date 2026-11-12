@@ -1,0 +1,32 @@
+Device: cuda:1 | Recipe: v77 | Seed: 42 | Out: /path/to/gem5/micro_exp/exp2/results_ood_lowlabel_grid/src5/prism/508.namd_r/n1024_s42
+  Target: 508.namd_r | variant=prism | n_shot=1024
+  src_labeled : 10,492
+  src_unlabeled: 199,437
+  tgt_shot    : 1,024
+  tgt_unlabeled: 6,476
+  src_extra40k: 211,866
+  tgt_extra40k: 15,996
+  extra40k_dropped_heldout: 8,094
+  extra40k_dropped_unknown: 31,257
+  Train: 445,291 | Src val: 14,046 | Tgt test: 500
+  Batch: 50,000 | steps/epoch: 8 | feeding: gpu-resident
+  Data ready in 129s
+  Params: 2,534,160
+
+============================================================
+Training prism — 1521 epochs, steps/epoch=8
+  Milestones=[5110, 7057, 9126, 11194], gamma=0.5
+  Model selection: source val MAPE (target test is report-only)
+============================================================
+Traceback (most recent call last):
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel_extra.py", line 594, in <module>
+    main()
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel_extra.py", line 542, in main
+    model, last_state, best_epoch, history, train_time = train(
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel_extra.py", line 432, in train
+    for b in train_loader:
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel_extra.py", line 285, in __iter__
+    yield {k: v[b] for k, v in self.t.items()}
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel_extra.py", line 285, in <dictcomp>
+    yield {k: v[b] for k, v in self.t.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 894.00 MiB. GPU 1 has a total capacity of 79.25 GiB of which 492.31 MiB is free. Process 4000490 has 11.90 GiB memory in use. Process 4000478 has 11.92 GiB memory in use. Process 4000481 has 11.92 GiB memory in use. Process 4000472 has 11.92 GiB memory in use. Including non-PyTorch memory, this process has 8.56 GiB memory in use. Process 4000487 has 11.90 GiB memory in use. Process 4000475 has 10.62 GiB memory in use. Of the allocated memory 8.07 GiB is allocated by PyTorch, and 15.03 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

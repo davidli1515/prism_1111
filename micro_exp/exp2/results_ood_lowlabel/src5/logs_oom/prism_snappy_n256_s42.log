@@ -1,0 +1,26 @@
+Device: cuda:2 | Recipe: v77 | Seed: 42 | Out: /path/to/gem5/micro_exp/exp2/results_ood_lowlabel/src5/prism/snappy/n256_s42
+  Target: snappy | variant=prism | n_shot=256
+  src_labeled : 10,493
+  src_unlabeled: 199,443
+  tgt_shot    : 256
+  tgt_unlabeled: 7,237
+  Train: 217,429 | Src val: 14,039 | Tgt test: 507
+  Batch: 50,000 | steps/epoch: 4 | feeding: gpu-resident
+  Data ready in 50s
+  Params: 2,534,160
+
+============================================================
+Training prism — 1521 epochs, steps/epoch=4
+  Milestones=[2555, 3528, 4563, 5597], gamma=0.5
+  Model selection: source val MAPE (target test is report-only)
+============================================================
+Traceback (most recent call last):
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 546, in <module>
+    main()
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 495, in main
+    model, last_state, best_epoch, history, train_time = train(
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 393, in train
+    loss, ld = bnfix_step(model, x, b["mscs"].to(device, non_blocking=True),
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lowlabel.py", line 356, in bnfix_step
+    up = model(x[um])
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 848.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 645.31 MiB is free. Process 1475184 has 7.91 GiB memory in use. Process 1544222 has 7.91 GiB memory in use. Process 1554416 has 7.92 GiB memory in use. Process 1555271 has 7.92 GiB memory in use. Process 1562661 has 7.92 GiB memory in use. Process 1624576 has 7.12 GiB memory in use. Process 1763169 has 7.92 GiB memory in use. Process 1836626 has 8.79 GiB memory in use. Process 1887575 has 8.79 GiB memory in use. Including non-PyTorch memory, this process has 6.38 GiB memory in use. Of the allocated memory 5.06 GiB is allocated by PyTorch, and 843.47 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

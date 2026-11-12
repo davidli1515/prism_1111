@@ -1,0 +1,20 @@
+Device: cuda:0 | Recipe: v77 | Seed: 42 | Out: /path/to/gem5/micro_exp/exp2/results_ood_grid4_v2con/concorde/607.cactuBSSN_s/n128_s42
+  Target: 607.cactuBSSN_s | variant=concorde | n_shot=128
+  src_labeled : 209,929
+  tgt_shot    : 128
+  tgt_unlabeled: 0
+  Train: 210,057 | Src val: 14,046 | Tgt test: 500
+Traceback (most recent call last):
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 472, in <module>
+    main()
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 409, in main
+    train_loader, val_loader, test_loader = make_loaders(
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 233, in make_loaders
+    loaders = (mk(tr, actual_bs, True, drop),
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 232, in <lambda>
+    mk = lambda a, bs, sh, dl: GPUBatches(a, device, bs, sh, dl)
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 201, in __init__
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+  File "/path/to/gem5/micro_exp/exp2/train_ood_lambda.py", line 201, in <dictcomp>
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.03 GiB. GPU 0 has a total capacity of 79.25 GiB of which 388.88 MiB is free. Process 900477 has 8.06 GiB memory in use. Process 900473 has 8.06 GiB memory in use. Process 903657 has 7.94 GiB memory in use. Process 1418843 has 8.06 GiB memory in use. Process 1431884 has 5.85 GiB memory in use. Process 1469771 has 6.06 GiB memory in use. Including non-PyTorch memory, this process has 416.00 MiB memory in use. Process 1472809 has 3.47 GiB memory in use. Process 1486426 has 30.94 GiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

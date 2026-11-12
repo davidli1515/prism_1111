@@ -1,0 +1,235 @@
+Device: cuda:1
+Dataset: 18k
+  GEM data:     /data/micro_traindata_packed/gem
+  Concord data: /data/micro_traindata_packed/concord
+Ablation: full
+Ratios: ['15%']
+Output: ./results_run1/exp4_18k
+
+[1/2] Loading benchmarks...
+  Found 23 benchmarks
+    Loading 508.namd_r ... 8000 samples
+    Loading 526.blender_r ... 8000 samples
+    Loading 600.perlbench_s ... 24000 samples
+    Loading 602.gcc_s ... 24000 samples
+    Loading 605.mcf_s ... 8000 samples
+    Loading 607.cactuBSSN_s ... 8000 samples
+    Loading 619.lbm_s ... 24000 samples
+    Loading 620.omnetpp_s ... 8000 samples
+    Loading 621.wrf_s ... 8000 samples
+    Loading 623.xalancbmk_s ... 8000 samples
+    Loading 631.deepsjeng_s ... 8000 samples
+    Loading 638.imagick_s ... 8000 samples
+    Loading 641.leela_s ... 8000 samples
+    Loading 644.nab_s ... 8000 samples
+    Loading 648.exchange2_s ... 8000 samples
+    Loading 654.roms_s ... 8000 samples
+    Loading 657.xz_s ... 7975 samples
+    Loading brotli ... 8000 samples
+    Loading gumbo ... 8000 samples
+    Loading jsonnet ... 8000 samples
+    Loading re2 ... 8000 samples
+    Loading snappy ... 8000 samples
+    Loading wuffs ... 8000 samples
+  Total: 231,975 samples across 23 benchmarks
+
+############################################################
+# Dataset=18k Labeled=15% Ablation=full GPU=1
+############################################################
+  Labeled ratio: 15%
+  Labeled: 32,621 | Unlabeled in train: 184,855 | Train size: 217,476 | Batch: 50,000
+  Test: 14,499
+
+[2/2] Training...
+  GEM arch: 4681 → [512, 256] → 16
+  GEM params: 2,534,160
+  Optimizer: AdamW (lr=0.001, wd=1e-05)
+  Scheduler: MultiStepLR per-step (milestones=[10000, 14000, 18000, 22000], gamma=0.5)
+
+============================================================
+Training GEM — labeled=15%  ablation=full
+  Fixed 1500 epochs (no early stopping)
+============================================================
+  Epoch   1 | L_task=0.081989 L_const=181.713316 L_cself=532.159077 L_mono=6.285410 | Test MAPE=50.51% best=50.51% | lr=1.00e-03 step=4 | 13s
+  Epoch  10 | L_task=0.013629 L_const=0.239092 L_cself=0.022047 L_mono=5.713264 | Test MAPE=23.46% best=23.46% | lr=1.00e-03 step=40 | 103s
+  Epoch  20 | L_task=0.009096 L_const=0.175175 L_cself=0.013666 L_mono=5.640120 | Test MAPE=16.40% best=15.83% | lr=1.00e-03 step=80 | 200s
+  Epoch  30 | L_task=0.006916 L_const=0.143221 L_cself=0.002868 L_mono=5.611668 | Test MAPE=13.77% best=13.69% | lr=1.00e-03 step=120 | 299s
+  Epoch  40 | L_task=0.005908 L_const=0.133939 L_cself=0.001300 L_mono=5.594628 | Test MAPE=12.27% best=12.27% | lr=1.00e-03 step=160 | 399s
+  Epoch  50 | L_task=0.005515 L_const=0.125924 L_cself=0.000823 L_mono=5.584533 | Test MAPE=11.80% best=11.49% | lr=1.00e-03 step=200 | 498s
+  Epoch  60 | L_task=0.005045 L_const=0.117259 L_cself=0.000757 L_mono=5.578391 | Test MAPE=11.63% best=10.98% | lr=1.00e-03 step=240 | 597s
+  Epoch  70 | L_task=0.005194 L_const=0.131270 L_cself=0.002171 L_mono=5.577114 | Test MAPE=12.51% best=10.98% | lr=1.00e-03 step=280 | 691s
+  Epoch  80 | L_task=0.004808 L_const=0.113638 L_cself=0.001031 L_mono=5.572720 | Test MAPE=11.76% best=10.87% | lr=1.00e-03 step=320 | 790s
+  Epoch  90 | L_task=0.004513 L_const=0.105804 L_cself=0.000580 L_mono=5.569199 | Test MAPE=10.90% best=10.48% | lr=1.00e-03 step=360 | 889s
+  Epoch 100 | L_task=0.004428 L_const=0.105265 L_cself=0.000544 L_mono=5.565266 | Test MAPE=10.38% best=9.89% | lr=1.00e-03 step=400 | 992s
+  Epoch 110 | L_task=0.004521 L_const=0.116004 L_cself=0.002376 L_mono=5.563923 | Test MAPE=11.67% best=9.78% | lr=1.00e-03 step=440 | 1088s
+  Epoch 120 | L_task=0.004396 L_const=0.104619 L_cself=0.001765 L_mono=5.564297 | Test MAPE=9.99% best=9.78% | lr=1.00e-03 step=480 | 1189s
+  Epoch 130 | L_task=0.004248 L_const=0.102524 L_cself=0.001088 L_mono=5.562266 | Test MAPE=9.78% best=9.70% | lr=1.00e-03 step=520 | 1287s
+  Epoch 140 | L_task=0.004196 L_const=0.104275 L_cself=0.001079 L_mono=5.563271 | Test MAPE=10.45% best=9.60% | lr=1.00e-03 step=560 | 1388s
+  Epoch 150 | L_task=0.004374 L_const=0.109591 L_cself=0.003841 L_mono=5.562657 | Test MAPE=10.71% best=9.60% | lr=1.00e-03 step=600 | 1489s
+  Epoch 160 | L_task=0.004049 L_const=0.096936 L_cself=0.001457 L_mono=5.561477 | Test MAPE=10.18% best=9.02% | lr=1.00e-03 step=640 | 1590s
+  Epoch 170 | L_task=0.004029 L_const=0.093776 L_cself=0.000608 L_mono=5.558280 | Test MAPE=10.15% best=9.02% | lr=1.00e-03 step=680 | 1689s
+  Epoch 180 | L_task=0.004045 L_const=0.099618 L_cself=0.001822 L_mono=5.556413 | Test MAPE=10.77% best=8.88% | lr=1.00e-03 step=720 | 1789s
+  Epoch 190 | L_task=0.004017 L_const=0.091394 L_cself=0.000647 L_mono=5.558956 | Test MAPE=9.49% best=8.88% | lr=1.00e-03 step=760 | 1885s
+  Epoch 200 | L_task=0.003835 L_const=0.088961 L_cself=0.000776 L_mono=5.557228 | Test MAPE=9.82% best=8.55% | lr=1.00e-03 step=800 | 1986s
+  Epoch 210 | L_task=0.003777 L_const=0.085262 L_cself=0.000560 L_mono=5.555022 | Test MAPE=9.09% best=8.51% | lr=1.00e-03 step=840 | 2086s
+  Epoch 220 | L_task=0.003728 L_const=0.081986 L_cself=0.000368 L_mono=5.554107 | Test MAPE=8.49% best=8.45% | lr=1.00e-03 step=880 | 2182s
+  Epoch 230 | L_task=0.003933 L_const=0.091453 L_cself=0.000476 L_mono=5.554538 | Test MAPE=8.95% best=8.45% | lr=1.00e-03 step=920 | 2279s
+  Epoch 240 | L_task=0.003706 L_const=0.082112 L_cself=0.000763 L_mono=5.554305 | Test MAPE=8.16% best=8.05% | lr=1.00e-03 step=960 | 2380s
+  Epoch 250 | L_task=0.003637 L_const=0.077671 L_cself=0.000440 L_mono=5.552956 | Test MAPE=8.43% best=7.98% | lr=1.00e-03 step=1000 | 2476s
+  Epoch 260 | L_task=0.003598 L_const=0.076860 L_cself=0.001532 L_mono=5.551810 | Test MAPE=8.33% best=7.91% | lr=1.00e-03 step=1040 | 2573s
+  Epoch 270 | L_task=0.003619 L_const=0.077148 L_cself=0.000924 L_mono=5.552575 | Test MAPE=8.01% best=7.91% | lr=1.00e-03 step=1080 | 2669s
+  Epoch 280 | L_task=0.003578 L_const=0.077583 L_cself=0.000868 L_mono=5.551410 | Test MAPE=8.74% best=7.91% | lr=1.00e-03 step=1120 | 2764s
+  Epoch 290 | L_task=0.003554 L_const=0.076305 L_cself=0.000652 L_mono=5.550918 | Test MAPE=8.53% best=7.91% | lr=1.00e-03 step=1160 | 2860s
+  Epoch 300 | L_task=0.003507 L_const=0.072318 L_cself=0.000484 L_mono=5.551443 | Test MAPE=7.90% best=7.80% | lr=1.00e-03 step=1200 | 2959s
+  Epoch 310 | L_task=0.003552 L_const=0.073536 L_cself=0.001639 L_mono=5.551092 | Test MAPE=7.76% best=7.53% | lr=1.00e-03 step=1240 | 3058s
+  Epoch 320 | L_task=0.003484 L_const=0.069465 L_cself=0.001550 L_mono=5.550644 | Test MAPE=7.72% best=7.46% | lr=1.00e-03 step=1280 | 3156s
+  Epoch 330 | L_task=0.003465 L_const=0.071907 L_cself=0.001017 L_mono=5.551358 | Test MAPE=8.19% best=7.35% | lr=1.00e-03 step=1320 | 3249s
+  Epoch 340 | L_task=0.003558 L_const=0.074684 L_cself=0.001233 L_mono=5.551153 | Test MAPE=8.92% best=7.35% | lr=1.00e-03 step=1360 | 3348s
+  Epoch 350 | L_task=0.003448 L_const=0.070743 L_cself=0.000608 L_mono=5.549815 | Test MAPE=7.76% best=7.35% | lr=1.00e-03 step=1400 | 3444s
+  Epoch 360 | L_task=0.003437 L_const=0.071202 L_cself=0.000468 L_mono=5.549319 | Test MAPE=8.28% best=7.35% | lr=1.00e-03 step=1440 | 3542s
+  Epoch 370 | L_task=0.003398 L_const=0.069483 L_cself=0.000447 L_mono=5.548973 | Test MAPE=8.23% best=7.35% | lr=1.00e-03 step=1480 | 3638s
+  Epoch 380 | L_task=0.003464 L_const=0.072159 L_cself=0.000280 L_mono=5.549573 | Test MAPE=8.39% best=7.35% | lr=1.00e-03 step=1520 | 3738s
+  Epoch 390 | L_task=0.003379 L_const=0.068852 L_cself=0.000382 L_mono=5.548396 | Test MAPE=7.41% best=7.35% | lr=1.00e-03 step=1560 | 3838s
+  Epoch 400 | L_task=0.003388 L_const=0.074718 L_cself=0.000307 L_mono=5.548368 | Test MAPE=7.95% best=7.25% | lr=1.00e-03 step=1600 | 3936s
+  Epoch 410 | L_task=0.003392 L_const=0.066923 L_cself=0.000393 L_mono=5.547936 | Test MAPE=7.45% best=7.25% | lr=1.00e-03 step=1640 | 4035s
+  Epoch 420 | L_task=0.003379 L_const=0.068022 L_cself=0.000322 L_mono=5.547028 | Test MAPE=7.45% best=7.25% | lr=1.00e-03 step=1680 | 4132s
+  Epoch 430 | L_task=0.003283 L_const=0.063626 L_cself=0.000325 L_mono=5.547906 | Test MAPE=7.15% best=7.09% | lr=1.00e-03 step=1720 | 4229s
+  Epoch 440 | L_task=0.003320 L_const=0.065362 L_cself=0.000346 L_mono=5.546666 | Test MAPE=7.42% best=6.93% | lr=1.00e-03 step=1760 | 4329s
+  Epoch 450 | L_task=0.003280 L_const=0.066594 L_cself=0.000270 L_mono=5.546887 | Test MAPE=7.22% best=6.93% | lr=1.00e-03 step=1800 | 4430s
+  Epoch 460 | L_task=0.003324 L_const=0.065668 L_cself=0.000561 L_mono=5.547372 | Test MAPE=8.06% best=6.93% | lr=1.00e-03 step=1840 | 4527s
+  Epoch 470 | L_task=0.003266 L_const=0.062408 L_cself=0.000754 L_mono=5.545475 | Test MAPE=7.31% best=6.93% | lr=1.00e-03 step=1880 | 4623s
+  Epoch 480 | L_task=0.003283 L_const=0.062946 L_cself=0.000474 L_mono=5.547355 | Test MAPE=7.55% best=6.93% | lr=1.00e-03 step=1920 | 4720s
+  Epoch 490 | L_task=0.003226 L_const=0.060405 L_cself=0.000386 L_mono=5.546223 | Test MAPE=7.36% best=6.88% | lr=1.00e-03 step=1960 | 4822s
+  Epoch 500 | L_task=0.003235 L_const=0.060086 L_cself=0.000362 L_mono=5.545672 | Test MAPE=7.23% best=6.88% | lr=1.00e-03 step=2000 | 4920s
+  Epoch 510 | L_task=0.003259 L_const=0.063034 L_cself=0.000272 L_mono=5.544704 | Test MAPE=7.47% best=6.88% | lr=1.00e-03 step=2040 | 5019s
+  Epoch 520 | L_task=0.003181 L_const=0.059106 L_cself=0.000268 L_mono=5.544531 | Test MAPE=6.69% best=6.69% | lr=1.00e-03 step=2080 | 5120s
+  Epoch 530 | L_task=0.003231 L_const=0.058924 L_cself=0.000248 L_mono=5.544525 | Test MAPE=7.35% best=6.69% | lr=1.00e-03 step=2120 | 5215s
+  Epoch 540 | L_task=0.003217 L_const=0.059667 L_cself=0.000227 L_mono=5.543953 | Test MAPE=7.03% best=6.69% | lr=1.00e-03 step=2160 | 5315s
+  Epoch 550 | L_task=0.003187 L_const=0.057604 L_cself=0.000218 L_mono=5.544094 | Test MAPE=6.87% best=6.68% | lr=1.00e-03 step=2200 | 5414s
+  Epoch 560 | L_task=0.003220 L_const=0.059411 L_cself=0.000246 L_mono=5.543518 | Test MAPE=7.03% best=6.68% | lr=1.00e-03 step=2240 | 5507s
+  Epoch 570 | L_task=0.003217 L_const=0.056349 L_cself=0.000500 L_mono=5.542522 | Test MAPE=6.88% best=6.68% | lr=1.00e-03 step=2280 | 5603s
+  Epoch 580 | L_task=0.003194 L_const=0.057848 L_cself=0.000293 L_mono=5.542023 | Test MAPE=7.14% best=6.68% | lr=1.00e-03 step=2320 | 5706s
+  Epoch 590 | L_task=0.003226 L_const=0.059486 L_cself=0.000220 L_mono=5.541248 | Test MAPE=7.34% best=6.59% | lr=1.00e-03 step=2360 | 5806s
+  Epoch 600 | L_task=0.003171 L_const=0.055975 L_cself=0.000549 L_mono=5.541879 | Test MAPE=7.08% best=6.59% | lr=1.00e-03 step=2400 | 5909s
+  Epoch 610 | L_task=0.003162 L_const=0.059818 L_cself=0.001367 L_mono=5.540620 | Test MAPE=7.65% best=6.59% | lr=1.00e-03 step=2440 | 6008s
+  Epoch 620 | L_task=0.003133 L_const=0.055659 L_cself=0.000501 L_mono=5.541504 | Test MAPE=6.75% best=6.59% | lr=1.00e-03 step=2480 | 6104s
+  Epoch 630 | L_task=0.003315 L_const=0.063857 L_cself=0.001696 L_mono=5.539196 | Test MAPE=7.53% best=6.59% | lr=1.00e-03 step=2520 | 6203s
+  Epoch 640 | L_task=0.003183 L_const=0.053866 L_cself=0.001403 L_mono=5.540069 | Test MAPE=6.66% best=6.59% | lr=1.00e-03 step=2560 | 6300s
+  Epoch 650 | L_task=0.003183 L_const=0.059795 L_cself=0.001560 L_mono=5.541102 | Test MAPE=7.33% best=6.58% | lr=1.00e-03 step=2600 | 6395s
+  Epoch 660 | L_task=0.003211 L_const=0.056055 L_cself=0.001043 L_mono=5.538878 | Test MAPE=7.26% best=6.58% | lr=1.00e-03 step=2640 | 6492s
+  Epoch 670 | L_task=0.003131 L_const=0.053768 L_cself=0.000963 L_mono=5.539232 | Test MAPE=7.39% best=6.58% | lr=1.00e-03 step=2680 | 6592s
+  Epoch 680 | L_task=0.003165 L_const=0.056413 L_cself=0.000448 L_mono=5.539262 | Test MAPE=7.20% best=6.58% | lr=1.00e-03 step=2720 | 6692s
+  Epoch 690 | L_task=0.003139 L_const=0.053490 L_cself=0.000461 L_mono=5.539364 | Test MAPE=6.99% best=6.54% | lr=1.00e-03 step=2760 | 6794s
+  Epoch 700 | L_task=0.003156 L_const=0.053911 L_cself=0.000404 L_mono=5.538249 | Test MAPE=6.95% best=6.48% | lr=1.00e-03 step=2800 | 6888s
+  Epoch 710 | L_task=0.003148 L_const=0.053343 L_cself=0.000315 L_mono=5.538899 | Test MAPE=7.26% best=6.48% | lr=1.00e-03 step=2840 | 6978s
+  Epoch 720 | L_task=0.003115 L_const=0.053167 L_cself=0.000727 L_mono=5.537663 | Test MAPE=6.57% best=6.45% | lr=1.00e-03 step=2880 | 7067s
+  Epoch 730 | L_task=0.003128 L_const=0.052621 L_cself=0.000423 L_mono=5.537303 | Test MAPE=6.82% best=6.45% | lr=1.00e-03 step=2920 | 7157s
+  Epoch 740 | L_task=0.003167 L_const=0.051972 L_cself=0.001825 L_mono=5.536799 | Test MAPE=6.81% best=6.45% | lr=1.00e-03 step=2960 | 7250s
+  Epoch 750 | L_task=0.003184 L_const=0.056653 L_cself=0.000801 L_mono=5.537675 | Test MAPE=7.54% best=6.36% | lr=1.00e-03 step=3000 | 7340s
+  Epoch 760 | L_task=0.003169 L_const=0.051518 L_cself=0.001794 L_mono=5.535592 | Test MAPE=6.61% best=6.36% | lr=1.00e-03 step=3040 | 7428s
+  Epoch 770 | L_task=0.003123 L_const=0.051124 L_cself=0.001508 L_mono=5.536347 | Test MAPE=6.84% best=6.36% | lr=1.00e-03 step=3080 | 7517s
+  Epoch 780 | L_task=0.003115 L_const=0.052261 L_cself=0.000608 L_mono=5.536640 | Test MAPE=6.83% best=6.36% | lr=1.00e-03 step=3120 | 7607s
+  Epoch 790 | L_task=0.003232 L_const=0.055915 L_cself=0.001353 L_mono=5.536381 | Test MAPE=7.21% best=6.36% | lr=1.00e-03 step=3160 | 7701s
+  Epoch 800 | L_task=0.003137 L_const=0.051277 L_cself=0.001437 L_mono=5.534677 | Test MAPE=6.85% best=6.36% | lr=1.00e-03 step=3200 | 7793s
+  Epoch 810 | L_task=0.003085 L_const=0.049006 L_cself=0.001686 L_mono=5.535632 | Test MAPE=6.62% best=6.36% | lr=1.00e-03 step=3240 | 7880s
+  Epoch 820 | L_task=0.003108 L_const=0.052236 L_cself=0.001533 L_mono=5.535063 | Test MAPE=6.59% best=6.36% | lr=1.00e-03 step=3280 | 7971s
+  Epoch 830 | L_task=0.003103 L_const=0.048753 L_cself=0.001396 L_mono=5.534567 | Test MAPE=6.61% best=6.33% | lr=1.00e-03 step=3320 | 8066s
+  Epoch 840 | L_task=0.003161 L_const=0.054846 L_cself=0.000241 L_mono=5.535559 | Test MAPE=6.91% best=6.33% | lr=1.00e-03 step=3360 | 8157s
+  Epoch 850 | L_task=0.003083 L_const=0.050027 L_cself=0.000245 L_mono=5.534968 | Test MAPE=6.73% best=6.33% | lr=1.00e-03 step=3400 | 8245s
+  Epoch 860 | L_task=0.003087 L_const=0.050560 L_cself=0.000234 L_mono=5.535201 | Test MAPE=6.71% best=6.33% | lr=1.00e-03 step=3440 | 8336s
+  Epoch 870 | L_task=0.003143 L_const=0.052496 L_cself=0.000287 L_mono=5.535094 | Test MAPE=7.29% best=6.33% | lr=1.00e-03 step=3480 | 8428s
+  Epoch 880 | L_task=0.003073 L_const=0.051041 L_cself=0.000185 L_mono=5.533758 | Test MAPE=6.78% best=6.33% | lr=1.00e-03 step=3520 | 8516s
+  Epoch 890 | L_task=0.003093 L_const=0.049240 L_cself=0.000235 L_mono=5.534374 | Test MAPE=6.72% best=6.33% | lr=1.00e-03 step=3560 | 8609s
+  Epoch 900 | L_task=0.003086 L_const=0.048288 L_cself=0.000195 L_mono=5.533653 | Test MAPE=6.38% best=6.33% | lr=1.00e-03 step=3600 | 8701s
+  Epoch 910 | L_task=0.003118 L_const=0.050666 L_cself=0.000361 L_mono=5.534154 | Test MAPE=6.52% best=6.33% | lr=1.00e-03 step=3640 | 8791s
+  Epoch 920 | L_task=0.003110 L_const=0.049195 L_cself=0.000190 L_mono=5.532401 | Test MAPE=6.64% best=6.33% | lr=1.00e-03 step=3680 | 8887s
+  Epoch 930 | L_task=0.003065 L_const=0.048096 L_cself=0.000187 L_mono=5.533004 | Test MAPE=6.79% best=6.33% | lr=1.00e-03 step=3720 | 8976s
+  Epoch 940 | L_task=0.003097 L_const=0.048291 L_cself=0.000220 L_mono=5.532806 | Test MAPE=6.26% best=6.26% | lr=1.00e-03 step=3760 | 9068s
+  Epoch 950 | L_task=0.003114 L_const=0.049665 L_cself=0.000194 L_mono=5.532158 | Test MAPE=6.89% best=6.26% | lr=1.00e-03 step=3800 | 9162s
+  Epoch 960 | L_task=0.003072 L_const=0.047859 L_cself=0.000351 L_mono=5.532497 | Test MAPE=6.37% best=6.26% | lr=1.00e-03 step=3840 | 9250s
+  Epoch 970 | L_task=0.003055 L_const=0.047400 L_cself=0.000206 L_mono=5.531895 | Test MAPE=6.51% best=6.26% | lr=1.00e-03 step=3880 | 9337s
+  Epoch 980 | L_task=0.003087 L_const=0.047572 L_cself=0.000185 L_mono=5.531732 | Test MAPE=6.47% best=6.26% | lr=1.00e-03 step=3920 | 9425s
+  Epoch 990 | L_task=0.003090 L_const=0.046811 L_cself=0.000252 L_mono=5.531599 | Test MAPE=6.44% best=6.26% | lr=1.00e-03 step=3960 | 9516s
+  Epoch 1000 | L_task=0.003074 L_const=0.048360 L_cself=0.000262 L_mono=5.531794 | Test MAPE=6.50% best=6.26% | lr=1.00e-03 step=4000 | 9609s
+  Epoch 1010 | L_task=0.003047 L_const=0.046669 L_cself=0.000188 L_mono=5.530785 | Test MAPE=6.64% best=6.26% | lr=1.00e-03 step=4040 | 9702s
+  Epoch 1020 | L_task=0.003067 L_const=0.047715 L_cself=0.000175 L_mono=5.530744 | Test MAPE=6.26% best=6.18% | lr=1.00e-03 step=4080 | 9789s
+  Epoch 1030 | L_task=0.003030 L_const=0.046710 L_cself=0.000192 L_mono=5.531262 | Test MAPE=6.44% best=6.18% | lr=1.00e-03 step=4120 | 9881s
+  Epoch 1040 | L_task=0.003113 L_const=0.050974 L_cself=0.000762 L_mono=5.529998 | Test MAPE=7.70% best=6.18% | lr=1.00e-03 step=4160 | 9970s
+  Epoch 1050 | L_task=0.003084 L_const=0.046907 L_cself=0.000762 L_mono=5.530181 | Test MAPE=6.63% best=6.17% | lr=1.00e-03 step=4200 | 10061s
+  Epoch 1060 | L_task=0.003049 L_const=0.044445 L_cself=0.000219 L_mono=5.530204 | Test MAPE=6.16% best=6.16% | lr=1.00e-03 step=4240 | 10152s
+  Epoch 1070 | L_task=0.003063 L_const=0.046366 L_cself=0.000287 L_mono=5.530484 | Test MAPE=6.50% best=6.15% | lr=1.00e-03 step=4280 | 10248s
+  Epoch 1080 | L_task=0.003099 L_const=0.049955 L_cself=0.002059 L_mono=5.529553 | Test MAPE=7.43% best=6.15% | lr=1.00e-03 step=4320 | 10342s
+  Epoch 1090 | L_task=0.003318 L_const=0.097293 L_cself=0.002041 L_mono=5.532222 | Test MAPE=9.56% best=6.15% | lr=1.00e-03 step=4360 | 10435s
+  Epoch 1100 | L_task=0.003075 L_const=0.047932 L_cself=0.001286 L_mono=5.529559 | Test MAPE=6.68% best=6.15% | lr=1.00e-03 step=4400 | 10526s
+  Epoch 1110 | L_task=0.003118 L_const=0.061501 L_cself=0.002243 L_mono=5.530335 | Test MAPE=8.28% best=6.15% | lr=1.00e-03 step=4440 | 10619s
+  Epoch 1120 | L_task=0.003022 L_const=0.045224 L_cself=0.000505 L_mono=5.530474 | Test MAPE=6.44% best=6.15% | lr=1.00e-03 step=4480 | 10709s
+  Epoch 1130 | L_task=0.003125 L_const=0.050804 L_cself=0.001199 L_mono=5.529086 | Test MAPE=7.21% best=6.15% | lr=1.00e-03 step=4520 | 10802s
+  Epoch 1140 | L_task=0.003037 L_const=0.046557 L_cself=0.000212 L_mono=5.529806 | Test MAPE=6.53% best=6.15% | lr=1.00e-03 step=4560 | 10891s
+  Epoch 1150 | L_task=0.003065 L_const=0.043455 L_cself=0.001126 L_mono=5.528767 | Test MAPE=6.41% best=6.11% | lr=1.00e-03 step=4600 | 10983s
+  Epoch 1160 | L_task=0.003078 L_const=0.052755 L_cself=0.000543 L_mono=5.530369 | Test MAPE=6.84% best=6.11% | lr=1.00e-03 step=4640 | 11072s
+  Epoch 1170 | L_task=0.003046 L_const=0.043829 L_cself=0.000434 L_mono=5.528750 | Test MAPE=6.22% best=6.11% | lr=1.00e-03 step=4680 | 11164s
+  Epoch 1180 | L_task=0.003228 L_const=0.057067 L_cself=0.001978 L_mono=5.528584 | Test MAPE=6.88% best=6.11% | lr=1.00e-03 step=4720 | 11258s
+  Epoch 1190 | L_task=0.003045 L_const=0.045320 L_cself=0.000202 L_mono=5.528534 | Test MAPE=6.29% best=6.11% | lr=1.00e-03 step=4760 | 11357s
+  Epoch 1200 | L_task=0.003052 L_const=0.045171 L_cself=0.000684 L_mono=5.528887 | Test MAPE=6.40% best=6.11% | lr=1.00e-03 step=4800 | 11454s
+  Epoch 1210 | L_task=0.003039 L_const=0.043438 L_cself=0.000341 L_mono=5.528785 | Test MAPE=6.59% best=6.11% | lr=1.00e-03 step=4840 | 11546s
+  Epoch 1220 | L_task=0.003027 L_const=0.043671 L_cself=0.001064 L_mono=5.528431 | Test MAPE=6.25% best=6.11% | lr=1.00e-03 step=4880 | 11648s
+  Epoch 1230 | L_task=0.002994 L_const=0.043650 L_cself=0.001063 L_mono=5.528761 | Test MAPE=6.36% best=6.11% | lr=1.00e-03 step=4920 | 11744s
+  Epoch 1240 | L_task=0.003047 L_const=0.044136 L_cself=0.001230 L_mono=5.528471 | Test MAPE=6.52% best=6.11% | lr=1.00e-03 step=4960 | 11834s
+  Epoch 1250 | L_task=0.003012 L_const=0.040753 L_cself=0.001861 L_mono=5.528277 | Test MAPE=6.04% best=6.04% | lr=1.00e-03 step=5000 | 11927s
+  Epoch 1260 | L_task=0.002993 L_const=0.041946 L_cself=0.001632 L_mono=5.528505 | Test MAPE=6.00% best=6.00% | lr=1.00e-03 step=5040 | 12015s
+  Epoch 1270 | L_task=0.003026 L_const=0.041830 L_cself=0.001409 L_mono=5.527636 | Test MAPE=6.08% best=6.00% | lr=1.00e-03 step=5080 | 12106s
+  Epoch 1280 | L_task=0.003007 L_const=0.044182 L_cself=0.001118 L_mono=5.528262 | Test MAPE=6.35% best=6.00% | lr=1.00e-03 step=5120 | 12194s
+  Epoch 1290 | L_task=0.003037 L_const=0.050240 L_cself=0.001393 L_mono=5.528113 | Test MAPE=6.68% best=6.00% | lr=1.00e-03 step=5160 | 12284s
+  Epoch 1300 | L_task=0.003035 L_const=0.046488 L_cself=0.000218 L_mono=5.528545 | Test MAPE=6.37% best=6.00% | lr=1.00e-03 step=5200 | 12373s
+  Epoch 1310 | L_task=0.003015 L_const=0.044084 L_cself=0.000172 L_mono=5.528373 | Test MAPE=6.35% best=6.00% | lr=1.00e-03 step=5240 | 12464s
+  Epoch 1320 | L_task=0.003016 L_const=0.044137 L_cself=0.000292 L_mono=5.527539 | Test MAPE=6.17% best=6.00% | lr=1.00e-03 step=5280 | 12556s
+  Epoch 1330 | L_task=0.003016 L_const=0.043763 L_cself=0.000398 L_mono=5.527662 | Test MAPE=6.56% best=6.00% | lr=1.00e-03 step=5320 | 12645s
+  Epoch 1340 | L_task=0.003063 L_const=0.044176 L_cself=0.000268 L_mono=5.527165 | Test MAPE=6.19% best=6.00% | lr=1.00e-03 step=5360 | 12741s
+  Epoch 1350 | L_task=0.003014 L_const=0.043457 L_cself=0.000198 L_mono=5.527313 | Test MAPE=6.50% best=6.00% | lr=1.00e-03 step=5400 | 12834s
+  Epoch 1360 | L_task=0.002977 L_const=0.044511 L_cself=0.000225 L_mono=5.527408 | Test MAPE=6.89% best=6.00% | lr=1.00e-03 step=5440 | 12926s
+  Epoch 1370 | L_task=0.003011 L_const=0.043469 L_cself=0.000191 L_mono=5.527500 | Test MAPE=6.49% best=6.00% | lr=1.00e-03 step=5480 | 13019s
+  Epoch 1380 | L_task=0.003045 L_const=0.044255 L_cself=0.000438 L_mono=5.527185 | Test MAPE=6.34% best=6.00% | lr=1.00e-03 step=5520 | 13112s
+  Epoch 1390 | L_task=0.002986 L_const=0.042832 L_cself=0.000191 L_mono=5.526790 | Test MAPE=6.24% best=6.00% | lr=1.00e-03 step=5560 | 13201s
+  Epoch 1400 | L_task=0.002978 L_const=0.041822 L_cself=0.000295 L_mono=5.526940 | Test MAPE=6.23% best=6.00% | lr=1.00e-03 step=5600 | 13291s
+  Epoch 1410 | L_task=0.003056 L_const=0.041898 L_cself=0.000435 L_mono=5.526326 | Test MAPE=6.23% best=6.00% | lr=1.00e-03 step=5640 | 13390s
+  Epoch 1420 | L_task=0.003012 L_const=0.042070 L_cself=0.000291 L_mono=5.526728 | Test MAPE=6.07% best=6.00% | lr=1.00e-03 step=5680 | 13489s
+  Epoch 1430 | L_task=0.003012 L_const=0.041555 L_cself=0.000170 L_mono=5.526314 | Test MAPE=6.13% best=6.00% | lr=1.00e-03 step=5720 | 13579s
+  Epoch 1440 | L_task=0.002982 L_const=0.041443 L_cself=0.000291 L_mono=5.526786 | Test MAPE=6.20% best=6.00% | lr=1.00e-03 step=5760 | 13668s
+  Epoch 1450 | L_task=0.003000 L_const=0.041625 L_cself=0.000249 L_mono=5.526411 | Test MAPE=6.43% best=6.00% | lr=1.00e-03 step=5800 | 13760s
+  Epoch 1460 | L_task=0.002965 L_const=0.041224 L_cself=0.000219 L_mono=5.525902 | Test MAPE=6.16% best=6.00% | lr=1.00e-03 step=5840 | 13849s
+  Epoch 1470 | L_task=0.003024 L_const=0.041676 L_cself=0.000300 L_mono=5.526466 | Test MAPE=6.13% best=5.95% | lr=1.00e-03 step=5880 | 13938s
+  Epoch 1480 | L_task=0.003023 L_const=0.043400 L_cself=0.001128 L_mono=5.526426 | Test MAPE=6.03% best=5.95% | lr=1.00e-03 step=5920 | 14030s
+  Epoch 1490 | L_task=0.003008 L_const=0.040737 L_cself=0.000541 L_mono=5.526254 | Test MAPE=6.38% best=5.95% | lr=1.00e-03 step=5960 | 14121s
+  Epoch 1500 | L_task=0.003052 L_const=0.056797 L_cself=0.001948 L_mono=5.528599 | Test MAPE=7.85% best=5.95% | lr=1.00e-03 step=6000 | 14207s
+  Best test MAPE: 5.95% (total time: 14207s)
+
+Results for dataset=18k labeled=15% ablation=full:
+  Overall MAPE: 5.95%
+  Benchmark                 MAPE%
+  --------------------------------
+  508.namd_r                7.76%
+  526.blender_r             9.03%
+  600.perlbench_s           7.53%
+  602.gcc_s                 2.19%
+  605.mcf_s                 4.44%
+  607.cactuBSSN_s           7.35%
+  619.lbm_s                 2.69%
+  620.omnetpp_s             5.38%
+  621.wrf_s                 7.87%
+  623.xalancbmk_s           6.05%
+  631.deepsjeng_s           6.32%
+  638.imagick_s             3.99%
+  641.leela_s               5.78%
+  644.nab_s                 6.53%
+  648.exchange2_s           5.90%
+  654.roms_s                7.62%
+  657.xz_s                  8.45%
+  brotli                    8.19%
+  gumbo                     8.81%
+  jsonnet                   7.66%
+  re2                       7.46%
+  snappy                    6.50%
+  wuffs                     4.13%
+  Result saved to ./results_run1/exp4_18k/exp4_15pct.json
+
+Done.

@@ -1,0 +1,20 @@
+Device: cuda:0 | Recipe: v77 | Seed: 42 | Out: /path/to/gem5/micro_exp/exp2/results_ood_grid4_v3bnfix/prism/600.perlbench_s/n128_s42
+  Target: 600.perlbench_s | variant=prism | n_shot=128
+  src_labeled : 194,929
+  tgt_shot    : 128
+  tgt_unlabeled: 22,372
+  Train: 217,429 | Src val: 13,046 | Tgt test: 1,500
+Traceback (most recent call last):
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 526, in <module>
+    main()
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 461, in main
+    train_loader, val_loader, test_loader = make_loaders(
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 244, in make_loaders
+    loaders = (mk(tr, actual_bs, True, drop),
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 243, in <lambda>
+    mk = lambda a, bs, sh, dl: GPUBatches(a, device, bs, sh, dl)
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 212, in __init__
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+  File "/path/to/gem5/micro_exp/exp2/train_ood_bnfix.py", line 212, in <dictcomp>
+    self.t = {k: torch.from_numpy(v).to(device) for k, v in arrays.items()}
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.79 GiB. GPU 0 has a total capacity of 79.25 GiB of which 975.25 MiB is free. Process 669137 has 7.06 GiB memory in use. Process 670954 has 7.06 GiB memory in use. Process 770352 has 7.06 GiB memory in use. Process 772288 has 7.06 GiB memory in use. Process 806697 has 522.00 MiB memory in use. Process 844548 has 8.06 GiB memory in use. Process 851399 has 32.58 GiB memory in use. Process 871258 has 8.06 GiB memory in use. Process 885444 has 416.00 MiB memory in use. Including non-PyTorch memory, this process has 416.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
