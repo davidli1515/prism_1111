@@ -1,0 +1,98 @@
+states pooled: 337396; elbow k = 6 (inertia 615, 466, 347, 249, 183, 148, 124, 105, 92, 78, 69, 62, 56)
+
+(a) bottleneck states (centroid composition of stall cycles, %):
+         D-FP   D-BP   D-SP   C-FP   C-BP   C-SP
+  S0:C-BP+D-FP             43.5    5.6    0.9    0.5   49.4    0.1
+  S1:C-BP+D-FP+D-BP        28.9   18.5    2.4    1.1   48.8    0.3
+  S2:C-BP+D-FP             36.3   11.5    2.2    1.2   48.5    0.3
+  S3:C-BP+D-BP+D-FP        22.2   23.6    4.1    2.6   47.2    0.3
+  S4:C-BP+D-FP+D-BP        26.0   15.8    8.2    4.7   44.6    0.7
+  S5:D-FP+C-FP+C-BP        42.6    5.5    1.8   29.5   20.4    0.1
+
+(b) share of states in each bottleneck state  [all states | walk starts | walk ends]
+  bench               S0    S1    S2    S3    S4    S5
+  namd_r     all       1    52    14    33     0     0
+  namd_r     start     8    13    79     0     0     0
+  namd_r     end       0     0     0   100     0     0
+  blender_r  all       0     2    15     1    82     0
+  blender_r  start     0    13    73     3    12     0
+  blender_r  end       0     0     0     0   100     0
+  perlbench_s all       0     5     0    89     6     0
+  perlbench_s start     0    28     0    46    26     0
+  perlbench_s end       0     0     0   100     0     0
+  gcc_s      all      88     0    12     0     0     0
+  gcc_s      start    97     0     3     0     0     0
+  gcc_s      end      71     0    29     0     0     0
+  mcf_s      all       0     2     3     4    90     0
+  mcf_s      start     0     7    14    14    65     0
+  mcf_s      end       0     0     0     0   100     0
+  cactuBSSN_s all      22    13    56     8     0     0
+  cactuBSSN_s start    66    12    18     4     0     0
+  cactuBSSN_s end       1     0    99     0     0     0
+  lbm_s      all      34    25    34     7     0     0
+  lbm_s      start    53    17    21     9     0     0
+  lbm_s      end       2    35    58     5     0     0
+  omnetpp_s  all       1     6    91     0     1     0
+  omnetpp_s  start     4    18    71     2     5     0
+  omnetpp_s  end       0     0   100     0     0     0
+  wrf_s      all       2    49    46     4     0     0
+  wrf_s      start    12    30    48    10     0     0
+  wrf_s      end       0   100     0     0     0     0
+  xalancbmk_s all      82     0    18     0     0     0
+  xalancbmk_s start    85     0    15     0     0     0
+  xalancbmk_s end      56     0    44     0     0     0
+  deepsjeng_s all       0     0     0    67    22    11
+  deepsjeng_s start     0     0     0     0    51    49
+  deepsjeng_s end       0     0     0   100     0     0
+  imagick_s  all       0    67    19    14     0     0
+  imagick_s  start     0    18    82     0     0     0
+  imagick_s  end       0     3     0    97     0     0
+  leela_s    all       0     0     0     0   100     0
+  leela_s    start     0     0     0     0   100     0
+  leela_s    end       0     0     0     0   100     0
+  nab_s      all       5    30    34    30     1     0
+  nab_s      start    32     1    66     0     0     0
+  nab_s      end       0     3     0    97     0     0
+  exchange2_s all       0     0     0    92     8     0
+  exchange2_s start     0     1     0    65    34     0
+  exchange2_s end       0     0     0   100     0     0
+  roms_s     all      58     5    36     1     0     0
+  roms_s     start    60    13    25     2     0     0
+  roms_s     end      16     1    83     0     0     0
+  xz_s       all       1     4    11    85     0     0
+  xz_s       start     3    12    47    37     0     0
+  xz_s       end       0     0     0   100     0     0
+
+(c) transitions along walks (consecutive repeats collapsed)
+  pooled transition counts (row = from, col = to):
+             S0     S1     S2     S3     S4     S5
+  S0          0    355   4034     87      0      0
+  S1        338      0   2745   4731    296      0
+  S2       1325   6043      0    693    978      0
+  S3         73   1218    689      0    390      0
+  S4          0     73     66   1933      0      0
+  S5          0      0      0      0    486      0
+
+  per benchmark: mean #distinct states per walk; share of walks that never change state; top-3 sequences
+  namd_r     3.00  stay 0.00 | S2→S1→S3 (0.63), S2→S1→S3→S1→S3 (0.12), S0→S2→S1→S3 (0.07)
+  blender_r  2.00  stay 0.11 | S2→S4 (0.69), S4 (0.11), S1→S4 (0.06)
+  perlbench_s 1.65  stay 0.40 | S3 (0.40), S1→S3 (0.25), S4→S3 (0.22)
+  gcc_s      1.33  stay 0.67 | S0 (0.64), S0→S2 (0.26), S0→S2→S0 (0.06)
+  mcf_s      1.41  stay 0.63 | S4 (0.63), S2→S4 (0.14), S3→S4 (0.12)
+  cactuBSSN_s 3.10  stay 0.00 | S0→S2 (0.18), S0→S1→S2 (0.06), S0→S1→S3→S2 (0.06)
+  lbm_s      2.00  stay 0.22 | S0→S2 (0.32), S2 (0.11), S1 (0.09)
+  omnetpp_s  1.55  stay 0.54 | S2 (0.54), S1→S2 (0.17), S2→S1→S2 (0.14)
+  wrf_s      2.42  stay 0.00 | S2→S1→S2→S1 (0.23), S2→S1 (0.13), S1→S2→S1 (0.09)
+  xalancbmk_s 1.66  stay 0.35 | S0 (0.35), S0→S2 (0.22), S0→S2→S0→S2 (0.14)
+  deepsjeng_s 2.49  stay 0.00 | S4→S3 (0.49), S5→S4→S3 (0.47), S4→S3→S4→S3 (0.02)
+  imagick_s  2.91  stay 0.00 | S2→S1→S3 (0.45), S2→S1→S3→S1→S3 (0.20), S2→S1→S2→S1→S3 (0.10)
+  leela_s    1.00  stay 1.00 | S4 (1.00), S3→S4 (0.00), S4→S3→S4 (0.00)
+  nab_s      3.38  stay 0.00 | S2→S1→S3 (0.38), S0→S2→S1→S3 (0.23), S2→S1→S2→S1→S3 (0.15)
+  exchange2_s 1.42  stay 0.59 | S3 (0.59), S4→S3 (0.33), S3→S4→S3 (0.06)
+  roms_s     2.26  stay 0.07 | S0→S2 (0.29), S0→S2→S0→S2 (0.13), S2→S0→S2 (0.10)
+  xz_s       1.75  stay 0.37 | S2→S3 (0.40), S3 (0.37), S1→S3 (0.12)
+
+(d) benchmark clusters (k=4)
+  by state distribution: blender_r*, mcf_s, leela_s | perlbench_s, deepsjeng_s, exchange2_s, xz_s | gcc_s, xalancbmk_s, roms_s* | namd_r*, cactuBSSN_s*, lbm_s*, omnetpp_s, wrf_s*, imagick_s*, nab_s*
+  by transition matrix: perlbench_s, deepsjeng_s, exchange2_s | leela_s | blender_r*, mcf_s | namd_r*, gcc_s, cactuBSSN_s*, lbm_s*, omnetpp_s, wrf_s*, xalancbmk_s, imagick_s*, nab_s*, roms_s*, xz_s
+  (* = SPECfp)

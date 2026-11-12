@@ -1,0 +1,39 @@
+bench        | entropy start->end  random | small  | end-entropy gap | end CPI small/random | end area random/small | adv/walk random/small | route cos | end-state mode random / small
+namd_r*      | 0.67->0.75 | 0.58->0.76 | +0.00 | 1.200 |  40.2/ 26.0 | 10.7/22.9 | 0.81 | S1(100%) / S1(100%)
+blender_r*   | 0.84->0.94 | 0.76->0.96 | +0.02 | 1.052 |  32.5/ 26.5 |  8.4/18.5 | 0.88 | S4(91%) / S4(100%)
+perlbench_s  | 0.80->0.81 | 0.81->0.84 | +0.02 | 1.079 |  25.8/ 21.5 |  5.0/13.6 | 0.84 | S1(100%) / S1(100%)
+gcc_s        | 0.34->0.36 | 0.34->0.42 | +0.06 | 1.006 |  21.2/ 20.4 |  2.2/ 6.0 | 0.97 | S0(84%) / S0(56%)
+mcf_s        | 0.86->0.88 | 0.86->0.89 | +0.00 | 1.012 |  26.9/ 25.8 |  3.8/ 9.1 | 0.96 | S3(95%) / S3(100%)
+cactuBSSN_s* | 0.37->0.52 | 0.41->0.57 | +0.05 | 1.033 |  46.0/ 43.4 |  8.2/15.2 | 0.97 | S2(88%) / S2(100%)
+lbm_s*       | 0.39->0.51 | 0.50->0.62 | +0.11 | 1.023 |  26.5/ 18.3 |  3.3/ 2.3 | 0.99 | S2(54%) / S2(58%)
+omnetpp_s    | 0.71->0.71 | 0.70->0.74 | +0.03 | 1.038 |  32.7/ 27.4 |  5.6/11.7 | 0.96 | S2(94%) / S2(91%)
+wrf_s*       | 0.56->0.66 | 0.59->0.71 | +0.05 | 1.024 |  35.0/ 23.7 |  7.5/14.0 | 0.97 | S3(57%) / S3(71%)
+xalancbmk_s  | 0.36->0.52 | 0.37->0.53 | +0.01 | 1.009 |  36.0/ 34.6 |  8.1/16.4 | 0.96 | S2(83%) / S2(98%)
+deepsjeng_s  | 0.78->0.90 | 0.65->0.92 | +0.02 | 1.112 |  30.9/ 21.1 |  6.5/12.2 | 0.87 | S4(96%) / S4(100%)
+imagick_s*   | 0.68->0.83 | 0.65->0.83 | +0.00 | 1.051 |  24.5/ 21.4 |  9.1/23.3 | 0.83 | S3(57%) / S1(99%)
+leela_s      | 0.91->0.94 | 0.90->0.96 | +0.02 | 1.099 |  39.4/ 26.1 |  7.7/14.8 | 0.91 | S4(100%) / S4(100%)
+nab_s*       | 0.72->0.87 | 0.57->0.91 | +0.04 | 1.108 |  30.4/ 22.4 | 11.1/21.2 | 0.92 | S3(52%) / S4(83%)
+exchange2_s  | 0.87->0.87 | 0.87->0.89 | +0.02 | 1.095 |  28.4/ 21.3 |  4.2/11.8 | 0.59 | S4(98%) / S4(99%)
+roms_s*      | 0.33->0.42 | 0.45->0.54 | +0.12 | 1.012 |  34.2/ 29.4 |  5.1/11.1 | 0.98 | S0(56%) / S2(95%)
+xz_s         | 0.67->0.71 | 0.63->0.72 | +0.01 | 1.194 |  34.3/ 25.3 |  8.2/15.1 | 0.93 | S1(100%) / S1(100%)
+
+end-entropy (small - random): median +0.023, |gap|<0.05 in 12/17
+entropy increases start->end in small runs for 17 /17 benchmarks (mean over walks)
+same end-state mode: 14 /17;  route cosine median 0.93
+  small route namd_r    : fetchWidth:0.26  numIQEntries:0.23  l1_size:0.15
+  small route blender_r : l1_size:0.19  IntALU:0.17  l1d_assoc:0.14
+  small route perlbench_s: fetchWidth:0.36  IntALU:0.21  l1_size:0.21
+  small route gcc_s     : l1_size:0.53  l1d_assoc:0.31  numIQEntries:0.14
+  small route mcf_s     : l1_size:0.38  l1d_assoc:0.27  LQEntries:0.16
+  small route cactuBSSN_s: LQEntries:0.24  l1_size:0.23  RdWrPort:0.17
+  small route lbm_s     : l1d_assoc:0.45  numIQEntries:0.37  LQEntries:0.08
+  small route omnetpp_s : l1_size:0.30  l1d_assoc:0.23  IntALU:0.14
+  small route wrf_s     : numIQEntries:0.38  l1_size:0.25  SQEntries:0.10
+  small route xalancbmk_s: l1d_assoc:0.26  l1_size:0.21  numROBEntries:0.13
+  small route deepsjeng_s: l1_size:0.28  IntALU:0.14  l1d_assoc:0.13
+  small route imagick_s : fetchWidth:0.27  numIQEntries:0.23  l1_size:0.15
+  small route leela_s   : l1_size:0.24  l1d_assoc:0.18  fetchWidth:0.17
+  small route nab_s     : numIQEntries:0.26  l1_size:0.16  fetchWidth:0.14
+  small route exchange2_s: fetchWidth:0.33  IntALU:0.22  l1_size:0.20
+  small route roms_s    : numIQEntries:0.30  l1d_assoc:0.29  l1_size:0.24
+  small route xz_s      : IntALU:0.43  numIQEntries:0.28  RdWrPort:0.08
