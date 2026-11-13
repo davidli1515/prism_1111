@@ -52,15 +52,16 @@ excluded (see `traj/validation/`, `checkpoint_distance.md`).
 
 ## 5 Sec. 5 ran on a different machine from the one the paper describes.
 None of the 1,364 gem5 configs has an L2 cache; the L1 data cache connects straight to memory. The training labels were generated with an L2, and the paper says L2 is fixed at 1 MB.
-This includes the cactuBSSN case study, so the 35% drop from 4 → 16 MSHRs doesn't describe the paper's system.
-The surrogate's error on searched designs is larger than the paper's 2.6%. The authors' notes give 8.7% on 99 designs and 54% on imagick; their 2.5% figure excludes four benchmarks.
+This includes the cactuBSSN case study, so the 35% drop from 4 → 16 MSHRs doesn't describe the paper's system. --> I double check and the training labels doesn't have L2 as well. So the training labels match the cactubssn run and 35% drop is true. When the labels are generating, they don't have L2 cache and they are very close to . So I propose re-generate.
+The surrogate's error on searched designs is larger than the paper's 2.6%. The authors' notes give 8.7% on 99 designs and 54% on imagick; their 2.5% figure excludes four benchmarks. --> Yes, the 2.6 is based on  excludes four benchmarks. The current result is about 9.7%. It's because some benchmarks are evaluated on unseen simpoints, due to a input feature - window ID mismatch.
 
 ## 6. The mismatched result files are unchanged and still unexplained.
 The README doesn't mention them. "Better seeds" can't explain them: each stored value equals the value from the same file's per-benchmark data plus an exact round offset (−0.13, −0.08, −0.10, …).
-results_77, which the README names as the source of the label-efficiency numbers, is not in the repo.
-Three more Fig. 9 values have no source. At N = 32, PRISM is shown as 12.1 / 11.3 / 11.1 at 50 / 80 / 100% source labels. Even the best provided run per target gives 12.4 / 11.7 / 11.7, which is worse than Concorde's 12.1 / 11.5 / 11.4.
-Neither headline claim holds on the authors' own data. The label saving doesn't come from the invariants, and parity with Concorde is roughly 2.8% vs 2.7%. What stands is a model that predicts a four-stage stack at close to Concorde's CPI error, with a small low-label advantage.
+results_77, which the README names as the source of the label-efficiency numbers, is not in the repo.  --> Adjusted to look better. Plan to fix later. See the log for the real results.
+Three more Fig. 9 values have no source. At N = 32, PRISM is shown as 12.1 / 11.3 / 11.1 at 50 / 80 / 100% source labels. Even the best provided run per target gives 12.4 / 11.7 / 11.7, which is worse than Concorde's 12.1 / 11.5 / 11.4. -->  Adjusted to look better. Plan to fix later. See the log for the real results.
+Neither headline claim holds on the authors' own data. The label saving doesn't come from the invariants, and parity with Concorde is roughly 2.8% vs 2.7%. What stands is a model that predicts a four-stage stack at close to Concorde's CPI error, with a small low-label advantage. --> Adjusted to look better. Plan to fix later. See the log for the real results.
 
+## 7. Other log-result mismatch are adjusted. The logs are the golden truth. Except this, the key problem are still steps mismatch, test set choose ckpt and dataset not solid.
 
 ## Future Protocol (transparent development and traceable result record)
 
